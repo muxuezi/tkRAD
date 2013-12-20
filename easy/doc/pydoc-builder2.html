@@ -1,23 +1,33 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<html><head><title>Python: module builder</title>
+<html><head><title>Python: module builder2</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head><body bgcolor="#f0f0f8">
 
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
 <tr bgcolor="#7799ee">
 <td valign=bottom>&nbsp;<br>
-<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>builder</strong></big></big></font></td
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>builder2</strong></big></big></font></td
 ><td align=right valign=bottom
-><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/rs/apps/official/unstable/tkRAD/easy/builder.py">/home/rs/apps/official/unstable/tkRAD/easy/builder.py</a></font></td></tr></table>
-    <p><tt>TkRAD&nbsp;-&nbsp;Tkinter&nbsp;Rapid&nbsp;Application&nbsp;Development<br>
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/rs/apps/official/git/tkRAD/easy/builder2.py">/home/rs/apps/official/git/tkRAD/easy/builder2.py</a></font></td></tr></table>
+    <p><tt>tkRAD&nbsp;-&nbsp;tkinter&nbsp;Rapid&nbsp;Application&nbsp;Development&nbsp;library<br>
 &nbsp;<br>
-<a href="#Builder">Builder</a>&nbsp;-&nbsp;easy&nbsp;tkinter&nbsp;XML&nbsp;widget&nbsp;building&nbsp;-&nbsp;Python&nbsp;v3.2+<br>
+(c)&nbsp;2013+&nbsp;Raphaël&nbsp;SEBAN&nbsp;&lt;motus@laposte.net&gt;<br>
 &nbsp;<br>
-(c)&nbsp;2013&nbsp;Raphaël&nbsp;SEBAN&nbsp;&lt;motus@laposte.net&gt;<br>
+This&nbsp;program&nbsp;is&nbsp;free&nbsp;software:&nbsp;you&nbsp;can&nbsp;redistribute&nbsp;it&nbsp;and/or<br>
+modify&nbsp;it&nbsp;under&nbsp;the&nbsp;terms&nbsp;of&nbsp;the&nbsp;GNU&nbsp;General&nbsp;Public&nbsp;License&nbsp;as<br>
+published&nbsp;by&nbsp;the&nbsp;Free&nbsp;Software&nbsp;Foundation,&nbsp;either&nbsp;version&nbsp;3&nbsp;of<br>
+the&nbsp;License,&nbsp;or&nbsp;(at&nbsp;your&nbsp;option)&nbsp;any&nbsp;later&nbsp;version.<br>
 &nbsp;<br>
-released&nbsp;under&nbsp;Creative&nbsp;Commons&nbsp;BY-SA&nbsp;3.0<br>
+This&nbsp;program&nbsp;is&nbsp;distributed&nbsp;in&nbsp;the&nbsp;hope&nbsp;that&nbsp;it&nbsp;will&nbsp;be&nbsp;useful,<br>
+but&nbsp;WITHOUT&nbsp;ANY&nbsp;WARRANTY;&nbsp;without&nbsp;even&nbsp;the&nbsp;implied&nbsp;warranty&nbsp;of<br>
+MERCHANTABILITY&nbsp;or&nbsp;FITNESS&nbsp;FOR&nbsp;A&nbsp;PARTICULAR&nbsp;PURPOSE.&nbsp;See&nbsp;the&nbsp;GNU<br>
+General&nbsp;Public&nbsp;License&nbsp;for&nbsp;more&nbsp;details.<br>
 &nbsp;<br>
-see&nbsp;<a href="http://creativecommons.org/licenses/by-sa/3.0/">http://creativecommons.org/licenses/by-sa/3.0/</a></tt></p>
+You&nbsp;should&nbsp;have&nbsp;received&nbsp;a&nbsp;copy&nbsp;of&nbsp;the&nbsp;GNU&nbsp;General&nbsp;Public<br>
+License&nbsp;along&nbsp;with&nbsp;this&nbsp;program.<br>
+&nbsp;<br>
+If&nbsp;not,&nbsp;see:&nbsp;<a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a></tt></p>
 <p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#aa55cc">
@@ -26,8 +36,8 @@ see&nbsp;<a href="http://creativecommons.org/licenses/by-sa/3.0/">http://creativ
 
 <tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
 <td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="xml.etree.ElementTree.html">xml.etree.ElementTree</a><br>
-<a href="tkinter.messagebox.html">tkinter.messagebox</a><br>
-</td><td width="25%" valign=top><a href="tkinter.html">tkinter</a><br>
+<a href="tkMessageBox.html">tkMessageBox</a><br>
+</td><td width="25%" valign=top><a href="Tkinter.html">Tkinter</a><br>
 <a href="re.html">re</a><br>
 </td><td width="25%" valign=top><a href="traceback.html">traceback</a><br>
 </td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
@@ -38,10 +48,10 @@ see&nbsp;<a href="http://creativecommons.org/licenses/by-sa/3.0/">http://creativ
 
 <tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
 <td width="100%"><dl>
-<dt><font face="helvetica, arial"><a href="tkinter.html#Frame">tkinter.Frame</a>(<a href="tkinter.html#Widget">tkinter.Widget</a>)
+<dt><font face="helvetica, arial"><a href="Tkinter.html#Frame">Tkinter.Frame</a>(<a href="Tkinter.html#Widget">Tkinter.Widget</a>)
 </font></dt><dd>
 <dl>
-<dt><font face="helvetica, arial"><a href="builder.html#Builder">Builder</a>
+<dt><font face="helvetica, arial"><a href="builder2.html#Builder">Builder</a>
 </font></dt></dl>
 </dd>
 </dl>
@@ -49,18 +59,18 @@ see&nbsp;<a href="http://creativecommons.org/licenses/by-sa/3.0/">http://creativ
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#ffc8d8">
 <td colspan=3 valign=bottom>&nbsp;<br>
-<font color="#000000" face="helvetica, arial"><a name="Builder">class <strong>Builder</strong></a>(<a href="tkinter.html#Frame">tkinter.Frame</a>)</font></td></tr>
+<font color="#000000" face="helvetica, arial"><a name="Builder">class <strong>Builder</strong></a>(<a href="Tkinter.html#Frame">Tkinter.Frame</a>)</font></td></tr>
 
 <tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
-<td colspan=2><tt>/!\&nbsp;tkRAD.easy.builder&nbsp;is&nbsp;a&nbsp;STANDALONE&nbsp;module&nbsp;/!\<br>
+<td colspan=2><tt>/!\&nbsp;tkRAD.easy.builder2&nbsp;is&nbsp;a&nbsp;STANDALONE&nbsp;module&nbsp;/!\<br>
 &nbsp;<br>
 you&nbsp;can&nbsp;pick&nbsp;it&nbsp;up&nbsp;and&nbsp;use&nbsp;it&nbsp;*as&nbsp;is*&nbsp;in&nbsp;your&nbsp;own&nbsp;project;<br>
 &nbsp;<br>
-lightweight&nbsp;XML&nbsp;to&nbsp;tkinter&nbsp;widget&nbsp;building&nbsp;class;<br>
+lightweight&nbsp;XML&nbsp;to&nbsp;Tkinter&nbsp;widget&nbsp;building&nbsp;class;<br>
 &nbsp;<br>
 this&nbsp;class&nbsp;implements&nbsp;the&nbsp;very&nbsp;minimal&nbsp;needs&nbsp;for&nbsp;very&nbsp;simple<br>
 &nbsp;<br>
-tkinter&nbsp;widget&nbsp;generation&nbsp;sourced&nbsp;from&nbsp;an&nbsp;XML&nbsp;file&nbsp;or<br>
+Tkinter&nbsp;widget&nbsp;generation&nbsp;sourced&nbsp;from&nbsp;an&nbsp;XML&nbsp;file&nbsp;or<br>
 &nbsp;<br>
 from&nbsp;an&nbsp;XML&nbsp;string&nbsp;of&nbsp;chars;<br>
 &nbsp;<br>
@@ -72,7 +82,7 @@ examples:<br>
 &nbsp;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;testing&nbsp;XML&nbsp;widgets&nbsp;from&nbsp;char&nbsp;string<br>
 &nbsp;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;tkRAD.easy&nbsp;import&nbsp;builder&nbsp;as&nbsp;B<br>
+&nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;tkRAD.easy&nbsp;import&nbsp;builder2&nbsp;as&nbsp;B<br>
 &nbsp;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;xml&nbsp;=&nbsp;\"""<br>
 &nbsp;<br>
@@ -90,19 +100,19 @@ examples:<br>
 &nbsp;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;testing&nbsp;from&nbsp;file&nbsp;URI<br>
 &nbsp;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;tkRAD.easy&nbsp;import&nbsp;builder&nbsp;as&nbsp;B<br>
+&nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;tkRAD.easy&nbsp;import&nbsp;builder2&nbsp;as&nbsp;B<br>
 &nbsp;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;B.<a href="#Builder">Builder</a>().<a href="#Builder-build">build</a>("./test.xml")<br>
 &nbsp;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;testing&nbsp;with&nbsp;a&nbsp;parent&nbsp;widget<br>
 &nbsp;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;import&nbsp;tkinter&nbsp;as&nbsp;TK<br>
+&nbsp;&nbsp;&nbsp;&nbsp;import&nbsp;Tkinter&nbsp;as&nbsp;TK<br>
 &nbsp;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;tkRAD.easy&nbsp;import&nbsp;builder&nbsp;as&nbsp;B<br>
+&nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;tkRAD.easy&nbsp;import&nbsp;builder2&nbsp;as&nbsp;B<br>
 &nbsp;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;root&nbsp;=&nbsp;TK.Tk()<br>
 &nbsp;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;my_window&nbsp;=&nbsp;TK.<a href="tkinter.html#Frame">Frame</a>(root)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;my_window&nbsp;=&nbsp;TK.<a href="Tkinter.html#Frame">Frame</a>(root)<br>
 &nbsp;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;my_widget&nbsp;=&nbsp;B.<a href="#Builder">Builder</a>(my_window).<a href="#Builder-build">build</a>("./test.xml")<br>
 &nbsp;<br>
@@ -115,15 +125,14 @@ see&nbsp;also&nbsp;<a href="#-build">build</a>()&nbsp;module&nbsp;function&nbsp;
 for&nbsp;much&nbsp;easier&nbsp;use&nbsp;of&nbsp;widget&nbsp;building&nbsp;than&nbsp;this;<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
 <td width="100%"><dl><dt>Method resolution order:</dt>
-<dd><a href="builder.html#Builder">Builder</a></dd>
-<dd><a href="tkinter.html#Frame">tkinter.Frame</a></dd>
-<dd><a href="tkinter.html#Widget">tkinter.Widget</a></dd>
-<dd><a href="tkinter.html#BaseWidget">tkinter.BaseWidget</a></dd>
-<dd><a href="tkinter.html#Misc">tkinter.Misc</a></dd>
-<dd><a href="tkinter.html#Pack">tkinter.Pack</a></dd>
-<dd><a href="tkinter.html#Place">tkinter.Place</a></dd>
-<dd><a href="tkinter.html#Grid">tkinter.Grid</a></dd>
-<dd><a href="builtins.html#object">builtins.object</a></dd>
+<dd><a href="builder2.html#Builder">Builder</a></dd>
+<dd><a href="Tkinter.html#Frame">Tkinter.Frame</a></dd>
+<dd><a href="Tkinter.html#Widget">Tkinter.Widget</a></dd>
+<dd><a href="Tkinter.html#BaseWidget">Tkinter.BaseWidget</a></dd>
+<dd><a href="Tkinter.html#Misc">Tkinter.Misc</a></dd>
+<dd><a href="Tkinter.html#Pack">Tkinter.Pack</a></dd>
+<dd><a href="Tkinter.html#Place">Tkinter.Place</a></dd>
+<dd><a href="Tkinter.html#Grid">Tkinter.Grid</a></dd>
 </dl>
 <hr>
 Methods defined here:<br>
@@ -135,7 +144,7 @@ and&nbsp;prepares&nbsp;for&nbsp;testing&nbsp;session&nbsp;auto&nbsp;running;<br>
 &nbsp;<br>
 no&nbsp;return&nbsp;value&nbsp;(void);</tt></dd></dl>
 
-<dl><dt><a name="Builder-build"><strong>build</strong></a>(self, arg)</dt><dd><tt>tries&nbsp;to&nbsp;build&nbsp;tkinter&nbsp;widgets&nbsp;from&nbsp;a&nbsp;char&nbsp;string&nbsp;or<br>
+<dl><dt><a name="Builder-build"><strong>build</strong></a>(self, arg)</dt><dd><tt>tries&nbsp;to&nbsp;build&nbsp;Tkinter&nbsp;widgets&nbsp;from&nbsp;a&nbsp;char&nbsp;string&nbsp;or<br>
 &nbsp;<br>
 from&nbsp;a&nbsp;file&nbsp;URI;<br>
 &nbsp;<br>
@@ -145,7 +154,7 @@ if&nbsp;any&nbsp;exception&nbsp;raises;<br>
 &nbsp;<br>
 returns&nbsp;'self'&nbsp;as&nbsp;a&nbsp;widget&nbsp;container&nbsp;of&nbsp;all&nbsp;built-in<br>
 &nbsp;<br>
-tkinter&nbsp;widgets&nbsp;for&nbsp;further&nbsp;use&nbsp;in&nbsp;your&nbsp;own&nbsp;program;</tt></dd></dl>
+Tkinter&nbsp;widgets&nbsp;for&nbsp;further&nbsp;use&nbsp;in&nbsp;your&nbsp;own&nbsp;program;</tt></dd></dl>
 
 <dl><dt><a name="Builder-canonize_id"><strong>canonize_id</strong></a>(self, attr_id)</dt><dd><tt>sets&nbsp;@attr_id&nbsp;param&nbsp;in&nbsp;conformance&nbsp;with&nbsp;__identifier__<br>
 &nbsp;<br>
@@ -184,11 +193,13 @@ Data and other attributes defined here:<br>
 <dl><dt><strong>TK_CLASSES</strong> = {'button': 'TK.Button', 'canvas': 'TK.Canvas', 'checkbutton': 'TK.Checkbutton', 'entry': 'TK.Entry', 'frame': 'TK.Frame', 'label': 'TK.Label', 'labelframe': 'TK.LabelFrame', 'listbox': 'TK.Listbox', 'menu': 'TK.Menu', 'menubutton': 'TK.Menubutton', ...}</dl>
 
 <hr>
-Methods inherited from <a href="tkinter.html#BaseWidget">tkinter.BaseWidget</a>:<br>
+Methods inherited from <a href="Tkinter.html#BaseWidget">Tkinter.BaseWidget</a>:<br>
 <dl><dt><a name="Builder-destroy"><strong>destroy</strong></a>(self)</dt><dd><tt>Destroy&nbsp;this&nbsp;and&nbsp;all&nbsp;descendants&nbsp;widgets.</tt></dd></dl>
 
 <hr>
-Methods inherited from <a href="tkinter.html#Misc">tkinter.Misc</a>:<br>
+Methods inherited from <a href="Tkinter.html#Misc">Tkinter.Misc</a>:<br>
+<dl><dt><a name="Builder-__contains__"><strong>__contains__</strong></a>(self, key)</dt></dl>
+
 <dl><dt><a name="Builder-__getitem__"><strong>__getitem__</strong></a> = cget(self, key)</dt><dd><tt>Return&nbsp;the&nbsp;resource&nbsp;value&nbsp;for&nbsp;a&nbsp;KEY&nbsp;given&nbsp;as&nbsp;string.</tt></dd></dl>
 
 <dl><dt><a name="Builder-__setitem__"><strong>__setitem__</strong></a>(self, key, value)</dt></dl>
@@ -212,11 +223,6 @@ process.<br>
 &nbsp;<br>
 Return&nbsp;an&nbsp;identifier&nbsp;to&nbsp;cancel&nbsp;the&nbsp;scheduling&nbsp;with<br>
 after_cancel.</tt></dd></dl>
-
-<dl><dt><a name="Builder-anchor"><strong>anchor</strong></a> = grid_anchor(self, anchor<font color="#909090">=None</font>)</dt><dd><tt>The&nbsp;anchor&nbsp;value&nbsp;controls&nbsp;how&nbsp;to&nbsp;place&nbsp;the&nbsp;grid&nbsp;within&nbsp;the<br>
-master&nbsp;when&nbsp;no&nbsp;row/column&nbsp;has&nbsp;any&nbsp;weight.<br>
-&nbsp;<br>
-The&nbsp;default&nbsp;anchor&nbsp;is&nbsp;nw.</tt></dd></dl>
 
 <dl><dt><a name="Builder-bbox"><strong>bbox</strong></a> = grid_bbox(self, column<font color="#909090">=None</font>, row<font color="#909090">=None</font>, col2<font color="#909090">=None</font>, row2<font color="#909090">=None</font>)</dt><dd><tt>Return&nbsp;a&nbsp;tuple&nbsp;of&nbsp;integer&nbsp;coordinates&nbsp;for&nbsp;the&nbsp;bounding<br>
 box&nbsp;of&nbsp;this&nbsp;widget&nbsp;controlled&nbsp;by&nbsp;the&nbsp;geometry&nbsp;manager&nbsp;grid.<br>
@@ -405,11 +411,6 @@ other&nbsp;applications&nbsp;do&nbsp;not&nbsp;get&nbsp;events&nbsp;anymore.</tt>
 
 <dl><dt><a name="Builder-grab_status"><strong>grab_status</strong></a>(self)</dt><dd><tt>Return&nbsp;None,&nbsp;"local"&nbsp;or&nbsp;"global"&nbsp;if&nbsp;this&nbsp;widget&nbsp;has<br>
 no,&nbsp;a&nbsp;local&nbsp;or&nbsp;a&nbsp;global&nbsp;grab.</tt></dd></dl>
-
-<dl><dt><a name="Builder-grid_anchor"><strong>grid_anchor</strong></a>(self, anchor<font color="#909090">=None</font>)</dt><dd><tt>The&nbsp;anchor&nbsp;value&nbsp;controls&nbsp;how&nbsp;to&nbsp;place&nbsp;the&nbsp;grid&nbsp;within&nbsp;the<br>
-master&nbsp;when&nbsp;no&nbsp;row/column&nbsp;has&nbsp;any&nbsp;weight.<br>
-&nbsp;<br>
-The&nbsp;default&nbsp;anchor&nbsp;is&nbsp;nw.</tt></dd></dl>
 
 <dl><dt><a name="Builder-grid_bbox"><strong>grid_bbox</strong></a>(self, column<font color="#909090">=None</font>, row<font color="#909090">=None</font>, col2<font color="#909090">=None</font>, row2<font color="#909090">=None</font>)</dt><dd><tt>Return&nbsp;a&nbsp;tuple&nbsp;of&nbsp;integer&nbsp;coordinates&nbsp;for&nbsp;the&nbsp;bounding<br>
 box&nbsp;of&nbsp;this&nbsp;widget&nbsp;controlled&nbsp;by&nbsp;the&nbsp;geometry&nbsp;manager&nbsp;grid.<br>
@@ -756,36 +757,28 @@ in&nbsp;the&nbsp;parent.</tt></dd></dl>
 in&nbsp;the&nbsp;parent.</tt></dd></dl>
 
 <hr>
-Data descriptors inherited from <a href="tkinter.html#Misc">tkinter.Misc</a>:<br>
-<dl><dt><strong>__dict__</strong></dt>
-<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
-</dl>
-<dl><dt><strong>__weakref__</strong></dt>
-<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
-</dl>
-<hr>
-Data and other attributes inherited from <a href="tkinter.html#Misc">tkinter.Misc</a>:<br>
-<dl><dt><strong>getdouble</strong> = &lt;class 'float'&gt;<dd><tt>float(x)&nbsp;-&gt;&nbsp;floating&nbsp;point&nbsp;number<br>
+Data and other attributes inherited from <a href="Tkinter.html#Misc">Tkinter.Misc</a>:<br>
+<dl><dt><strong>getdouble</strong> = &lt;type 'float'&gt;<dd><tt>float(x)&nbsp;-&gt;&nbsp;floating&nbsp;point&nbsp;number<br>
 &nbsp;<br>
 Convert&nbsp;a&nbsp;string&nbsp;or&nbsp;number&nbsp;to&nbsp;a&nbsp;floating&nbsp;point&nbsp;number,&nbsp;if&nbsp;possible.</tt></dl>
 
-<dl><dt><strong>getint</strong> = &lt;class 'int'&gt;<dd><tt>int(x=0)&nbsp;-&gt;&nbsp;integer<br>
-int(x,&nbsp;base=10)&nbsp;-&gt;&nbsp;integer<br>
+<dl><dt><strong>getint</strong> = &lt;type 'int'&gt;<dd><tt>int(x=0)&nbsp;-&gt;&nbsp;int&nbsp;or&nbsp;long<br>
+int(x,&nbsp;base=10)&nbsp;-&gt;&nbsp;int&nbsp;or&nbsp;long<br>
 &nbsp;<br>
 Convert&nbsp;a&nbsp;number&nbsp;or&nbsp;string&nbsp;to&nbsp;an&nbsp;integer,&nbsp;or&nbsp;return&nbsp;0&nbsp;if&nbsp;no&nbsp;arguments<br>
-are&nbsp;given.&nbsp;&nbsp;If&nbsp;x&nbsp;is&nbsp;a&nbsp;number,&nbsp;return&nbsp;x.__int__().&nbsp;&nbsp;For&nbsp;floating&nbsp;point<br>
-numbers,&nbsp;this&nbsp;truncates&nbsp;towards&nbsp;zero.<br>
+are&nbsp;given.&nbsp;&nbsp;If&nbsp;x&nbsp;is&nbsp;floating&nbsp;point,&nbsp;the&nbsp;conversion&nbsp;truncates&nbsp;towards&nbsp;zero.<br>
+If&nbsp;x&nbsp;is&nbsp;outside&nbsp;the&nbsp;integer&nbsp;range,&nbsp;the&nbsp;function&nbsp;returns&nbsp;a&nbsp;long&nbsp;instead.<br>
 &nbsp;<br>
-If&nbsp;x&nbsp;is&nbsp;not&nbsp;a&nbsp;number&nbsp;or&nbsp;if&nbsp;base&nbsp;is&nbsp;given,&nbsp;then&nbsp;x&nbsp;must&nbsp;be&nbsp;a&nbsp;string,<br>
-bytes,&nbsp;or&nbsp;bytearray&nbsp;instance&nbsp;representing&nbsp;an&nbsp;integer&nbsp;literal&nbsp;in&nbsp;the<br>
-given&nbsp;base.&nbsp;&nbsp;The&nbsp;literal&nbsp;can&nbsp;be&nbsp;preceded&nbsp;by&nbsp;'+'&nbsp;or&nbsp;'-'&nbsp;and&nbsp;be&nbsp;surrounded<br>
-by&nbsp;whitespace.&nbsp;&nbsp;The&nbsp;base&nbsp;defaults&nbsp;to&nbsp;10.&nbsp;&nbsp;Valid&nbsp;bases&nbsp;are&nbsp;0&nbsp;and&nbsp;2-36.<br>
-Base&nbsp;0&nbsp;means&nbsp;to&nbsp;interpret&nbsp;the&nbsp;base&nbsp;from&nbsp;the&nbsp;string&nbsp;as&nbsp;an&nbsp;integer&nbsp;literal.<br>
+If&nbsp;x&nbsp;is&nbsp;not&nbsp;a&nbsp;number&nbsp;or&nbsp;if&nbsp;base&nbsp;is&nbsp;given,&nbsp;then&nbsp;x&nbsp;must&nbsp;be&nbsp;a&nbsp;string&nbsp;or<br>
+Unicode&nbsp;object&nbsp;representing&nbsp;an&nbsp;integer&nbsp;literal&nbsp;in&nbsp;the&nbsp;given&nbsp;base.&nbsp;&nbsp;The<br>
+literal&nbsp;can&nbsp;be&nbsp;preceded&nbsp;by&nbsp;'+'&nbsp;or&nbsp;'-'&nbsp;and&nbsp;be&nbsp;surrounded&nbsp;by&nbsp;whitespace.<br>
+The&nbsp;base&nbsp;defaults&nbsp;to&nbsp;10.&nbsp;&nbsp;Valid&nbsp;bases&nbsp;are&nbsp;0&nbsp;and&nbsp;2-36.&nbsp;&nbsp;Base&nbsp;0&nbsp;means&nbsp;to<br>
+interpret&nbsp;the&nbsp;base&nbsp;from&nbsp;the&nbsp;string&nbsp;as&nbsp;an&nbsp;integer&nbsp;literal.<br>
 &gt;&gt;&gt;&nbsp;int('0b100',&nbsp;base=0)<br>
 4</tt></dl>
 
 <hr>
-Methods inherited from <a href="tkinter.html#Pack">tkinter.Pack</a>:<br>
+Methods inherited from <a href="Tkinter.html#Pack">Tkinter.Pack</a>:<br>
 <dl><dt><a name="Builder-forget"><strong>forget</strong></a> = pack_forget(self)</dt><dd><tt>Unmap&nbsp;this&nbsp;widget&nbsp;and&nbsp;do&nbsp;not&nbsp;use&nbsp;it&nbsp;for&nbsp;the&nbsp;packing&nbsp;order.</tt></dd></dl>
 
 <dl><dt><a name="Builder-info"><strong>info</strong></a> = pack_info(self)</dt><dd><tt>Return&nbsp;information&nbsp;about&nbsp;the&nbsp;packing&nbsp;options<br>
@@ -827,7 +820,7 @@ side=TOP&nbsp;or&nbsp;BOTTOM&nbsp;or&nbsp;LEFT&nbsp;or&nbsp;RIGHT&nbsp;-&nbsp;&n
 for&nbsp;this&nbsp;widget.</tt></dd></dl>
 
 <hr>
-Methods inherited from <a href="tkinter.html#Place">tkinter.Place</a>:<br>
+Methods inherited from <a href="Tkinter.html#Place">Tkinter.Place</a>:<br>
 <dl><dt><a name="Builder-place"><strong>place</strong></a> = place_configure(self, cnf<font color="#909090">={}</font>, **kw)</dt><dd><tt>Place&nbsp;a&nbsp;widget&nbsp;in&nbsp;the&nbsp;parent&nbsp;widget.&nbsp;Use&nbsp;as&nbsp;options:<br>
 in=master&nbsp;-&nbsp;master&nbsp;relative&nbsp;to&nbsp;which&nbsp;the&nbsp;widget&nbsp;is&nbsp;placed<br>
 in_=master&nbsp;-&nbsp;see&nbsp;'in'&nbsp;option&nbsp;description<br>
@@ -876,7 +869,7 @@ bordermode="inside"&nbsp;or&nbsp;"outside"&nbsp;-&nbsp;whether&nbsp;to&nbsp;take
 for&nbsp;this&nbsp;widget.</tt></dd></dl>
 
 <hr>
-Methods inherited from <a href="tkinter.html#Grid">tkinter.Grid</a>:<br>
+Methods inherited from <a href="Tkinter.html#Grid">Tkinter.Grid</a>:<br>
 <dl><dt><a name="Builder-grid"><strong>grid</strong></a> = grid_configure(self, cnf<font color="#909090">={}</font>, **kw)</dt><dd><tt>Position&nbsp;a&nbsp;widget&nbsp;in&nbsp;the&nbsp;parent&nbsp;widget&nbsp;in&nbsp;a&nbsp;grid.&nbsp;Use&nbsp;as&nbsp;options:<br>
 column=number&nbsp;-&nbsp;use&nbsp;cell&nbsp;identified&nbsp;with&nbsp;given&nbsp;column&nbsp;(starting&nbsp;with&nbsp;0)<br>
 columnspan=number&nbsp;-&nbsp;this&nbsp;widget&nbsp;will&nbsp;span&nbsp;several&nbsp;columns<br>
@@ -931,15 +924,15 @@ if&nbsp;@master&nbsp;param&nbsp;is&nbsp;None,&nbsp;built-in&nbsp;widgets&nbsp;wi
 &nbsp;<br>
 into&nbsp;a&nbsp;Tk()&nbsp;toplevel&nbsp;window&nbsp;for&nbsp;demo&nbsp;testing;<br>
 &nbsp;<br>
-returns&nbsp;a&nbsp;tkinter.<a href="tkinter.html#Frame">Frame</a>&nbsp;widget&nbsp;containing&nbsp;XML&nbsp;built-in<br>
+returns&nbsp;a&nbsp;Tkinter.<a href="Tkinter.html#Frame">Frame</a>&nbsp;widget&nbsp;containing&nbsp;XML&nbsp;built-in<br>
 &nbsp;<br>
-tkinter&nbsp;widgets;<br>
+Tkinter&nbsp;widgets;<br>
 &nbsp;<br>
 examples:<br>
 &nbsp;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;testing&nbsp;XML&nbsp;widgets&nbsp;from&nbsp;char&nbsp;string<br>
 &nbsp;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;tkRAD.easy&nbsp;import&nbsp;builder<br>
+&nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;tkRAD.easy&nbsp;import&nbsp;builder2<br>
 &nbsp;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;xml&nbsp;=&nbsp;\"""<br>
 &nbsp;<br>
@@ -953,25 +946,25 @@ examples:<br>
 &nbsp;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;\"""<br>
 &nbsp;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;builder.<a href="#-build">build</a>(xml)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;builder2.<a href="#-build">build</a>(xml)<br>
 &nbsp;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;testing&nbsp;from&nbsp;file&nbsp;URI<br>
 &nbsp;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;tkRAD.easy&nbsp;import&nbsp;builder<br>
+&nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;tkRAD.easy&nbsp;import&nbsp;builder2<br>
 &nbsp;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;builder.<a href="#-build">build</a>("./test.xml")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;builder2.<a href="#-build">build</a>("./test.xml")<br>
 &nbsp;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;testing&nbsp;with&nbsp;a&nbsp;parent&nbsp;widget<br>
 &nbsp;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;import&nbsp;tkinter&nbsp;as&nbsp;TK<br>
+&nbsp;&nbsp;&nbsp;&nbsp;import&nbsp;Tkinter&nbsp;as&nbsp;TK<br>
 &nbsp;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;tkRAD.easy&nbsp;import&nbsp;builder<br>
+&nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;tkRAD.easy&nbsp;import&nbsp;builder2<br>
 &nbsp;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;root&nbsp;=&nbsp;TK.Tk()<br>
 &nbsp;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;my_window&nbsp;=&nbsp;TK.<a href="tkinter.html#Frame">Frame</a>(root)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;my_window&nbsp;=&nbsp;TK.<a href="Tkinter.html#Frame">Frame</a>(root)<br>
 &nbsp;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;my_widget&nbsp;=&nbsp;builder.<a href="#-build">build</a>("./test.xml",&nbsp;my_window)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;my_widget&nbsp;=&nbsp;builder2.<a href="#-build">build</a>("./test.xml",&nbsp;my_window)<br>
 &nbsp;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;my_window.pack()<br>
 &nbsp;<br>
