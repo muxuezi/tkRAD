@@ -1,0 +1,538 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+"""
+    TkRAD - Tkinter Rapid Application Development
+
+    (c) 2013 Raphaël SEBAN <motus@laposte.net>
+
+    released under Creative Commons BY-SA 3.0
+
+    see http://creativecommons.org/licenses/by-sa/3.0/
+"""
+
+
+
+# lib imports
+
+from ..core import checkups
+
+from ..core import i18n
+
+from ..core import uri
+
+
+
+class RADApplication:
+    r"""
+        Rapid Application Development (RAD) base application class for
+
+        GUI and non-GUI implementations;
+
+        feel free to subclass it in order to meet your needs;
+    """
+
+
+
+    APP = {
+
+        "name": _("My Application"),
+
+        "version": _("0.1a"),
+
+        "title": _("My Application is wonderful!"),
+
+        "author": _("my name <email@domain.org>"),
+
+        "copyright": _("(c) YEAR author name."),
+
+        "license": _("Licensed under Creative Commons BY-SA 3.0"),
+
+        "license_uri": _("http://creativecommons.org/licenses/by-sa/3.0/"),
+
+    } # end of APP
+
+
+
+    DIRECTORIES = (
+
+        "etc", "lib", "locale",
+
+    ) # end of DIRECTORIES
+
+
+
+    RC_OPTIONS = {
+
+        "user_file": "myapp.rc",
+
+        "user_dir": "~/.config/myapp",
+
+        "app_file": "app.rc",
+
+        "app_dir": "^/etc",
+
+    } # end of RC_OPTIONS
+
+
+
+    PYTHON = {
+
+        "version": "3.2",
+
+        "strict": False,
+
+    } # end of PYTHON
+
+
+
+    def __init__ (self, **kw):
+        r"""
+            class constructor;
+
+            no return value (void);
+        """
+
+        # application-wide inits
+
+        self._check_python(**kw)
+
+        self._init_members(**kw)
+
+        self._init_service(**kw)
+
+        self._init_root_dir(**kw)
+
+        self._init_options(**kw)
+
+        self._parse_sys_argv(**kw)
+
+        self._check_dependencies(**kw)
+
+    # end def
+
+
+
+    def _check_dependencies (self, **kw):
+        r"""
+            protected method def;
+
+            checks up for app-vital directories and other dependencies;
+
+            no return value (void);
+        """
+
+        # notice: failed checkups will raise exception
+
+        if not kw.get("no_dependencies", False):
+
+            checkups.check_directories(
+
+                kw.get("app_root_dir", uri.get_app_root_dir()),
+
+                *kw.get("check_dirs", self.DIRECTORIES)
+            )
+
+        # end if
+
+    # end def
+
+
+
+
+    def _check_python (self, **kw):
+        r"""
+            protected method def;
+
+            checks up Python language version number
+
+            for compatibility with this application;
+
+            no return value (void);
+        """
+
+        # inits
+
+        _python = {
+
+            "version": kw.get(
+
+                "python_version", self.PYTHON.get("version", "3.2")
+            ),
+
+            "strict": kw.get(
+
+                "python_strict", self.PYTHON.get("strict", False)
+            ),
+        }
+
+        # notice: failed checkups will raise exception and exit()
+
+        checkups.python_require(**_python)
+
+    # end def
+
+
+
+    def _init_options (self, **kw):
+        r"""
+            protected method def;
+
+            inits all internal app rc options;
+
+            no return value (void);
+        """
+
+        # lib imports
+
+        from ..core import options as OPT
+
+        # init user options
+
+        self.user_options = OPT.get_option_manager()
+
+        self.user_options.set_config_dir(
+
+            kw.get("rc_dir", self.RC_OPTIONS.get("user_dir"))
+        )
+
+        self.user_options.set_config_file(
+
+            kw.get("rc_file", self.RC_OPTIONS.get("user_file"))
+        )
+
+        # get a private option manager for this class /!\
+
+        self.options = OPT.OptionManager(self)
+
+        self.options.set_config_dir(
+
+            kw.get("app_rc_dir", self.RC_OPTIONS.get("app_dir"))
+        )
+
+        self.options.set_config_file(
+
+            kw.get("app_rc_file", self.RC_OPTIONS.get("app_file"))
+        )
+
+        # init default values
+
+        self.options.set_sections("app")
+
+        # get application rc options
+
+        self.options.load()
+
+        # member inits
+
+        self._set_run_mode(
+
+            self.options["app"].get("run_mode", self._run_mode(**kw))
+        )
+
+    # end def
+
+
+
+    def _init_root_dir (self, **kw):
+        r"""
+            protected method def;
+
+            inits application's root directory;
+
+            no return value (void);
+        """
+
+        # lib imports
+
+        import inspect
+
+        uri.set_app_root_dir(
+
+            kw.get("app_root_dir", inspect.stack()[-1][1])
+        )
+
+    # end def
+
+
+
+    def _init_service (self, **kw):
+        r"""
+            protected method def;
+
+            registers this app class as an app-wide service;
+
+            no return value (void);
+        """
+
+        # lib imports
+
+        from ..core import services as SM
+
+        # member inits
+
+        self.service = SM.get_service_manager()
+
+        # will raise KeyError if service name already registered
+
+        self.service.register_service(
+
+            kw.get("app_service", "app"),
+
+            self
+        )
+
+        # force service name to be this class /!\
+
+        self.service.register_service(
+
+            "application",
+
+            self,
+
+            silent_mode = True,
+        )
+
+    # end def
+
+
+
+    def _init_members (self, **kw):
+        r"""
+            protected method def;
+
+            inits class members;
+
+            no return value (void);
+        """
+
+        # member inits
+
+        self._set_run_mode(kw.get("run_mode", "gui"))
+
+        self.__kw = kw
+
+    # end def
+
+
+
+    def _parse_sys_argv (self, **kw):
+        r"""
+            protected method def;
+
+            parses sys.argv CLI parameters;
+
+            no return value (void);
+        """
+
+        # lib imports
+
+        import argparse as AP
+
+        # sys.argv[] argument parser
+
+        _parser = AP.ArgumentParser(
+
+            description = _(
+
+                "{classname} class console argument parser."
+
+            ).format(classname = self.__class__.__name__)
+        )
+
+        # init CLI arguments
+
+        _parser.add_argument(
+
+            "--run-mode",
+
+            nargs = 1,
+
+            default = "gui",
+
+            type = str,
+
+            choices = ["gui", "GUI", "cli", "CLI"],
+
+            help = _(
+
+                "determines whether application should run "
+
+                "in Graphical User Interface mode (GUI) or "
+
+                "in Command-Line Interface mode (CLI - console)."
+            ),
+        )
+
+        # console help asked?
+
+        if kw.get("help"):
+
+            _parser.print_help()
+
+        # end if
+
+        # parse sys.argv[] arguments
+
+        self.sys_argv = _parser.parse_args()
+
+        # member inits
+
+        self._set_run_mode(kw.get("run_mode", self.sys_argv.run_mode))
+
+    # end def
+
+
+
+    def _run_mode (self, **kw):
+        r"""
+            protected method def;
+
+            run_mode property getter;
+
+            should return only "GUI" or "CLI" char strings;
+        """
+
+        return self.__run_mode
+
+    # end def
+
+
+
+    def _set_run_mode (self, mode):
+        r"""
+            protected method def;
+
+            run_mode property setter;
+
+            no return value (void);
+        """
+
+        self.__run_mode = str(mode).upper()
+
+    # end def
+
+
+
+    def _start_cli (self, **kw):
+        r"""
+            protected method def;
+
+            starts non-GUI implementation of this application;
+
+            no return value (void);
+        """
+
+        # put here your own code in subclass /!\
+
+        print(
+
+            _(
+                "\n[INFO] this is the non-GUI implementation of your "
+
+                "application program.\n\nFeel free to implement it "
+
+                "at your taste in subclasses."
+
+                "\n\n*** Program end ***"
+            )
+        )
+
+    # end def
+
+
+
+    def _start_gui (self, **kw):
+        r"""
+            protected method def;
+
+            starts GUI implementation of this application;
+
+            no return value (void);
+        """
+
+        # put here your own code in subclass /!\
+
+        # lib imports
+
+        from ..xml import rad_xml_mainwindow as MW
+
+        self.mainwindow = MW.RADXMLMainWindow(**kw)
+
+        try:
+
+            self.mainwindow.mainframe.xml_build(kw.get("xml"))
+
+            self.mainwindow.run()
+
+        except FileNotFoundError:
+
+            if not self.mainwindow.mainframe.winfo_children():
+
+                self.mainwindow.mainframe.xml_build(
+    r"""
+    <tkwidget>
+        <frame layout="pack" resizable="yes"/>
+        <label text="this should better work with:" layout="pack"/>
+        <label text="{uri}" fg="red" layout="pack"/>
+        <label text="/!\ don't forget to create missing directories /!\"
+                layout="pack"/>
+        <button text="Quit" command="@quit" layout="pack"/>
+        <frame layout="pack" resizable="yes"/>
+    </tkwidget>
+    """
+                    .format(
+
+                        uri = self.mainwindow.mainframe.get_xml_uri()
+                    )
+                )
+
+                self.mainwindow.run()
+
+            else:
+
+                raise
+
+            # end if
+
+        # end try
+
+    # end def
+
+
+
+    def run (self, **kw):
+        r"""
+            starts up GUI or non-GUI implementation of this
+
+            application along @kw param, sys.argv params and rc options;
+
+            no return value (void);
+        """
+
+        # param inits
+
+        self.__kw.update(kw)
+
+        kw = self.__kw
+
+        # determine run mode
+
+        if "GUI" in str(self._run_mode(**kw)).upper():
+
+            # run in Graphical User Interface (GUI) mode
+
+            self._start_gui(**kw)
+
+        else:
+
+            # run in Command-Line Interface (CLI) mode
+
+            self._start_cli(**kw)
+
+        # end if
+
+    # end def
+
+
+# end class RADApplication

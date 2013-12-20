@@ -1,0 +1,39 @@
+<root>
+
+    <label id="explain"
+
+            text="This a more sophisticated example from the file
+            'builder-example.xml'"
+
+            fg="darkviolet"
+
+            font="sans 14"
+
+            relief="sunken"
+
+            borderwidth="5"
+
+            wraplength="300"
+    />
+
+    <labelframe id="choosemeal"
+
+                text="choose your meal" fg="red" font="serif 14">
+
+        <checkbutton id="chkpizza"
+
+                    text="pizza" fg="orange" font="mono 12" anchor="w"/>
+
+        <checkbutton id="chkhamburger"
+
+                    text="hamburger" fg="darkgreen" font="serif 12" anchor="w"/>
+
+        <checkbutton id="chkhotdog"
+
+                    text="hotdog" fg="blue" font="helvetica 12" anchor="w"/>
+
+    </labelframe>
+
+    <button id="btn_quit" text="Quit" command="self.quit" bg="white"/>
+
+</root>

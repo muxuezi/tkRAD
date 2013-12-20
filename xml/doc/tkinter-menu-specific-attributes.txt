@@ -1,0 +1,12 @@
+activeborderwidth
+bd
+bg
+borderwidth
+cursor
+disabledforeground
+fg
+postcommand
+relief
+tearoff
+tearoffcommand
+title

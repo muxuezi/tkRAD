@@ -1,0 +1,16 @@
+accelerator
+bitmap
+columnbreak
+command
+compound
+hidemargin
+image
+label
+menu
+offvalue
+onvalue
+selectimage
+state
+underline
+value
+variable
