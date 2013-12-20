@@ -1,0 +1,41 @@
+#! encoding: UTF-8
+
+CONTRIBUTORS
+============
+
+    RS          Raphaël SEBAN
+
+
+
+CHANGELOG
+=========
+
+$ 2013-12-20 RS $
+
+    Set up first public release of tkRAD library;
+
+    This is the first official version number: 2013.12.20b;
+
+    Release name: "Christmas Gift";
+
+    Prepared git repository on GitHub:
+
+        git://github.com/tarball69/tkRAD.git
+
+    Cloned repository in:
+
+        file://home/rs/apps/official/git/
+
+    Expanded GNU GPL v3 license ---> LGPL v3;
+
+    Filled with previous project files;
+
+    Written entire new README file;
+
+    Written entire new CHANGES file;
+
+    Updated license terms in all *.py file headers in the project;
+
+    Merry Christmas you all!
+
+===   END OF FILE   ===
