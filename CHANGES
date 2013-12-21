@@ -1,14 +1,17 @@
-#! encoding: UTF-8
-
-CONTRIBUTORS
-============
-
-    RS          Raphaël SEBAN
+<!-- encoding: UTF-8 -->
 
 
+## CONTRIBUTORS
 
-CHANGELOG
-=========
+    * RS        Raphaël SEBAN
+
+
+## CHANGELOG
+
+$ 2013-12-21 RS $
+
+    Updated README.md file to best suit to Markdown policy;
+
 
 $ 2013-12-20 RS $
 
