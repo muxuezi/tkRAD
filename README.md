@@ -1,346 +1,340 @@
-encoding: UTF-8
+<!-- encoding: UTF-8  -->
 
+# tkRAD
 
-tkRAD
-=====
+Tkinter Rapid Application Development (RAD) library.
 
-    Tkinter Rapid Application Development (RAD) library
 
+## DESCRIPTION
 
-DESCRIPTION
-===========
+`tkRAD` is a **Python3.2+** library designed to enable really Rapid
+Application Development (RAD) process by using predefined classes to
+derive in your own subclasses, with quite useful embedded services
+such as dynamic **Tkinter XML widget** building, service manager,
+events manager, RC configuration manager and so on.
 
-    tkRAD is a Python3.2+ library designed to enable really Rapid
-    Application Development process by using predefined classes to
-    derive in your own subclasses, with quite useful embedded
-    services such as Tkinter XML widget dynamic building, service
-    manager, events manager, RC configuration manager and so on.
+`tkRAD` is a deliberately **short-made API** designed for comfort,
+easiness and simplicity.
 
-    tkRAD is a deliberately short-made API designed for comfort,
-    easiness and simplicity.
+`tkRAD` provides the necessary **core tools** to quickly start up an
+application development or for Tkinter widget testing through
+`tkRAD.easy.builder` module - see '[BASIC USAGE](#basic-usage)'
+examples below.
 
-    tkRAD provides the necessary core tools to quickly start up an
-    application development or for Tkinter widget testing through
-    tkRAD.easy.builder module (see BASIC USAGE examples below).
 
+## LICENSE
 
-COPYRIGHT
-=========
+tkRAD - tkinter Rapid Application Development library.
 
-    tkRAD - tkinter Rapid Application Development library
+(c) 2013+ Raphaël SEBAN - e-mail: <motus@laposte.net>
 
-    (c) 2013+ Raphaël SEBAN <motus@laposte.net>
+This project is licensed under the **GNU LGPL v3** Lesser General
+Public License.
 
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-LICENSE
-=======
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-    This program is free software: you can redistribute it and/or
-    modify it under the terms of the GNU General Public License as
-    published by the Free Software Foundation, either version 3 of
-    the License, or (at your option) any later version.
+See the GNU General Public License for more details.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-    General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program.
 
-    You should have received a copy of the GNU General Public
-    License along with this program. If not, see
-    http://www.gnu.org/licenses/
+If not, see http://www.gnu.org/licenses/
 
 
-DOCUMENTATION
-=============
+## DOCUMENTATION
 
-    tkRAD is auto-documented in its own source code;
+`tkRAD` is self-documented in its own source code;
 
-    feel free to use:
+feel free to use:
 
-        $ pydoc3 -b
+	$ pydoc3 -b
 
-    in a UNIX-like console terminal set in the closest parent directory
+in a UNIX-like console terminal set in the closest parent directory
+of `tkRAD/` e.g.:
 
-    of tkRAD e.g.:
+	$ cd ~/tmp      # where you have ~/tmp/tkRAD/ copied in;
 
-        $ cd ~/tmp      # where you have ~/tmp/tkRAD copied in;
+	$ pydoc3 -b
 
-        $ pydoc3 -b
+and study generated autodoc in your favourite internet browser;
 
-    and study generated autodoc in your favourite internet browser;
 
+## WIKI WIKI
 
-FEATURES
-========
+Please, feel free to visit `tkRAD` internationalized (i18n) wiki
+documentation for more detailed explanations, tips and tricks and
+source code examples.
 
-    The current public release of tkRAD supports at least:
+Last known URL: https://github.com/tarball69/tkRAD/wiki
 
-        * Application frame with tkRAD.widgets.RADApplication class;
 
-        * Lightweight MainWindow with tkRAD.widgets.RADMainWindow
-          class;
+## FEATURES
 
-        * More complex Tkinter XML widget factory embedded in
-          tkRAD.xml.RADXMLMainWindow class;
+The current public release of `tkRAD` supports at least:
 
-        * Automagic XML menu / submenu cascade handling with
-          direct access to submenus through 'get_object_by_id' class
-          method, event-driven commands support, automatic menu
-          label underlining support and keyboard accelerator support;
+* **Application frame** with `tkRAD.widgets.RADApplication` class;
 
-        * Tkinter XML widget building through tkRAD.xml.RADXMLFrame
-          generic widget container class;
+* **Lightweight MainWindow** with `tkRAD.widgets.RADMainWindow` class;
 
-        * Tkinter XML widget building for easy TESTING through
-          tkRAD.easy.builder module (see BASIC USAGE below);
+* More complex **Tkinter XML widget factory** embedded in
+`tkRAD.xml.RADXMLMainWindow` class;
 
-        * some innovative and really useful programming tools in
-          tkRAD.core package modules;
+* **Automagic XML menu** / submenu cascade handling with direct access
+to submenus through `get_object_by_id()` class method, event-driven
+commands support, automatic menu label underlining support and
+keyboard accelerator support;
 
-    Since tkRAD has been designed for subclassing, if you don't meet
-    your needs, just create your own implementations derived from
-    tkRAD.xml generic classes such as RADXMLBase, RADXMLWidgetBase
-    and RADXMLWidget.
+* **Tkinter XML widget** building through `tkRAD.xml.RADXMLFrame`
+generic widget container class;
 
+* Tkinter XML widget building for **easy TESTING** through
+`tkRAD.easy.builder` module - see '[BASIC USAGE](#basic-usage)' below;
 
-REQUIREMENTS
-============
+* some innovative and really **useful programming tools** in
+`tkRAD.core` package modules;
 
-    Mandatory requirements:
+Since `tkRAD` has been designed for subclassing, if you don't meet
+your needs, just create your own implementations derived from
+`tkRAD.xml` generic classes such as `RADXMLBase`, `RADXMLWidgetBase`
+and `RADXMLWidget`.
 
-        * tkRAD works fine with Python v3.2 or later installed on
-          your own OS platform;
 
-        * at least 'tkinter' package must also be installed,
-          which is the common default case when you install Python;
+## REQUIREMENTS
 
-          make sure this package really exists on your system by
-          entering in a console terminal:
+### Mandatory requirements:
 
-          $ python3
+* `tkRAD` works fine with **Python v3.2 or later** installed on your
+own OS platform;
 
-          >>> import tkinter    # case-sensitive /!\
+* at least `tkinter` package must also be installed, which is the
+common default case when you install Python;
 
-          if you get an error message, 'tkinter' is *NOT* installed;
+make sure this package really exists on your system by entering in a
+console terminal:
 
-          use your favourite package manager to solve this issue;
+	$ python3
 
-    Optional requirements:
+	>>> import tkinter    # case-sensitive /!\
 
-        * only tkRAD.easy.builder2 needs Python v2.7 or later installed
-          to work fine, since this module has been especially
-          designed for these early versions of Python;
+if you get an error message, `tkinter` is *NOT* installed;
 
-        * if you use tkRAD.easy.builder2 with Python v2.7+, you must
-          also have 'Tkinter' package installed, which is the common
-          default case when you install Python2.7+;
+use your favourite package manager to solve this issue;
 
-          make sure this package really exists on your system by
-          entering in a console terminal:
+### Optional requirements:
 
-          $ python
+* only `tkRAD.easy.builder2` needs **Python v2.7 or later**
+installed to work fine, since this module has been especially
+designed for these early versions of Python;
 
-          >>> import Tkinter    # case-sensitive /!\
+* if you use `tkRAD.easy.builder2` with Python v2.7+, you must also
+have `Tkinter` package installed, which is the common default case
+when you install Python2.7+;
 
-          if you get an error message, 'Tkinter' is *NOT* installed;
+make sure this package really exists on your system by entering in a
+console terminal:
 
-          use your favourite package manager to solve this issue;
+	$ python
 
+	>>> import Tkinter    # case-sensitive /!\
 
-STABILITY
-=========
+if you get an error message, `Tkinter` is *NOT* installed;
 
-    At this time, tkRAD library has been:
+use your favourite package manager to solve this issue;
 
-        * Linux:
 
-            TESTED OK under Lubuntu, Xubuntu and Ubuntu;
+## STABILITY
 
-            should work quite fine under any Linux distribution;
+At this time, `tkRAD` library has been:
 
-        * macOS:
+* Linux:
 
-            NOT YET TESTED;
+	* TESTED OK under Lubuntu, Xubuntu and Ubuntu;
 
-        * MS-Windows:
+	* should work quite fine under any Linux distribution;
 
-            PARTIALLY TESTED;
+* macOS:
 
-            tkRAD.easy.builder has been TESTED OK for Python v3.2+;
+	* NOT YET TESTED;
 
-            tkRAD.easy.builder2 has been TESTED OK for Python v2.7+;
+* MS-Windows:
 
-            tkRAD.core, tkRAD.widgets, tkRAD.xml: NOT YET TESTED;
+	* PARTIALLY TESTED;
 
-    Any platform users feedback is still the welcome.
+	* `tkRAD.easy.builder` has been TESTED OK for Python v3.2+;
 
+	* `tkRAD.easy.builder2` has been TESTED OK for Python v2.7+;
 
-CHANGES
-=======
+	* `tkRAD.core`, `tkRAD.widgets`, `tkRAD.xml`: NOT YET TESTED;
 
-    Please, refer to CHANGES file for more detail.
+Any platform users feedback is still the welcome.
 
 
-INSTALLATION
-============
+## CHANGES
 
-    tkRAD package library does *NOT* really need to be installed.
+Please, refer to CHANGES file for more detail.
 
-    Just grab a copy of tkRAD/ directory into your own application's
-    source library and start using tkRAD by importing classes in
-    your own code.
 
-    Since tkRAD library may evolve rapidly and thus might become
-    less compatible with your ongoing code development, it is a
-    rather relevant practice to keep your favourite tkRAD version
-    copied into your own application's source library.
+## INSTALLATION
 
+`tkRAD` package library does *NOT* really need to be installed.
 
-BASIC USAGE
-===========
+Just [grab a zipped copy]
+(https://github.com/tarball69/tkRAD/wiki/Installing---grabbing-a-copy)
+of `tkRAD/` directory into your own application's source library
+and start using `tkRAD` by importing classes in your own code.
 
-    Let's play with tkRAD!
+Since `tkRAD` library may evolve rapidly and thus might become less
+compatible with your ongoing code development, it is a rather
+relevant practice to keep your favourite `tkRAD` version copied into
+your own application's source library.
 
-    For this example series, we'll suppose you're under a UNIX-like
-    console terminal.
 
-    MS-Windows users, please see MS-WINDOWS USERS below.
+## BASIC USAGE
 
-    Now pick up a copy of tkRAD/ directory and put it in a temporary
-    directory, let's say into:
+Let's play with `tkRAD`!
 
-        $ cd ~/tmp
+For this example series, we'll suppose you're under a UNIX-like
+console terminal.
 
-    Notice: '$' symbol is the shell command-line prompt, you shall
-    not type it (!)
+MS-Windows users, please see '[MS-WINDOWS USERS](#ms-windows-users)'
+below.
 
-    You should have something like this:
+Now [pick up a zipped copy]
+(https://github.com/tarball69/tkRAD/wiki/Installing---grabbing-a-copy)
+of `tkRAD/` directory and put it in a temporary directory, let's
+say into:
 
-        $ ls
+	$ cd ~/tmp
 
-        tkRAD/
+Unzip the archive (replace `xxx` by the real value) and then rename it:
 
-    Dive into tkRAD's 'easy' directory:
+	$ unzip tkRAD-xxx.zip
 
-        $ cd tkRAD/easy
+	$ mv tkRAD-xxx tkRAD
 
-    Call a Python3.2+ interactive console and type:
+Notice: `$` symbol is the shell command-line prompt, you shall not
+type it(!)
 
-        $ python3
+You should have something like this:
 
-        >>> import builder as B
+	$ ls
 
-    Notice: '>>>' symbol is the Python interpreter prompt, you shall
-    not type it (!)
+	tkRAD/
+	tkRAD-xxx.zip
 
-    Remember it is *NOT* a good programming practice to use:
+Dive into tkRAD's `easy` directory:
 
-        >>> from builder import *                       # /!\ NO /!\
+	$ cd tkRAD/easy
 
-    Now, try the embedded XML example file:
+Call a **Python3.2+** interactive console and type:
 
-        >>> B.build("builder-example.xml")
+	$ python3
 
-    And tell your friends what you saw today.
+	>>> import builder as B
 
-    Another example:
+Notice: `>>>` symbol is the Python interpreter prompt, you shall not
+type it(!)
 
-    Keep your Python interpreter on and type:
+Remember it is *NOT* a good programming practice to use:
 
-        >>> import builder as B
+	>>> from builder import *		# /!\ NO /!\
 
-        >>> xml = """
+Now, try the embedded XML example file:
 
-          <root>
+	>>> B.build("builder-example.xml")
 
-            <label text="hello good people!" bg="white" fg="blue" />
+And tell your friends what you saw today.
 
-            <button text="Quit" command="self.quit" />
+### Another example
 
-          </root>
+Keep your Python interpreter on and type:
 
-        """
+	>>> import builder as B
 
-        >>> B.build(xml)
+	>>> xml = """
 
-    As you can see, it is possible to check out some XML source code
-    directly into your Python code without the need of any external
-    XML file(!)
+		<root>
 
-    With Python2.7+ you can (almost) do the same:
+			<label text="hello good people!" bg="white" fg="blue" />
 
-        $ python
+			<button text="Quit" command="self.quit" />
 
-        >>> import builder2 as B
+		</root>
 
-        >>> B.build("builder-example.xml")
+	"""
 
-    And then:
+	>>> B.build(xml)
 
-        >>> xml = """
+As you can see, it is possible to check out some XML source code
+directly into your Python code without the need of any external XML
+file(!)
 
-          <root>
+With **Python2.7+** you can (almost) do the same:
 
-            <label text="hello good people!" bg="white" fg="blue" />
+	$ python
 
-            <button text="Quit" command="self.quit" />
+	>>> import builder2 as B
 
-          </root>
+	>>> B.build("builder-example.xml")
 
-        """
+	And then:
 
-        >>> B.build(xml)
+	>>> xml = """
 
-    Good day for programming, isn't it? :-)
+		<root>
 
+			<label text="hello good people!" bg="white" fg="blue" />
 
-MS-WINDOWS USERS
-================
+			<button text="Quit" command="self.quit" />
 
-    MS-Windows users may easily try tkRAD.easy.builder by following
-    these steps:
+		</root>
 
-        * grab a copy of tkRAD/ directory on your platform;
+	"""
 
-        * put this copy into a temporary directory on your machine;
+	>>> B.build(xml)
 
-        * browse with your file manager into tkRAD/easy directory;
+Good day for programming, isn't it? :-)
 
-        * double-click on 'builder.py' Python file if you have
-          Python v3.2+ installed and take a look at the embedded
-          example windows that should pop-up automatically;
 
-        * double-click on 'builder2.py' Python file if you have
-          Python v2.7+ installed and take a look at the embedded
-          example windows that should pop-up automatically;
+## MS-WINDOWS USERS
 
-    Please remember tkRAD library has entirely been designed for
-    Python version 3.2 or later, *NOT* for Python version 2.7 or
-    later.
+MS-Windows users may easily try `tkRAD.easy.builder` by following
+these steps:
 
-    CAUTION: /!\ Only 'builder2.py' is Python2.7+ compatible /!\
+* grab a copy of `tkRAD/` directory on your platform;
 
+* put this copy into a temporary directory on your machine;
 
-THE LITTLE STORY
-================
+* browse with your file manager into `tkRAD/easy` directory;
 
-    For the little story, the very first public release of tkRAD was
-    entirely written with an ASUS 1001PX NETBOOK(!) computer, under
-    a Linux Lubuntu 13.10 distro for the need of a Video Editor: Qut.
+* double-click on `builder.py` Python file if you have **Python
+v3.2+** installed and take a look at the embedded example windows
+that should pop-up automatically;
 
-    It was in December 2013 and this is a TRUE story.
+* double-click on `builder2.py` Python file if you have **Python
+v2.7+** installed and take a look at the embedded example windows
+that should pop-up automatically;
 
-    I confirm. Raphaël SEBAN.
+Please remember `tkRAD` library has entirely been designed for
+**Python version 3.2** or later, *NOT* for **Python version 2.7** or
+later.
 
+**CAUTION: /!\ Only `builder2.py` is Python2.7+ compatible /!\**
 
-WIKI WIKI
-=========
 
-    Please, feel free to visit tkRAD Wiki documentation for more
-    detailed explanations, tips and tricks and source code examples.
+## THE LITTLE STORY
 
-    Last known URL:
+For the little story, the very first public release of `tkRAD` was
+entirely written with an ASUS 1001PX **NETBOOK**(!) computer, under
+a Linux Lubuntu 13.10 distro for the need of a Video Editor: Qut.
 
-        https://github.com/tarball69/tkRAD/wiki
+It was in December 2013 and it is a TRUE story.
 
-    Enjoy!
+Enjoy!
