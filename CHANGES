@@ -8,6 +8,16 @@
 
 ## CHANGELOG
 
+$ 2013-12-22 RS $
+
+    Upgraded tkRAD.easy.builder[2] modules;
+
+    Now support <tkwidget> XML root node for testing;
+
+    Still support <root> XML root node for testing;
+
+    Rewritten some portions of code with no border effects;
+
 $ 2013-12-21 RS $
 
     Updated README.md file to best suit to Markdown policy;
