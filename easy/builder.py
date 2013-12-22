@@ -174,6 +174,34 @@ class Builder (TK.Frame):
 
 
 
+    # attributes parser method pattern def
+
+    ATTRIBUTE_PARSER = "_parse_attr_{attr}"
+
+
+
+    # object instance (oi) counter def
+
+    OI_COUNT = 1
+
+
+
+    PACK_OPTIONS = {
+
+        "side": TK.TOP,
+
+        "expand": 1,
+
+        "fill": TK.BOTH,
+
+        "padx": 2,
+
+        "pady": 2,
+
+    } # end of PACK_OPTIONS
+
+
+
     TK_CLASSES = {
 
         "button":           "TK.Button",
@@ -200,34 +228,6 @@ class Builder (TK.Frame):
 
 
 
-    PACK_OPTIONS = {
-
-        "side": TK.TOP,
-
-        "expand": 1,
-
-        "fill": TK.BOTH,
-
-        "padx": 2,
-
-        "pady": 2,
-
-    } # end of PACK_OPTIONS
-
-
-
-    # attributes parser method pattern def
-
-    ATTRIBUTE_PARSER = "_parse_attr_{attr}"
-
-
-
-    # object instance (oi) counter def
-
-    OI_COUNT = 1
-
-
-
     def __init__ (self, master = None, **kw):
         r"""
             class contructor;
@@ -241,7 +241,7 @@ class Builder (TK.Frame):
 
         # param controls - set autorun session if needed
 
-        if master is None:
+        if not master:
 
             # reset master for testing session
 
@@ -275,162 +275,6 @@ class Builder (TK.Frame):
 
 
 
-    def build (self, arg):
-        r"""
-            tries to build tkinter widgets from a char string or
-
-            from a file URI;
-
-            will pop-up a message box with a traceback message
-
-            if any exception raises;
-
-            returns 'self' as a widget container of all built-in
-
-            tkinter widgets for further use in your own program;
-        """
-
-        try:
-
-            # param controls - arg must be XML string or file URI
-
-            self._init_xml_tree(arg)
-
-            # build XML element as tkinter widget
-
-            self._build_element(self.xml_tree.getroot(), self)
-
-            # layout inits
-
-            self.pack(**self.PACK_OPTIONS)
-
-            # need an autorun testing session?
-
-            if self.__autorun:
-
-                # run testing session
-
-                self.mainloop()
-
-                self.winfo_toplevel().withdraw()
-
-            # end if
-
-            # return 'this' pointer
-
-            # containing all built-in widgets
-
-            return self
-
-        except:
-
-            MB.showerror(
-
-                    "Caught exception",
-
-                    "An exception has raised:\n\n{msg}"
-
-                    .format(msg = traceback.format_exc(limit = 1)),
-            )
-
-            raise
-
-        # end try
-
-        # failed
-
-        return None
-
-    # end def
-
-
-
-    def canonize_id (self, attr_id):
-        r"""
-            sets @attr_id param in conformance with __identifier__
-
-            language def (allows only regexp("\w+") in id naming);
-
-            returns canonized id name or empty string otherwise;
-        """
-
-        # param controls
-
-        if type(attr_id) is str and len(attr_id) > 0:
-
-            return re.sub(r"\W+", r"", attr_id)
-
-        # unsupported
-
-        else:
-
-            # nullify string
-
-            return ""
-
-        # end if
-
-    # end def
-
-
-
-    def get_object_by_id (self, attr_id):
-        r"""
-            tries to retrieve the object created through its definition
-
-            into an XML element declared with id='@attr_id' param
-
-            while dynamically generated;
-
-            returns the concerned object if 'id' matches @attr_id param,
-
-            returns None otherwise;
-        """
-
-        return self.objects.get(self.canonize_id(attr_id))
-
-    # end def
-
-
-
-    def hide_widgets (self):
-        r"""
-            unpacks all children widgets in order to pack(), grid() or
-
-            place() them in a specific user-defined way;
-
-            no return value (void);
-        """
-
-        # loop on child widgets
-
-        for _widget in self.winfo_children():
-
-            _widget.pack_forget()
-
-            _widget.grid_forget()
-
-            _widget.place_forget()
-
-        # end for
-
-    # end def
-
-
-
-    def set_pack_options (self, **kw):
-        r"""
-            sets specific w.pack() options for widget building;
-
-            no return value (void);
-        """
-
-        self.PACK_OPTIONS = kw
-
-    # end def
-
-
-
     # --------------------- protected method defs ----------------------
 
 
@@ -454,7 +298,7 @@ class Builder (TK.Frame):
 
         # XML root node?
 
-        if _tagl == "root":
+        if _tagl in ("root", "tkwidget"):
 
             # widget already exists!
 
@@ -480,9 +324,9 @@ class Builder (TK.Frame):
 
             _widget = eval(
 
-                    "{_class}(tk_parent, **xml_element.attrib)"
+                "{_class}(tk_parent, **xml_element.attrib)"
 
-                    .format(_class = _classname)
+                .format(_class = _classname)
             )
 
             # register newly created object by its XML id
@@ -565,7 +409,7 @@ class Builder (TK.Frame):
 
         # param controls - arg must be XML string or file URI
 
-        if type(arg) is str and len(arg) > 0:
+        if self.is_pstr(arg):
 
             # argument is a file URI?
 
@@ -651,9 +495,9 @@ class Builder (TK.Frame):
 
         _kw = {
 
-                "xml_element": xml_element,
+            "xml_element": xml_element,
 
-                "tk_parent": tk_parent,
+            "tk_parent": tk_parent,
         }
 
         # attributes init
@@ -668,9 +512,7 @@ class Builder (TK.Frame):
 
             _parser = (
 
-                    str(self.ATTRIBUTE_PARSER)
-
-                    .format(attr = _attr.lower())
+                str(self.ATTRIBUTE_PARSER).format(attr = _attr.lower())
             )
 
             # attribute parsing is OPTIONAL /!\
@@ -679,7 +521,7 @@ class Builder (TK.Frame):
 
                 # set real method def for parser
 
-                _parser = eval("self." + _parser)
+                _parser = getattr(self, _parser)
 
                 # callable parser?
 
@@ -709,6 +551,177 @@ class Builder (TK.Frame):
         """
 
         self.objects[self._get_correct_id(attr_id)] = built_object
+
+    # end def
+
+
+
+    # --------------------- public method defs ----------------------
+
+
+
+    def build (self, arg):
+        r"""
+            tries to build tkinter widgets from a char string or
+
+            from a file URI;
+
+            will pop-up a message box with a traceback message
+
+            if any exception raises;
+
+            returns 'self' as a widget container of all built-in
+
+            tkinter widgets for further use in your own program;
+        """
+
+        try:
+
+            # param controls - arg must be XML string or file URI
+
+            self._init_xml_tree(arg)
+
+            # build XML element as tkinter widget
+
+            self._build_element(self.xml_tree.getroot(), self)
+
+            # layout inits
+
+            self.pack(**self.PACK_OPTIONS)
+
+            # need an autorun testing session?
+
+            if self.__autorun:
+
+                # run testing session
+
+                self.mainloop()
+
+                self.winfo_toplevel().withdraw()
+
+            # end if
+
+            # return 'this' pointer
+
+            # containing all built-in widgets
+
+            return self
+
+        except:
+
+            MB.showerror(
+
+                "Caught exception",
+
+                "An exception has raised:\n\n{msg}"
+
+                .format(msg = traceback.format_exc(limit = 1)),
+            )
+
+            raise
+
+        # end try
+
+        # failed
+
+        return None
+
+    # end def
+
+
+
+    def canonize_id (self, attr_id):
+        r"""
+            sets @attr_id param in conformance with __identifier__
+
+            language def (allows only regexp("\w+") in id naming);
+
+            returns canonized id name or empty string otherwise;
+        """
+
+        # param controls
+
+        if self.is_pstr(attr_id):
+
+            return re.sub(r"\W+", r"", attr_id)
+
+        # unsupported
+
+        else:
+
+            # nullify string
+
+            return ""
+
+        # end if
+
+    # end def
+
+
+
+    def get_object_by_id (self, attr_id):
+        r"""
+            tries to retrieve the object created through its definition
+
+            into an XML element declared with id='@attr_id' param
+
+            while dynamically generated;
+
+            returns the concerned object if 'id' matches @attr_id param,
+
+            returns None otherwise;
+        """
+
+        return self.objects.get(self.canonize_id(attr_id))
+
+    # end def
+
+
+
+    def hide_widgets (self):
+        r"""
+            unpacks all children widgets in order to pack(), grid() or
+
+            place() them in a specific user-defined way;
+
+            no return value (void);
+        """
+
+        # loop on child widgets
+
+        for _widget in self.winfo_children():
+
+            _widget.pack_forget()
+
+            _widget.grid_forget()
+
+            _widget.place_forget()
+
+        # end for
+
+    # end def
+
+
+
+    def is_pstr (self, arg):
+        r"""
+            determines if @arg param is of plain string type or not;
+        """
+
+        return arg and isinstance(arg, str)
+
+    # end def
+
+
+
+    def set_pack_options (self, **kw):
+        r"""
+            sets specific w.pack() options for widget building;
+
+            no return value (void);
+        """
+
+        self.PACK_OPTIONS = kw
 
     # end def
 
