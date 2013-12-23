@@ -82,9 +82,19 @@ class RADApplication:
 
     DIRECTORIES = (
 
-        "etc", "lib", "locale",
+        #~ "etc", "lib", "locale", "xml",
 
     ) # end of DIRECTORIES
+
+
+
+    PYTHON = {
+
+        "version": "3.2",
+
+        "strict": False,
+
+    } # end of PYTHON
 
 
 
@@ -99,16 +109,6 @@ class RADApplication:
         "app_dir": "^/etc",
 
     } # end of RC_OPTIONS
-
-
-
-    PYTHON = {
-
-        "version": "3.2",
-
-        "strict": False,
-
-    } # end of PYTHON
 
 
 
