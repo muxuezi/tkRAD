@@ -595,6 +595,9 @@ class Builder (TK.Frame):
 
                 # run testing session
 
+                self.winfo_toplevel()\
+                    .protocol("WM_DELETE_WINDOW", self.quit)
+
                 self.mainloop()
 
                 self.winfo_toplevel().withdraw()
