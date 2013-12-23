@@ -8,6 +8,10 @@
 
 ## CHANGELOG
 
+$ 2013-12-23 RS $
+
+    Fixed 'close window' bug @ easy.builder[2];
+
 $ 2013-12-22 RS $
 
     Upgraded tkRAD.easy.builder[2] modules;
