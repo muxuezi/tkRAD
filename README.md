@@ -54,14 +54,14 @@ If not, see http://www.gnu.org/licenses/
 
 feel free to use:
 
-	$ pydoc3 -b
+    $ pydoc3 -b
 
 in a UNIX-like console terminal set in the closest parent directory
 of `tkRAD/` e.g.:
 
-	$ cd ~/tmp      # where you have ~/tmp/tkRAD/ copied in;
+    $ cd ~/tmp      # where you have ~/tmp/tkRAD/ copied in;
 
-	$ pydoc3 -b
+    $ pydoc3 -b
 
 and study generated autodoc in your favourite internet browser;
 
@@ -119,9 +119,9 @@ common default case when you install Python;
 make sure this package really exists on your system by entering in a
 console terminal:
 
-	$ python3
+    $ python3
 
-	>>> import tkinter    # case-sensitive /!\
+    >>> import tkinter    # case-sensitive /!\
 
 if you get an error message, `tkinter` is *NOT* installed;
 
@@ -140,9 +140,9 @@ when you install Python2.7+;
 make sure this package really exists on your system by entering in a
 console terminal:
 
-	$ python
+    $ python
 
-	>>> import Tkinter    # case-sensitive /!\
+    >>> import Tkinter    # case-sensitive /!\
 
 if you get an error message, `Tkinter` is *NOT* installed;
 
@@ -155,23 +155,23 @@ At this time, `tkRAD` library has been:
 
 * Linux:
 
-	* TESTED OK under Lubuntu, Xubuntu and Ubuntu;
+    * TESTED OK under Lubuntu, Xubuntu and Ubuntu;
 
-	* should work quite fine under any Linux distribution;
+    * should work quite fine under any Linux distribution;
 
 * macOS:
 
-	* NOT YET TESTED;
+    * NOT YET TESTED;
 
 * MS-Windows:
 
-	* PARTIALLY TESTED;
+    * PARTIALLY TESTED;
 
-	* `tkRAD.easy.builder` has been TESTED OK for Python v3.2+;
+    * `tkRAD.easy.builder` has been TESTED OK for Python v3.2+;
 
-	* `tkRAD.easy.builder2` has been TESTED OK for Python v2.7+;
+    * `tkRAD.easy.builder2` has been TESTED OK for Python v2.7+;
 
-	* `tkRAD.core`, `tkRAD.widgets`, `tkRAD.xml`: NOT YET TESTED;
+    * `tkRAD.core`, `tkRAD.widgets`, `tkRAD.xml`: NOT YET TESTED;
 
 Any platform users feedback is still the welcome.
 
@@ -186,7 +186,7 @@ Please, refer to CHANGES file for more detail.
 `tkRAD` package library does *NOT* really need to be installed.
 
 Just [grab a zipped copy]
-(https://github.com/tarball69/tkRAD/wiki/Installing---grabbing-a-copy)
+(https://github.com/tarball69/tkRAD/wiki/En%3Ainstall)
 of `tkRAD/` directory into your own application's source library
 and start using `tkRAD` by importing classes in your own code.
 
@@ -207,48 +207,48 @@ MS-Windows users, please see '[MS-WINDOWS USERS](#ms-windows-users)'
 below.
 
 Now [pick up a zipped copy]
-(https://github.com/tarball69/tkRAD/wiki/Installing---grabbing-a-copy)
+(https://github.com/tarball69/tkRAD/wiki/En%3Ainstall)
 of `tkRAD/` directory and put it in a temporary directory, let's
 say into:
 
-	$ cd ~/tmp
+    $ cd ~/tmp
 
 Unzip the archive (replace `xxx` by the real value) and then rename it:
 
-	$ unzip tkRAD-xxx.zip
+    $ unzip tkRAD-xxx.zip
 
-	$ mv tkRAD-xxx tkRAD
+    $ mv tkRAD-xxx tkRAD
 
 Notice: `$` symbol is the shell command-line prompt, you shall not
 type it(!)
 
 You should have something like this:
 
-	$ ls
+    $ ls
 
-	tkRAD/
-	tkRAD-xxx.zip
+    tkRAD/
+    tkRAD-xxx.zip
 
 Dive into tkRAD's `easy` directory:
 
-	$ cd tkRAD/easy
+    $ cd tkRAD/easy
 
 Call a **Python3.2+** interactive console and type:
 
-	$ python3
+    $ python3
 
-	>>> import builder as B
+    >>> import builder as B
 
 Notice: `>>>` symbol is the Python interpreter prompt, you shall not
 type it(!)
 
 Remember it is *NOT* a good programming practice to use:
 
-	>>> from builder import *		# /!\ NO /!\
+    >>> from builder import *       # /!\ NO /!\
 
 Now, try the embedded XML example file:
 
-	>>> B.build("builder-example.xml")
+    >>> B.build("builder-example.xml")
 
 And tell your friends what you saw today.
 
@@ -256,21 +256,21 @@ And tell your friends what you saw today.
 
 Keep your Python interpreter on and type:
 
-	>>> import builder as B
+    >>> import builder as B
 
-	>>> xml = """
+    >>> xml = """
 
-		<root>
+        <root>
 
-			<label text="hello good people!" bg="white" fg="blue" />
+            <label text="hello good people!" bg="white" fg="blue" />
 
-			<button text="Quit" command="self.quit" />
+            <button text="Quit" command="self.quit" />
 
-		</root>
+        </root>
 
-	"""
+    """
 
-	>>> B.build(xml)
+    >>> B.build(xml)
 
 As you can see, it is possible to check out some XML source code
 directly into your Python code without the need of any external XML
@@ -278,27 +278,27 @@ file(!)
 
 With **Python2.7+** you can (almost) do the same:
 
-	$ python
+    $ python
 
-	>>> import builder2 as B
+    >>> import builder2 as B
 
-	>>> B.build("builder-example.xml")
+    >>> B.build("builder-example.xml")
 
-	And then:
+    And then:
 
-	>>> xml = """
+    >>> xml = """
 
-		<root>
+        <root>
 
-			<label text="hello good people!" bg="white" fg="blue" />
+            <label text="hello good people!" bg="white" fg="blue" />
 
-			<button text="Quit" command="self.quit" />
+            <button text="Quit" command="self.quit" />
 
-		</root>
+        </root>
 
-	"""
+    """
 
-	>>> B.build(xml)
+    >>> B.build(xml)
 
 Good day for programming, isn't it? :-)
 
