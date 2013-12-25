@@ -387,4 +387,21 @@ class RADStatusBar (RF.RADFrame):
     # end def
 
 
+
+    def toggle_var_set (self, value):
+        r"""
+            sets a @value to current toggle_var StringVar;
+
+            toggles automatically statusbar along @value;
+
+            no return value (void);
+        """
+
+        self.toggle_var.set(str(value))
+
+        self.toggle()
+
+    # end def
+
+
 # end class RADStatusBar

@@ -595,7 +595,7 @@ class RADXMLBase (RW.RADWidgetBase):
             returns dict() object of all created DoubleVars;
 
             may affect internal dict() object;
-"""
+        """
 
         return self.__tk_variables["doublevar"]
 

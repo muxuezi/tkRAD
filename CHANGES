@@ -10,6 +10,10 @@
 
 $ 2013-12-25 RS $
 
+    * Updated RADStatusBar:
+
+        * added toggle_var_set (self, value);
+
     * Updated RADMainWindow:
 
         * added connect_statusbar (self, stringvarname);
