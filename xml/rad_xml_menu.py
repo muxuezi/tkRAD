@@ -63,54 +63,58 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
     ATTRS = {
 
+        # $ 2013-12-25 RS $
+        # caution: the followings are *MUST HAVE* inits only /!\
+        #          declare only the essential                /!\
+
         "generic": {
 
             "id": None,
 
             "name": None,
 
-            "selected": None,
+            #~ "selected": None,
 
-            "checked": None,
+            #~ "checked": None,
 
         },
 
 
         "common": {
 
-            "activebackground": None,
+            #~ "activebackground": None,
 
-            "activeforeground": None,
+            #~ "activeforeground": None,
 
             "background": None,
 
-            "font": None,
+            #~ "font": None,
 
             "foreground": None,
 
-            "selectcolor": None,
+            #~ "selectcolor": None,
         },
 
 
         "menu": {
 
-            "activeborderwidth": None,
+            #~ "activeborderwidth": None,
 
-            "bd": None,
+            #~ "bd": None,
 
             "bg": None,
 
-            "borderwidth": None,
+            #~ "borderwidth": None,
 
-            "cursor": None,
+            #~ "cursor": None,
 
-            "disabledforeground": None,
+            #~ "disabledforeground": None,
 
             "fg": None,
 
             "postcommand": None,
 
-            "relief": None,
+            #~ "relief": None,
 
             "tearoff": 0,
 
@@ -124,35 +128,35 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
             "accelerator": None,
 
-            "bitmap": None,
+            #~ "bitmap": None,
 
-            "columnbreak": None,
+            #~ "columnbreak": None,
 
             "command": None,
 
-            "compound": None,
+            #~ "compound": None,
 
-            "hidemargin": None,
+            #~ "hidemargin": None,
 
-            "image": None,
+            #~ "image": None,
 
             "label": None,
 
-            "menu": None,
+            #~ "menu": None,
 
-            "offvalue": None,
+            #~ "offvalue": None,
 
-            "onvalue": None,
+            #~ "onvalue": None,
 
-            "selectimage": None,
+            #~ "selectimage": None,
 
-            "state": None,
+            #~ "state": None,
 
             "underline": None,
 
-            "value": None,
+            #~ "value": None,
 
-            "variable": None,
+            #~ "variable": None,
         },
 
     } # end of ATTRS

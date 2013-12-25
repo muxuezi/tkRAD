@@ -8,6 +8,38 @@
 
 ## CHANGELOG
 
+$ 2013-12-25 RS $
+
+    * Updated RADMainWindow:
+
+        * added connect_statusbar (self, stringvarname);
+
+    * Updated RADXMLBase:
+
+        * added get_cvars (self);
+
+        * added get_doublevars (self);
+
+        * added get_intvars (self);
+
+        * added get_stringvars (self);
+
+    * Updated RADXMLWidget:
+
+        * in build_element_menu() :
+
+            * created menu widget is now registered with
+            register_object_by_id();
+
+            * menu stringvars are now transferred to widget's
+            stringvars collection;
+
+    * Updated RADXMLMenu:
+
+        * in RADXMLMenu.ATTRS:
+
+            * commented all non-essential XML attrs to be init'ed;
+
 $ 2013-12-23 RS $
 
     Fixed 'close window' bug @ easy.builder[2];

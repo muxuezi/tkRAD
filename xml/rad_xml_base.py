@@ -564,6 +564,19 @@ class RADXMLBase (RW.RADWidgetBase):
 
 
 
+    def get_cvars (self):
+        r"""
+            returns dict() object of all created control vars;
+
+            may affect internal dict() object;
+        """
+
+        return self.__tk_variables
+
+    # end def
+
+
+
     def get_doublevar (self, varname):
         r"""
             tries to retrieve a tkinter.DoubleVar() named @varname;
@@ -572,6 +585,19 @@ class RADXMLBase (RW.RADWidgetBase):
         """
 
         return self.__tk_variables["doublevar"].get(varname, None)
+
+    # end def
+
+
+
+    def get_doublevars (self):
+        r"""
+            returns dict() object of all created DoubleVars;
+
+            may affect internal dict() object;
+"""
+
+        return self.__tk_variables["doublevar"]
 
     # end def
 
@@ -634,6 +660,19 @@ class RADXMLBase (RW.RADWidgetBase):
 
 
 
+    def get_intvars (self):
+        r"""
+            returns dict() object of all created IntVars;
+
+            may affect internal dict() object;
+        """
+
+        return self.__tk_variables["intvar"]
+
+    # end def
+
+
+
     def get_object_by_id (self, attr_id, default = None):
         r"""
             this is the counterpart of register_object_by_id() method;
@@ -677,6 +716,19 @@ class RADXMLBase (RW.RADWidgetBase):
         """
 
         return self.__tk_variables["stringvar"].get(varname, None)
+
+    # end def
+
+
+
+    def get_stringvars (self):
+        r"""
+            returns dict() object of all created StringVars;
+
+            may affect internal dict() object;
+        """
+
+        return self.__tk_variables["stringvar"]
 
     # end def
 

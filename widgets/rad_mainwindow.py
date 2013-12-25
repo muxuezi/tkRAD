@@ -182,6 +182,8 @@ class RADMainWindow (RW.RADWidgetBase, TK.Tk):
                 "PendingTaskOn": self.slot_pending_task_on,
 
                 "PendingTaskOff": self.slot_pending_task_off,
+
+                "ToggleStatusbar": self.statusbar.toggle,
             }
         )
 
@@ -497,6 +499,32 @@ class RADMainWindow (RW.RADWidgetBase, TK.Tk):
         # update rc options
 
         self.options["geometry"]["mainwindow_state"] = str(state)
+
+    # end def
+
+
+
+    def connect_statusbar (self, stringvarname):
+        r"""
+            connects self.statusbar.toggle_var to a self.topmenu
+
+            checkbutton control var of type StringVar;
+
+            no return value (void);
+        """
+
+        # control var inits
+
+        self.statusbar.toggle_var = tools.choose(
+
+            self.topmenu.get_stringvar(stringvarname),
+
+            self.mainframe.get_stringvar(stringvarname),
+
+            TK.StringVar(),
+        )
+
+        self.statusbar.toggle()
 
     # end def
 

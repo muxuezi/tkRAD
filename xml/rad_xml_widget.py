@@ -964,13 +964,26 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             _widget = XM.RADXMLMenu(tk_owner = tk_parent)
 
+            # register widget
+
+            self.register_object_by_id(_widget, _attributes.get("id"))
+
             # reset XML tree
 
             _widget.set_xml_tree(element = xml_element)
 
             # build menu
 
-            return _widget.xml_build()
+            _ok = _widget.xml_build()
+
+            # transfer all newly created stringvars
+            # from menu to widget
+
+            self.get_stringvars().update(_widget.get_stringvars())
+
+            # confirm op
+
+            return _ok
 
         # end if
 

@@ -147,6 +147,31 @@ def canonize_relative_module (arg, raise_error = False):
 
 
 
+def choose (*args):
+    r"""
+        returns the first of bool(@args) which is True;
+
+        returns None otherwise;
+    """
+
+    for _arg in args:
+
+        if _arg:
+
+            return _arg
+
+        # end if
+
+    # end for
+
+    # not found
+
+    return None
+
+# end def
+
+
+
 def choose_num (callback, *args):
     r"""
         tries to find a number (int or float) in argument list along
