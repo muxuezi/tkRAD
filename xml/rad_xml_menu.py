@@ -476,7 +476,19 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
         # loop on XML element children - build tk child widgets
 
-        return self.loop_on_children(xml_element, _new_menu)
+        return self.loop_on_children(
+
+            xml_element,
+
+            _new_menu,
+
+            accept = (
+
+                "menu", "command", "checkbutton", "radiobutton",
+
+                "separator",
+            )
+        )
 
     # end def
 
