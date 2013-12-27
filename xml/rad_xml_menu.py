@@ -73,9 +73,9 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
             "name": None,
 
-            #~ "selected": None,
+            "selected": None,
 
-            #~ "checked": None,
+            "checked": None,
 
         },
 
