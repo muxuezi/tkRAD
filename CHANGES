@@ -8,6 +8,16 @@
 
 ## CHANGELOG
 
+$ 2013-12-27 RS $
+
+    * updated RADXMLMenu:
+
+        * in build_element_menu():
+
+            * added restriction to loop_on_child(): menu now accepts
+            only "menu", "command", "checkbutton", "radiobutton" and
+            "separator" XML subelements;
+
 $ 2013-12-25 RS $
 
     * Updated RADStatusBar:
@@ -30,7 +40,7 @@ $ 2013-12-25 RS $
 
     * Updated RADXMLWidget:
 
-        * in build_element_menu() :
+        * in build_element_menu():
 
             * created menu widget is now registered with
             register_object_by_id();
