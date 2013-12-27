@@ -10,6 +10,12 @@
 
 $ 2013-12-27 RS $
 
+    * updated RADXMLWidgetBase:
+
+        * in parse_attr_command():
+
+            event support now works along Menu.tearoffcommand 2 args;
+
     * updated RADXMLMenu:
 
         * in build_element_menu():

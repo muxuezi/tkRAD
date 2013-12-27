@@ -328,7 +328,8 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
                 _cmd = (
 
-                    lambda tk_evt=None, s=self.events, e=_cmd[1:]:
+                    lambda tk1=None, tk2=None,
+                            s=self.events, e=_cmd[1:]:
 
                         s.raise_event(e)
                 )
