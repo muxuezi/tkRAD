@@ -8,6 +8,16 @@
 
 ## CHANGELOG
 
+$ 2013-12-28 RS $
+
+    * updated RADMainWindow:
+
+        * in connect_statusbar():
+
+            fixed bug: self.topmenu and self.mainframe may *NOT*
+            have attr "get_stringvar()" if user-defined otherwise;
+
+
 $ 2013-12-27 RS $
 
     * updated RADXMLWidgetBase:

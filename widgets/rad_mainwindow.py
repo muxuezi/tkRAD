@@ -506,23 +506,38 @@ class RADMainWindow (RW.RADWidgetBase, TK.Tk):
 
     def connect_statusbar (self, stringvarname):
         r"""
-            connects self.statusbar.toggle_var to a self.topmenu
+            connects self.statusbar.toggle_var to a self.topmenu or
 
-            checkbutton control var of type StringVar;
+            a self.mainframe implicit menu checkbutton control var
+
+            of type StringVar;
 
             no return value (void);
         """
 
         # control var inits
 
-        self.statusbar.toggle_var = tools.choose(
+        _cvar = None
 
-            self.topmenu.get_stringvar(stringvarname),
+        if hasattr(self.topmenu, "get_stringvar"):
 
-            self.mainframe.get_stringvar(stringvarname),
+            _cvar = self.topmenu.get_stringvar(stringvarname)
 
-            TK.StringVar(),
-        )
+        # end if
+
+        if not _cvar and hasattr(self.mainframe, "get_stringvar"):
+
+            _cvar = self.mainframe.get_stringvar(stringvarname)
+
+        # end if
+
+        if not _cvar:
+
+            _cvar = TK.StringVar()
+
+        # end if
+
+        self.statusbar.toggle_var = _cvar
 
         self.statusbar.toggle()
 
