@@ -14,7 +14,7 @@ $ 2013-12-29 RS $
 
         * in register_object_by_id():
 
-            made if safer: objects of same 'id' now raise KeyError;
+            made it safer: objects of same 'id' now raise KeyError;
             no more faulty overridings;
 
     * updated RADXMLWidgetBase:
