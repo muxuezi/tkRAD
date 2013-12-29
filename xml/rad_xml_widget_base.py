@@ -277,17 +277,23 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
     def parse_attr_checked (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            XML attr 'checked' must be 'checked="checked"' or will
+            be reset to None;
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_checked(): NOT IMPLEMENTED YET")
+        if not attribute.parsed:
 
-        # parsed attribute inits
+            if str(attribute.value) != "checked":
 
-        pass
+                attribute.value = None
+
+            # end if
+
+            attribute.parsed = True
+
+        # end if
 
     # end def
 
@@ -762,17 +768,23 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
     def parse_attr_selected (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            XML attr 'selected' must be 'selected="selected"' or will
+            be reset to None;
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_selected(): NOT IMPLEMENTED YET")
+        if not attribute.parsed:
 
-        # parsed attribute inits
+            if str(attribute.value) != "selected":
 
-        pass
+                attribute.value = None
+
+            # end if
+
+            attribute.parsed = True
+
+        # end if
 
     # end def
 

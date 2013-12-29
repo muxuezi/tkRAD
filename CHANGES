@@ -12,6 +12,9 @@ $ 2013-12-29 RS $
 
     * updated RADXMLWidgetBase:
 
+        * parse_attr_checked() and parse_attr_selected() are now
+        fully implemented;
+
         * in _before_building_element():
 
             added self.WIDGET for post-implementations of last built
