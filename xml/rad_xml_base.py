@@ -1175,11 +1175,23 @@ class RADXMLBase (RW.RADWidgetBase):
             no return value (void);
         """
 
-        self.__objects[
+        _id = self._get_object_id(built_object, attr_id)
 
-            self._get_object_id(built_object, attr_id)
+        if _id not in self.__objects:
 
-                ] = built_object
+            self.__objects[_id] = built_object
+
+        else:
+
+            raise KeyError(
+
+                _(
+                    "cannot override existing object of id '{obj_id}'"
+
+                ).format(obj_id = _id)
+            )
+
+        # end if
 
     # end def
 

@@ -10,6 +10,13 @@
 
 $ 2013-12-29 RS $
 
+    * updated RADXMLBase:
+
+        * in register_object_by_id():
+
+            made if safer: objects of same 'id' now raise KeyError;
+            no more faulty overridings;
+
     * updated RADXMLWidgetBase:
 
         * parse_attr_checked() and parse_attr_selected() are now
