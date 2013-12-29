@@ -8,6 +8,33 @@
 
 ## CHANGELOG
 
+$ 2013-12-29 RS $
+
+    * updated RADXMLWidgetBase:
+
+        * in _before_building_element():
+
+            added self.WIDGET for post-implementations of last built
+            widget e.g. see RADXMLWidget.build_element_checkbutton()
+            and RADXMLWidget.build_element_radiobutton() for more;
+
+    * updated RADXMLWidget:
+
+        * in build_element_checkbutton():
+
+            fixed attr `checked="checked"` bug due to tkinter
+            inconsistencies --> must set object.select() rather than
+            cvar value which is the exact opposite behaviour of
+            Menu.Checkbutton menu item /!\;
+
+        * in build_element_radiobutton():
+
+            fixed attr `selected="selected"` bug due to tkinter
+            inconsistencies --> must set object.select() rather than
+            cvar value which is the exact opposite behaviour of
+            Menu.Radiobutton menu item /!\;
+
+
 $ 2013-12-28 RS $
 
     * updated RADMainWindow:
@@ -33,6 +60,7 @@ $ 2013-12-27 RS $
             * added restriction to loop_on_child(): menu now accepts
             only "menu", "command", "checkbutton", "radiobutton" and
             "separator" XML subelements;
+
 
 $ 2013-12-25 RS $
 
@@ -70,9 +98,11 @@ $ 2013-12-25 RS $
 
             * commented all non-essential XML attrs to be init'ed;
 
+
 $ 2013-12-23 RS $
 
     Fixed 'close window' bug @ easy.builder[2];
+
 
 $ 2013-12-22 RS $
 
@@ -83,6 +113,7 @@ $ 2013-12-22 RS $
     Still support <root> XML root node for testing;
 
     Rewritten some portions of code with no border effects;
+
 
 $ 2013-12-21 RS $
 

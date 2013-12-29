@@ -575,7 +575,16 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
             returns True on build success, False otherwise;
         """
 
-        return self._build_tk_native(xml_tag, xml_element, tk_parent)
+        _ok = self._build_tk_native(xml_tag, xml_element, tk_parent)
+
+        if hasattr(self.WIDGET, "select") \
+                                        and xml_element.get("checked"):
+
+            self.WIDGET.select()
+
+        # end if
+
+        return _ok
 
     # end def
 
@@ -1180,7 +1189,16 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
             returns True on build success, False otherwise;
         """
 
-        return self._build_tk_native(xml_tag, xml_element, tk_parent)
+        _ok = self._build_tk_native(xml_tag, xml_element, tk_parent)
+
+        if hasattr(self.WIDGET, "select") \
+                                        and xml_element.get("selected"):
+
+            self.WIDGET.select()
+
+        # end if
+
+        return _ok
 
     # end def
 
@@ -1481,6 +1499,10 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
             # keep a copy aboard
 
             self.register_object_by_id(_widget, _attributes.get("id"))
+
+            # keep a copy for specific post-implementations
+
+            self.WIDGET = _widget
 
             # set widget as parent class member
 

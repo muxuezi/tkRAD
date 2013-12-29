@@ -119,6 +119,8 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
         self.WIDGET_CLASS = "Frame"
 
+        self.WIDGET = None
+
         self.TK_ACCEL = ""
 
         self.TK_CONFIG = dict()
