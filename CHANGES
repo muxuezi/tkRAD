@@ -8,6 +8,15 @@
 
 ## CHANGELOG
 
+$ 2013-12-30 RS $
+
+    * updated RADStatusBar:
+
+        * in toggle():
+
+            fixed bug when self.toggle_var is *NOT* set up;
+            added [WARNING] message to help developers know about it;
+
 $ 2013-12-29 RS $
 
     * updated RADXMLBase:

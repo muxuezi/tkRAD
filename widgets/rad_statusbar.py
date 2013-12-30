@@ -300,29 +300,39 @@ class RADStatusBar (RF.RADFrame):
             no return value (void);
         """
 
-        # tk control var inits
+        # only if toggle_var is set up /!\
 
-        _value = self.toggle_var.get()
+        if self.toggle_var:
 
-        # update config options
+            # tk control var inits
 
-        self.options["gui"]["show_statusbar"] = str(_value)
+            _value = self.toggle_var.get()
 
-        # show status bar
+            # update config options
 
-        if tools.ensure_int(_value):
+            self.options["gui"]["show_statusbar"] = str(_value)
 
-            self.events.raise_event("StatusbarShow", widget = self)
+            # show status bar
 
-            self.grid()
+            if tools.ensure_int(_value):
 
-        # hide status bar
+                self.events.raise_event("StatusbarShow", widget = self)
+
+                self.grid()
+
+            # hide status bar
+
+            else:
+
+                self.events.raise_event("StatusbarHide", widget = self)
+
+                self.grid_remove()
+
+            # end if
 
         else:
 
-            self.events.raise_event("StatusbarHide", widget = self)
-
-            self.grid_remove()
+            print("[WARNING] toggle_var is *NOT* set up.")
 
         # end if
 
