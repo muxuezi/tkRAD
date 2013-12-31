@@ -799,7 +799,10 @@ class RADXMLBase (RW.RADWidgetBase):
 
             _uri = uri.canonize(filename)
 
-            if OP.isfile(_uri):
+            # $ 2013-12-31 RS $
+            # fixed ugly URI construction on faulty paths
+
+            if OP.isfile(_uri) or OP.sep in filename:
 
                 return _uri
 

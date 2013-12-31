@@ -8,6 +8,16 @@
 
 ## CHANGELOG
 
+$ 2013-12-31 RS $
+
+    * updated RADXMLBase:
+
+        * in get_xml_uri():
+
+            fixed ugly URI construction on faulty paths;
+            now FileNotFoundError exception traceback is clearer;
+
+
 $ 2013-12-30 RS $
 
     * updated RADStatusBar:
