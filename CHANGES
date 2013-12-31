@@ -12,7 +12,7 @@ $ 2013-12-31 RS $
 
     * updated RADMainWindow:
 
-        * connect_statusbar():
+        * in connect_statusbar():
 
             now only connects self.statusbar if it is of type
             `RADStatusBar` as devs may redefine self.statusbar to
