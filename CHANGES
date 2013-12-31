@@ -10,6 +10,17 @@
 
 $ 2013-12-31 RS $
 
+    * updated RADMainWindow:
+
+        * connect_statusbar():
+
+            now only connects self.statusbar if it is of type
+            `RADStatusBar` as devs may redefine self.statusbar to
+            meet their own needs;
+
+            devs should override this method if they implement their
+            own `MyStatusBar` type in self.statusbar;
+
     * updated RADXMLBase:
 
         * in get_xml_uri():

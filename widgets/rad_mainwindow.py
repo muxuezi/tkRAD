@@ -515,31 +515,37 @@ class RADMainWindow (RW.RADWidgetBase, TK.Tk):
             no return value (void);
         """
 
-        # control var inits
+        # make sure self.statusbar is of type SB.RADStatusBar
 
-        _cvar = None
+        if isinstance(self.statusbar, SB.RADStatusBar):
 
-        if hasattr(self.topmenu, "get_stringvar"):
+            # control var inits
 
-            _cvar = self.topmenu.get_stringvar(stringvarname)
+            _cvar = None
+
+            if hasattr(self.topmenu, "get_stringvar"):
+
+                _cvar = self.topmenu.get_stringvar(stringvarname)
+
+            # end if
+
+            if not _cvar and hasattr(self.mainframe, "get_stringvar"):
+
+                _cvar = self.mainframe.get_stringvar(stringvarname)
+
+            # end if
+
+            if not _cvar:
+
+                _cvar = TK.StringVar()
+
+            # end if
+
+            self.statusbar.toggle_var = _cvar
+
+            self.statusbar.toggle()
 
         # end if
-
-        if not _cvar and hasattr(self.mainframe, "get_stringvar"):
-
-            _cvar = self.mainframe.get_stringvar(stringvarname)
-
-        # end if
-
-        if not _cvar:
-
-            _cvar = TK.StringVar()
-
-        # end if
-
-        self.statusbar.toggle_var = _cvar
-
-        self.statusbar.toggle()
 
     # end def
 
