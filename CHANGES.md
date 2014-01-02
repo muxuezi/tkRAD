@@ -3,189 +3,202 @@
 
 ## CONTRIBUTORS
 
-    * RS        Raphaël SEBAN
+    RS    Raphaël SEBAN
 
 
 ## CHANGELOG
 
-$ 2013-12-31 RS $
+### $ 2014-01-02 RS $
 
-    * updated RADMainWindow:
+* updated `CHANGES`:
 
-        * in connect_statusbar():
+    * moved file from `CHANGES` to `CHANGES.md`;
 
-            now only connects self.statusbar if it is of type
-            `RADStatusBar` as devs may redefine self.statusbar to
-            meet their own needs;
+    * rewritten text to best suit MarkDown (.md) syntax;
 
-            devs should override this method if they implement their
-            own `MyStatusBar` type in self.statusbar;
 
-    * updated RADXMLBase:
+### $ 2013-12-31 RS $
 
-        * in get_xml_uri():
+* updated `RADMainWindow`:
 
-            fixed ugly URI construction on faulty paths;
-            now FileNotFoundError exception traceback is clearer;
+    * in `connect_statusbar()`:
 
+        * now only connects `self.statusbar` if it is of type
+        `RADStatusBar` as devs may redefine `self.statusbar` to meet
+        their own needs;
 
-$ 2013-12-30 RS $
+        * devs should override this method if they implement their
+        own `MyStatusBar` type in `self.statusbar`;
 
-    * updated RADStatusBar:
+* updated `RADXMLBase`:
 
-        * in toggle():
+    * in `get_xml_uri()`:
 
-            fixed bug when self.toggle_var is *NOT* set up;
-            added [WARNING] message to help developers know about it;
+        * fixed ugly URI construction on faulty paths;
 
-$ 2013-12-29 RS $
+        * now `FileNotFoundError` exception traceback is clearer;
 
-    * updated RADXMLBase:
 
-        * in register_object_by_id():
+### $ 2013-12-30 RS $
 
-            made it safer: objects of same 'id' now raise KeyError;
-            no more faulty overridings;
+* updated `RADStatusBar`:
 
-    * updated RADXMLWidgetBase:
+    * in `toggle()`:
 
-        * parse_attr_checked() and parse_attr_selected() are now
-        fully implemented;
+        * fixed bug when `self.toggle_var` is *NOT* set up;
 
-        * in _before_building_element():
+        * added `[WARNING]` message to help developers know about it;
 
-            added self.WIDGET for post-implementations of last built
-            widget e.g. see RADXMLWidget.build_element_checkbutton()
-            and RADXMLWidget.build_element_radiobutton() for more;
 
-    * updated RADXMLWidget:
+### $ 2013-12-29 RS $
 
-        * in build_element_checkbutton():
+* updated `RADXMLBase`:
 
-            fixed attr `checked="checked"` bug due to tkinter
-            inconsistencies --> must set object.select() rather than
-            cvar value which is the exact opposite behaviour of
-            Menu.Checkbutton menu item /!\;
+    * in `register_object_by_id()`:
 
-        * in build_element_radiobutton():
+        * made it safer: objects of same `id` now raise `KeyError`;
 
-            fixed attr `selected="selected"` bug due to tkinter
-            inconsistencies --> must set object.select() rather than
-            cvar value which is the exact opposite behaviour of
-            Menu.Radiobutton menu item /!\;
+        * no more faulty overridings;
 
+* updated `RADXMLWidgetBase`:
 
-$ 2013-12-28 RS $
+    * `parse_attr_checked()` and `parse_attr_selected()` are now
+    fully implemented;
 
-    * updated RADMainWindow:
+    * in `_before_building_element()`:
 
-        * in connect_statusbar():
+        * added `self.WIDGET` for post-implementations of last built
+        widget e.g. see `RADXMLWidget.build_element_checkbutton()`
+        and `RADXMLWidget.build_element_radiobutton()` for more;
 
-            fixed bug: self.topmenu and self.mainframe may *NOT*
-            have attr "get_stringvar()" if user-defined otherwise;
+* updated `RADXMLWidget`:
 
+    * in `build_element_checkbutton()`:
 
-$ 2013-12-27 RS $
+        * fixed attr `checked="checked"` bug due to `tkinter`
+        inconsistencies --> must set `object.select()` rather than
+        `cvar value` which is the exact opposite behaviour of
+        `Menu.Checkbutton` menu item /!\;
 
-    * updated RADXMLWidgetBase:
+    * in `build_element_radiobutton()`:
 
-        * in parse_attr_command():
+        * fixed attr `selected="selected"` bug due to `tkinter`
+        inconsistencies --> must set `object.select()` rather than
+        `cvar value` which is the exact opposite behaviour of
+        `Menu.Radiobutton` menu item /!\;
 
-            event support now works along Menu.tearoffcommand 2 args;
 
-    * updated RADXMLMenu:
+### $ 2013-12-28 RS $
 
-        * in build_element_menu():
+* updated `RADMainWindow`:
 
-            * added restriction to loop_on_child(): menu now accepts
-            only "menu", "command", "checkbutton", "radiobutton" and
-            "separator" XML subelements;
+    * in `connect_statusbar()`:
 
+        * fixed bug: `self.topmenu` and `self.mainframe` may *NOT*
+        have attr `get_stringvar()` if user-defined otherwise;
 
-$ 2013-12-25 RS $
 
-    * Updated RADStatusBar:
+### $ 2013-12-27 RS $
 
-        * added toggle_var_set (self, value);
+* updated `RADXMLWidgetBase`:
 
-    * Updated RADMainWindow:
+    * in `parse_attr_command()`:
 
-        * added connect_statusbar (self, stringvarname);
+        * event support now works along `Menu.tearoffcommand` 2 args;
 
-    * Updated RADXMLBase:
+* updated `RADXMLMenu`:
 
-        * added get_cvars (self);
+    * in `build_element_menu()`:
 
-        * added get_doublevars (self);
+        * added restriction to `loop_on_child()`: menu now accepts
+        only `<menu>`, `<command>`, `<checkbutton>`, `<radiobutton>`
+        and `<separator>` XML subelements;
 
-        * added get_intvars (self);
 
-        * added get_stringvars (self);
+### $ 2013-12-25 RS $
 
-    * Updated RADXMLWidget:
+* updated `RADStatusBar`:
 
-        * in build_element_menu():
+    * added `toggle_var_set (self, value)`;
 
-            * created menu widget is now registered with
-            register_object_by_id();
+* updated `RADMainWindow`:
 
-            * menu stringvars are now transferred to widget's
-            stringvars collection;
+    * added `connect_statusbar (self, stringvarname)`;
 
-    * Updated RADXMLMenu:
+* updated `RADXMLBase`:
 
-        * in RADXMLMenu.ATTRS:
+    * added `get_cvars (self)`;
 
-            * commented all non-essential XML attrs to be init'ed;
+    * added `get_doublevars (self)`;
 
+    * added `get_intvars (self)`;
 
-$ 2013-12-23 RS $
+    * added `get_stringvars (self)`;
 
-    Fixed 'close window' bug @ easy.builder[2];
+* updated `RADXMLWidget`:
 
+    * in `build_element_menu()`:
 
-$ 2013-12-22 RS $
+        * created menu widget is now registered with
+        `register_object_by_id()`;
 
-    Upgraded tkRAD.easy.builder[2] modules;
+        * menu `stringvars` are now transferred to widget's
+        `stringvars` collection;
 
-    Now support <tkwidget> XML root node for testing;
+* updated `RADXMLMenu`:
 
-    Still support <root> XML root node for testing;
+    * in `RADXMLMenu.ATTRS`:
 
-    Rewritten some portions of code with no border effects;
+        * commented all non-essential XML attrs to be init'ed;
 
 
-$ 2013-12-21 RS $
+### $ 2013-12-23 RS $
 
-    Updated README.md file to best suit to Markdown policy;
+* fixed `WM_DELETE_WINDOW` bug @ easy.builder[2];
 
 
-$ 2013-12-20 RS $
+### $ 2013-12-22 RS $
 
-    Set up first public release of tkRAD library;
+* upgraded `tkRAD.easy.builder[2]` modules;
 
-    This is the first official version number: 2013.12.20b;
+* now support `<tkwidget>` XML root node for testing;
 
-    Release name: "Christmas Gift";
+* still support `<root>` XML root node for testing;
 
-    Prepared git repository on GitHub:
+* rewritten some portions of code with no border effects;
 
-        git://github.com/tarball69/tkRAD.git
 
-    Cloned repository in:
+### $ 2013-12-21 RS $
 
-        file://home/rs/apps/official/git/
+* updated `README.md` file to best suit to Markdown (.md) syntax;
 
-    Expanded GNU GPL v3 license ---> LGPL v3;
 
-    Filled with previous project files;
+### $ 2013-12-20 RS $
 
-    Written entire new README file;
+* set up first public release of `tkRAD` library;
 
-    Written entire new CHANGES file;
+* this is the first official version number: **2013.12.20b**;
 
-    Updated license terms in all *.py file headers in the project;
+* release name: **"Christmas Gift"**;
 
-    Merry Christmas you all!
+* prepared git repository on `GitHub`:
+
+    git://github.com/tarball69/tkRAD.git
+
+* cloned repository in:
+
+    file://home/rs/apps/official/git/
+
+* expanded GNU GPL v3 license ---> LGPL v3;
+
+* filled with previous project files;
+
+* written entire new `README` file;
+
+* written entire new `CHANGES` file;
+
+* updated license terms in all `*.py` file headers in the project;
+
+* Merry Christmas you all!
 
 ===   END OF FILE   ===
