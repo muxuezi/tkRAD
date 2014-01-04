@@ -146,6 +146,63 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
 
 
+    def _tkRAD_label_support (self, attribute, attrs, **kw):
+        r"""
+            protected method def;
+
+            generic support for underlined text and label attrs;
+
+            no return value (void);
+        """
+
+        # param controls
+
+        if self._is_new(attribute):
+
+            # internationalization (i18n) translations support
+
+            _label = _(attribute.value)
+
+            # got XML attr 'underline'?
+
+            if "underline" in attrs:
+
+                # menu label underline support (e.g. "_File")
+
+                attrs["underline"] = None
+
+                _pos = _label.find("_")
+
+                if _pos >= 0:
+
+                    # set attribute value
+
+                    attrs["underline"] = _pos
+
+                    # update label
+
+                    _label = _label[:_pos] + _label[_pos+1:]
+
+                # end if
+
+                # parsed attribute inits
+
+                self.TK_CONFIG["underline"] = attrs["underline"]
+
+            # end if
+
+            # parsed attribute inits
+
+            attribute.value = _label
+
+            self._tk_config(attribute)
+
+        # end if
+
+    # end def
+
+
+
     def _tk_config (self, attribute):
         r"""
             protected method def;
@@ -912,7 +969,7 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
             attribute.value = _cvar
 
-            attribute.parsed = True
+            self._tk_config(attribute)
 
         # end if
 

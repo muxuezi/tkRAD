@@ -73,6 +73,36 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
         },
 
 
+        "button": {
+
+            "underline": None,
+        },
+
+
+        "checkbutton": {
+
+            "underline": None,
+        },
+
+
+        "label": {
+
+            "underline": None,
+        },
+
+
+        "menubutton": {
+
+            "underline": None,
+        },
+
+
+        "radiobutton": {
+
+            "underline": None,
+        },
+
+
         "tkwidget": {
         },
 
@@ -252,7 +282,9 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             return self.build_element_widget(
 
-                "widget",  xml_element,  tk_parent
+                "widget",  xml_element,  tk_parent,
+
+                addon_attrs=self.ATTRS.get(xml_tag, dict()),
             )
 
         # end if
@@ -1447,7 +1479,8 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
-    def build_element_widget (self, xml_tag, xml_element, tk_parent):
+    def build_element_widget (self, xml_tag, xml_element, tk_parent,
+    **kw):
         r"""
             XML element <widget .../> is the generic XML declaration
 
@@ -1474,7 +1507,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             _attributes = self._init_attributes(
 
-                xml_tag, xml_element, tk_parent
+                xml_tag, xml_element, tk_parent, **kw
             )
 
             # widget class inits
@@ -1528,7 +1561,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             return self.loop_on_children(
 
-                xml_element, _widget, accept=self.DTD.get("widget"),
+                xml_element, _widget, accept=self.DTD.get(xml_tag),
             )
 
         # unsupported
@@ -3472,22 +3505,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_text (self, attribute, attrs, **kw):
         r"""
-            XML attr 'text' should be translated (i18n);
+            XML attr 'text' supports i18n translations and
+
+            underlined char;
 
             no return value (void);
         """
 
-        # param controls
-
-        if self._is_new(attribute):
-
-            # translate text (i18n)
-
-            attribute.value = _(attribute.value)
-
-            self._tk_config(attribute)
-
-        # end if
+        self._tkRAD_label_support(attribute, attrs, **kw)
 
     # end def
 
@@ -3495,17 +3520,12 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_textvariable (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            sets control variable along its given name;
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_textvariable(): NOT IMPLEMENTED YET")
-
-        # parsed attribute inits
-
-        self._tk_config(attribute)
+        self.parse_attr_variable(attribute, attrs, **kw)
 
     # end def
 

@@ -763,43 +763,7 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
             no return value (void);
         """
 
-        # param controls
-
-        if self._is_new(attribute):
-
-            # internationalization (i18n) translations support
-
-            _label = _(attribute.value)
-
-            # now label is translated
-
-            # menu label underline support (e.g. "_File")
-
-            attrs["underline"] = None
-
-            _pos = _label.find("_")
-
-            if _pos >= 0:
-
-                # set attribute value
-
-                attrs["underline"] = _pos
-
-                # update label
-
-                _label = _label[:_pos] + _label[_pos+1:]
-
-            # end if
-
-            # parsed attribute inits
-
-            attribute.value = _label
-
-            # caution: *NO* self._tk_config(attribute) by here /!\
-
-            attribute.parsed = True
-
-        # end if
+        self._tkRAD_label_support(attribute, attrs, **kw)
 
     # end def
 

@@ -8,9 +8,44 @@
 
 ## CHANGELOG
 
+
 ### $ 2014-01-04 RS $
 
+* updated `RADXMLWidget`:
+
+    * in `ATTRS`:
+
+        * added `button`, `checkbutton`, `label`, `menubutton`,
+        `radiobutton` dict() attrs;
+
+    * in `build_element_widget()`:
+
+        * now supports external keywords (**kw) for XML attr inits;
+
+    * in `_build_tk_native()`:
+
+        * now supports specific XML attrs for tk natives;
+
+    * in `parse_attr_textvariable()`:
+
+        * now fully implemented;
+
+    * in `parse_attr_text()`:
+
+        * now linked to `_tkRAD_label_support()`;
+
+* updated `RADXMLMenu`:
+
+    * in `parse_attr_label()`:
+
+        * now linked to `_tkRAD_label_support()`;
+
+* updated `RADXMLWidgetBase`:
+
+    * added `_tkRAD_label_support (self, attribute, attrs, **kw)`;
+
 * moved file `widget_template.xml` from `tkRAD/xml` to `tkRAD/xml/doc`;
+
 
 ### $ 2014-01-02 RS $
 
