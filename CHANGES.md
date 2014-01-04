@@ -8,6 +8,10 @@
 
 ## CHANGELOG
 
+### $ 2014-01-04 RS $
+
+* moved file `widget_template.xml` from `tkRAD/xml` to `tkRAD/xml/doc`;
+
 ### $ 2014-01-02 RS $
 
 * updated `CHANGES`:
