@@ -799,14 +799,6 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             _widget.XML_RC.clear()
 
-            # register widget
-
-            self.register_object_by_id(_widget, _attributes.get("id"))
-
-            # set widget as parent class member
-
-            exec("tk_parent.{name} = _widget".format(**_attributes))
-
             # be careful of infinite self-inclusion (recursions) /!\
 
             _src = _attributes.get("src")
@@ -826,13 +818,24 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             # end if
 
-            # this traps multiple indented try/except catches /!\
+            # get XML tree
 
             _widget.xml_load(_src)
 
+            # include new XML tree to current one
+
+            xml_element = _widget.get_xml_tree().getroot()
+
+            # free useless memory right now /!\
+
+            del _attributes, _widget, _src
+
             # build inclusion
 
-            return _widget.xml_build()
+            return self.loop_on_children(
+
+                xml_element, tk_parent, accept=self.DTD.get("widget")
+            )
 
         # end if
 

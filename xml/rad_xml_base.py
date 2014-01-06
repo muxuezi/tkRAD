@@ -1449,7 +1449,7 @@ class RADXMLBase (RW.RADWidgetBase):
 
             # XML tag detected?
 
-            if tools.is_pstr(arg) and re.search(r"<[^>]*>", arg) != None:
+            if tools.is_pstr(arg) and re.search(r"<[^>]*>", arg):
 
                 # parse XML char string source
 

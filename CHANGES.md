@@ -9,6 +9,26 @@
 ## CHANGELOG
 
 
+### $ 2014-01-06 RS $
+
+* updated `RADXMLWidget`:
+
+    * in `build_element_include()`:
+
+        * new XML tree is now fully included into current XML tree;
+
+        * all internal cvars, objects, `id` references, etc, are now
+        entirely respected;
+
+        * no more extra widget building with extra hassle;
+
+* updated `RADXMLBase`:
+
+    * in `xml_load()`:
+
+        * minor change - no border effect;
+
+
 ### $ 2014-01-04 RS $
 
 * updated `RADXMLWidget`:

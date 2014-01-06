@@ -55,39 +55,47 @@
 
     <!-- same as Python import sequence -->
 
-    <module id="element id"
+    <module
 
-            from="..pkg.uri" import="lib|*" as="ALIAS"
+        id="element id"
+
+        from="..pkg.uri"
+
+        import="lib|*"
+
+        as="ALIAS"
     />
 
     <!-- non tkinter-native extra widgets (user-defined) -->
 
-    <widget id="element id"
+    <widget
 
-            name="varname e.g. self.{varname} = MyClass(self)"
+        id="element id"
 
-            class="widget's classname (case sensitive)"
+        name="varname e.g. self.{varname} = MyClass(self)"
 
-            args="constructor args e.g. self.var = MyClass(args)"
+        class="widget's classname (case sensitive)"
 
-            module="import module element id (useless for tk natives)"
+        args="constructor args e.g. self.var = MyClass(args)"
 
-            layout="pack|grid|place"
+        module="import module element id (useless for tk natives)"
 
-            layout_options="pack_options|grid_options|place_options"
+        layout="pack|grid|place"
 
-            resizable="no|yes|height|width"
+        layout_options="pack_options|grid_options|place_options"
+
+        resizable="no|yes|height|width"
 
 
-            command="event-driven command support"
+        command="event-driven command support"
 
-            bitmap="imagestock support"
+        bitmap="imagestock support"
 
-            image="imagestock support"
+        image="imagestock support"
 
-            font="typefont support"
+        font="typefont support"
 
-            any_other_tk_attrs="etc, etc..."
+        any_other_tk_attrs="etc, etc..."
     >
 
 <!--
@@ -123,17 +131,15 @@
 
     -->
 
-    <include    id="element id"
+    <include
 
-                name="varname e.g. self.{varname} = MyClass(self)"
+        src="file path - URI"
 
-                src="file path - URI"
+        xml_dir="{xml_dir}"
 
-                xml_dir="{xml_dir}"
+        xml_filename="{xml_filename}"
 
-                xml_filename="{xml_filename}"
-
-                xml_file_ext="{xml_file_ext}"
+        xml_file_ext="{xml_file_ext}"
     />
 
     <!-- implement tkinter natives for easiness -->
@@ -196,61 +202,58 @@
 
     <!-- universal tk widget method w.configure(**options) -->
 
-    <configure  id="element id"
+    <configure
 
-                widget="widget id or 'tk_parent' otherwise"
+        widget="widget id or 'tk_parent' otherwise"
 
+        command="event-driven command support"
 
-                command="event-driven command support"
+        bitmap="imagestock support"
 
-                bitmap="imagestock support"
+        image="imagestock support"
 
-                image="imagestock support"
+        font="typefont support"
 
-                font="typefont support"
-
-                any_other_tk_attrs="etc, etc..."
+        any_other_tk_attrs="etc, etc..."
     />
 
     <!-- widget's and children layout inits -->
 
-    <layout id="element id"
+    <layout
 
-            widget="widget_id_to_apply_on (tk_parent otherwise)"
+        widget="widget_id_to_apply_on (tk_parent otherwise)"
 
-            layout="grid|pack|place"
+        layout="grid|pack|place"
 
-            layout_options="grid_options|pack_options|place_options"
+        layout_options="grid_options|pack_options|place_options"
 
-            resizable="no|yes|height|width"
+        resizable="no|yes|height|width"
     />
 
     <!-- same as get_event_manager().connect(signal, slot) -->
 
-    <event  id="element id"
+    <event
 
-            signal="signal_name"
+        signal="signal_name"
 
-            slot="slot_method_to_connect"
+        slot="slot_method_to_connect"
     />
 
     <!-- tkinter event handling -->
 
     <tkevent
 
-            id="element id"
+        widget="widget_id_to_connect (tk_parent otherwise)"
 
-            widget="widget_id_to_connect (tk_parent otherwise)"
+        bind="bind|bind_class|bind_all"
 
-            bind="bind|bind_class|bind_all"
+        class="classname (case sensitive)"
 
-            class="classname (case sensitive)"
+        seq="tkinter event sequence def"
 
-            seq="tkinter event sequence def"
+        slot="slot_method_to_connect"
 
-            slot="slot_method_to_connect"
-
-            add="+|"
+        add="add"
     />
 
 </tkwidget>
