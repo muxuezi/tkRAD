@@ -3355,19 +3355,9 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
             no return value (void);
         """
 
-        # param controls
+        # tkRAD.command.support
 
-        if self._is_new(attribute):
-
-            # same semantics as XML 'command' attr
-
-            # except for "@" events support
-
-            attribute.value = attribute.value.strip("@")
-
-            self.parse_attr_command(attribute, attrs, **kw)
-
-        # end if
+        self.parse_attr_command(attribute, attrs, **kw)
 
     # end def
 

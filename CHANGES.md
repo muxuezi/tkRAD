@@ -9,6 +9,21 @@
 ## CHANGELOG
 
 
+### $ 2014-01-08 RS $
+
+* updated `RADXMLWidget`:
+
+    * in `parse_attr_slot()`:
+
+        * tkRAD.command.support is now fully implemented;
+
+        * allows EventName aliasing;
+
+* now working on an `ASUS R500VD-SX173H` laptop, Intel QuadCore
+i5-3210M @ 2.5 GHz, HDD 500GB, RAM 4GB, widescreen 17.3" 16:9,
+turbo'ed by an awesome Ubuntu 13.10 Saucy Salamander distro;
+
+
 ### $ 2014-01-06 RS $
 
 * updated `RADXMLWidget`:
