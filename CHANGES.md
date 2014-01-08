@@ -13,6 +13,17 @@
 
 * updated `RADXMLWidget`:
 
+    * in `parse_attr_labelanchor()`:
+
+        * now fully implemented along `parse_attr_anchor()`;
+
+        * CAUTION: will *NOT* accept values such as 'wn', 'ws', 'en'
+        and 'es' (dummy values?);
+
+    * in `parse_attr_labelwidget()`:
+
+        * now fully implemented along `parse_attr_widget()`;
+
     * in `parse_attr_slot()`:
 
         * tkRAD.command.support is now fully implemented;

@@ -2564,17 +2564,12 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_labelanchor (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            same support as parse_attr_anchor();
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_labelanchor(): NOT IMPLEMENTED YET")
-
-        # parsed attribute inits
-
-        self._tk_config(attribute)
+        self.parse_attr_anchor(attribute, attrs, **kw)
 
     # end def
 
@@ -2582,17 +2577,13 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_labelwidget (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            looks for an existing widget along its 'id' XML
+            attribute or sets to 'tk_parent' if not found;
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_labelwidget(): NOT IMPLEMENTED YET")
-
-        # parsed attribute inits
-
-        self._tk_config(attribute)
+        self.parse_attr_widget(attribute, attrs, **kw)
 
     # end def
 
