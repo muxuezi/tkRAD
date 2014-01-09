@@ -9,6 +9,33 @@
 ## CHANGELOG
 
 
+### $ 2014-01-09 RS $
+
+* updated `RADXMLWidgetBase`:
+
+    * in `parse_attr_widget()`:
+
+        * now raises `KeyError` if widget `id` is *NOT* found;
+
+    * in `_is_new()`:
+
+        * fixed bug: `@attribute` param may be `None` sometimes;
+
+* added new file `TODO.md`;
+
+* updated `RADXMLWidget`:
+
+    * in `parse_attr_module()`:
+
+        * fixed bug: `@attribute` param may be `None` sometimes;
+
+    * in `build_element_optionmenu()`:
+
+        * disabled faulty generic code;
+
+        * must implement *SPECIFIC CODE* for this object /!\;
+
+
 ### $ 2014-01-08 RS $
 
 * updated `RADXMLWidget`:

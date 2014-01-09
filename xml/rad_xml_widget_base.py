@@ -140,7 +140,8 @@ class RADXMLWidgetBase (RX.RADXMLBase):
             case of a newly unparsed true XML attribute;
         """
 
-        return not attribute.parsed and tools.is_pstr(attribute.value)
+        return attribute and not attribute.parsed and \
+                                        tools.is_pstr(attribute.value)
 
     # end def
 
@@ -992,12 +993,30 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
             # look for existing widget along attr 'id'
 
-            # or get 'tk_parent' on failure
+            _widget = self.get_object_by_id(attribute.value)
 
-            attribute.value = self.get_object_by_id(
+            if _widget:
 
-                attribute.value, kw["tk_parent"]
-            )
+                # parsed attribute inits
+
+                attribute.value = _widget
+
+                # caution: *NO* self._tk_config(attribute) by here /!\
+
+            # not found
+
+            else:
+
+                raise KeyError(
+
+                    _(
+                        "Widget of id '{w_id}' does not exist or "
+                        "has not been registered yet."
+
+                    ).format(w_id = attribute.value)
+                )
+
+            # end if
 
         # end if
 

@@ -1170,7 +1170,8 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
             returns True on build success, False otherwise;
         """
 
-        return self._build_tk_native(xml_tag, xml_element, tk_parent)
+        #~ return self._build_tk_native(xml_tag, xml_element, tk_parent)
+        pass # ---------------------------------------------------------------- FIXME /!\
 
     # end def
 
@@ -2776,9 +2777,13 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
             no return value (void);
         """
 
-        # special case if module id is 'TK.': no need to go further
+        # $ 2014-01-09 RS $
+        # bug fix: @attribute may be None sometimes;
 
-        if not attribute.parsed and attribute.value != "TK.":
+        # Tk natives: if module id is 'TK.' -> no need to go further;
+
+        if attribute and not attribute.parsed and \
+                                            attribute.value != "TK.":
 
             # module name inits
 
