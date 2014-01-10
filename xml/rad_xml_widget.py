@@ -97,6 +97,24 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
         },
 
 
+        "optionmenu": {
+
+            "name": None,
+
+            "variable": None,
+
+            "choices": None,
+
+            "start": None,
+
+            "layout": None,         # can be: None or pack|grid|place
+
+            "layout_options": None, # pack_opts|grid_opts|place_opts
+
+            "resizable": "no",      # can be: no|yes|width|height
+        },
+
+
         "radiobutton": {
 
             "underline": None,
@@ -1151,27 +1169,123 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def build_element_optionmenu (self, xml_tag, xml_element, tk_parent):
         r"""
-            XML element definition is almost the same as
-
-            tkinter's native widget of the same (lowercased)
-
-            class name;
+            XML element definition is QUITE SPECIFIC by here;
 
             example:
 
-                <optionmenu name="my_om" bg="red"/>
+                <optionmenu
+                    name="my_om"
+                    variable="myvar"
+                    choices="'hello', 'good people', 123, 456.78"
+                    start="@2"
+                />
 
-            is slightly the same as:
+            will do the same as:
 
-                self.my_om = OptionMenu(self, bg="red")
+                _cvar = get_stringvar("myvar")
 
-            with 'self' the parent widget;
+                _choices = get_choices()
+
+                parent.my_om = OptionMenu(parent, _cvar, *_choices)
+
+                _cvar.set(str(_choices[2]))
+
+            with 'parent' the parent widget;
 
             returns True on build success, False otherwise;
         """
 
-        #~ return self._build_tk_native(xml_tag, xml_element, tk_parent)
-        pass # ---------------------------------------------------------------- FIXME /!\
+        # param controls
+
+        if self.is_tk_widget(tk_parent):
+
+            # widget attribute inits
+
+            _attributes = self._init_attributes(
+
+                xml_tag, xml_element, tk_parent
+            )
+
+            # control variable inits
+
+            _cvar = tools.choose(
+
+                _attributes.get("variable"),
+
+                TK.StringVar(),
+            )
+
+            # choices inits
+
+            _choices = tools.choose(
+
+                _attributes.get("choices"),
+
+                [_("<empty>")],
+
+                ["<empty>"],
+            )
+
+            # widget class inits
+
+            _widget = TK.OptionMenu(tk_parent, _cvar, *_choices)
+
+            # keep a copy aboard
+
+            self.register_object_by_id(_widget, _attributes.get("id"))
+
+            # set widget as parent class member
+
+            exec("tk_parent.{name} = _widget".format(**_attributes))
+
+            # startup inits
+
+            _start = _attributes.get("start")
+
+            if tools.is_num(_start):
+
+                _start = _choices[min(_start, len(_choices) - 1)]
+
+            elif _start not in _choices:
+
+                _start = _choices[0]
+
+            # end if
+
+            _cvar.set(str(_start))
+
+            # set layout
+
+            self._set_layout(_widget, _attributes, tk_parent)
+
+            # succeeded
+
+            return True
+
+        # unsupported
+
+        else:
+
+            raise TypeError(
+
+                _(
+                    "Tkinter '{classname}' object is *NOT* "
+
+                    "insertable into {obj_type} object."
+
+                ).format(
+
+                    classname =
+
+                        xml_element.get("class", self.WIDGET_CLASS),
+
+                    obj_type = repr(tk_parent)
+                )
+            )
+
+            return False
+
+        # end if
 
     # end def
 
@@ -1986,6 +2100,47 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
+    def parse_attr_choices (self, attribute, attrs, **kw):
+        r"""
+            changes string list of compound values to a well-formed
+            list() of compound values;
+
+            string values *MUST* be quoted;
+
+            list of values *MUST* be comma-separated;
+
+            example:
+
+                choices="'hello', 'good people', 123, 456.78"
+
+            will become
+
+                choices = ['hello', 'good people', 123, 456.78]
+
+            no return value (void);
+        """
+
+        # param controls
+
+        if self._is_new(attribute):
+
+            # parsed attribute inits
+
+            attribute.value = eval(
+
+                "[{}]".format(attribute.value.strip("()[]{}"))
+            )
+
+            # caution: *NO* self._tk_config(attribute) by here /!\
+
+            attribute.parsed = True
+
+        # end if
+
+    # end def
+
+
+
     def parse_attr_class (self, attribute, attrs, **kw):
         r"""
             forces XML attr 'class' name to conform to __identifier__
@@ -2018,6 +2173,8 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
             attribute.value = _class
 
             # caution: *NO* self._tk_config(attribute) by here /!\
+
+            attribute.parsed = True
 
         # end if
 
@@ -3427,6 +3584,58 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
             # parsed attribute inits
 
             attribute.value = uri.canonize(attribute.value)
+
+            # caution: *NO* self._tk_config(attribute) by here /!\
+
+            attribute.parsed = True
+
+        # end if
+
+    # end def
+
+
+
+    def parse_attr_start (self, attribute, attrs, **kw):
+        r"""
+            defines starting point for attr 'choices' items list;
+
+            can be either litteral value or '@integer' list index
+            position;
+
+            admits negative index values;
+
+            example: start="@0" will indicate choices[0];
+
+            example: start="@-1" will indicate choices[-1];
+
+            no return value (void);
+        """
+
+        # param controls
+
+        if self._is_new(attribute):
+
+            # starting point inits
+
+            _start = attribute.value
+
+            # got indexed integer value?
+
+            if _start.startswith("@"):
+
+                _start = tools.ensure_int(_start.lstrip("@"))
+
+            else:
+
+                # make some string clean-ups
+
+                _start = re.sub(r"\\([@'])", r"\1", _start)
+
+            # end if
+
+            # parsed attribute inits
+
+            attribute.value = _start
 
             # caution: *NO* self._tk_config(attribute) by here /!\
 

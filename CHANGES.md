@@ -9,6 +9,27 @@
 ## CHANGELOG
 
 
+### $ 2014-01-10 RS $
+
+* updated `RADXMLWidget`:
+
+    * in `ATTRS`:
+
+        * added `optionmenu` default XML attrs;
+
+    * in `build_element_optionmenu()`:
+
+        * now fully implemented and debugged specific code;
+
+    * added new `parse_attr_choices()`:
+
+        * now fully implemented and debugged;
+
+    * added new `parse_attr_start()`:
+
+        * now fully implemented and debugged;
+
+
 ### $ 2014-01-09 RS $
 
 * updated `RADXMLWidgetBase`:
