@@ -91,6 +91,28 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
         },
 
 
+        "listbox": {
+
+            "name": None,
+
+            "class": None,
+
+            "args": None,
+
+            "module": None,
+
+            "choices": None,
+
+            "start": None,
+
+            "layout": None,         # can be: None or pack|grid|place
+
+            "layout_options": None, # pack_opts|grid_opts|place_opts
+
+            "resizable": "no",      # can be: no|yes|width|height
+        },
+
+
         "menubutton": {
 
             "underline": None,
@@ -100,6 +122,8 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
         "optionmenu": {
 
             "name": None,
+
+            "listvariable": None,
 
             "variable": None,
 
@@ -982,7 +1006,131 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
             returns True on build success, False otherwise;
         """
 
-        return self._build_tk_native(xml_tag, xml_element, tk_parent)
+        # param controls
+
+        if self.is_tk_widget(tk_parent):
+
+            # widget attribute inits
+
+            _attributes = self._init_attributes(
+
+                xml_tag, xml_element, tk_parent
+            )
+
+            # class constructor args
+
+            _args = str(_attributes.get("args", ""))
+
+            if not _args.startswith("tk_parent"):
+
+                _args = "tk_parent, " + _args
+
+            # end if
+
+            # widget class inits
+
+            _widget = eval("TK.Listbox({args})".format(args = _args))
+
+            # keep a copy aboard
+
+            self.register_object_by_id(_widget, _attributes.get("id"))
+
+            # set widget as parent class member
+
+            exec("tk_parent.{name} = _widget".format(**_attributes))
+
+            # tk configure()
+
+            if self.TK_CONFIG:
+
+                _widget.configure(**self.TK_CONFIG)
+
+            # end if
+
+            # prepare list of choices
+
+            _widget.delete(0, TK.END)
+
+            # choices inits
+
+            _choices = _attributes.get("choices")
+
+            if _choices:
+
+                # fill up widget's list of choices
+
+                _widget.insert(0, *_choices)
+
+                # startup inits
+
+                _start = _attributes.get("start")
+
+                if tools.is_num(_start):
+
+                    if _start > 0:
+
+                        _start = min(_start, len(_choices) - 1)
+
+                    elif _start < 0:
+
+                        _start = max(0, len(_choices) + _start)
+
+                    # end if
+
+                elif _start in _choices:
+
+                    _start = _choices.index(_start)
+
+                else:
+
+                    _start = -1
+
+                # end if
+
+                # set selected line
+
+                _widget.selection_anchor(_start)
+
+                _widget.selection_set(_start)
+
+                _widget.activate(_start)
+
+                _widget.see(_start)
+
+            # end if
+
+            # set layout
+
+            self._set_layout(_widget, _attributes, tk_parent)
+
+            # succeeded
+
+            return True
+
+        # unsupported
+
+        else:
+
+            raise TypeError(
+
+                _(
+                    "Tkinter '{classname}' object is *NOT* "
+
+                    "insertable into {obj_type} object."
+
+                ).format(
+
+                    classname =
+
+                        xml_element.get("class", self.WIDGET_CLASS),
+
+                    obj_type = repr(tk_parent)
+                )
+            )
+
+            return False
+
+        # end if
 
     # end def
 
@@ -1210,6 +1358,12 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             _cvar = tools.choose(
 
+                _attributes.get("listvariable"),
+
+                # $ 2014-01-11 RS $
+
+                # for retro-compatibility reasons:
+
                 _attributes.get("variable"),
 
                 TK.StringVar(),
@@ -1244,7 +1398,17 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             if tools.is_num(_start):
 
-                _start = _choices[min(_start, len(_choices) - 1)]
+                if _start > 0:
+
+                    _start = min(_start, len(_choices) - 1)
+
+                elif _start < 0:
+
+                    _start = max(0, len(_choices) + _start)
+
+                # end if
+
+                _start = _choices[_start]
 
             elif _start not in _choices:
 
@@ -2126,9 +2290,17 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             # parsed attribute inits
 
-            attribute.value = eval(
+            attribute.value = list(
 
-                "[{}]".format(attribute.value.strip("()[]{}"))
+                map(
+
+                    str,
+
+                    eval(
+
+                        "[{}]".format(attribute.value.strip("()[]{}"))
+                    )
+                )
             )
 
             # caution: *NO* self._tk_config(attribute) by here /!\
@@ -2871,17 +3043,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_listvariable (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            same as XML attr 'variable';
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_listvariable(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self.parse_attr_variable(attribute, attrs, **kw)
 
     # end def
 

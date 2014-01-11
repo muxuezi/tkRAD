@@ -9,6 +9,47 @@
 ## CHANGELOG
 
 
+### $ 2014-01-11 RS $
+
+* updated `RADXMLWidget`:
+
+    * in `build_element_optionmenu()`:
+
+        * now renamed XML attr `variable` to `listvariable` in order
+        to match with `<listbox>` XML tk_config attr `listvariable`;
+
+        * XML attr `variable` is *STILL KEPT AVAILABLE* for
+        retro-compatibility reasons;
+
+        * this will ease XML scripting/switching between `<listbox>`
+        and `<optionmenu>` in testing session;
+
+        * rebounded `start` XML attr so as it might never trap out
+        of list bounds;
+
+    * in `parse_attr_choices()`:
+
+        * fixed bug on selecting numeric values;
+
+    * in `parse_attr_variable()`:
+
+        * now fully implemented along `parse_attr_variable()`;
+
+    * in `build_element_listbox()`:
+
+        * now fully implemented and debugged specific code;
+
+    * in `ATTRS`:
+
+        * renamed `optionmenu.variable` to `optionmenu.listvariable`
+        for XML scripting comfort and easiness;
+
+        * XML attr `<optiomenu variable=""/>` is *STILL KEPT
+        AVAILABLE* for retro-compatibility reasons;
+
+        * added `listbox` default XML attrs;
+
+
 ### $ 2014-01-10 RS $
 
 * updated `RADXMLWidget`:
