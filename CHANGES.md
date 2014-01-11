@@ -31,7 +31,7 @@
 
         * fixed bug on selecting numeric values;
 
-    * in `parse_attr_variable()`:
+    * in `parse_attr_listvariable()`:
 
         * now fully implemented along `parse_attr_variable()`;
 
