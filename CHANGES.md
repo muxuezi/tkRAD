@@ -48,6 +48,10 @@
 
 * updated `RADXMLWidget`:
 
+    * in `parse_attr_direction()`:
+
+        * now fully implemented;
+
     * in `DTD`:
 
         * added support for `tkmenu` in `DTD.widget`;

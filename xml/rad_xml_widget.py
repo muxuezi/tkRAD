@@ -2467,17 +2467,33 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_direction (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            sets Menubutton pop-up menu showing up direction;
+
+            must be one of 'above', 'below', 'flush', 'left' or
+            'right';
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_direction(): NOT IMPLEMENTED YET")
+        # param controls
 
-        # parsed attribute inits
+        if self._is_new(attribute):
 
-        self._tk_config(attribute)
+            _dir = attribute.value.lower()
+
+            if _dir not in ("above", "flush", "left", "right"):
+
+                _dir = "below"
+
+            # end if
+
+            # parsed attribute inits
+
+            attribute.value = _dir
+
+            self._tk_config(attribute)
+
+        # end if
 
     # end def
 
