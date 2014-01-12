@@ -307,16 +307,9 @@ class RADXMLBase (RW.RADWidgetBase):
 
             # set default id along object's classname
 
-            attr_id = str(
+            attr_id = self._get_unique_id(
 
-                "{classname}{index}"
-
-                .format(
-
-                    classname = built_object.__class__.__name__,
-
-                    index = self._get_oi_count_str(),
-                )
+                built_object.__class__.__name__
             )
 
         # end if
@@ -352,6 +345,43 @@ class RADXMLBase (RW.RADWidgetBase):
 
     # end def
 
+
+
+    def _get_unique_id (self, radix):
+        r"""
+            tries to find a new and unique indexed 'id' name along
+            @radix param name;
+
+            returns new unique 'id' name on success, None otherwise;
+        """
+
+        # param controls
+
+        if tools.is_pstr(radix):
+
+            # this prevents from counting overflow /!\
+
+            while self.__OI_COUNT:
+
+                # set new indexed 'id' name
+
+                _uid = radix + self._get_oi_count_str()
+
+                # got unique 'id' name?
+
+                if _uid not in self.__objects:
+
+                    return _uid
+
+                # end if
+
+            # end while
+
+        # end if
+
+        return None
+
+    # end def
 
 
     def _reset_oi_count (self, value = 1):
@@ -510,7 +540,7 @@ class RADXMLBase (RW.RADWidgetBase):
 
             # new value inits
 
-            value = "object" + self._get_oi_count_str()
+            value = self._get_unique_id("object")
 
         # end if
 

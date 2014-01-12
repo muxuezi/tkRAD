@@ -163,6 +163,26 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
 
 
+    # accepted XML child elements for XML key parent element
+
+    DTD = {
+
+        "menu": (
+
+            "menu", "command", "checkbutton", "radiobutton",
+
+            "separator",
+        ),
+
+        "tkmenu": (
+
+            "menu",
+        ),
+
+    } # end of DTD
+
+
+
     # tk menu accelerator symbols configuration
 
     SYMBOLS = (
@@ -478,16 +498,7 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
         return self.loop_on_children(
 
-            xml_element,
-
-            _new_menu,
-
-            accept = (
-
-                "menu", "command", "checkbutton", "radiobutton",
-
-                "separator",
-            )
+            xml_element, _new_menu, accept = self.DTD.get(xml_tag)
         )
 
     # end def
@@ -567,11 +578,19 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
         # loop on XML element children
 
-        # accept only 'menu' child elements
+        if self.is_topmenu_handler(tk_parent):
+
+            _dtd = "tkmenu"
+
+        else:
+
+            _dtd = "menu"
+
+        # end if
 
         return self.loop_on_children(
 
-            xml_element, _new_menu, accept = ("menu",)
+            xml_element, _new_menu, accept = self.DTD.get(_dtd)
         )
 
     # end def
@@ -603,6 +622,23 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
         """
 
         return isinstance(widget, (TK.Menu, TK.Menubutton, TK.Tk))
+
+    # end def
+
+
+
+    def is_topmenu_handler (self, widget):
+        r"""
+            determines if object is a tkinter Menu handler object;
+
+            e.g. a Menu() parent, a Menubutton handler or
+
+            a Tk() toplevel window parent;
+
+            return True on success, False otherwise;
+        """
+
+        return isinstance(widget, TK.Tk)
 
     # end def
 

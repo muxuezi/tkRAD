@@ -9,6 +9,56 @@
 ## CHANGELOG
 
 
+### $ 2014-01-12 RS $
+
+* updated `RADXMLBase`:
+
+    * in `get_correct_id()`:
+
+        * fixed bug on already existing names while creating default
+        'objectXXX' id names;
+
+    * in `_get_object_id()`:
+
+        * fixed bug on already existing names while creating default
+        '{classname}XXX' id names;
+
+    * added new `_get_unique_id (self, radix)`:
+
+        * tries to retrieve a new and unique indexed 'id' name along
+        `@radix` param;
+
+* updated `RADXMLMenu`:
+
+    * added new `DTD`:
+
+        * added `DTD.menu` constraints;
+
+        * added `DTD.tkmenu` constraints;
+
+    * in `build_element_tkmenu()`:
+
+        * now supports direct inclusion into a `tkwidget` doctype
+        XML tree document;
+
+        * now supports all menu item childs `<command>`,
+        `<checkbutton>`, `<radiobutton>` and `<separator>` when
+        `menu handler` is *NOT* of type `tkinter.Tk` (topmenu
+        handler);
+
+* updated `RADXMLWidget`:
+
+    * in `DTD`:
+
+        * added support for `tkmenu` in `DTD.widget`;
+
+    * added new `build_element_tkmenu()`:
+
+        * now fully implemented;
+
+    * kept old `build_element_menu()` for compatibility;
+
+
 ### $ 2014-01-11 RS $
 
 * updated `RADXMLWidget`:

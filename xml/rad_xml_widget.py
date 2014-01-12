@@ -270,7 +270,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             "module", "widget", "include", "configure",
 
-            "layout", "event", "tkevent",
+            "layout", "event", "tkevent", "tkmenu",
 
         ) + tuple(CLASSES.keys()),
 
@@ -1151,55 +1151,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
             returns True on build success, False otherwise;
         """
 
-        # param controls
-
-        if self.cast_element(xml_element):
-
-            # lib imports
-
-            from . import rad_xml_menu as XM
-
-            # attribute inits
-
-            _attributes = self._init_attributes(
-
-                xml_tag, xml_element, tk_parent
-            )
-
-            # reset element tag
-
-            xml_element.tag = "tkmenu"
-
-            # widget inits
-
-            _widget = XM.RADXMLMenu(tk_owner = tk_parent)
-
-            # register widget
-
-            self.register_object_by_id(_widget, _attributes.get("id"))
-
-            # reset XML tree
-
-            _widget.set_xml_tree(element = xml_element)
-
-            # build menu
-
-            _ok = _widget.xml_build()
-
-            # transfer all newly created stringvars
-            # from menu to widget
-
-            self.get_stringvars().update(_widget.get_stringvars())
-
-            # confirm op
-
-            return _ok
-
-        # end if
-
-        # failed
-
-        return False
+        return self.build_element_tkmenu(xml_tag, xml_element, tk_parent)
 
     # end def
 
@@ -1673,6 +1625,75 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
             # succeeded
 
             return True
+
+        # end if
+
+        # failed
+
+        return False
+
+    # end def
+
+
+
+    def build_element_tkmenu (self, xml_tag, xml_element, tk_parent):
+        r"""
+            tkinter menu defs should be written apart from a classical
+
+            <tkwidget> XML script into a <tkmenu> XML script;
+
+            this method tries to do this for you by emulating
+
+            @xml_element param as if it were a RADXMLMenu
+
+            XML tree root node;
+
+            returns True on build success, False otherwise;
+        """
+
+        # param controls
+
+        if self.cast_element(xml_element):
+
+            # lib imports
+
+            from . import rad_xml_menu as XM
+
+            # attribute inits
+
+            _attributes = self._init_attributes(
+
+                xml_tag, xml_element, tk_parent
+            )
+
+            # reset element tag
+
+            xml_element.tag = "tkmenu"
+
+            # widget inits
+
+            _widget = XM.RADXMLMenu(tk_owner = tk_parent)
+
+            # register widget
+
+            self.register_object_by_id(_widget, _attributes.get("id"))
+
+            # reset XML tree
+
+            _widget.set_xml_tree(element = xml_element)
+
+            # build menu
+
+            _ok = _widget.xml_build()
+
+            # transfer all newly created stringvars
+            # from menu to widget
+
+            self.get_stringvars().update(_widget.get_stringvars())
+
+            # confirm op
+
+            return _ok
 
         # end if
 
