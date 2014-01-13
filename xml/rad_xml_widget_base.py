@@ -790,17 +790,36 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
     def parse_attr_relief (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            attr 'relief' must be one of 'flat', 'raised', 'sunken',
+            'groove', 'ridge';
+
+            default value will be 'flat';
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_relief(): NOT IMPLEMENTED YET")
+        # param controls
 
-        # parsed attribute inits
+        if self._is_new(attribute):
 
-        self._tk_config(attribute)
+            # inits
+
+            _relief = attribute.value.lower()
+
+            if _relief not in ("raised", "sunken", "groove", "ridge",
+            "solid"):
+
+                _relief = "flat"
+
+            # end if
+
+            # parsed attribute inits
+
+            attribute.value = _relief
+
+            self._tk_config(attribute)
+
+        # end if
 
     # end def
 

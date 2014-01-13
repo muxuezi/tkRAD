@@ -9,6 +9,33 @@
 ## CHANGELOG
 
 
+### $ 2014-01-13 RS $
+
+* updated `RADXMLWidget`:
+
+    * in `parse_attr_sliderrelief()`:
+
+        * now fully implemented along `parse_attr_relief()`;
+
+    * in `parse_attr_sashrelief()`:
+
+        * now fully implemented along `parse_attr_relief()`;
+
+    * in `parse_attr_overrelief()`:
+
+        * now fully implemented along `parse_attr_relief()`;
+
+    * in `parse_attr_activerelief()`:
+
+        * now fully implemented along `parse_attr_relief()`;
+
+* updated `RADXMLWidgetBase`:
+
+    * in `parse_attr_relief()`:
+
+        * now fully implemented;
+
+
 ### $ 2014-01-12 RS $
 
 * updated `RADXMLBase`:

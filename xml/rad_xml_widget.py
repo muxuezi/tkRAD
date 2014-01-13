@@ -1902,17 +1902,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_activerelief (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            same as attr 'relief';
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_activerelief(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self.parse_attr_relief(attribute, attrs, **kw)
 
     # end def
 
@@ -3250,17 +3247,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_overrelief (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            same as attr 'relief';
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_overrelief(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self.parse_attr_relief(attribute, attrs, **kw)
 
     # end def
 
@@ -3441,17 +3435,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_sashrelief (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            same as attr 'relief';
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_sashrelief(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self.parse_attr_relief(attribute, attrs, **kw)
 
     # end def
 
@@ -3689,17 +3680,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_sliderrelief (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            same as attr 'relief';
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_sliderrelief(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self.parse_attr_relief(attribute, attrs, **kw)
 
     # end def
 
@@ -4063,13 +4051,10 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_width (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            width must be an integer (pixels);
 
             no return value (void);
         """
-
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_width(): NOT IMPLEMENTED YET")
 
         # parsed attribute inits
 
