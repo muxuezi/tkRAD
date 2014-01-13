@@ -13,6 +13,134 @@
 
 * updated `RADXMLWidget`:
 
+    * in `parse_attr_xscrollincrement()`:
+
+        * now fully implemented;
+
+    * in `parse_attr_yscrollincrement()`:
+
+        * now fully implemented;
+
+    * in `parse_attr_wraplength()`:
+
+        * now fully implemented;
+
+    * in `parse_attr_takefocus()`:
+
+        * now fully implemented;
+
+    * in `parse_attr_sliderlength()`:
+
+        * now fully implemented;
+
+    * in `parse_attr_troughcolor()`:
+
+        * now fully implemented;
+
+    * in `parse_attr_tickinterval()`:
+
+        * now fully implemented;
+
+    * in `parse_attr_resolution()`:
+
+        * now fully implemented;
+
+    * in `parse_attr_to()`:
+
+        * now fully implemented;
+
+    * in `parse_attr_from_()`:
+
+        * now fully implemented;
+
+    * in `parse_attr_showvalue()`:
+
+        * now fully implemented;
+
+    * in `parse_attr_readonlybackground()`:
+
+        * now fully implemented;
+
+    * in `parse_attr_pady()`:
+
+        * now fully implemented;
+
+    * in `parse_attr_padx()`:
+
+        * now fully implemented;
+
+    * in `parse_attr_orient()`:
+
+        * now fully implemented;
+
+    * in `parse_attr_offrelief()`:
+
+        * now fully implemented;
+
+    * in `parse_attr_length()`:
+
+        * now fully implemented;
+
+    * in `parse_attr_insertwidth()`:
+
+        * now fully implemented;
+
+    * in `parse_attr_insertborderwidth()`:
+
+        * now fully implemented;
+
+    * in `parse_attr_insertbackground()`:
+
+        * now fully implemented;
+
+    * in `parse_attr_indicatoron()`:
+
+        * now fully implemented;
+
+    * in `parse_attr_highlightthickness()`:
+
+        * now fully implemented;
+
+    * in `parse_attr_highlightcolor()`:
+
+        * now fully implemented;
+
+    * in `parse_attr_highlightbackground()`:
+
+        * now fully implemented;
+
+    * in `parse_attr_height()`:
+
+        * now fully implemented;
+
+    * in `parse_attr_exportselection()`:
+
+        * now fully implemented;
+
+    * in `parse_attr_elementborderwidth()`:
+
+        * now fully implemented;
+
+    * in `parse_attr_disabledbackground()`:
+
+        * now fully implemented;
+
+    * in `parse_attr_digits()`:
+
+        * now fully implemented;
+
+    * in `parse_attr_buttondownrelief()`:
+
+        * now fully implemented;
+
+    * in `parse_attr_buttonbackground()`:
+
+        * now fully implemented;
+
+    * in `parse_attr_module()`:
+
+        * now module `id` *NOT* found raises `KeyError`;
+
     * in `parse_attr_sliderrelief()`:
 
         * now fully implemented along `parse_attr_relief()`;
@@ -30,6 +158,10 @@
         * now fully implemented along `parse_attr_relief()`;
 
 * updated `RADXMLWidgetBase`:
+
+    * added new `_tkRAD_boolean_support()`:
+
+        * now fully implemented;
 
     * in `parse_attr_relief()`:
 

@@ -147,6 +147,35 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
 
 
+    def _tkRAD_boolean_support (self, attribute, attrs, **kw):
+        r"""
+            protected method def;
+
+            generic support for boolean attrs;
+
+            no return value (void);
+        """
+
+        # param controls
+
+        if self._is_new(attribute):
+
+            # inits
+
+            _bool = int(bool(tools.ensure_int(attribute.value)))
+
+            # parsed attribute inits
+
+            attribute.value = _bool
+
+            self._tk_config(attribute)
+
+        # end if
+
+    # end def
+
+
+
     def _tkRAD_label_support (self, attribute, attrs, **kw):
         r"""
             protected method def;
