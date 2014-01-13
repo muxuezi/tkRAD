@@ -13,127 +13,37 @@
 
 * updated `RADXMLWidget`:
 
-    * in `parse_attr_xscrollincrement()`:
-
-        * now fully implemented;
-
-    * in `parse_attr_yscrollincrement()`:
-
-        * now fully implemented;
-
-    * in `parse_attr_wraplength()`:
-
-        * now fully implemented;
-
-    * in `parse_attr_takefocus()`:
-
-        * now fully implemented;
-
-    * in `parse_attr_sliderlength()`:
-
-        * now fully implemented;
-
-    * in `parse_attr_troughcolor()`:
-
-        * now fully implemented;
-
-    * in `parse_attr_tickinterval()`:
-
-        * now fully implemented;
-
-    * in `parse_attr_resolution()`:
-
-        * now fully implemented;
-
-    * in `parse_attr_to()`:
-
-        * now fully implemented;
-
-    * in `parse_attr_from_()`:
-
-        * now fully implemented;
-
-    * in `parse_attr_showvalue()`:
-
-        * now fully implemented;
-
-    * in `parse_attr_readonlybackground()`:
-
-        * now fully implemented;
-
-    * in `parse_attr_pady()`:
-
-        * now fully implemented;
-
-    * in `parse_attr_padx()`:
-
-        * now fully implemented;
-
-    * in `parse_attr_orient()`:
-
-        * now fully implemented;
-
-    * in `parse_attr_offrelief()`:
-
-        * now fully implemented;
-
-    * in `parse_attr_length()`:
-
-        * now fully implemented;
-
-    * in `parse_attr_insertwidth()`:
-
-        * now fully implemented;
-
-    * in `parse_attr_insertborderwidth()`:
-
-        * now fully implemented;
-
-    * in `parse_attr_insertbackground()`:
-
-        * now fully implemented;
-
-    * in `parse_attr_indicatoron()`:
-
-        * now fully implemented;
-
-    * in `parse_attr_highlightthickness()`:
-
-        * now fully implemented;
-
-    * in `parse_attr_highlightcolor()`:
-
-        * now fully implemented;
-
-    * in `parse_attr_highlightbackground()`:
-
-        * now fully implemented;
-
-    * in `parse_attr_height()`:
-
-        * now fully implemented;
-
-    * in `parse_attr_exportselection()`:
-
-        * now fully implemented;
-
-    * in `parse_attr_elementborderwidth()`:
-
-        * now fully implemented;
-
-    * in `parse_attr_disabledbackground()`:
-
-        * now fully implemented;
-
-    * in `parse_attr_digits()`:
-
-        * now fully implemented;
-
-    * in `parse_attr_buttondownrelief()`:
-
-        * now fully implemented;
-
-    * in `parse_attr_buttonbackground()`:
+    * in `parse_attr_xscrollincrement()`,
+    `parse_attr_yscrollincrement()`,
+    `parse_attr_wraplength()`,
+    `parse_attr_takefocus()`,
+    `parse_attr_sliderlength()`,
+    `parse_attr_troughcolor()`,
+    `parse_attr_tickinterval()`,
+    `parse_attr_resolution()`,
+    `parse_attr_to()`,
+    `parse_attr_from_()`,
+    `parse_attr_showvalue()`,
+    `parse_attr_readonlybackground()`,
+    `parse_attr_pady()`,
+    `parse_attr_padx()`,
+    `parse_attr_orient()`,
+    `parse_attr_offrelief()`,
+    `parse_attr_length()`,
+    `parse_attr_insertwidth()`,
+    `parse_attr_insertborderwidth()`,
+    `parse_attr_insertbackground()`,
+    `parse_attr_indicatoron()`,
+    `parse_attr_highlightthickness()`,
+    `parse_attr_highlightcolor()`,
+    `parse_attr_highlightbackground()`,
+    `parse_attr_height()`,
+    `parse_attr_exportselection()`,
+    `parse_attr_elementborderwidth()`,
+    `parse_attr_disabledbackground()`,
+    `parse_attr_digits()`,
+    `parse_attr_buttondownrelief()`,
+    `parse_attr_buttonbackground()`:
 
         * now fully implemented;
 
@@ -141,19 +51,10 @@
 
         * now module `id` *NOT* found raises `KeyError`;
 
-    * in `parse_attr_sliderrelief()`:
-
-        * now fully implemented along `parse_attr_relief()`;
-
-    * in `parse_attr_sashrelief()`:
-
-        * now fully implemented along `parse_attr_relief()`;
-
-    * in `parse_attr_overrelief()`:
-
-        * now fully implemented along `parse_attr_relief()`;
-
-    * in `parse_attr_activerelief()`:
+    * in `parse_attr_sliderrelief()`,
+    `parse_attr_sashrelief()`,
+    `parse_attr_overrelief()`,
+    `parse_attr_activerelief()`:
 
         * now fully implemented along `parse_attr_relief()`;
 
