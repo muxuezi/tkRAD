@@ -106,6 +106,8 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
         self.TK_CONFIG = dict()
 
+        self.TK_CHILD_CONFIG = dict()
+
     # end def
 
 
@@ -347,6 +349,24 @@ class RADXMLWidgetBase (RX.RADXMLBase):
             self._tk_config(attribute)
 
         # end if
+
+    # end def
+
+
+
+    def _tk_child_config (self, attribute):
+        r"""
+            protected method def;
+
+            sets up self.TK_CHILD_CONFIG along RADXMLAttribute
+            attribute;
+
+            no return value (void);
+        """
+
+        self.TK_CHILD_CONFIG[attribute.name] = attribute.value
+
+        attribute.parsed = True
 
     # end def
 
@@ -1014,17 +1034,14 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
     def parse_attr_selectimage (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            same as 'image' attr;
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_selectimage(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self.parse_attr_image(attribute, attrs, **kw)
 
     # end def
 
@@ -1163,6 +1180,8 @@ class RADXMLWidgetBase (RX.RADXMLBase):
                 attribute.value = _widget
 
                 # caution: *NO* self._tk_config(attribute) by here /!\
+
+                attribute.parsed = True
 
             # not found
 

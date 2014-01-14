@@ -13,13 +13,21 @@
 
 * updated `RADXMLWidgetBase`:
 
+    * updated all `parse_attr_*()` along new `_tkRAD_*_support()`;
+
+    * added new `_tk_child_config()`:
+
+        * now fully implemented;
+
+    * in `_before_building_element()`:
+
+        * added new dict() `TK_CHILD_CONFIG`;
+
     * moved `ANCHORS` to `RADXMLWidget`;
 
     * in `parse_attr_compound()`:
 
         * now fully implemented;
-
-    * updated all `parse_attr_*()` along new `_tkRAD_*_support()`;
 
     * in `parse_attr_command()`:
 
@@ -37,6 +45,23 @@
 
     * updated all known and possible `parse_attr_*()` along new
     `_tkRAD_*_support()`;
+
+    * in `parse_attr_layout()`:
+
+        * default value is now `layout="none"` (**no layout**)
+        instead of previous **risky** default value `layout="pack"`;
+
+    * in `parse_attr_format()`:
+
+        * now fully implemented;
+
+        * supports `%03.2f` format as in `sprintf()`;
+
+        * accepts simplified `03.2` notation;
+
+    * in `parse_attr_buttonup()`:
+
+        * now implemented along `parse_attr_relief()`;
 
     * in `parse_attr_class()`:
 

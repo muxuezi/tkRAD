@@ -1877,9 +1877,22 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             # end if
 
-            # set layout
+            # $ 2014-01-14 RS $
+            # special case of TK.PanedWindow
 
-            self._set_layout(_widget, _attributes, tk_parent)
+            if isinstance(tk_parent, TK.PanedWindow):
+
+                # add instead of setting layout
+
+                tk_parent.add(_widget, **self.TK_CHILD_CONFIG)
+
+            else:
+
+                # set layout
+
+                self._set_layout(_widget, _attributes, tk_parent)
+
+            # end if
 
             # free useless memory right now /!\
 
@@ -1942,17 +1955,24 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_activestyle (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            attr 'activestyle' must be one of 'underline', 'dotbox',
+            'none';
+
+            default value is 'underline';
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_activestyle(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._fix_values(
+
+            attribute,
+
+            default = "underline",
+
+            values = ("dotbox", "none"),
+        )
 
     # end def
 
@@ -1995,17 +2015,16 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_after (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            PanedWindow child configuration attr;
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_after(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self.parse_attr_widget(attribute, attrs, **kw)
+
+        self._tk_child_config(attribute)
 
     # end def
 
@@ -2146,17 +2165,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_aspect (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            attr 'aspect' ratio (integer)
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_aspect(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_integer_support(attribute, attrs, **kw)
 
     # end def
 
@@ -2164,17 +2180,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_autoseparators (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            boolean attribute;
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_autoseparators(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_boolean_support(attribute, attrs, **kw)
 
     # end def
 
@@ -2182,17 +2195,16 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_before (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            PanedWindow child configuration attr;
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_before(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self.parse_attr_widget(attribute, attrs, **kw)
+
+        self._tk_child_config(attribute)
 
     # end def
 
@@ -2277,17 +2289,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_buttonup (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            same as 'relief' attribute;
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_buttonup(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self.parse_attr_relief(attribute, attrs, **kw)
 
     # end def
 
@@ -2382,17 +2391,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_class_ (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            fake 'class' name for tkinter options database;
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_class_(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_any_value_support(attribute, attrs, **kw)
 
     # end def
 
@@ -2511,14 +2517,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_elementborderwidth (self, attribute, attrs, **kw):
         r"""
-            width attribute (integer);
+            width attribute (tkinter.dimension.support);
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_integer_support(attribute, attrs, **kw)
+        self._tkRAD_any_value_support(attribute, attrs, **kw)
 
     # end def
 
@@ -2541,17 +2547,40 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_format (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            sprintf() format e.g. '%02.3f';
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_format(): NOT IMPLEMENTED YET")
+        # param controls
 
-        # parsed attribute inits
+        if self._is_new(attribute):
 
-        self._tk_config(attribute)
+            # inits
+
+            _fmt = re.search(
+
+                r"\D*(\d*\.\d+)|\D*(\d*)", attribute.value
+            )
+
+            if _fmt:
+
+                _fmt = tools.str_complete(
+
+                    "%{}f",
+
+                    "".join(filter(None, _fmt.groups()))
+                )
+
+            # end if
+
+            # parsed attribute inits
+
+            attribute.value = _fmt
+
+            self._tk_config(attribute)
+
+        # end if
 
     # end def
 
@@ -2572,12 +2601,12 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             # parsed attribute inits
 
-            attribute.value = tools.canonize_relative_module(
-
-                attribute.value
-            )
+            attribute.value = \
+                tools.canonize_relative_module(attribute.value)
 
             # caution: *NO* self._tk_config(attribute) by here /!\
+
+            attribute.parsed = True
 
         # end if
 
@@ -2602,17 +2631,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_handlepad (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            distance attribute (tkinter.dimension.support);
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_handlepad(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_any_value_support(attribute, attrs, **kw)
 
     # end def
 
@@ -2620,17 +2646,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_handlesize (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            size attribute (tkinter.dimension.support);
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_handlesize(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_any_value_support(attribute, attrs, **kw)
 
     # end def
 
@@ -2638,7 +2661,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_height (self, attribute, attrs, **kw):
         r"""
-            height attr (integer);
+            height attr (tkinter.dimension.support);
 
             no return value (void);
         """
@@ -2646,6 +2669,15 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
         # parsed attribute inits
 
         self._tkRAD_integer_support(attribute, attrs, **kw)
+
+        # $ 2014-01-14 RS $
+        # special case of TK.PanedWindow
+
+        if isinstance(kw.get("tk_parent"), TK.PanedWindow):
+
+            self._tk_child_config(attribute)
+
+        # end if
 
     # end def
 
@@ -2683,14 +2715,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_highlightthickness (self, attribute, attrs, **kw):
         r"""
-            thickness attribute (integer);
+            thickness attribute (tkinter.dimension.support);
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_integer_support(attribute, attrs, **kw)
+        self._tkRAD_any_value_support(attribute, attrs, **kw)
 
     # end def
 
@@ -2725,17 +2757,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_increment (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            step by step value 'increment' attr (float);
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_increment(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_float_support(attribute, attrs, **kw)
 
     # end def
 
@@ -2773,14 +2802,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_insertborderwidth (self, attribute, attrs, **kw):
         r"""
-            width attribute (integer);
+            width attribute (tkinter.dimension.support);
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_integer_support(attribute, attrs, **kw)
+        self._tkRAD_any_value_support(attribute, attrs, **kw)
 
     # end def
 
@@ -2818,14 +2847,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_insertwidth (self, attribute, attrs, **kw):
         r"""
-            width attribute (integer);
+            width attribute (tkinter.dimension.support);
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_integer_support(attribute, attrs, **kw)
+        self._tkRAD_any_value_support(attribute, attrs, **kw)
 
     # end def
 
@@ -2912,9 +2941,10 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_layout (self, attribute, attrs, **kw):
         r"""
-            filters XML attr 'layout' along authorized values:
+            attr 'layout' must be one of 'none', 'pack', 'grid' or
+            'place';
 
-            None or "": no layout command for this widget (default);
+            default value is 'none' (no layout);
 
             "pack": automatic widget.pack() with 'layout_options';
 
@@ -2922,7 +2952,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             "place": automatic widget.place() with 'layout_options';
 
-            incorrect values will default to "pack";
+            incorrect values will default to "none";
 
             no return value (void);
         """
@@ -2933,9 +2963,9 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             attribute,
 
-            default = "pack",
+            default = "none",
 
-            values = ("grid", "place"),
+            values = ("pack", "grid", "place"),
 
             # caution: *NO* self._tk_config(attribute) by here /!\
 
@@ -2999,14 +3029,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_length (self, attribute, attrs, **kw):
         r"""
-            width attribute (integer);
+            width attribute (tkinter.dimension.support);
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_integer_support(attribute, attrs, **kw)
+        self._tkRAD_any_value_support(attribute, attrs, **kw)
 
     # end def
 
@@ -3029,17 +3059,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_maxundo (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            maximum of 'undo' ops (integer);
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_maxundo(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_integer_support(attribute, attrs, **kw)
 
     # end def
 
@@ -3047,17 +3074,20 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_minsize (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            PanedWindow child configuration attr;
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_minsize(): NOT IMPLEMENTED YET")
+        # param controls
 
-        # parsed attribute inits
+        if self._is_new(attribute):
 
-        self._tk_config(attribute)
+            # parsed attribute inits
+
+            self._tk_child_config(attribute)
+
+        # end if
 
     # end def
 
@@ -3210,14 +3240,23 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_padx (self, attribute, attrs, **kw):
         r"""
-            pad attribute (integer);
+            pad attribute (tkinter.dimension.support);
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_integer_support(attribute, attrs, **kw)
+        self._tkRAD_any_value_support(attribute, attrs, **kw)
+
+        # $ 2014-01-14 RS $
+        # special case of TK.PanedWindow
+
+        if isinstance(kw.get("tk_parent"), TK.PanedWindow):
+
+            self._tk_child_config(attribute)
+
+        # end if
 
     # end def
 
@@ -3225,14 +3264,23 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_pady (self, attribute, attrs, **kw):
         r"""
-            pad attribute (integer);
+            pad attribute (tkinter.dimension.support);
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_integer_support(attribute, attrs, **kw)
+        self._tkRAD_any_value_support(attribute, attrs, **kw)
+
+        # $ 2014-01-14 RS $
+        # special case of TK.PanedWindow
+
+        if isinstance(kw.get("tk_parent"), TK.PanedWindow):
+
+            self._tk_child_config(attribute)
+
+        # end if
 
     # end def
 
@@ -3336,17 +3384,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_sashpad (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            pad size attribute (tkinter.dimension.support);
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_sashpad(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_any_value_support(attribute, attrs, **kw)
 
     # end def
 
@@ -3369,14 +3414,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_sashwidth (self, attribute, attrs, **kw):
         r"""
-            width attribute (integer)
+            width attribute (tkinter.dimension.support)
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_integer_support(attribute, attrs, **kw)
+        self._tkRAD_any_value_support(attribute, attrs, **kw)
 
     # end def
 
@@ -3384,17 +3429,35 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_scrollregion (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            must be a 4-tuple of integers;
+
+            values are (left, top, right, bottom);
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_scrollregion(): NOT IMPLEMENTED YET")
+        # param controls
 
-        # parsed attribute inits
+        if self._is_new(attribute):
 
-        self._tk_config(attribute)
+            # parsed attribute inits
+
+            attribute.value = tuple(
+
+                map(
+
+                    tools.ensure_int,
+
+                    eval(
+
+                        "[{}]".format(attribute.value.strip("(){}[]"))
+                    )
+                )
+            )
+
+            self._tk_config(attribute)
+
+        # end if
 
     # end def
 
@@ -3417,14 +3480,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_selectborderwidth (self, attribute, attrs, **kw):
         r"""
-            width attribute (integer);
+            width attribute (tkinter.dimension.support);
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_integer_support(attribute, attrs, **kw)
+        self._tkRAD_any_value_support(attribute, attrs, **kw)
 
     # end def
 
@@ -3567,14 +3630,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_sliderlength (self, attribute, attrs, **kw):
         r"""
-            width attribute (integer);
+            width attribute (tkinter.dimension.support);
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_integer_support(attribute, attrs, **kw)
+        self._tkRAD_any_value_support(attribute, attrs, **kw)
 
     # end def
 
@@ -3614,17 +3677,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_spacing1 (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            height attr (tkinter.dimension.support);
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_spacing1(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_any_value_support(attribute, attrs, **kw)
 
     # end def
 
@@ -3632,17 +3692,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_spacing2 (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            height attr (tkinter.dimension.support);
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_spacing2(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_any_value_support(attribute, attrs, **kw)
 
     # end def
 
@@ -3650,17 +3707,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_spacing3 (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            height attr (tkinter.dimension.support);
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_spacing3(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_any_value_support(attribute, attrs, **kw)
 
     # end def
 
@@ -3745,17 +3799,32 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_sticky (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            PanedWindow child configuration attr;
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_sticky(): NOT IMPLEMENTED YET")
+        # param controls
 
-        # parsed attribute inits
+        if self._is_new(attribute):
 
-        self._tk_config(attribute)
+            # inits
+
+            _sticky = attribute.value.lower()
+
+            if not set(_sticky).issubset(set(self.STICKY_ALL)):
+
+                _sticky = self.STICKY_ALL
+
+            # end if
+
+            # parsed attribute inits
+
+            attribute.value = _sticky
+
+            self._tk_child_config(attribute)
+
+        # end if
 
     # end def
 
@@ -3763,15 +3832,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_tabs (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            same as 'choices' attr;
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_tabs(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
+
+        self.parse_attr_choices(attribute, attrs, **kw)
 
         self._tk_config(attribute)
 
@@ -3869,17 +3937,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_undo (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            boolean attribute;
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_undo(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_boolean_support(attribute, attrs, **kw)
 
     # end def
 
@@ -3887,17 +3952,24 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_validate (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            attr 'validate' must be one of 'focus', 'focusin',
+            'focusout', 'key', 'all' or 'none';
+
+            default value is 'none';
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_validate(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._fix_values(
+
+            attribute,
+
+            default = "none",
+
+            values = ("focus", "focusin", "focusout", "key", "all"),
+        )
 
     # end def
 
@@ -3905,17 +3977,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_validatecommand (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            same as 'command' attr;
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_validatecommand(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self.parse_attr_command(attribute, attrs, **kw)
 
     # end def
 
@@ -3923,15 +3992,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_values (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            same as 'choices' attr;
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_values(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
+
+        self.parse_attr_choices(attribute, attrs, **kw)
 
         self._tk_config(attribute)
 
@@ -3950,23 +4018,30 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         self._tkRAD_integer_support(attribute, attrs, **kw)
 
+        # $ 2014-01-14 RS $
+        # special case of TK.PanedWindow
+
+        if isinstance(kw.get("tk_parent"), TK.PanedWindow):
+
+            self._tk_child_config(attribute)
+
+        # end if
+
+
     # end def
 
 
 
     def parse_attr_wrap (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            boolean attribute (0|1)
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_wrap(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_boolean_support(attribute, attrs, **kw)
 
     # end def
 
@@ -3974,14 +4049,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_wraplength (self, attribute, attrs, **kw):
         r"""
-            width attribute (integer);
+            width attribute (tkinter.dimension.support);
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_integer_support(attribute, attrs, **kw)
+        self._tkRAD_any_value_support(attribute, attrs, **kw)
 
     # end def
 
@@ -4060,17 +4135,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_xscrollcommand (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            same as 'command' attr;
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_xscrollcommand(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self.parse_attr_command(attribute, attrs, **kw)
 
     # end def
 
@@ -4078,14 +4150,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_xscrollincrement (self, attribute, attrs, **kw):
         r"""
-            step attribute (integer);
+            step attribute (tkinter.dimension.support);
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_integer_support(attribute, attrs, **kw)
+        self._tkRAD_any_value_support(attribute, attrs, **kw)
 
     # end def
 
@@ -4093,17 +4165,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_yscrollcommand (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            same as 'command' attr;
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_yscrollcommand(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self.parse_attr_command(attribute, attrs, **kw)
 
     # end def
 
@@ -4111,14 +4180,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_yscrollincrement (self, attribute, attrs, **kw):
         r"""
-            step attribute (integer);
+            step attribute (tkinter.dimension.support);
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_integer_support(attribute, attrs, **kw)
+        self._tkRAD_any_value_support(attribute, attrs, **kw)
 
     # end def
 
