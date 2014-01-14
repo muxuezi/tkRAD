@@ -61,6 +61,25 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
+    ANCHORS = (
+
+        (r"(?i)north|top|up", TK.N),
+        (r"(?i)south|bottom|down", TK.S),
+        (r"(?i)east|right", TK.E),
+        (r"(?i)west|left", TK.W),
+        (r"\W+", r""),
+        (TK.N + "+", TK.N),
+        (TK.S + "+", TK.S),
+        (TK.E + "+", TK.E),
+        (TK.W + "+", TK.W),
+        (TK.W + TK.N, TK.NW),
+        (TK.E + TK.N, TK.NE),
+        (TK.W + TK.S, TK.SW),
+        (TK.E + TK.S, TK.SE),
+    )
+
+
+
     # overrides RADXMLWidgetBase.ATTRS
 
     # default XML attribute values
@@ -466,7 +485,13 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         # param inits
 
-        _resizable = str(attrs.get("resizable", "no")).lower()
+        _resizable = tools.choose_str(
+
+            attrs.get("resizable"),
+
+            "no",
+
+        ).lower()
 
         # layout method init
 
@@ -1902,7 +1927,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_activerelief (self, attribute, attrs, **kw):
         r"""
-            same as attr 'relief';
+            same as 'relief' attr;
 
             no return value (void);
         """
@@ -2027,7 +2052,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             # set inconsistencies to default value: 'center'
 
-            if not _anchor in (TK.N, TK.S, TK.E, TK.W,
+            if _anchor not in (TK.N, TK.S, TK.E, TK.W,
                                             TK.NW, TK.NE, TK.SW, TK.SE):
 
                 _anchor = TK.CENTER
@@ -2186,25 +2211,20 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
             no return value (void);
         """
 
-        # param inits
-
-        _bind = str(attribute.value).lower()
-
-        # attribute must be one of the following list
-
-        if _bind not in ("bind_class", "bind_all"):
-
-            # force default behaviour otherwise
-
-            _bind = "bind"
-
-        # end if
-
         # parsed attribute inits
 
-        attribute.value = _bind
+        self._fix_values(
 
-        # caution: *NO* self._tk_config(attribute) by here /!\
+            attribute,
+
+            default = "bind",
+
+            values = ("bind_class", "bind_all"),
+
+            # caution: *NO* self._tk_config(attribute) by here /!\
+
+            tk_config = False
+        )
 
     # end def
 
@@ -2219,7 +2239,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_color_support(attribute, attrs, **kw)
 
     # end def
 
@@ -2227,17 +2247,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_buttoncursor (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            same as 'cursor' attr;
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_buttoncursor(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self.parse_attr_cursor(attribute, attrs, **kw)
 
     # end def
 
@@ -2340,17 +2357,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             # param inits
 
-            _class = tools.canonize_id(attribute.value)
+            _class = tools.choose_str(
 
-            # no value?
+                tools.canonize_id(attribute.value),
 
-            if not tools.is_pstr(_class):
+                self.WIDGET_CLASS,
 
-                # set default value
-
-                _class = str(self.WIDGET_CLASS)
-
-            # end if
+                "Frame",
+            )
 
             # parsed attribute inits
 
@@ -2386,17 +2400,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_closeenough (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            neighborhood attribute (float);
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_closeenough(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_float_support(attribute, attrs, **kw)
 
     # end def
 
@@ -2404,17 +2415,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_confine (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            boolean attribute;
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_confine(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_boolean_support(attribute, attrs, **kw)
 
     # end def
 
@@ -2422,17 +2430,25 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_default (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            same as 'state' attr;
+
+            must be one of 'normal', 'disabled';
+
+            default value is 'normal';
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_default(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._fix_values(
+
+            attribute,
+
+            default = "normal",
+
+            values = ("disabled", ),
+        )
 
     # end def
 
@@ -2440,16 +2456,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_digits (self, attribute, attrs, **kw):
         r"""
-            number of digits to display in float numbers;
+            number of digits to display in float numbers (integer);
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        attribute.value = tools.ensure_int(attribute.value)
-
-        self._tk_config(attribute)
+        self._tkRAD_integer_support(attribute, attrs, **kw)
 
     # end def
 
@@ -2465,25 +2479,16 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
             no return value (void);
         """
 
-        # param controls
+        # parsed attribute inits
 
-        if self._is_new(attribute):
+        self._fix_values(
 
-            _dir = attribute.value.lower()
+            attribute,
 
-            if _dir not in ("above", "flush", "left", "right"):
+            default = "below",
 
-                _dir = "below"
-
-            # end if
-
-            # parsed attribute inits
-
-            attribute.value = _dir
-
-            self._tk_config(attribute)
-
-        # end if
+            values = ("above", "flush", "left", "right"),
+        )
 
     # end def
 
@@ -2498,7 +2503,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_color_support(attribute, attrs, **kw)
 
     # end def
 
@@ -2506,14 +2511,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_elementborderwidth (self, attribute, attrs, **kw):
         r"""
-            width attribute;
+            width attribute (integer);
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_integer_support(attribute, attrs, **kw)
 
     # end def
 
@@ -2587,17 +2592,9 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
             no return value (void);
         """
 
-        # control params
+        # parsed attribute inits
 
-        if self._is_new(attribute):
-
-            # parsed attribute inits
-
-            attribute.value = tools.ensure_float(attribute.value)
-
-            self._tk_config(attribute)
-
-        # end if
+        self._tkRAD_float_support(attribute, attrs, **kw)
 
     # end def
 
@@ -2648,7 +2645,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_integer_support(attribute, attrs, **kw)
 
     # end def
 
@@ -2663,7 +2660,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_color_support(attribute, attrs, **kw)
 
     # end def
 
@@ -2678,7 +2675,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_color_support(attribute, attrs, **kw)
 
     # end def
 
@@ -2686,14 +2683,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_highlightthickness (self, attribute, attrs, **kw):
         r"""
-            thickness attribute;
+            thickness attribute (integer);
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_integer_support(attribute, attrs, **kw)
 
     # end def
 
@@ -2768,7 +2765,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_color_support(attribute, attrs, **kw)
 
     # end def
 
@@ -2776,14 +2773,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_insertborderwidth (self, attribute, attrs, **kw):
         r"""
-            width attribute;
+            width attribute (integer);
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_integer_support(attribute, attrs, **kw)
 
     # end def
 
@@ -2791,17 +2788,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_insertofftime (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            time attribute (integer);
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_insertofftime(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_integer_support(attribute, attrs, **kw)
 
     # end def
 
@@ -2809,17 +2803,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_insertontime (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            time attribute (integer);
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_insertontime(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_integer_support(attribute, attrs, **kw)
 
     # end def
 
@@ -2827,14 +2818,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_insertwidth (self, attribute, attrs, **kw):
         r"""
-            width attribute;
+            width attribute (integer);
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_integer_support(attribute, attrs, **kw)
 
     # end def
 
@@ -2842,17 +2833,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_jump (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            boolean attribute;
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_jump(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_boolean_support(attribute, attrs, **kw)
 
     # end def
 
@@ -2860,17 +2848,23 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_justify (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            attr 'justify' must be one of 'left', 'right', 'center';
+
+            default value is 'center';
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_justify(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._fix_values(
+
+            attribute,
+
+            default = "center",
+
+            values = ("left", "right"),
+        )
 
     # end def
 
@@ -2933,37 +2927,20 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
             no return value (void);
         """
 
-        # param controls - force to "" otherwise
-
-        if tools.is_pstr(attribute.value):
-
-            # param inits
-
-            _layout = attribute.value.lower()
-
-            # attribute must be one of the following list
-
-            if _layout not in ("grid", "place"):
-
-                # force default behaviour otherwise
-
-                _layout = "pack"
-
-            # end if
-
-        else:
-
-            # set minimal value
-
-            _layout = ""
-
-        # end if
-
         # parsed attribute inits
 
-        attribute.value = _layout
+        self._fix_values(
 
-        # caution: *NO* self._tk_config(attribute) by here /!\
+            attribute,
+
+            default = "pack",
+
+            values = ("grid", "place"),
+
+            # caution: *NO* self._tk_config(attribute) by here /!\
+
+            tk_config = False
+        )
 
     # end def
 
@@ -3022,14 +2999,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_length (self, attribute, attrs, **kw):
         r"""
-            width attribute;
+            width attribute (integer);
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_integer_support(attribute, attrs, **kw)
 
     # end def
 
@@ -3179,17 +3156,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_opaqueresize (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            boolean attribute (0|1);
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_opaqueresize(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_boolean_support(attribute, attrs, **kw)
 
     # end def
 
@@ -3199,30 +3173,21 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
         r"""
             orientation must be one of 'vertical', 'horizontal';
 
+            default value is 'vertical';
+
             no return value (void);
         """
 
-        # param controls
+        # parsed attribute inits
 
-        if self._is_new(attribute):
+        self._fix_values(
 
-            # inits
+            attribute,
 
-            _orient = attribute.value.lower()
+            default = "vertical",
 
-            if _orient != "vertical":
-
-                _orient = "horizontal"
-
-            # end if
-
-            # parsed attribute inits
-
-            attribute.value = _orient
-
-            self._tk_config(attribute)
-
-        # end if
+            values = ("horizontal", ),
+        )
 
     # end def
 
@@ -3252,7 +3217,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_integer_support(attribute, attrs, **kw)
 
     # end def
 
@@ -3267,7 +3232,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_integer_support(attribute, attrs, **kw)
 
     # end def
 
@@ -3282,7 +3247,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_color_support(attribute, attrs, **kw)
 
     # end def
 
@@ -3290,17 +3255,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_repeatdelay (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            repetition delay in msec (integer);
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_repeatdelay(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_integer_support(attribute, attrs, **kw)
 
     # end def
 
@@ -3308,17 +3270,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_repeatinterval (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            repetition interval delay in msec (integer);
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_repeatinterval(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_integer_support(attribute, attrs, **kw)
 
     # end def
 
@@ -3341,31 +3300,20 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
             no return value (void);
         """
 
-        # param controls - force value clean-ups
+        # parsed attribute inits
 
-        if not attribute.parsed:
+        self._fix_values(
 
-            _resizable = str(attribute.value).lower()
+            attribute,
 
-            # attribute must be one of the following list
+            default = "no",
 
-            if _resizable not in ("yes", "width", "height"):
-
-                # force default behaviour
-
-                _resizable = "no"
-
-            # end if
-
-            # parsed attribute inits
-
-            attribute.value = _resizable
+            values = ("yes", "width", "height"),
 
             # caution: *NO* self._tk_config(attribute) by here /!\
 
-            attribute.parsed = True
-
-        # end if
+            tk_config = False
+        )
 
     # end def
 
@@ -3378,17 +3326,9 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
             no return value (void);
         """
 
-        # control params
+        # parsed attribute inits
 
-        if self._is_new(attribute):
-
-            # parsed attribute inits
-
-            attribute.value = tools.ensure_float(attribute.value)
-
-            self._tk_config(attribute)
-
-        # end if
+        self._tkRAD_float_support(attribute, attrs, **kw)
 
     # end def
 
@@ -3429,17 +3369,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_sashwidth (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            width attribute (integer)
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_sashwidth(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_integer_support(attribute, attrs, **kw)
 
     # end def
 
@@ -3465,17 +3402,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_selectbackground (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            color attribute;
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_selectbackground(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_color_support(attribute, attrs, **kw)
 
     # end def
 
@@ -3483,17 +3417,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_selectborderwidth (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            width attribute (integer);
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_selectborderwidth(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_integer_support(attribute, attrs, **kw)
 
     # end def
 
@@ -3501,17 +3432,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_selectforeground (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            color attribute;
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_selectforeground(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_color_support(attribute, attrs, **kw)
 
     # end def
 
@@ -3519,17 +3447,24 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_selectmode (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            attr 'selectmode' must be one of 'browse', 'single',
+            'multiple', 'extended';
+
+            default value is 'browse';
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_selectmode(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._fix_values(
+
+            attribute,
+
+            default = "browse",
+
+            values = ("single", "multiple", "extended"),
+        )
 
     # end def
 
@@ -3562,17 +3497,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_show (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            password echo character to show in entry box;
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_show(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_any_value_support(attribute, attrs, **kw)
 
     # end def
 
@@ -3580,17 +3512,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_showhandle (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            boolean attribute (0|1);
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_showhandle(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_boolean_support(attribute, attrs, **kw)
 
     # end def
 
@@ -3638,14 +3567,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_sliderlength (self, attribute, attrs, **kw):
         r"""
-            width attribute;
+            width attribute (integer);
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_integer_support(attribute, attrs, **kw)
 
     # end def
 
@@ -3900,17 +3829,9 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
             no return value (void);
         """
 
-        # control params
+        # parsed attribute inits
 
-        if self._is_new(attribute):
-
-            # parsed attribute inits
-
-            attribute.value = tools.ensure_float(attribute.value)
-
-            self._tk_config(attribute)
-
-        # end if
+        self._tkRAD_float_support(attribute, attrs, **kw)
 
     # end def
 
@@ -3923,17 +3844,9 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
             no return value (void);
         """
 
-        # control params
+        # parsed attribute inits
 
-        if self._is_new(attribute):
-
-            # parsed attribute inits
-
-            attribute.value = tools.ensure_float(attribute.value)
-
-            self._tk_config(attribute)
-
-        # end if
+        self._tkRAD_float_support(attribute, attrs, **kw)
 
     # end def
 
@@ -3948,7 +3861,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_color_support(attribute, attrs, **kw)
 
     # end def
 
@@ -4035,7 +3948,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_integer_support(attribute, attrs, **kw)
 
     # end def
 
@@ -4061,14 +3974,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_wraplength (self, attribute, attrs, **kw):
         r"""
-            width attribute;
+            width attribute (integer);
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_integer_support(attribute, attrs, **kw)
 
     # end def
 
@@ -4172,7 +4085,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_integer_support(attribute, attrs, **kw)
 
     # end def
 
@@ -4205,7 +4118,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_integer_support(attribute, attrs, **kw)
 
     # end def
 

@@ -51,25 +51,6 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
 
 
-    ANCHORS = (
-
-        (r"(?i)north|top|up", TK.N),
-        (r"(?i)south|bottom|down", TK.S),
-        (r"(?i)east|right", TK.E),
-        (r"(?i)west|left", TK.W),
-        (r"\W+", r""),
-        (TK.N + "+", TK.N),
-        (TK.S + "+", TK.S),
-        (TK.E + "+", TK.E),
-        (TK.W + "+", TK.W),
-        (TK.W + TK.N, TK.NW),
-        (TK.E + TK.N, TK.NE),
-        (TK.W + TK.S, TK.SW),
-        (TK.E + TK.S, TK.SE),
-    )
-
-
-
     # XML attribute parser method pattern
 
     # overrides RADXMLBase.ATTRIBUTE_PARSER
@@ -129,6 +110,46 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
 
 
+    def _fix_values (self, attribute, default=None, values=None,
+                                                        tk_config=True):
+        r"""
+            protected method def;
+
+            selects values along fixed list of values;
+
+            no return value (void);
+        """
+
+        # param controls
+
+        if values and self._is_new(attribute):
+
+            # inits
+
+            _value = attribute.value.lower()
+
+            if _value not in values:
+
+                _value = default
+
+            # end if
+
+            # parsed attribute inits
+
+            attribute.value = _value
+
+            if tk_config:
+
+                self._tk_config(attribute)
+
+            # end if
+
+        # end if
+
+    # end def
+
+
+
     def _is_new (self, attribute):
         r"""
             protected method def;
@@ -142,6 +163,29 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
         return attribute and not attribute.parsed and \
                                         tools.is_pstr(attribute.value)
+
+    # end def
+
+
+
+    def _tkRAD_any_value_support (self, attribute, attrs, **kw):
+        r"""
+            protected method def;
+
+            generic support for color attrs;
+
+            no return value (void);
+        """
+
+        # param controls
+
+        if self._is_new(attribute):
+
+            # parsed attribute inits
+
+            self._tk_config(attribute)
+
+        # end if
 
     # end def
 
@@ -167,6 +211,81 @@ class RADXMLWidgetBase (RX.RADXMLBase):
             # parsed attribute inits
 
             attribute.value = _bool
+
+            self._tk_config(attribute)
+
+        # end if
+
+    # end def
+
+
+
+    def _tkRAD_color_support (self, attribute, attrs, **kw):
+        r"""
+            protected method def;
+
+            generic support for color attrs;
+
+            no return value (void);
+        """
+
+        # param controls
+
+        if self._is_new(attribute):
+
+            # FIXME: should implement something here? -----------------------FIXME
+
+            # parsed attribute inits
+
+            self._tk_config(attribute)
+
+        # end if
+
+    # end def
+
+
+
+    def _tkRAD_float_support (self, attribute, attrs, **kw):
+        r"""
+            protected method def;
+
+            generic support for float attrs;
+
+            no return value (void);
+        """
+
+        # param controls
+
+        if self._is_new(attribute):
+
+            # parsed attribute inits
+
+            attribute.value = tools.ensure_float(attribute.value)
+
+            self._tk_config(attribute)
+
+        # end if
+
+    # end def
+
+
+
+    def _tkRAD_integer_support (self, attribute, attrs, **kw):
+        r"""
+            protected method def;
+
+            generic support for integer attrs;
+
+            no return value (void);
+        """
+
+        # param controls
+
+        if self._is_new(attribute):
+
+            # parsed attribute inits
+
+            attribute.value = tools.ensure_int(attribute.value)
 
             self._tk_config(attribute)
 
@@ -256,14 +375,14 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
     def parse_attr_activebackground (self, attribute, attrs, **kw):
         r"""
-            direct XML attribute to tkinter attribute translation;
+            color attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_color_support(attribute, attrs, **kw)
 
     # end def
 
@@ -271,14 +390,14 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
     def parse_attr_activeforeground (self, attribute, attrs, **kw):
         r"""
-            direct XML attribute to tkinter attribute translation;
+            color attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_color_support(attribute, attrs, **kw)
 
     # end def
 
@@ -286,14 +405,14 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
     def parse_attr_background (self, attribute, attrs, **kw):
         r"""
-            direct XML attribute to tkinter attribute translation;
+            color attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_color_support(attribute, attrs, **kw)
 
     # end def
 
@@ -301,14 +420,14 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
     def parse_attr_bd (self, attribute, attrs, **kw):
         r"""
-            alias for XML attribute 'borderwidth';
+            width attribute (integer);
 
             no return value (void);
         """
 
-        # alias for 'borderwidth'
+        # parsed attribute inits
 
-        self.parse_attr_borderwidth(attribute, attrs, **kw)
+        self._tkRAD_integer_support(attribute, attrs, **kw)
 
     # end def
 
@@ -316,14 +435,14 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
     def parse_attr_bg (self, attribute, attrs, **kw):
         r"""
-            alias for XML attribute 'background';
+            color attribute;
 
             no return value (void);
         """
 
-        # alias for 'background'
+        # parsed attribute inits
 
-        self.parse_attr_background(attribute, attrs, **kw)
+        self._tkRAD_color_support(attribute, attrs, **kw)
 
     # end def
 
@@ -349,14 +468,14 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
     def parse_attr_borderwidth (self, attribute, attrs, **kw):
         r"""
-            direct XML attribute to tkinter attribute translation;
+            width attribute (integer);
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_integer_support(attribute, attrs, **kw)
 
     # end def
 
@@ -377,6 +496,8 @@ class RADXMLWidgetBase (RX.RADXMLBase):
                 attribute.value = None
 
             # end if
+
+            # caution: *NO* self._tk_config(attribute) by here /!\
 
             attribute.parsed = True
 
@@ -423,8 +544,7 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
                 _cmd = (
 
-                    lambda tk1=None, tk2=None,
-                            s=self.events, e=_cmd[1:]:
+                    lambda *args, s=self.events, e=_cmd[1:]:
 
                         s.raise_event(e)
                 )
@@ -528,14 +648,24 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
     def parse_attr_compound (self, attribute, attrs, **kw):
         r"""
-            direct XML attribute to tkinter attribute translation;
+            attr 'compound' must be one of 'top', 'bottom', 'left',
+            'right', 'center', 'none';
+
+            default value is 'none';
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._fix_values(
+
+            attribute,
+
+            default = "none",
+
+            values = ("top", "bottom", "left", "right", "center"),
+        )
 
     # end def
 
@@ -543,14 +673,14 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
     def parse_attr_cursor (self, attribute, attrs, **kw):
         r"""
-            direct XML attribute to tkinter attribute translation;
+            any value support (tkinter manages value errors);
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_any_value_support(attribute, attrs, **kw)
 
     # end def
 
@@ -558,14 +688,14 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
     def parse_attr_disabledforeground (self, attribute, attrs, **kw):
         r"""
-            direct XML attribute to tkinter attribute translation;
+            color attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_color_support(attribute, attrs, **kw)
 
     # end def
 
@@ -573,14 +703,14 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
     def parse_attr_fg (self, attribute, attrs, **kw):
         r"""
-            alias for XML attribute 'foreground';
+            color attribute;
 
             no return value (void);
         """
 
-        # alias for 'foreground'
+        # parsed attribute inits
 
-        self.parse_attr_foreground(attribute, attrs, **kw)
+        self._tkRAD_color_support(attribute, attrs, **kw)
 
     # end def
 
@@ -650,14 +780,14 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
     def parse_attr_foreground (self, attribute, attrs, **kw):
         r"""
-            direct XML attribute to tkinter attribute translation;
+            color attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_color_support(attribute, attrs, **kw)
 
     # end def
 
@@ -720,15 +850,14 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
     def parse_attr_menu (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            this should always be None as tkRAD manages it on its own;
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_menu(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
+
+        attribute.value = None
 
         self._tk_config(attribute)
 
@@ -789,14 +918,14 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
     def parse_attr_offvalue (self, attribute, attrs, **kw):
         r"""
-            direct XML attribute to tkinter attribute translation;
+            any value support (tkinter manages value errors);
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_any_value_support(attribute, attrs, **kw)
 
     # end def
 
@@ -804,14 +933,14 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
     def parse_attr_onvalue (self, attribute, attrs, **kw):
         r"""
-            direct XML attribute to tkinter attribute translation;
+            any value support (tkinter manages value errors);
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_any_value_support(attribute, attrs, **kw)
 
     # end def
 
@@ -827,28 +956,16 @@ class RADXMLWidgetBase (RX.RADXMLBase):
             no return value (void);
         """
 
-        # param controls
+        # parsed attribute inits
 
-        if self._is_new(attribute):
+        self._fix_values(
 
-            # inits
+            attribute,
 
-            _relief = attribute.value.lower()
+            default = "flat",
 
-            if _relief not in ("raised", "sunken", "groove", "ridge",
-            "solid"):
-
-                _relief = "flat"
-
-            # end if
-
-            # parsed attribute inits
-
-            attribute.value = _relief
-
-            self._tk_config(attribute)
-
-        # end if
+            values = ("raised", "sunken", "groove", "ridge", "solid"),
+        )
 
     # end def
 
@@ -856,17 +973,14 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
     def parse_attr_selectcolor (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            color attribute;
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_selectcolor(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_color_support(attribute, attrs, **kw)
 
     # end def
 
@@ -887,6 +1001,8 @@ class RADXMLWidgetBase (RX.RADXMLBase):
                 attribute.value = None
 
             # end if
+
+            # caution: *NO* self._tk_config(attribute) by here /!\
 
             attribute.parsed = True
 
@@ -916,17 +1032,23 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
     def parse_attr_state (self, attribute, attrs, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            attr 'state' must be one of 'normal', 'disabled' or '';
+
+            default value is 'normal';
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_state(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._fix_values(
+
+            attribute,
+
+            default = "normal",
+
+            values = ("disabled", "readonly"),
+        )
 
     # end def
 
@@ -938,18 +1060,9 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
             no return value (void);
         """
+        # parsed attribute inits
 
-        # param controls
-
-        if self._is_new(attribute):
-
-            # parsed attribute inits
-
-            attribute.value = tools.ensure_int(attribute.value)
-
-            self._tk_config(attribute)
-
-        # end if
+        self._tkRAD_integer_support(attribute, attrs, **kw)
 
     # end def
 
@@ -957,14 +1070,14 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
     def parse_attr_value (self, attribute, attrs, **kw):
         r"""
-            direct XML attribute to tkinter attribute translation;
+            any value support (tkinter manages value errors);
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tk_config(attribute)
+        self._tkRAD_any_value_support(attribute, attrs, **kw)
 
     # end def
 

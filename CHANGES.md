@@ -9,6 +9,48 @@
 ## CHANGELOG
 
 
+### $ 2014-01-14 RS $
+
+* updated `RADXMLWidgetBase`:
+
+    * moved `ANCHORS` to `RADXMLWidget`;
+
+    * in `parse_attr_compound()`:
+
+        * now fully implemented;
+
+    * updated all `parse_attr_*()` along new `_tkRAD_*_support()`;
+
+    * in `parse_attr_command()`:
+
+        * in event support: extended number of inner `tkinter` args
+        to undefined (*args);
+
+    * added new `_tkRAD_color_support()`,
+    new `_tkRAD_float_support()`,
+    new `_tkRAD_integer_support()`,
+    new `_tkRAD_any_value_support()`:
+
+        * now fully implemented;
+
+* updated `RADXMLWidget`:
+
+    * updated all known and possible `parse_attr_*()` along new
+    `_tkRAD_*_support()`;
+
+    * in `parse_attr_class()`:
+
+        * optimized code;
+
+    * in `parse_attr_repeatdelay()`, `parse_attr_repeatinterval()`:
+
+        * now fully implemented;
+
+    * in `parse_attr_confine()`, `parse_attr_jump()`:
+
+        * now implemented along `_tkRAD_boolean_support()`;
+
+
 ### $ 2014-01-13 RS $
 
 * updated `RADXMLWidget`:
