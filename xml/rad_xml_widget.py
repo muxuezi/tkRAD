@@ -452,9 +452,38 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
             no return value (void);
         """
 
+        # $ 2014-01-15 RS $
+        # special case of PanedWindow
+
+        if isinstance(tk_parent, TK.PanedWindow):
+
+            # got to lay out?
+
+            if attrs.get("layout") in ("pack", "grid", "place"):
+
+                # init resizable
+
+                _sticky = {
+
+                    "width": TK.E + TK.W,
+
+                    "height": TK.N + TK.S,
+
+                    "yes": TK.N + TK.S + TK.E + TK.W,
+
+                }.get(attrs.get("resizable"))
+
+                self.TK_CHILD_CONFIG.setdefault("sticky", _sticky)
+
+                # add child instead of laying it out
+
+                tk_parent.add(widget, **self.TK_CHILD_CONFIG)
+
+            # end if
+
         # widget exists and layout is asked?
 
-        if hasattr(widget, str(attrs.get("layout"))):
+        elif hasattr(widget, str(attrs.get("layout"))):
 
             # try to make widget resizable along params
 
@@ -1877,22 +1906,9 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             # end if
 
-            # $ 2014-01-14 RS $
-            # special case of TK.PanedWindow
+            # set layout
 
-            if isinstance(tk_parent, TK.PanedWindow):
-
-                # add instead of setting layout
-
-                tk_parent.add(_widget, **self.TK_CHILD_CONFIG)
-
-            else:
-
-                # set layout
-
-                self._set_layout(_widget, _attributes, tk_parent)
-
-            # end if
+            self._set_layout(_widget, _attributes, tk_parent)
 
             # free useless memory right now /!\
 

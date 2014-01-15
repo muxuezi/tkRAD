@@ -9,6 +9,18 @@
 ## CHANGELOG
 
 
+### $ 2014-01-15 RS $
+
+* updated `RADXMLWidget`:
+
+    * in `_set_layout()`:
+
+        * now `tkinter.PanedWindow` child layout management fully
+        implemented;
+
+        * now attr `resizable` may override attr `sticky` if omitted;
+
+
 ### $ 2014-01-14 RS $
 
 * updated `RADXMLWidgetBase`:
