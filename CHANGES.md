@@ -11,7 +11,34 @@
 
 ### $ 2014-01-15 RS $
 
+* updated `RADXMLWidgetBase`:
+
+    * removed `_tk_child_config()`:
+
+        * now merged into `_tk_config(**kw)` with
+        `kw.get("tk_child_config")` keyword flag instead;
+
+    * added new `_tkRAD_dimension_support()`:
+
+        * now fully implemented;
+
+    * in `_tk_child_config()`:
+
+        * added support for `_` discriminator in attr `_name` in
+        order to avoid `tkinter` TK_CONFIG attrs conflict;
+
 * updated `RADXMLWidget`:
+
+    * added new `parse_attr__after()`, `parse_attr__before()`,
+    `parse_attr__height()`, `parse_attr__minsize()`,
+    `parse_attr__padx()`, `parse_attr__pady()`,
+    `parse_attr__sticky()`, `parse_attr__width()`:
+
+        * now fully implemented;
+
+        * kept for easiness and comfort: `parse_attr_after()`,
+        `parse_attr_before()`, `parse_attr_minsize()`,
+        `parse_attr_sticky()`;
 
     * in `_set_layout()`:
 
