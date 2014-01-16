@@ -279,4 +279,55 @@ class RADXMLAttribute:
     # end def
 
 
+
+    def update_xml_element (self, value = None):
+        r"""
+            updates inner XML element's attr name along @value param;
+
+            returns True on success, False otherwise;
+        """
+
+        # param inits
+
+        if value is None:
+
+            value = self.value
+
+        # end if
+
+        if ET.iselement(self.xml_element):
+
+            # update XML element
+
+            self.xml_element.set(self.name, value)
+
+            # succeeded
+
+            return True
+
+        else:
+
+            raise TypeError(
+
+                "XML element must be of "
+
+                "type '{obj_type}', not '{cur_type}'."
+
+                .format(
+
+                    obj_type = repr(ET.Element),
+
+                    cur_type = repr(self.xml_element),
+                )
+            )
+
+        # end if
+
+        # failed
+
+        return False
+
+    # end def
+
+
 # end class RADXMLAttribute

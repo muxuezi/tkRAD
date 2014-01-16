@@ -143,6 +143,10 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
             attribute.value = _value
 
+            # XML element must have the same attr value
+
+            attribute.update_xml_element()
+
             self._tk_config(attribute, **kw)
 
         # end if
@@ -169,7 +173,20 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
 
 
-    def _tkRAD_any_value_support (self, attribute, attrs, **kw):
+    def _is_unparsed (self, attribute):
+        r"""
+            protected method def;
+
+            determines if @attribute has never been parsed;
+        """
+
+        return attribute and not attribute.parsed
+
+    # end def
+
+
+
+    def _tkRAD_any_value_support (self, attribute, **kw):
         r"""
             protected method def;
 
@@ -192,7 +209,24 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
 
 
-    def _tkRAD_boolean_support (self, attribute, attrs, **kw):
+    def _tkRAD_bitmap_support (self, attribute, **kw):
+        r"""
+            protected method def;
+
+            generic support for bitmap attrs;
+
+            no return value (void);
+        """
+
+        # FIXME: should implement something here? ------------------------------FIXME
+
+        self._tkRAD_any_value_support(attribute, **kw)
+
+    # end def
+
+
+
+    def _tkRAD_boolean_support (self, attribute, **kw):
         r"""
             protected method def;
 
@@ -207,13 +241,16 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
             # parsed attribute inits
 
-            attribute.value = int(
+            attribute.value = bool(
 
-                bool(
+                attribute.value.lower()
 
-                    tools.ensure_int(attribute.value)
-                )
+                in ("1", "yes", "true", attribute.name)
             )
+
+            # XML element must have the same attr value
+
+            attribute.update_xml_element()
 
             self._tk_config(attribute, **kw)
 
@@ -223,7 +260,7 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
 
 
-    def _tkRAD_color_support (self, attribute, attrs, **kw):
+    def _tkRAD_color_support (self, attribute, **kw):
         r"""
             protected method def;
 
@@ -234,338 +271,21 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
         # FIXME: should implement something here?
 
-        self._tkRAD_any_value_support(attribute, attrs, **kw)
+        self._tkRAD_any_value_support(attribute, **kw)
 
     # end def
 
 
 
-    def _tkRAD_dimension_support (self, attribute, attrs, **kw):
+    def _tkRAD_command_support (self, attribute, **kw):
         r"""
-            protected method def;
+            parses command string for many supports;
 
-            generic support for dimension attrs;
+            supports event names (starting with '@');
 
-            no return value (void);
-        """
+            supports method names (starting with '^' or '.');
 
-        # FIXME: should implement something here?
-
-        self._tkRAD_any_value_support(attribute, attrs, **kw)
-
-    # end def
-
-
-
-    def _tkRAD_float_support (self, attribute, attrs, **kw):
-        r"""
-            protected method def;
-
-            generic support for float attrs;
-
-            no return value (void);
-        """
-
-        # param controls
-
-        if self._is_new(attribute):
-
-            # parsed attribute inits
-
-            attribute.value = tools.ensure_float(attribute.value)
-
-            self._tk_config(attribute, **kw)
-
-        # end if
-
-    # end def
-
-
-
-    def _tkRAD_integer_support (self, attribute, attrs, **kw):
-        r"""
-            protected method def;
-
-            generic support for integer attrs;
-
-            no return value (void);
-        """
-
-        # param controls
-
-        if self._is_new(attribute):
-
-            # parsed attribute inits
-
-            attribute.value = tools.ensure_int(attribute.value)
-
-            self._tk_config(attribute, **kw)
-
-        # end if
-
-    # end def
-
-
-
-    def _tkRAD_label_support (self, attribute, attrs, **kw):
-        r"""
-            protected method def;
-
-            generic support for underlined text and label attrs;
-
-            no return value (void);
-        """
-
-        # param controls
-
-        if self._is_new(attribute):
-
-            # internationalization (i18n) translations support
-
-            _label = _(attribute.value)
-
-            # got XML attr 'underline'?
-
-            if "underline" in attrs:
-
-                # $ 2014-01-15 RS $
-                # deeper attr support:
-                # extract RADXMLAttribute item
-                # from RADXMLAttributesDict
-
-                _attr_underline = attrs.get_item("underline")
-
-                # menu label underline support (e.g. "_File")
-
-                _attr_underline.value = None
-
-                _pos = _label.find("_")
-
-                if _pos >= 0:
-
-                    # set attribute value
-
-                    _attr_underline.value = _pos
-
-                    # update label
-
-                    _label = _label[:_pos] + _label[_pos+1:]
-
-                # end if
-
-                # parsed attribute inits
-
-                self._tk_config(_attr_underline, **kw)
-
-            # end if
-
-            # parsed attribute inits
-
-            attribute.value = _label
-
-            self._tk_config(attribute, **kw)
-
-        # end if
-
-    # end def
-
-
-
-    def _tk_config (self, attribute, **kw):
-        r"""
-            protected method def;
-
-            sets up child or widget attribute for tkinter.configure();
-
-            no return value (void);
-        """
-
-        # param controls
-
-        if not kw.get("no_tk_config"):
-
-            # $ 2014-01-15 RS $
-            # new discriminator support
-            # to avoid child / widget
-            # attrs conflict in XML script
-
-            _name = attribute.name.lstrip("_")
-
-            # child config asked?
-
-            if kw.get("tk_child_config"):
-
-                # child inits
-
-                self.TK_CHILD_CONFIG[_name] = attribute.value
-
-            else:
-
-                # widget inits
-
-                self.TK_CONFIG[_name] = attribute.value
-
-            # end if
-
-        # end if
-
-        attribute.parsed = True
-
-    # end def
-
-
-
-    # -----------------------  XML attributes parsing  -----------------
-
-
-
-    def parse_attr_activebackground (self, attribute, attrs, **kw):
-        r"""
-            color attribute;
-
-            no return value (void);
-        """
-
-        # parsed attribute inits
-
-        self._tkRAD_color_support(attribute, attrs, **kw)
-
-    # end def
-
-
-
-    def parse_attr_activeforeground (self, attribute, attrs, **kw):
-        r"""
-            color attribute;
-
-            no return value (void);
-        """
-
-        # parsed attribute inits
-
-        self._tkRAD_color_support(attribute, attrs, **kw)
-
-    # end def
-
-
-
-    def parse_attr_background (self, attribute, attrs, **kw):
-        r"""
-            color attribute;
-
-            no return value (void);
-        """
-
-        # parsed attribute inits
-
-        self._tkRAD_color_support(attribute, attrs, **kw)
-
-    # end def
-
-
-
-    def parse_attr_bd (self, attribute, attrs, **kw):
-        r"""
-            width attribute (tkinter.dimension.support);
-
-            no return value (void);
-        """
-
-        # parsed attribute inits
-
-        self._tkRAD_dimension_support(attribute, attrs, **kw)
-
-    # end def
-
-
-
-    def parse_attr_bg (self, attribute, attrs, **kw):
-        r"""
-            color attribute;
-
-            no return value (void);
-        """
-
-        # parsed attribute inits
-
-        self._tkRAD_color_support(attribute, attrs, **kw)
-
-    # end def
-
-
-
-    def parse_attr_bitmap (self, attribute, attrs, **kw):
-        r"""
-            << NOT IMPLEMENTED YET >>
-
-            no return value (void);
-        """
-
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_bitmap(): NOT IMPLEMENTED YET")
-
-        # parsed attribute inits
-
-        self._tk_config(attribute, **kw)
-
-    # end def
-
-
-
-    def parse_attr_borderwidth (self, attribute, attrs, **kw):
-        r"""
-            width attribute (tkinter.dimension.support);
-
-            no return value (void);
-        """
-
-        # parsed attribute inits
-
-        self._tkRAD_dimension_support(attribute, attrs, **kw)
-
-    # end def
-
-
-
-    def parse_attr_checked (self, attribute, attrs, **kw):
-        r"""
-            XML attr 'checked' must be 'checked="checked"' or will
-            be reset to None;
-
-            no return value (void);
-        """
-
-        if not attribute.parsed:
-
-            if str(attribute.value) != "checked":
-
-                attribute.value = None
-
-            # end if
-
-            # caution: *NO* self._tk_config() by here /!\
-
-            attribute.parsed = True
-
-        # end if
-
-    # end def
-
-
-
-    def parse_attr_command (self, attribute, attrs, **kw):
-        r"""
-            parses any '.*command' XML attribute for many supports;
-
-            @value supports event names (starting with '@');
-
-            @value supports method names (starting with '^' or '.');
-
-            @value supports global function names;
-
-            each time it is possible, attr 'command' becomes the event,
-
-            the method or the function direct callback pointer;
+            supports global function names;
 
             no return value (void);
         """
@@ -688,77 +408,89 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
 
 
-    def parse_attr_compound (self, attribute, attrs, **kw):
+    def _tkRAD_cursor_support (self, attribute, **kw):
         r"""
-            attr 'compound' must be one of 'top', 'bottom', 'left',
-            'right', 'center', 'none';
+            protected method def;
 
-            default value is 'none';
+            generic support for color attrs;
 
             no return value (void);
         """
 
-        # parsed attribute inits
+        # FIXME: should implement something here?
 
-        kw.update(
-
-            default = "none",
-
-            values = ("top", "bottom", "left", "right", "center"),
-        )
-
-        self._fix_values(attribute, **kw)
+        self._tkRAD_any_value_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_cursor (self, attribute, attrs, **kw):
+    def _tkRAD_cvar_support (self, attribute, **kw):
         r"""
-            any value support (tkinter manages value errors);
+            sets a tkinter StringVar() control variable;
 
             no return value (void);
         """
 
-        # parsed attribute inits
+        # param controls
 
-        self._tkRAD_any_value_support(attribute, attrs, **kw)
+        if self._is_new(attribute):
+
+            # parsed attribute inits
+
+            attribute.value = self.set_stringvar(attribute.value)
+
+            self._tk_config(attribute, **kw)
+
+        # end if
 
     # end def
 
 
 
-    def parse_attr_disabledforeground (self, attribute, attrs, **kw):
+    def _tkRAD_dimension_support (self, attribute, **kw):
         r"""
-            color attribute;
+            protected method def;
+
+            generic support for dimension attrs;
 
             no return value (void);
         """
 
-        # parsed attribute inits
+        # FIXME: should implement something here?
 
-        self._tkRAD_color_support(attribute, attrs, **kw)
+        self._tkRAD_any_value_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_fg (self, attribute, attrs, **kw):
+    def _tkRAD_float_support (self, attribute, **kw):
         r"""
-            color attribute;
+            protected method def;
+
+            generic support for float attrs;
 
             no return value (void);
         """
 
-        # parsed attribute inits
+        # param controls
 
-        self._tkRAD_color_support(attribute, attrs, **kw)
+        if self._is_new(attribute):
+
+            # parsed attribute inits
+
+            attribute.value = tools.ensure_float(attribute.value)
+
+            self._tk_config(attribute, **kw)
+
+        # end if
 
     # end def
 
 
 
-    def parse_attr_font (self, attribute, attrs, **kw):
+    def _tkRAD_font_support (self, attribute, **kw):
         r"""
             translates XML attribute to tkinter attribute;
 
@@ -820,7 +552,257 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
 
 
-    def parse_attr_foreground (self, attribute, attrs, **kw):
+    def _tkRAD_image_support (self, attribute, **kw):
+        r"""
+            protected method def;
+
+            generic support for image attrs;
+
+            no return value (void);
+        """
+
+        # FIXME: should implement something here?
+
+        self._tkRAD_any_value_support(attribute, **kw)
+
+    # end def
+
+
+
+    def _tkRAD_integer_support (self, attribute, **kw):
+        r"""
+            protected method def;
+
+            generic support for integer attrs;
+
+            no return value (void);
+        """
+
+        # param controls
+
+        if self._is_new(attribute):
+
+            # parsed attribute inits
+
+            attribute.value = tools.ensure_int(attribute.value)
+
+            self._tk_config(attribute, **kw)
+
+        # end if
+
+    # end def
+
+
+
+    def _tkRAD_label_support (self, attribute, attrs, **kw):
+        r"""
+            protected method def;
+
+            generic support for underlined text and label attrs;
+
+            no return value (void);
+        """
+
+        # param controls
+
+        if self._is_new(attribute):
+
+            # internationalization (i18n) translations support
+
+            _label = _(attribute.value)
+
+            # got XML attr 'underline'?
+
+            if "underline" in attrs:
+
+                # $ 2014-01-15 RS $
+                # deeper attr support:
+                # extract RADXMLAttribute item
+                # from RADXMLAttributesDict
+
+                _attr_underline = attrs.get_item("underline")
+
+                # menu label underline support (e.g. "_File")
+
+                _attr_underline.value = None
+
+                _pos = _label.find("_")
+
+                if _pos >= 0:
+
+                    # set attribute value
+
+                    _attr_underline.value = _pos
+
+                    # update label
+
+                    _label = _label[:_pos] + _label[_pos+1:]
+
+                # end if
+
+                # parsed attribute inits
+
+                self._tk_config(_attr_underline, **kw)
+
+            # end if
+
+            # parsed attribute inits
+
+            attribute.value = _label
+
+            self._tk_config(attribute, **kw)
+
+        # end if
+
+    # end def
+
+
+
+    def _tkRAD_relief_support (self, attribute, **kw):
+        r"""
+            must be one of 'flat', 'raised', 'sunken', 'groove',
+            'ridge';
+
+            default value will be 'flat';
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        kw.update(
+
+            default = "flat",
+
+            values = ("raised", "sunken", "groove", "ridge", "solid"),
+        )
+
+        self._fix_values(attribute, **kw)
+
+    # end def
+
+
+
+    def _tkRAD_state_support (self, attribute, **kw):
+        r"""
+            must be one of 'normal' or 'disabled';
+
+            default value is 'normal';
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        kw.update(
+
+            default = "normal",
+
+            values = ("disabled", ),
+        )
+
+        self._fix_values(attribute, **kw)
+
+    # end def
+
+
+
+    def _tkRAD_widget_support (self, attribute, **kw):
+        r"""
+            tries to retrieve a widget along given 'id' value;
+
+            no return value (void);
+        """
+
+        # param controls
+
+        if self._is_new(attribute):
+
+            # FIXME
+
+            # what about DEFERRED TASKS? -------------------------------------FIXME
+
+            # look for existing widget along attr 'id'
+
+            _widget = self.get_object_by_id(attribute.value)
+
+            if _widget:
+
+                # parsed attribute inits
+
+                attribute.value = _widget
+
+                self._tk_config(attribute, **kw)
+
+            # not found
+
+            else:
+
+                raise KeyError(
+                    _(
+                        "Widget of id '{w_id}' does not exist or "
+                        "has not been registered yet."
+
+                    ).format(w_id = attribute.value)
+                )
+
+            # end if
+
+        # end if
+
+    # end def
+
+
+
+    def _tk_config (self, attribute, **kw):
+        r"""
+            protected method def;
+
+            sets up child or widget attribute for tkinter.configure();
+
+            no return value (void);
+        """
+
+        # param controls
+
+        if not kw.get("no_tk_config"):
+
+            # $ 2014-01-15 RS $
+            # new discriminator support
+            # to avoid child / widget
+            # attrs conflict in XML script
+
+            _name = attribute.name.lstrip("_")
+
+            # child config asked?
+
+            if kw.get("tk_child_config"):
+
+                # child inits
+
+                self.TK_CHILD_CONFIG[_name] = attribute.value
+
+            else:
+
+                # widget inits
+
+                self.TK_CONFIG[_name] = attribute.value
+
+            # end if
+
+        # end if
+
+        attribute.parsed = True
+
+    # end def
+
+
+
+    # -----------------------  XML attributes parsing  -----------------
+
+
+
+    def parse_attr_activebackground (self, attribute, **kw):
         r"""
             color attribute;
 
@@ -829,21 +811,242 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
         # parsed attribute inits
 
-        self._tkRAD_color_support(attribute, attrs, **kw)
+        self._tkRAD_color_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_id (self, attribute, attrs, **kw):
+    def parse_attr_activeforeground (self, attribute, **kw):
+        r"""
+            color attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._tkRAD_color_support(attribute, **kw)
+
+    # end def
+
+
+
+    def parse_attr_background (self, attribute, **kw):
+        r"""
+            color attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._tkRAD_color_support(attribute, **kw)
+
+    # end def
+
+
+
+    def parse_attr_bd (self, attribute, **kw):
+        r"""
+            width attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._tkRAD_dimension_support(attribute, **kw)
+
+    # end def
+
+
+
+    def parse_attr_bg (self, attribute, **kw):
+        r"""
+            color attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._tkRAD_color_support(attribute, **kw)
+
+    # end def
+
+
+
+    def parse_attr_bitmap (self, attribute, **kw):
+        r"""
+            bitmap attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._tkRAD_bitmap_support(attribute, **kw)
+
+    # end def
+
+
+
+    def parse_attr_borderwidth (self, attribute, **kw):
+        r"""
+            width attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._tkRAD_dimension_support(attribute, **kw)
+
+    # end def
+
+
+
+    def parse_attr_checked (self, attribute, **kw):
+        r"""
+            boolean attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        kw.update(no_tk_config = True)
+
+        self._tkRAD_boolean_support(attribute, **kw)
+
+    # end def
+
+
+
+    def parse_attr_command (self, attribute, **kw):
+        r"""
+            command attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._tkRAD_command_support(attribute, **kw)
+
+    # end def
+
+
+
+    def parse_attr_compound (self, attribute, **kw):
+        r"""
+            must be one of 'top', 'bottom', 'left', 'right',
+            'center', 'none';
+
+            default value is 'none';
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        kw.update(
+
+            default = "none",
+
+            values = ("top", "bottom", "left", "right", "center"),
+        )
+
+        self._fix_values(attribute, **kw)
+
+    # end def
+
+
+
+    def parse_attr_cursor (self, attribute, **kw):
+        r"""
+            cursor attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._tkRAD_cursor_support(attribute, **kw)
+
+    # end def
+
+
+
+    def parse_attr_disabledforeground (self, attribute, **kw):
+        r"""
+            color attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._tkRAD_color_support(attribute, **kw)
+
+    # end def
+
+
+
+    def parse_attr_fg (self, attribute, **kw):
+        r"""
+            color attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._tkRAD_color_support(attribute, **kw)
+
+    # end def
+
+
+
+    def parse_attr_font (self, attribute, **kw):
+        r"""
+            font attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._tkRAD_font_support(attribute, **kw)
+
+    # end def
+
+
+
+    def parse_attr_foreground (self, attribute, **kw):
+        r"""
+            color attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._tkRAD_color_support(attribute, **kw)
+
+    # end def
+
+
+
+    def parse_attr_id (self, attribute, **kw):
         r"""
             id - generic XML attribute;
 
             sets an element attr 'id' for *any* element in XML file;
 
-            returns user-defined id or numbered name 'objectxxx'
-
-            if not defined in XML file;
+            returns user-defined id or numbered name 'objectxxx' if
+            not defined in XML file;
 
             resets XML element's id to a correct id name, if necessary;
 
@@ -852,15 +1055,14 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
         # caution: *NOT* the same as self._is_new(attribute) /!\
 
-        if attribute and not attribute.parsed:
+        if self._is_unparsed(attribute):
 
             # parsed attribute inits
 
-            attribute.value = self.get_correct_id(attribute.value)
+            attribute.value = (
 
-            # XML element must have the same id value
-
-            attribute.xml_element.set("id", attribute.value)
+                self.element_get_id(attribute.xml_element)
+            )
 
             attribute.parsed = True
 
@@ -870,25 +1072,22 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
 
 
-    def parse_attr_image (self, attribute, attrs, **kw):
+    def parse_attr_image (self, attribute, **kw):
         r"""
-            << NOT IMPLEMENTED YET >>
+            image attribute;
 
             no return value (void);
         """
 
-        # ---------------------------------------------------------------FIXME
-        print("[WARNING] parse_attr_image(): NOT IMPLEMENTED YET")
-
         # parsed attribute inits
 
-        self._tk_config(attribute, **kw)
+        self._tkRAD_image_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_menu (self, attribute, attrs, **kw):
+    def parse_attr_menu (self, attribute, **kw):
         r"""
             this should always be None as tkRAD manages it on its own;
 
@@ -911,43 +1110,29 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
 
 
-    def parse_attr_name (self, attribute, attrs, **kw):
+    def parse_attr_name (self, attribute, **kw):
         r"""
             name - generic XML attribute;
 
             sets a class member variable name to handle;
 
-            sets parsed XML 'id' instead if not defined in XML file;
+            sets parsed XML 'id' instead, if omitted;
 
             no return value (void);
         """
 
         # caution: *NOT* the same as self._is_new(attribute) /!\
 
-        if attribute and not attribute.parsed:
+        if self._is_unparsed(attribute):
 
             # param inits
 
-            _name = tools.canonize_id(attribute.value)
+            _name = tools.choose_str(
 
-            # no value?
+                tools.canonize_id(attribute.value),
 
-            if not tools.is_pstr(_name):
-                r"""
-                    $ 2013-12-18 RS $
-                    new support:
-                    attrs = RADXMLAttributesDict by now;
-                """
-
-                # try to get something from attr 'id'
-
-                self.parse_attr_id(attrs.get_item("id"), attrs, **kw)
-
-                # new value inits
-
-                _name = self.get_correct_id(attrs.get("id"))
-
-            # end if
+                self.element_get_id(attribute.xml_element),
+            )
 
             # parsed attribute inits
 
@@ -961,62 +1146,52 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
 
 
-    def parse_attr_offvalue (self, attribute, attrs, **kw):
+    def parse_attr_offvalue (self, attribute, **kw):
         r"""
-            any value support (tkinter manages value errors);
+            value attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_any_value_support(attribute, attrs, **kw)
+        self._tkRAD_any_value_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_onvalue (self, attribute, attrs, **kw):
+    def parse_attr_onvalue (self, attribute, **kw):
         r"""
-            any value support (tkinter manages value errors);
+            value attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_any_value_support(attribute, attrs, **kw)
+        self._tkRAD_any_value_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_relief (self, attribute, attrs, **kw):
+    def parse_attr_relief (self, attribute, **kw):
         r"""
-            attr 'relief' must be one of 'flat', 'raised', 'sunken',
-            'groove', 'ridge';
-
-            default value will be 'flat';
+            relief attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        kw.update(
-
-            default = "flat",
-
-            values = ("raised", "sunken", "groove", "ridge", "solid"),
-        )
-
-        self._fix_values(attribute, **kw)
+        self._tkRAD_relief_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_selectcolor (self, attribute, attrs, **kw):
+    def parse_attr_selectcolor (self, attribute, **kw):
         r"""
             color attribute;
 
@@ -1025,78 +1200,60 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
         # parsed attribute inits
 
-        self._tkRAD_color_support(attribute, attrs, **kw)
+        self._tkRAD_color_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_selected (self, attribute, attrs, **kw):
+    def parse_attr_selected (self, attribute, **kw):
         r"""
-            XML attr 'selected' must be 'selected="selected"' or will
-            be reset to None;
-
-            no return value (void);
-        """
-
-        if not attribute.parsed:
-
-            if str(attribute.value) != "selected":
-
-                attribute.value = None
-
-            # end if
-
-            # caution: *NO* self._tk_config() by here /!\
-
-            attribute.parsed = True
-
-        # end if
-
-    # end def
-
-
-
-    def parse_attr_selectimage (self, attribute, attrs, **kw):
-        r"""
-            same as 'image' attr;
+            boolean attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self.parse_attr_image(attribute, attrs, **kw)
+        kw.update(no_tk_config = True)
+
+        self._tkRAD_boolean_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_state (self, attribute, attrs, **kw):
+    def parse_attr_selectimage (self, attribute, **kw):
         r"""
-            attr 'state' must be one of 'normal', 'disabled' or '';
-
-            default value is 'normal';
+            image attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        kw.update(
-
-            default = "normal",
-
-            values = ("disabled", "readonly"),
-        )
-
-        self._fix_values(attribute, **kw)
+        self._tkRAD_image_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_underline (self, attribute, attrs, **kw):
+    def parse_attr_state (self, attribute, **kw):
+        r"""
+            state attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._tkRAD_state_support(attribute, **kw)
+
+    # end def
+
+
+
+    def parse_attr_underline (self, attribute, **kw):
         r"""
             resets underline value to 0 if not an integer value;
 
@@ -1105,127 +1262,54 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
         # parsed attribute inits
 
-        self._tkRAD_integer_support(attribute, attrs, **kw)
+        self._tkRAD_integer_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_value (self, attribute, attrs, **kw):
+    def parse_attr_value (self, attribute, **kw):
         r"""
-            any value support (tkinter manages value errors);
+            value attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_any_value_support(attribute, attrs, **kw)
+        self._tkRAD_any_value_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_variable (self, attribute, attrs, **kw):
+    def parse_attr_variable (self, attribute, **kw):
         r"""
-            sets a tkinter StringVar();
-
-            if Radiobutton or Checkbutton objects are linked to this
-
-            control variable and are selected / checked by default,
-
-            the StringVar resets to their value / onvalue on-the-fly;
+            control variable attribute;
 
             no return value (void);
         """
 
-        # param controls
+        # parsed attribute inits
 
-        if self._is_new(attribute):
-            r"""
-                $ 2013-12-18 RS $
-                new support:
-                attrs = RADXMLAttributesDict by now;
-            """
-
-            # efficient memory inits
-
-            _cvar = self.set_stringvar(attribute.value)
-
-            # is checkbutton/radiobutton
-
-            # checked/selected by default?
-
-            if tools.choose_str(
-
-                attrs.get("checked"), attrs.get("selected")
-            ):
-
-                _cvar.set(
-
-                    tools.choose_str(
-
-                        attrs.get("onvalue"), attrs.get("value")
-                    )
-                )
-
-            # end if
-
-            # parsed attribute inits
-
-            attribute.value = _cvar
-
-            self._tk_config(attribute, **kw)
-
-        # end if
+        self._tkRAD_cvar_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_widget (self, attribute, attrs, **kw):
+    def parse_attr_widget (self, attribute, **kw):
         r"""
-            XML attribute 'widget' refers to <widget> attr 'id';
-
-            tries to retrieve existing object with 'id' identity;
+            widget attribute;
 
             no return value (void);
         """
 
-        # param controls
+        # parsed attribute inits
 
-        if self._is_new(attribute):
+        kw.update(no_tk_config = True)
 
-            # look for existing widget along attr 'id'
-
-            _widget = self.get_object_by_id(attribute.value)
-
-            if _widget:
-
-                # parsed attribute inits
-
-                attribute.value = _widget
-
-                # caution: *NO* self._tk_config() by here /!\
-
-                attribute.parsed = True
-
-            # not found
-
-            else:
-
-                raise KeyError(
-
-                    _(
-                        "Widget of id '{w_id}' does not exist or "
-                        "has not been registered yet."
-
-                    ).format(w_id = attribute.value)
-                )
-
-            # end if
-
-        # end if
+        self._tkRAD_widget_support(attribute, **kw)
 
     # end def
 

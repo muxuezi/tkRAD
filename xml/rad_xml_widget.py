@@ -358,6 +358,34 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
+    def _ensure_string_value (self, attribute, **kw):
+        r"""
+            will set attr value at least an empty string of chars;
+
+            no return value (void);
+        """
+
+        # param controls
+
+        if self._is_unparsed(attribute):
+
+            # parsed attribute inits
+
+            attribute.value = tools.choose_str(
+
+                attribute.value,
+
+                kw.get("default"),
+            )
+
+            self._tk_config(attribute, **kw)
+
+        # end if
+
+    # end def
+
+
+
     def _init_attributes (self, xml_tag, xml_element, tk_parent, **kw):
         r"""
             parses @xml_element param XML attributes along @xml_tag
@@ -418,13 +446,9 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             # try to get widget's module
 
-            self.parse_attr_module(
-
-                attrs.get_item("module"), attrs, **kw
-            )
+            self.parse_attr_module(attrs.get_item("module"), **kw)
 
             # replace "@" alias in string of chars
-
             # by a ref to widget's module
 
             return str_value.replace("@", attrs.get("module", ""))
@@ -1954,7 +1978,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
-    def parse_attr__after (self, attribute, attrs, **kw):
+    def parse_attr__after (self, attribute, **kw):
         r"""
             PanedWindow child configuration attr;
 
@@ -1965,15 +1989,13 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         kw.update(tk_child_config = True)
 
-        self.parse_attr_widget(attribute, attrs, **kw)
-
-        self._tk_config(attribute, **kw)
+        self._tkRAD_widget_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr__before (self, attribute, attrs, **kw):
+    def parse_attr__before (self, attribute, **kw):
         r"""
             PanedWindow child configuration attr;
 
@@ -1984,15 +2006,13 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         kw.update(tk_child_config = True)
 
-        self.parse_attr_widget(attribute, attrs, **kw)
-
-        self._tk_config(attribute, **kw)
+        self._tkRAD_widget_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr__height (self, attribute, attrs, **kw):
+    def parse_attr__height (self, attribute, **kw):
         r"""
             PanedWindow child configuration attr;
 
@@ -2003,13 +2023,13 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         kw.update(tk_child_config = True)
 
-        self._tkRAD_dimension_support(attribute, attrs, **kw)
+        self._tkRAD_dimension_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr__minsize (self, attribute, attrs, **kw):
+    def parse_attr__minsize (self, attribute, **kw):
         r"""
             PanedWindow child configuration attr;
 
@@ -2020,13 +2040,13 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         kw.update(tk_child_config = True)
 
-        self._tkRAD_dimension_support(attribute, attrs, **kw)
+        self._tkRAD_dimension_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr__padx (self, attribute, attrs, **kw):
+    def parse_attr__padx (self, attribute, **kw):
         r"""
             PanedWindow child configuration attr;
 
@@ -2037,13 +2057,13 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         kw.update(tk_child_config = True)
 
-        self._tkRAD_dimension_support(attribute, attrs, **kw)
+        self._tkRAD_dimension_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr__pady (self, attribute, attrs, **kw):
+    def parse_attr__pady (self, attribute, **kw):
         r"""
             PanedWindow child configuration attr;
 
@@ -2054,13 +2074,13 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         kw.update(tk_child_config = True)
 
-        self._tkRAD_dimension_support(attribute, attrs, **kw)
+        self._tkRAD_dimension_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr__sticky (self, attribute, attrs, **kw):
+    def parse_attr__sticky (self, attribute, **kw):
         r"""
             PanedWindow child configuration attr;
 
@@ -2095,7 +2115,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
-    def parse_attr__width (self, attribute, attrs, **kw):
+    def parse_attr__width (self, attribute, **kw):
         r"""
             PanedWindow child configuration attr;
 
@@ -2106,31 +2126,30 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         kw.update(tk_child_config = True)
 
-        self._tkRAD_dimension_support(attribute, attrs, **kw)
+        self._tkRAD_dimension_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_activerelief (self, attribute, attrs, **kw):
+    def parse_attr_activerelief (self, attribute, **kw):
         r"""
-            same as 'relief' attr;
+            relief attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self.parse_attr_relief(attribute, attrs, **kw)
+        self._tkRAD_relief_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_activestyle (self, attribute, attrs, **kw):
+    def parse_attr_activestyle (self, attribute, **kw):
         r"""
-            attr 'activestyle' must be one of 'underline', 'dotbox',
-            'none';
+            must be one of 'underline', 'dotbox', 'none';
 
             default value is 'underline';
 
@@ -2152,7 +2171,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
-    def parse_attr_add (self, attribute, attrs, **kw):
+    def parse_attr_add (self, attribute, **kw):
         r"""
             filters XML attr 'add' along authorized values;
 
@@ -2187,7 +2206,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
-    def parse_attr_after (self, attribute, attrs, **kw):
+    def parse_attr_after (self, attribute, **kw):
         r"""
             PanedWindow child configuration attr;
 
@@ -2196,15 +2215,15 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         # parsed attribute inits
 
-        self.parse_attr__after(attribute, attrs, **kw)
+        self.parse_attr__after(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_anchor (self, attribute, attrs, **kw):
+    def parse_attr_anchor (self, attribute, **kw):
         r"""
-            translates XML attribute to tkinter attribute;
+            many location supports;
 
             supports 'north', 'top' or 'up' for TK.N;
 
@@ -2216,11 +2235,9 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             supports 'center' for TK.CENTER;
 
-            supports any consistent combination of above values
-
-            for TK.NW, TK.NE, TK.SW and TK.SE, of course;
-
-            e.g: anchor="top left" or anchor="down right", etc;
+            supports any consistent combination of above values  for
+            TK.NW, TK.NE, TK.SW and TK.SE, of course, e.g:
+            anchor="top left" or anchor="down right", etc;
 
             no return value (void);
         """
@@ -2262,7 +2279,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
-    def parse_attr_args (self, attribute, attrs, **kw):
+    def parse_attr_args (self, attribute, **kw):
         r"""
             class constructor arguments e.g. MyClass(**args);
 
@@ -2296,7 +2313,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             # replace "@" alias in value by a ref to widget's module
 
-            _args = self._replace_alias(_args, attrs, **kw)
+            _args = self._replace_alias(_args, **kw)
 
         else:
 
@@ -2316,7 +2333,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
-    def parse_attr_as (self, attribute, attrs, **kw):
+    def parse_attr_as (self, attribute, **kw):
         r"""
             conforms XML attr 'as' to language specs __identifier__;
 
@@ -2335,22 +2352,22 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
-    def parse_attr_aspect (self, attribute, attrs, **kw):
+    def parse_attr_aspect (self, attribute, **kw):
         r"""
-            attr 'aspect' ratio (integer)
+            attr 'aspect' ratio (integer);
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_integer_support(attribute, attrs, **kw)
+        self._tkRAD_integer_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_autoseparators (self, attribute, attrs, **kw):
+    def parse_attr_autoseparators (self, attribute, **kw):
         r"""
             boolean attribute;
 
@@ -2359,13 +2376,13 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         # parsed attribute inits
 
-        self._tkRAD_boolean_support(attribute, attrs, **kw)
+        self._tkRAD_boolean_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_before (self, attribute, attrs, **kw):
+    def parse_attr_before (self, attribute, **kw):
         r"""
             PanedWindow child configuration attr;
 
@@ -2374,21 +2391,17 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         # parsed attribute inits
 
-        self.parse_attr__before(attribute, attrs, **kw)
+        self.parse_attr__before(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_bind (self, attribute, attrs, **kw):
+    def parse_attr_bind (self, attribute, **kw):
         r"""
-            filters XML attr 'bind' along authorized values:
+            must be one of 'bind', 'bind_class' or 'bind_all';
 
-            "bind": binds only widget to event (default);
-
-            "bind_class": binds all widgets of same class to event;
-
-            "bind_all": binds all widgets anywhere in application;
+            default value is 'bind';
 
             no return value (void);
         """
@@ -2412,7 +2425,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
-    def parse_attr_buttonbackground (self, attribute, attrs, **kw):
+    def parse_attr_buttonbackground (self, attribute, **kw):
         r"""
             color attribute;
 
@@ -2421,61 +2434,61 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         # parsed attribute inits
 
-        self._tkRAD_color_support(attribute, attrs, **kw)
+        self._tkRAD_color_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_buttoncursor (self, attribute, attrs, **kw):
+    def parse_attr_buttoncursor (self, attribute, **kw):
         r"""
-            same as 'cursor' attr;
+            cursor attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self.parse_attr_cursor(attribute, attrs, **kw)
+        self._tkRAD_cursor_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_buttondownrelief (self, attribute, attrs, **kw):
+    def parse_attr_buttondownrelief (self, attribute, **kw):
         r"""
-            same as 'relief' attribute;
+            relief attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self.parse_attr_relief(attribute, attrs, **kw)
+        self._tkRAD_relief_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_buttonup (self, attribute, attrs, **kw):
+    def parse_attr_buttonup (self, attribute, **kw):
         r"""
-            same as 'relief' attribute;
+            relief attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self.parse_attr_relief(attribute, attrs, **kw)
+        self._tkRAD_relief_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_choices (self, attribute, attrs, **kw):
+    def parse_attr_choices (self, attribute, **kw):
         r"""
             changes string list of compound values to a well-formed
-            list() of compound values;
+            list() of string values;
 
             string values *MUST* be quoted;
 
@@ -2487,7 +2500,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             will become
 
-                choices = ['hello', 'good people', 123, 456.78]
+                choices = ['hello', 'good people', '123', '456.78']
 
             no return value (void);
         """
@@ -2521,7 +2534,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
-    def parse_attr_class (self, attribute, attrs, **kw):
+    def parse_attr_class (self, attribute, **kw):
         r"""
             forces XML attr 'class' name to conform to __identifier__
 
@@ -2532,7 +2545,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         # param controls - forces value clean-ups
 
-        if not attribute.parsed:
+        if self._is_unparsed(attribute):
 
             # param inits
 
@@ -2559,37 +2572,37 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
-    def parse_attr_class_ (self, attribute, attrs, **kw):
+    def parse_attr_class_ (self, attribute, **kw):
         r"""
-            fake 'class' name for tkinter options database;
+            fake classname for tkinter options database;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_any_value_support(attribute, attrs, **kw)
+        self._tkRAD_any_value_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_closeenough (self, attribute, attrs, **kw):
+    def parse_attr_closeenough (self, attribute, **kw):
         r"""
-            neighborhood attribute (float);
+            float attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_float_support(attribute, attrs, **kw)
+        self._tkRAD_float_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_confine (self, attribute, attrs, **kw):
+    def parse_attr_confine (self, attribute, **kw):
         r"""
             boolean attribute;
 
@@ -2598,54 +2611,43 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         # parsed attribute inits
 
-        self._tkRAD_boolean_support(attribute, attrs, **kw)
+        self._tkRAD_boolean_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_default (self, attribute, attrs, **kw):
+    def parse_attr_default (self, attribute, **kw):
         r"""
-            same as 'state' attr;
-
-            must be one of 'normal', 'disabled';
-
-            default value is 'normal';
+            state attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        kw.update(
-
-            default = "normal",
-
-            values = ("disabled", ),
-        )
-
-        self._fix_values(attribute, **kw)
+        self._tkRAD_state_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_digits (self, attribute, attrs, **kw):
+    def parse_attr_digits (self, attribute, **kw):
         r"""
-            number of digits to display in float numbers (integer);
+            integer attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_integer_support(attribute, attrs, **kw)
+        self._tkRAD_integer_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_direction (self, attribute, attrs, **kw):
+    def parse_attr_direction (self, attribute, **kw):
         r"""
             sets Menubutton pop-up menu showing up direction;
 
@@ -2670,7 +2672,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
-    def parse_attr_disabledbackground (self, attribute, attrs, **kw):
+    def parse_attr_disabledbackground (self, attribute, **kw):
         r"""
             color attribute;
 
@@ -2679,28 +2681,28 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         # parsed attribute inits
 
-        self._tkRAD_color_support(attribute, attrs, **kw)
+        self._tkRAD_color_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_elementborderwidth (self, attribute, attrs, **kw):
+    def parse_attr_elementborderwidth (self, attribute, **kw):
         r"""
-            width attribute (tkinter.dimension.support);
+            dimension attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_dimension_support(attribute, attrs, **kw)
+        self._tkRAD_dimension_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_exportselection (self, attribute, attrs, **kw):
+    def parse_attr_exportselection (self, attribute, **kw):
         r"""
             boolean attribute;
 
@@ -2709,13 +2711,13 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         # parsed attribute inits
 
-        self._tkRAD_boolean_support(attribute, attrs, **kw)
+        self._tkRAD_boolean_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_format (self, attribute, attrs, **kw):
+    def parse_attr_format (self, attribute, **kw):
         r"""
             sprintf() format e.g. '%02.3f';
 
@@ -2756,18 +2758,18 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
-    def parse_attr_from (self, attribute, attrs, **kw):
+    def parse_attr_from (self, attribute, **kw):
         r"""
-            filters XML attr 'from' along dottedURI rule;
+            from relative.module import ...;
 
-            accepts only regexp(r"[\.\w]+") in fact;
+            parse relative.module string value;
 
             no return value (void);
         """
 
         # param controls - forces value clean-ups
 
-        if not attribute.parsed:
+        if self._is_unparsed(attribute):
 
             # parsed attribute inits
 
@@ -2784,67 +2786,67 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
-    def parse_attr_from_ (self, attribute, attrs, **kw):
+    def parse_attr_from_ (self, attribute, **kw):
         r"""
-            starting point attribute (float);
+            starting point float attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_float_support(attribute, attrs, **kw)
+        self._tkRAD_float_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_handlepad (self, attribute, attrs, **kw):
+    def parse_attr_handlepad (self, attribute, **kw):
         r"""
-            distance attribute (tkinter.dimension.support);
+            dimension attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_dimension_support(attribute, attrs, **kw)
+        self._tkRAD_dimension_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_handlesize (self, attribute, attrs, **kw):
+    def parse_attr_handlesize (self, attribute, **kw):
         r"""
-            size attribute (tkinter.dimension.support);
+            dimension attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_dimension_support(attribute, attrs, **kw)
+        self._tkRAD_dimension_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_height (self, attribute, attrs, **kw):
+    def parse_attr_height (self, attribute, **kw):
         r"""
-            height attr (integer);
+            integer attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_integer_support(attribute, attrs, **kw)
+        self._tkRAD_integer_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_highlightbackground (self, attribute, attrs, **kw):
+    def parse_attr_highlightbackground (self, attribute, **kw):
         r"""
             color attribute;
 
@@ -2853,13 +2855,13 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         # parsed attribute inits
 
-        self._tkRAD_color_support(attribute, attrs, **kw)
+        self._tkRAD_color_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_highlightcolor (self, attribute, attrs, **kw):
+    def parse_attr_highlightcolor (self, attribute, **kw):
         r"""
             color attribute;
 
@@ -2868,39 +2870,39 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         # parsed attribute inits
 
-        self._tkRAD_color_support(attribute, attrs, **kw)
+        self._tkRAD_color_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_highlightthickness (self, attribute, attrs, **kw):
+    def parse_attr_highlightthickness (self, attribute, **kw):
         r"""
-            thickness attribute (tkinter.dimension.support);
+            dimension attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_dimension_support(attribute, attrs, **kw)
+        self._tkRAD_dimension_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_import (self, attribute, attrs, **kw):
+    def parse_attr_import (self, attribute, **kw):
         r"""
-            filters XML attr 'import' along dottedURIStar rule;
+            from ... import module;
 
-            accepts only regexp(r"[\.\w]+") XOR "*", in fact;
+            parses module string value;
 
             no return value (void);
         """
 
         # param controls - forces value clean-ups
 
-        if not attribute.parsed:
+        if self._is_unparsed(attribute):
 
             # parsed attribute inits
 
@@ -2916,22 +2918,22 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
-    def parse_attr_increment (self, attribute, attrs, **kw):
+    def parse_attr_increment (self, attribute, **kw):
         r"""
-            step by step value 'increment' attr (float);
+            float attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_float_support(attribute, attrs, **kw)
+        self._tkRAD_float_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_indicatoron (self, attribute, attrs, **kw):
+    def parse_attr_indicatoron (self, attribute, **kw):
         r"""
             boolean attribute;
 
@@ -2940,13 +2942,13 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         # parsed attribute inits
 
-        self._tkRAD_boolean_support(attribute, attrs, **kw)
+        self._tkRAD_boolean_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_insertbackground (self, attribute, attrs, **kw):
+    def parse_attr_insertbackground (self, attribute, **kw):
         r"""
             color attribute;
 
@@ -2955,73 +2957,73 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         # parsed attribute inits
 
-        self._tkRAD_color_support(attribute, attrs, **kw)
+        self._tkRAD_color_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_insertborderwidth (self, attribute, attrs, **kw):
+    def parse_attr_insertborderwidth (self, attribute, **kw):
         r"""
-            width attribute (tkinter.dimension.support);
+            dimension attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_dimension_support(attribute, attrs, **kw)
+        self._tkRAD_dimension_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_insertofftime (self, attribute, attrs, **kw):
+    def parse_attr_insertofftime (self, attribute, **kw):
         r"""
-            time attribute (integer);
+            integer attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_integer_support(attribute, attrs, **kw)
+        self._tkRAD_integer_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_insertontime (self, attribute, attrs, **kw):
+    def parse_attr_insertontime (self, attribute, **kw):
         r"""
-            time attribute (integer);
+            integer attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_integer_support(attribute, attrs, **kw)
+        self._tkRAD_integer_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_insertwidth (self, attribute, attrs, **kw):
+    def parse_attr_insertwidth (self, attribute, **kw):
         r"""
-            width attribute (tkinter.dimension.support);
+            dimension attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_dimension_support(attribute, attrs, **kw)
+        self._tkRAD_dimension_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_jump (self, attribute, attrs, **kw):
+    def parse_attr_jump (self, attribute, **kw):
         r"""
             boolean attribute;
 
@@ -3030,15 +3032,15 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         # parsed attribute inits
 
-        self._tkRAD_boolean_support(attribute, attrs, **kw)
+        self._tkRAD_boolean_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_justify (self, attribute, attrs, **kw):
+    def parse_attr_justify (self, attribute, **kw):
         r"""
-            attr 'justify' must be one of 'left', 'right', 'center';
+            must be one of 'left', 'right', 'center';
 
             default value is 'center';
 
@@ -3060,60 +3062,50 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
-    def parse_attr_label (self, attribute, attrs, **kw):
+    def parse_attr_label (self, attribute, **kw):
         r"""
-            XML attr 'label' should be translated (i18n);
+            label attribute;
 
             no return value (void);
         """
 
-        self._tkRAD_label_support(attribute, attrs, **kw)
+        self._tkRAD_label_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_labelanchor (self, attribute, attrs, **kw):
+    def parse_attr_labelanchor (self, attribute, **kw):
         r"""
-            same support as parse_attr_anchor();
+            anchor attribute;
 
             no return value (void);
         """
 
-        self.parse_attr_anchor(attribute, attrs, **kw)
+        self.parse_attr_anchor(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_labelwidget (self, attribute, attrs, **kw):
+    def parse_attr_labelwidget (self, attribute, **kw):
         r"""
-            looks for an existing widget along its 'id' XML
-            attribute or sets to 'tk_parent' if not found;
+            widget attribute;
 
             no return value (void);
         """
 
-        self.parse_attr_widget(attribute, attrs, **kw)
+        self._tkRAD_widget_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_layout (self, attribute, attrs, **kw):
+    def parse_attr_layout (self, attribute, **kw):
         r"""
-            attr 'layout' must be one of 'none', 'pack', 'grid' or
-            'place';
+            must be one of 'pack', 'grid', 'place' or 'none';
 
             default value is 'none' (no layout);
-
-            "pack": automatic widget.pack() with 'layout_options';
-
-            "grid": automatic widget.grid() with 'layout_options';
-
-            "place": automatic widget.place() with 'layout_options';
-
-            incorrect values will default to "none";
 
             no return value (void);
         """
@@ -3137,20 +3129,16 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
-    def parse_attr_layout_options (self, attribute, attrs, **kw):
+    def parse_attr_layout_options (self, attribute, **kw):
         r"""
-            replace "@" aliases in @value param string with the
-
-            widget's module ref name e.g. "side = @LEFT" becomes
-
-            "side = TK.LEFT" if widget's module name is "TK";
+            'pack', 'grid' or 'place' layout options;
 
             no return value (void);
         """
 
         # param controls
 
-        if not attribute.parsed:
+        if self._is_unparsed(attribute):
 
             _lopts = attribute.value
 
@@ -3158,13 +3146,13 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
                 # replace "@" alias by a ref to widget's module
 
-                _lopts = self._replace_alias(_lopts, attrs, **kw)
+                _lopts = self._replace_alias(_lopts, **kw)
 
                 # layout options must be a dict() of options
 
                 # for self._set_layout() and self._set_resizable()
 
-                _lopts = eval("dict({})".format(_lopts))
+                _lopts = eval("dict({})".format(_lopts.strip("()[]{}")))
 
             elif not tools.is_pdict(_lopts):
 
@@ -3188,52 +3176,52 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
-    def parse_attr_length (self, attribute, attrs, **kw):
+    def parse_attr_length (self, attribute, **kw):
         r"""
-            width attribute (tkinter.dimension.support);
+            dimension attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_dimension_support(attribute, attrs, **kw)
+        self._tkRAD_dimension_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_listvariable (self, attribute, attrs, **kw):
+    def parse_attr_listvariable (self, attribute, **kw):
         r"""
-            same as XML attr 'variable';
+            control variable attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self.parse_attr_variable(attribute, attrs, **kw)
+        self._tkRAD_cvar_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_maxundo (self, attribute, attrs, **kw):
+    def parse_attr_maxundo (self, attribute, **kw):
         r"""
-            maximum of 'undo' ops (integer);
+            integer attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_integer_support(attribute, attrs, **kw)
+        self._tkRAD_integer_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_minsize (self, attribute, attrs, **kw):
+    def parse_attr_minsize (self, attribute, **kw):
         r"""
             PanedWindow child configuration attr;
 
@@ -3242,18 +3230,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         # parsed attribute inits
 
-        self.parse_attr__minsize(attribute, attrs, **kw)
+        self.parse_attr__minsize(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_module (self, attribute, attrs, **kw):
+    def parse_attr_module (self, attribute, **kw):
         r"""
-            XML attribute 'module' is a ref to <module id="...">;
-
-            tries to retrieve XML element <module> and
-
             tries to determine module's correct alias name;
 
             no return value (void);
@@ -3324,39 +3308,39 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
-    def parse_attr_offrelief (self, attribute, attrs, **kw):
+    def parse_attr_offrelief (self, attribute, **kw):
         r"""
-            same as 'relief' attr;
+            relief attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self.parse_attr_relief(attribute, attrs, **kw)
+        self._tkRAD_relief_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_opaqueresize (self, attribute, attrs, **kw):
+    def parse_attr_opaqueresize (self, attribute, **kw):
         r"""
-            boolean attribute (0|1);
+            boolean attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_boolean_support(attribute, attrs, **kw)
+        self._tkRAD_boolean_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_orient (self, attribute, attrs, **kw):
+    def parse_attr_orient (self, attribute, **kw):
         r"""
-            orientation must be one of 'vertical', 'horizontal';
+            must be one of 'vertical', 'horizontal';
 
             default value is 'vertical';
 
@@ -3378,52 +3362,52 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
-    def parse_attr_overrelief (self, attribute, attrs, **kw):
+    def parse_attr_overrelief (self, attribute, **kw):
         r"""
-            same as attr 'relief';
+            relief attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self.parse_attr_relief(attribute, attrs, **kw)
+        self._tkRAD_relief_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_padx (self, attribute, attrs, **kw):
+    def parse_attr_padx (self, attribute, **kw):
         r"""
-            pad attribute (tkinter.dimension.support);
+            dimension attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_dimension_support(attribute, attrs, **kw)
+        self._tkRAD_dimension_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_pady (self, attribute, attrs, **kw):
+    def parse_attr_pady (self, attribute, **kw):
         r"""
-            pad attribute (tkinter.dimension.support);
+            dimension attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_dimension_support(attribute, attrs, **kw)
+        self._tkRAD_dimension_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_readonlybackground (self, attribute, attrs, **kw):
+    def parse_attr_readonlybackground (self, attribute, **kw):
         r"""
             color attribute;
 
@@ -3432,55 +3416,47 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         # parsed attribute inits
 
-        self._tkRAD_color_support(attribute, attrs, **kw)
+        self._tkRAD_color_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_repeatdelay (self, attribute, attrs, **kw):
+    def parse_attr_repeatdelay (self, attribute, **kw):
         r"""
-            repetition delay in msec (integer);
+            integer attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_integer_support(attribute, attrs, **kw)
+        self._tkRAD_integer_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_repeatinterval (self, attribute, attrs, **kw):
+    def parse_attr_repeatinterval (self, attribute, **kw):
         r"""
-            repetition interval delay in msec (integer);
+            integer attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_integer_support(attribute, attrs, **kw)
+        self._tkRAD_integer_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_resizable (self, attribute, attrs, **kw):
+    def parse_attr_resizable (self, attribute, **kw):
         r"""
-            filters XML attr 'resizable' along authorized values:
+            must be one of 'yes', 'no', 'width', 'height';
 
-            "no": widget should *NOT* be resizable at all (default);
-
-            "yes": widget should be resizable in both width and height;
-
-            "width": widget should be resizable only in its width dim;
-
-            "height": widget should be resizable only in its height dim;
-
-            missing attribute in XML def will default to "no";
+            default value is 'no';
 
             no return value (void);
         """
@@ -3504,67 +3480,67 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
-    def parse_attr_resolution (self, attribute, attrs, **kw):
+    def parse_attr_resolution (self, attribute, **kw):
         r"""
-            scale resolution attribute (float);
+            float attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_float_support(attribute, attrs, **kw)
+        self._tkRAD_float_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_sashpad (self, attribute, attrs, **kw):
+    def parse_attr_sashpad (self, attribute, **kw):
         r"""
-            pad size attribute (tkinter.dimension.support);
+            dimension attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_dimension_support(attribute, attrs, **kw)
+        self._tkRAD_dimension_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_sashrelief (self, attribute, attrs, **kw):
+    def parse_attr_sashrelief (self, attribute, **kw):
         r"""
-            same as attr 'relief';
+            relief attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self.parse_attr_relief(attribute, attrs, **kw)
+        self._tkRAD_relief_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_sashwidth (self, attribute, attrs, **kw):
+    def parse_attr_sashwidth (self, attribute, **kw):
         r"""
-            width attribute (tkinter.dimension.support)
+            dimension attribute
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_dimension_support(attribute, attrs, **kw)
+        self._tkRAD_dimension_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_scrollregion (self, attribute, attrs, **kw):
+    def parse_attr_scrollregion (self, attribute, **kw):
         r"""
             must be a 4-tuple of integers;
 
@@ -3600,7 +3576,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
-    def parse_attr_selectbackground (self, attribute, attrs, **kw):
+    def parse_attr_selectbackground (self, attribute, **kw):
         r"""
             color attribute;
 
@@ -3609,28 +3585,28 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         # parsed attribute inits
 
-        self._tkRAD_color_support(attribute, attrs, **kw)
+        self._tkRAD_color_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_selectborderwidth (self, attribute, attrs, **kw):
+    def parse_attr_selectborderwidth (self, attribute, **kw):
         r"""
-            width attribute (tkinter.dimension.support);
+            dimension attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_dimension_support(attribute, attrs, **kw)
+        self._tkRAD_dimension_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_selectforeground (self, attribute, attrs, **kw):
+    def parse_attr_selectforeground (self, attribute, **kw):
         r"""
             color attribute;
 
@@ -3639,16 +3615,15 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         # parsed attribute inits
 
-        self._tkRAD_color_support(attribute, attrs, **kw)
+        self._tkRAD_color_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_selectmode (self, attribute, attrs, **kw):
+    def parse_attr_selectmode (self, attribute, **kw):
         r"""
-            attr 'selectmode' must be one of 'browse', 'single',
-            'multiple', 'extended';
+            must be one of 'browse', 'single', 'multiple', 'extended';
 
             default value is 'browse';
 
@@ -3670,32 +3645,24 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
-    def parse_attr_seq (self, attribute, attrs, **kw):
+    def parse_attr_seq (self, attribute, **kw):
         r"""
-            filters XML attr 'seq' along authorized values;
-
             must be at least an empty string of chars;
 
             no return value (void);
         """
 
-        # param controls
+        # parsed attribute inits
 
-        if not tools.is_pstr(attribute.value):
+        kw.update(no_tk_config = True)
 
-            # param inits
-
-            attribute.value = ""
-
-        # end if
-
-        # caution: *NO* self._tk_config() by here /!\
+        self._ensure_string_value(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_show (self, attribute, attrs, **kw):
+    def parse_attr_show (self, attribute, **kw):
         r"""
             password echo character to show in entry box;
 
@@ -3704,28 +3671,13 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         # parsed attribute inits
 
-        self._tkRAD_any_value_support(attribute, attrs, **kw)
+        self._tkRAD_any_value_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_showhandle (self, attribute, attrs, **kw):
-        r"""
-            boolean attribute (0|1);
-
-            no return value (void);
-        """
-
-        # parsed attribute inits
-
-        self._tkRAD_boolean_support(attribute, attrs, **kw)
-
-    # end def
-
-
-
-    def parse_attr_showvalue (self, attribute, attrs, **kw):
+    def parse_attr_showhandle (self, attribute, **kw):
         r"""
             boolean attribute;
 
@@ -3734,130 +3686,135 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         # parsed attribute inits
 
-        self._tkRAD_boolean_support(attribute, attrs, **kw)
+        self._tkRAD_boolean_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_signal (self, attribute, attrs, **kw):
+    def parse_attr_showvalue (self, attribute, **kw):
         r"""
-            filters XML attr 'signal' along authorized values;
+            boolean attribute;
 
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._tkRAD_boolean_support(attribute, **kw)
+
+    # end def
+
+
+
+    def parse_attr_signal (self, attribute, **kw):
+        r"""
             must be at least an empty string of chars;
 
             no return value (void);
         """
 
-        # param controls
+        # parsed attribute inits
 
-        if not tools.is_pstr(attribute.value):
+        kw.update(no_tk_config = True)
 
-            # param inits
-
-            attribute.value = ""
-
-        # end if
-
-        # caution: *NO* self._tk_config() by here /!\
+        self._ensure_string_value(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_sliderlength (self, attribute, attrs, **kw):
+    def parse_attr_sliderlength (self, attribute, **kw):
         r"""
-            width attribute (tkinter.dimension.support);
+            dimension attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_dimension_support(attribute, attrs, **kw)
+        self._tkRAD_dimension_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_sliderrelief (self, attribute, attrs, **kw):
+    def parse_attr_sliderrelief (self, attribute, **kw):
         r"""
-            same as attr 'relief';
+            relief attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self.parse_attr_relief(attribute, attrs, **kw)
+        self._tkRAD_relief_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_slot (self, attribute, attrs, **kw):
+    def parse_attr_slot (self, attribute, **kw):
         r"""
-            tries to eval XML attr 'slot' to its real function or
-
-            method callback pointer;
-
-            no return value (void);
-        """
-
-        # tkRAD.command.support
-
-        self.parse_attr_command(attribute, attrs, **kw)
-
-    # end def
-
-
-
-    def parse_attr_spacing1 (self, attribute, attrs, **kw):
-        r"""
-            height attr (tkinter.dimension.support);
+            command attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_dimension_support(attribute, attrs, **kw)
+        self._tkRAD_command_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_spacing2 (self, attribute, attrs, **kw):
+    def parse_attr_spacing1 (self, attribute, **kw):
         r"""
-            height attr (tkinter.dimension.support);
+            dimension attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_dimension_support(attribute, attrs, **kw)
+        self._tkRAD_dimension_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_spacing3 (self, attribute, attrs, **kw):
+    def parse_attr_spacing2 (self, attribute, **kw):
         r"""
-            height attr (tkinter.dimension.support);
+            dimension attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_dimension_support(attribute, attrs, **kw)
+        self._tkRAD_dimension_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_src (self, attribute, attrs, **kw):
+    def parse_attr_spacing3 (self, attribute, **kw):
+        r"""
+            dimension attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._tkRAD_dimension_support(attribute, **kw)
+
+    # end def
+
+
+
+    def parse_attr_src (self, attribute, **kw):
         r"""
             canonizes URI in XML attr 'src';
 
@@ -3882,7 +3839,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
-    def parse_attr_start (self, attribute, attrs, **kw):
+    def parse_attr_start (self, attribute, **kw):
         r"""
             defines starting point for attr 'choices' items list;
 
@@ -3934,7 +3891,43 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
-    def parse_attr_sticky (self, attribute, attrs, **kw):
+    def parse_attr_state (self, attribute, **kw):
+        r"""
+            must be one of 'normal' or 'disabled';
+
+            must be one of 'normal', 'disabled' or 'readonly' when
+            XML element is one of 'entry', 'spinbox';
+
+            default value is 'normal';
+
+            no return value (void);
+        """
+
+        # $ 2014-01-16 RS $
+        # new support:
+        # special case for '<entry>' and '<spinbox>':
+
+        if kw.get("xml_tag") in ("entry", "spinbox"):
+
+            _values = ("disabled", "readonly", )
+
+        else:
+
+            _values = ("disabled", )
+
+        # end if
+
+        # parsed attribute inits
+
+        kw.update(default = "normal", values = _values)
+
+        self._fix_values(attribute, **kw)
+
+    # end def
+
+
+
+    def parse_attr_sticky (self, attribute, **kw):
         r"""
             PanedWindow child configuration attr;
 
@@ -3943,22 +3936,22 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         # parsed attribute inits
 
-        self.parse_attr__sticky(attribute, attrs, **kw)
+        self.parse_attr__sticky(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_tabs (self, attribute, attrs, **kw):
+    def parse_attr_tabs (self, attribute, **kw):
         r"""
-            same as 'choices' attr;
+            choices attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self.parse_attr_choices(attribute, attrs, **kw)
+        self.parse_attr_choices(attribute, **kw)
 
         self._tk_config(attribute, **kw)
 
@@ -3966,7 +3959,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
-    def parse_attr_takefocus (self, attribute, attrs, **kw):
+    def parse_attr_takefocus (self, attribute, **kw):
         r"""
             boolean attribute;
 
@@ -3975,71 +3968,73 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         # parsed attribute inits
 
-        self._tkRAD_boolean_support(attribute, attrs, **kw)
+        self._tkRAD_boolean_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_text (self, attribute, attrs, **kw):
+    def parse_attr_text (self, attribute, **kw):
         r"""
-            XML attr 'text' supports i18n translations and
-
-            underlined char;
-
-            no return value (void);
-        """
-
-        self._tkRAD_label_support(attribute, attrs, **kw)
-
-    # end def
-
-
-
-    def parse_attr_textvariable (self, attribute, attrs, **kw):
-        r"""
-            sets control variable along its given name;
-
-            no return value (void);
-        """
-
-        self.parse_attr_variable(attribute, attrs, **kw)
-
-    # end def
-
-
-
-    def parse_attr_tickinterval (self, attribute, attrs, **kw):
-        r"""
-            scale graduation tick attribute (float);
+            label attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_float_support(attribute, attrs, **kw)
+        self._tkRAD_label_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_to (self, attribute, attrs, **kw):
+    def parse_attr_textvariable (self, attribute, **kw):
         r"""
-            ending point attribute (float);
+            control variable attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_float_support(attribute, attrs, **kw)
+        self._tkRAD_cvar_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_troughcolor (self, attribute, attrs, **kw):
+    def parse_attr_tickinterval (self, attribute, **kw):
+        r"""
+            float attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._tkRAD_float_support(attribute, **kw)
+
+    # end def
+
+
+
+    def parse_attr_to (self, attribute, **kw):
+        r"""
+            float attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._tkRAD_float_support(attribute, **kw)
+
+    # end def
+
+
+
+    def parse_attr_troughcolor (self, attribute, **kw):
         r"""
             color attribute;
 
@@ -4048,13 +4043,13 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         # parsed attribute inits
 
-        self._tkRAD_color_support(attribute, attrs, **kw)
+        self._tkRAD_color_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_undo (self, attribute, attrs, **kw):
+    def parse_attr_undo (self, attribute, **kw):
         r"""
             boolean attribute;
 
@@ -4063,16 +4058,16 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         # parsed attribute inits
 
-        self._tkRAD_boolean_support(attribute, attrs, **kw)
+        self._tkRAD_boolean_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_validate (self, attribute, attrs, **kw):
+    def parse_attr_validate (self, attribute, **kw):
         r"""
-            attr 'validate' must be one of 'focus', 'focusin',
-            'focusout', 'key', 'all' or 'none';
+            must be one of 'focus', 'focusin', 'focusout', 'key',
+            'all' or 'none';
 
             default value is 'none';
 
@@ -4094,31 +4089,31 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
-    def parse_attr_validatecommand (self, attribute, attrs, **kw):
+    def parse_attr_validatecommand (self, attribute, **kw):
         r"""
-            same as 'command' attr;
+            command attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self.parse_attr_command(attribute, attrs, **kw)
+        self._tkRAD_command_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_values (self, attribute, attrs, **kw):
+    def parse_attr_values (self, attribute, **kw):
         r"""
-            same as 'choices' attr;
+            choices attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self.parse_attr_choices(attribute, attrs, **kw)
+        self.parse_attr_choices(attribute, **kw)
 
         self._tk_config(attribute, **kw)
 
@@ -4126,177 +4121,184 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
-    def parse_attr_width (self, attribute, attrs, **kw):
+    def parse_attr_width (self, attribute, **kw):
         r"""
-            width must be an integer (pixels);
+            dimension attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_integer_support(attribute, attrs, **kw)
+        self._tkRAD_integer_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_wrap (self, attribute, attrs, **kw):
+    def parse_attr_wrap (self, attribute, **kw):
         r"""
-            boolean attribute (0|1)
+            boolean attribute;
+
+            must be 'char', 'word' or 'none' if XML element is 'text';
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_boolean_support(attribute, attrs, **kw)
+        if kw.get("xml_tag") == "text":
 
-    # end def
+            kw.update(
 
+                default = "none",
 
+                values = ("char", "word"),
+            )
 
-    def parse_attr_wraplength (self, attribute, attrs, **kw):
-        r"""
-            width attribute (tkinter.dimension.support);
+            self._fix_values(attribute, **kw)
 
-            no return value (void);
-        """
+        else:
 
-        # parsed attribute inits
-
-        self._tkRAD_dimension_support(attribute, attrs, **kw)
-
-    # end def
-
-
-
-    def parse_attr_xml_dir (self, attribute, attrs, **kw):
-        r"""
-            sets XML attr 'xml_dir' to XML_RC if not defined;
-
-            no return value (void);
-        """
-
-        # param controls
-
-        if not tools.is_pstr(attribute.value):
-
-            # for subclass override /!\
-
-            attribute.value = self.XML_RC.get("dir")
+            self._tkRAD_boolean_support(attribute, **kw)
 
         # end if
 
-        # caution: *NO* self._tk_config() by here /!\
-
     # end def
 
 
 
-    def parse_attr_xml_file_ext (self, attribute, attrs, **kw):
+    def parse_attr_wraplength (self, attribute, **kw):
         r"""
-            sets XML attr 'xml_file_ext' to XML_RC if not defined;
-
-            no return value (void);
-        """
-
-        # param controls
-
-        if not tools.is_pstr(attribute.value):
-
-            # for subclass override /!\
-
-            attribute.value = self.XML_RC.get("file_ext")
-
-        # end if
-
-        # caution: *NO* self._tk_config() by here /!\
-
-    # end def
-
-
-
-    def parse_attr_xml_filename (self, attribute, attrs, **kw):
-        r"""
-            forces XML attr 'xml_filename' to '' if not defined;
-
-            this is a security issue;
-
-            no return value (void);
-        """
-
-        # param controls
-
-        if not tools.is_pstr(attribute.value):
-
-            # must be nothing /!\
-
-            attribute.value = ""
-
-        # end if
-
-        # caution: *NO* self._tk_config() by here /!\
-
-    # end def
-
-
-
-    def parse_attr_xscrollcommand (self, attribute, attrs, **kw):
-        r"""
-            same as 'command' attr;
+            dimension attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self.parse_attr_command(attribute, attrs, **kw)
+        self._tkRAD_dimension_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_xscrollincrement (self, attribute, attrs, **kw):
+    def parse_attr_xml_dir (self, attribute, **kw):
         r"""
-            step attribute (tkinter.dimension.support);
+            must be at least an empty string of chars;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_dimension_support(attribute, attrs, **kw)
+        kw.update(
+
+            no_tk_config = True,
+
+            default = self.XML_RC.get("dir")
+        )
+
+        self._ensure_string_value(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_yscrollcommand (self, attribute, attrs, **kw):
+    def parse_attr_xml_file_ext (self, attribute, **kw):
         r"""
-            same as 'command' attr;
+            must be at least an empty string of chars;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self.parse_attr_command(attribute, attrs, **kw)
+        kw.update(
+
+            no_tk_config = True,
+
+            default = self.XML_RC.get("file_ext")
+        )
+
+        self._ensure_string_value(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_yscrollincrement (self, attribute, attrs, **kw):
+    def parse_attr_xml_filename (self, attribute, **kw):
         r"""
-            step attribute (tkinter.dimension.support);
+            must be at least an empty string of chars;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_dimension_support(attribute, attrs, **kw)
+        kw.update(no_tk_config = True)
+
+        self._ensure_string_value(attribute, **kw)
+
+    # end def
+
+
+
+    def parse_attr_xscrollcommand (self, attribute, **kw):
+        r"""
+            command attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._tkRAD_command_support(attribute, **kw)
+
+    # end def
+
+
+
+    def parse_attr_xscrollincrement (self, attribute, **kw):
+        r"""
+            dimension attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._tkRAD_dimension_support(attribute, **kw)
+
+    # end def
+
+
+
+    def parse_attr_yscrollcommand (self, attribute, **kw):
+        r"""
+            command attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._tkRAD_command_support(attribute, **kw)
+
+    # end def
+
+
+
+    def parse_attr_yscrollincrement (self, attribute, **kw):
+        r"""
+            dimension attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._tkRAD_dimension_support(attribute, **kw)
 
     # end def
 

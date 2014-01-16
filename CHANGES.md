@@ -9,6 +9,89 @@
 ## CHANGELOG
 
 
+### $ 2014-01-16 RS $
+
+* updated `RADXMLMenu`:
+
+    * revised/optimized code almost anywhere;
+
+    * updated all `parse_attr_*()` protos along real needs;
+
+* updated `RADXMLBase`:
+
+    * added new `element_get_id(self, xml_element)`:
+
+        * now fully implemented;
+
+    * in `parse_xml_attributes()`:
+
+        * now assumes larger anonymous parser protos `parser(**kw)`;
+
+* updated `RADXMLAttribute`:
+
+    * added new `update_xml_element(self, value=None)`:
+
+        * updates inner XML element's attribute of `attribute.name`
+        name along a given `@value` param or inner `attribute.value`
+        if `@value` param is `None` or omitted;
+
+        * now fully implemented;
+
+* updated `RADXMLWidgetBase`:
+
+    * revised/optimized code almost anywhere;
+
+    * added
+    new `_tkRAD_bitmap_support()`,
+    new `_tkRAD_image_support()`:
+
+        * CAUTION: to be implemented;
+
+    * added
+    new `_tkRAD_state_support()`,
+    new `_tkRAD_cursor_support()`,
+    new `_tkRAD_widget_support()`,
+    new `_is_unparsed()`,
+    new `_tkRAD_command_support()`,
+    new `_tkRAD_font_support()`,
+    new `_tkRAD_relief_support()`,
+    new `_tkRAD_cvar_support()`:
+
+        * now fully implemented;
+
+    * updated all `parse_attr_*()` protos along real needs;
+
+    * in `_fix_values()`, `parse_attr_id()`:
+
+        * now supports `attribute.update_xml_element()`;
+
+    * in `parse_attr_checked()`, `parse_attr_selected()`:
+
+        * now implemented along `_tkRAD_boolean_support()`;
+
+    * in `_tkRAD_boolean_support()`:
+
+        * now supports `attribute.update_xml_element()`;
+
+        * now admits logical values such as '1', '0', 'yes', 'no',
+        'true', 'false' or `attribute name` itself (W3C compliant)
+        e.g. `selected="selected"`;
+
+* updated `RADXMLWidget`:
+
+    * revised/optimized code almost anywhere;
+
+    * updated all `parse_attr_*()` protos along real needs;
+
+    * in `parse_attr_wrap()`:
+
+        * now supports fixed values 'char', 'word', 'none' for XML
+        element `<text>`;
+
+        * still supports default boolean values '0', '1' for other
+        XML elements;
+
+
 ### $ 2014-01-15 RS $
 
 * updated `RADXMLWidgetBase`:

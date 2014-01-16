@@ -519,6 +519,41 @@ class RADXMLBase (RW.RADWidgetBase):
 
 
 
+    def element_get_id (self, xml_element):
+        r"""
+            sets a correct 'id' value for a given XML element;
+
+            resets its 'id' attribute to this correct value;
+
+            returns 'id' value on success, None otherwise;
+        """
+
+        # param controls
+
+        if self.cast_element(xml_element):
+
+            # inits
+
+            _id = self.get_correct_id(xml_element.get("id"))
+
+            # update XML element attr 'id'
+
+            xml_element.set("id", _id)
+
+            # succeeded
+
+            return _id
+
+        # end if
+
+        # failed
+
+        return None
+
+    # end def
+
+
+
     def get_correct_id(self, value):
         r"""
             always provide a correct id name
@@ -1071,10 +1106,12 @@ class RADXMLBase (RW.RADWidgetBase):
 
             r"""
                 $ 2013-12-16 RS $
-                new support: work with RADXMLAttribute objects by now;
+                new support:
+                work with RADXMLAttribute objects by now;
 
                 $ 2013-12-18 RS $
-                new support: work with RADXMLAttributesDict by now;
+                new support:
+                work with RADXMLAttributesDict by now;
 
                 notice:
                 XA.reset_attributes() provides dict() shallow copy;
@@ -1118,6 +1155,10 @@ class RADXMLBase (RW.RADWidgetBase):
 
                         kw.update(
 
+                            attribute = _attr_object,
+
+                            attrs = _attrs,
+
                             tk_parent = tk_parent,
 
                             xml_element = xml_element,
@@ -1129,18 +1170,11 @@ class RADXMLBase (RW.RADWidgetBase):
 
                         # attribute parsing inits
 
-                        self._before_parsing_attribute(
-
-                            attribute = _attr_object,
-
-                            attrs = _attrs,
-
-                            **kw
-                        )
+                        self._before_parsing_attribute(**kw)
 
                         # call parser
 
-                        _parser(_attr_object, _attrs, **kw)
+                        _parser(**kw)
 
                         r"""
                             $ 2013-12-16 RS $

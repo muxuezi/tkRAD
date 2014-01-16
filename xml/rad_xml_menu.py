@@ -293,6 +293,22 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
             _coptions = self._init_coptions(xml_element, tk_parent)
 
+            # is checkbutton/radiobutton set up by default?
+
+            if _coptions.get("checked") or _coptions.get("selected"):
+
+                _coptions.get("variable").set(
+
+                    tools.choose_str(
+
+                        _coptions.get("onvalue"),
+
+                        _coptions.get("value"),
+                    )
+                )
+
+            # end if
+
             # set widget
 
             tk_parent.add(xml_tag, **_coptions)
@@ -648,7 +664,7 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
 
 
-    def parse_attr_accelerator (self, attribute, attrs, **kw):
+    def parse_attr_accelerator (self, attribute, **kw):
         r"""
             tries to set up a tkinter event sequence along
 
@@ -723,171 +739,111 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
 
 
-    def parse_attr_activeborderwidth (self, attribute, attrs, **kw):
+    def parse_attr_activeborderwidth (self, attribute, **kw):
         r"""
-            same behaviour as tkinter 'borderwidth' attribute;
+            width attribute;
 
             no return value (void);
         """
 
-        self.parse_attr_borderwidth(attribute, attrs, **kw)
+        self._tkRAD_dimension_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_columnbreak (self, attribute, attrs, **kw):
+    def parse_attr_columnbreak (self, attribute, **kw):
         r"""
-            tkinter 'columnbreak' attribute must be an integer;
+            boolean attribute;
 
             no return value (void);
         """
 
-        # param controls
+        # parsed attribute inits
 
-        if self._is_new(attribute):
-
-            # parsed attribute inits
-
-            attribute.value = tools.ensure_int(attribute.value)
-
-            # caution: *NO* self._tk_config(attribute) by here /!\
-
-            attribute.parsed = True
-
-        # end if
+        self._tkRAD_boolean_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_hidemargin (self, attribute, attrs, **kw):
+    def parse_attr_hidemargin (self, attribute, **kw):
         r"""
-            tkinter 'hidemargin' attribute should be an integer;
+            boolean attribute;
 
             no return value (void);
         """
 
-        # param controls
+        # parsed attribute inits
 
-        if self._is_new(attribute):
-
-            # parsed attribute inits
-
-            attribute.value = tools.ensure_int(attribute.value)
-
-            # caution: *NO* self._tk_config(attribute) by here /!\
-
-            attribute.parsed = True
-
-        # end if
+        self._tkRAD_boolean_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_label (self, attribute, attrs, **kw):
+    def parse_attr_label (self, attribute, **kw):
         r"""
-            translates (i18n) text from XML attr 'label';
-
-            tkinter 'underline' support for menu labels;
-
-            e.g. @value = '_File' will show 'F' underlined in menu and
-
-            <Alt><F> keyboard shortcut automagically handled;
+            label attribute;
 
             no return value (void);
         """
 
-        self._tkRAD_label_support(attribute, attrs, **kw)
+        self._tkRAD_label_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_postcommand (self, attribute, attrs, **kw):
+    def parse_attr_postcommand (self, attribute, **kw):
         r"""
-            transforms a tkinter menu 'post' command
-
-            (a 'before-showing-menu' command, in fact)
-
-            along RADXMLWidgetBase class method parse_attr_command()
-
-            type supports (events, methods, global functions);
-
-            see API doc for more detail;
+            command attribute;
 
             no return value (void);
         """
 
-        self.parse_attr_command(attribute, attrs, **kw)
+        self._tkRAD_command_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_tearoff (self, attribute, attrs, **kw):
+    def parse_attr_tearoff (self, attribute, **kw):
         r"""
-            resets tearoff value to 0 if not an integer value;
+            boolean attribute;
 
             no return value (void);
         """
 
-        # param controls - force default value to 0
+        # parsed attribute inits
 
-        if not attribute.parsed:
-
-            # parsed attribute inits
-
-            attribute.value = tools.ensure_int(attribute.value)
-
-            self._tk_config(attribute)
-
-        # end if
+        self._tkRAD_boolean_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_tearoffcommand (self, attribute, attrs, **kw):
+    def parse_attr_tearoffcommand (self, attribute, **kw):
         r"""
-            transforms a tkinter menu 'tearoff' command
-
-            (a 'detach-menu-in-standalone-window' command, in fact)
-
-            along RADXMLWidgetBase class method parse_attr_command()
-
-            type supports (events, methods, global functions);
-
-            see API doc for more detail;
+            command attribute;
 
             no return value (void);
         """
 
-        self.parse_attr_command(attribute, attrs, **kw)
+        self._tkRAD_command_support(attribute, **kw)
 
     # end def
 
 
 
-    def parse_attr_title (self, attribute, attrs, **kw):
+    def parse_attr_title (self, attribute, **kw):
         r"""
-            XML attr 'title' should be translated (i18n);
+            label attribute;
 
             no return value (void);
         """
 
-        # param controls
-
-        if self._is_new(attribute):
-
-            # translate text (i18n)
-
-            attribute.value = _(attribute.value)
-
-            self._tk_config(attribute)
-
-        # end if
+        self._tkRAD_label_support(attribute, **kw)
 
     # end def
 
