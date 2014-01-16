@@ -2833,14 +2833,27 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_height (self, attribute, **kw):
         r"""
-            integer attribute;
+            integer/dimension attribute along widget type;
 
             no return value (void);
         """
 
-        # parsed attribute inits
+        # param controls
 
-        self._tkRAD_integer_support(attribute, **kw)
+        if kw.get("xml_tag") in ("button", "checkbutton", "label",
+        "listbox", "menubutton", "radiobutton", "text"):
+
+            # parsed attribute inits
+
+            self._tkRAD_integer_support(attribute, **kw)
+
+        else:
+
+            # parsed attribute inits
+
+            self._tkRAD_dimension_support(attribute, **kw)
+
+        # end if
 
     # end def
 
@@ -4123,14 +4136,28 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_width (self, attribute, **kw):
         r"""
-            dimension attribute;
+            integer/dimension attribute along widget type;
 
             no return value (void);
         """
 
-        # parsed attribute inits
+        # param controls
 
-        self._tkRAD_integer_support(attribute, **kw)
+        if kw.get("xml_tag") in ("button", "checkbutton", "entry",
+        "label", "listbox", "menubutton", "radiobutton", "spinbox",
+        "text"):
+
+            # parsed attribute inits
+
+            self._tkRAD_integer_support(attribute, **kw)
+
+        else:
+
+            # parsed attribute inits
+
+            self._tkRAD_dimension_support(attribute, **kw)
+
+        # end if
 
     # end def
 
