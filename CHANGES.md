@@ -9,6 +9,22 @@
 ## CHANGELOG
 
 
+### $ 2014-01-17 RS $
+
+* updated `RADXMLWidget`:
+
+    * in `parse_attr_seq()`:
+
+        * new implementation;
+
+        * now admits simplified notation e.g. `seq="Control-s"`
+        instead of `seq="&lt;Control-s&gt;"` for more comfort;
+
+    * in `build_element_tkevent()`:
+
+        * fixed many bugs;
+
+
 ### $ 2014-01-16 RS $
 
 * updated `RADXMLMenu`:

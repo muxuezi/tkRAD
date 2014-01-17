@@ -1682,23 +1682,42 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             # retrieve tkinter widget
 
-            _widget = _attributes.get("widget", tk_parent)
+            _widget = tools.choose(
+
+                _attributes.get("widget"),
+
+                tk_parent,
+            )
+
+            # init bindings
+
+            _bind = tools.choose_str(_attributes.get("bind"))
+
+            _seq = tools.choose_str(_attributes.get("seq"))
+
+            _add = tools.choose_str(_attributes.get("add"))
+
+            _slot = _attributes.get("slot")
+
+            _method = getattr(_widget, _bind)
 
             # special case
 
-            if _attributes.get("bind") == "bind_class":
+            if _bind == "bind_class":
 
-                _bind = "{bind}('{class}', '{seq}', {slot}, '{add}')"
+                _class = tools.choose_str(_attributes.get("class"))
+
+                # bind event
+
+                _method(_class, _seq, _slot, _add)
 
             else:
 
-                _bind = "{bind}('{seq}', {slot}, '{add}')"
+                # bind event
+
+                _method(_seq, _slot, _add)
 
             # end if
-
-            # try to bind event sequence
-
-            exec("_widget." + _bind.format(**_attributes))
 
             # succeeded
 
@@ -3660,16 +3679,32 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def parse_attr_seq (self, attribute, **kw):
         r"""
-            must be at least an empty string of chars;
+            admits simplified tkinter.Event sequence (no <>);
+
+            e.g. seq="Control-s" instead of seq="&lt;Control-s&gt;";
 
             no return value (void);
         """
 
-        # parsed attribute inits
+        # param controls
 
-        kw.update(no_tk_config = True)
+        if self._is_new(attribute):
 
-        self._ensure_string_value(attribute, **kw)
+            # inits - stri
+
+            _seq = attribute.value.replace("<", "", 1)
+
+            _seq = _seq.replace(">", "", 1)
+
+            # parsed attribute inits
+
+            attribute.value = "<" + _seq + ">"
+
+            # CAUTION: *NO* self.tk_config() by here /!\
+
+            attribute.parsed = True
+
+        # end if
 
     # end def
 
