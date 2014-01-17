@@ -718,13 +718,37 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
         if self._is_new(attribute):
 
-            # FIXME
+            # widget id inits
+
+            _wid = attribute.value
 
             # what about DEFERRED TASKS? -------------------------------------FIXME
 
-            # look for existing widget along attr 'id'
+            # got alias name?
 
-            _widget = self.get_object_by_id(attribute.value)
+            if _wid.startswith("@"):
+
+                # reset value
+
+                _wid = _wid.strip("@").lower()
+
+                # get widget along alias
+
+                _widget = {
+
+                    "top": self.tk_owner.winfo_toplevel(),
+
+                    "parent": kw.get("tk_parent"),
+
+                }.get(_wid)
+
+            else:
+
+                # look for existing widget along attr 'id'
+
+                _widget = self.get_object_by_id(_wid)
+
+            # end if
 
             if _widget:
 

@@ -11,7 +11,57 @@
 
 ### $ 2014-01-17 RS $
 
+* updated `RADXMLWidgetBase`:
+
+    * in `_tkRAD_widget_support()`:
+
+        * added new aliases in attr value:
+
+            * `@top` for `tk_owner.winfo_toplevel()` widget;
+
+            * `@parent` for `tk_parent` widget;
+
 * updated `RADXMLWidget`:
+
+    * added
+    new `parse_attr_maxheight()`,
+    new `parse_attr_maxwidth()`,
+    new `parse_attr_minheight()`,
+    new `parse_attr_minwidth()`,
+    new `parse_attr_transient()`:
+
+        * now fully implemented;
+
+        * specific attributes for `<toplevel>` XML element;
+
+    * added new `_layout_toplevel()`:
+
+        * now fully implemented;
+
+        * Toplevel window special layouts and inits;
+
+    * updated
+    `_set_layout()`,
+    `parse_attr_height()`,
+    `parse_attr_width()`:
+
+        * now handles special support for `tkinter.Toplevel` widget
+        case;
+
+    * added new `parse_attr_title()`:
+
+        * now fully implemented;
+
+        * specific attr for `<toplevel>` XML element;
+
+    * added new `parse_attr_visibility()`:
+
+        * now fully implemented;
+
+        * must be one of 'normal', 'maximized', 'minimized',
+        'hidden' fixed values;
+
+        * specific attr for `<toplevel>` XML element;
 
     * in `parse_attr_seq()`:
 

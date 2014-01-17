@@ -423,6 +423,82 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
+    def _layout_toplevel (self, widget, attrs, tk_parent):
+        r"""
+            sets Toplevel main window inits and layouts;
+
+            no return value (void);
+        """
+
+        # window state inits
+
+        _wstate = tools.choose_str(attrs.get("visibility"))
+
+        _resizable = tools.choose_str(attrs.get("resizable"))
+
+        # set transient window
+
+        widget.transient(attrs.get("transient"))
+
+        # set window's title
+
+        widget.title(attrs.get("title"))
+
+        # set window's min size
+
+        widget.minsize(
+
+            width = attrs.get("minwidth"),
+
+            height = attrs.get("minheight"),
+        )
+
+        # set window's max size
+
+        _maxwidth = attrs.get("maxwidth")
+
+        _maxheight = attrs.get("maxheight")
+
+        widget.maxsize(width = _maxwidth, height = _maxheight)
+
+        # set resizable window
+
+        widget.resizable(
+
+            width = (_resizable in ("yes", "width")),
+
+            height = (_resizable in ("yes", "height")),
+        )
+
+        # set window state
+
+        if _wstate == "maximized" and _resizable == "yes" \
+                                    and not (_maxwidth or _maxheight):
+
+            widget.deiconify()
+
+            widget.attributes("-zoomed", "1")
+
+        elif _wstate == "minimized":
+
+            widget.iconify()
+
+        elif _wstate == "hidden":
+
+            widget.withdraw()
+
+        else:
+
+            # 'normal' window state (default)
+
+            widget.deiconify()
+
+        # end if
+
+    # end def
+
+
+
     def _replace_alias (self, str_value, attrs, **kw):
         r"""
             protected method def;
@@ -476,10 +552,19 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
             no return value (void);
         """
 
-        # $ 2014-01-15 RS $
-        # special case of PanedWindow
+        # $ 2014-01-17 RS $
+        # special case of Toplevel window
 
-        if isinstance(tk_parent, TK.PanedWindow):
+        if isinstance(widget, TK.Toplevel):
+
+            # Toplevel window layout inits
+
+            self._layout_toplevel(widget, attrs, tk_parent)
+
+        # $ 2014-01-15 RS $
+        # special case of PanedWindow children
+
+        elif isinstance(tk_parent, TK.PanedWindow):
 
             # got to lay out?
 
@@ -3101,6 +3186,8 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
             no return value (void);
         """
 
+        # parsed attribute inits
+
         self._tkRAD_label_support(attribute, **kw)
 
     # end def
@@ -3114,6 +3201,8 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
             no return value (void);
         """
 
+        # parsed attribute inits
+
         self.parse_attr_anchor(attribute, **kw)
 
     # end def
@@ -3126,6 +3215,8 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             no return value (void);
         """
+
+        # parsed attribute inits
 
         self._tkRAD_widget_support(attribute, **kw)
 
@@ -3238,6 +3329,23 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
+    def parse_attr_maxheight (self, attribute, **kw):
+        r"""
+            integer attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        kw.update(no_tk_config = True)
+
+        self._tkRAD_integer_support(attribute, **kw)
+
+    # end def
+
+
+
     def parse_attr_maxundo (self, attribute, **kw):
         r"""
             integer attribute;
@@ -3246,6 +3354,40 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
         """
 
         # parsed attribute inits
+
+        self._tkRAD_integer_support(attribute, **kw)
+
+    # end def
+
+
+
+    def parse_attr_maxwidth (self, attribute, **kw):
+        r"""
+            integer attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        kw.update(no_tk_config = True)
+
+        self._tkRAD_integer_support(attribute, **kw)
+
+    # end def
+
+
+
+    def parse_attr_minheight (self, attribute, **kw):
+        r"""
+            integer attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        kw.update(no_tk_config = True)
 
         self._tkRAD_integer_support(attribute, **kw)
 
@@ -3263,6 +3405,23 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
         # parsed attribute inits
 
         self.parse_attr__minsize(attribute, **kw)
+
+    # end def
+
+
+
+    def parse_attr_minwidth (self, attribute, **kw):
+        r"""
+            integer attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        kw.update(no_tk_config = True)
+
+        self._tkRAD_integer_support(attribute, **kw)
 
     # end def
 
@@ -4067,6 +4226,23 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
+    def parse_attr_title (self, attribute, **kw):
+        r"""
+            label attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        kw.update(no_tk_config = True)
+
+        self._tkRAD_label_support(attribute, **kw)
+
+    # end def
+
+
+
     def parse_attr_to (self, attribute, **kw):
         r"""
             float attribute;
@@ -4077,6 +4253,23 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
         # parsed attribute inits
 
         self._tkRAD_float_support(attribute, **kw)
+
+    # end def
+
+
+
+    def parse_attr_transient (self, attribute, **kw):
+        r"""
+            widget attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        kw.update(no_tk_config = True)
+
+        self._tkRAD_widget_support(attribute, **kw)
 
     # end def
 
@@ -4164,6 +4357,33 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
         self.parse_attr_choices(attribute, **kw)
 
         self._tk_config(attribute, **kw)
+
+    # end def
+
+
+
+    def parse_attr_visibility (self, attribute, **kw):
+        r"""
+            must be one of 'normal', 'maximized', 'minimized' or
+            'hidden';
+
+            default value is 'normal';
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        kw.update(
+
+            no_tk_config = True,
+
+            default = "normal",
+
+            values = ("maximized", "minimized", "hidden"),
+        )
+
+        self._fix_values(attribute, **kw)
 
     # end def
 
