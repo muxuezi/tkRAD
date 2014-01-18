@@ -2040,14 +2040,37 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             # free useless memory right now /!\
 
-            del _attributes, _class, _args, self.TK_CONFIG
+            del _class, _args, self.TK_CONFIG
 
             # loop on XML element children - build tk child widgets
 
-            return self.loop_on_children(
+            _build_ok = self.loop_on_children(
 
                 xml_element, _widget, accept=self.DTD.get(xml_tag),
             )
+
+            # widget init() procedure
+
+            _init = _attributes.get("init")
+
+            if callable(_init):
+
+                kw.update(
+
+                    widget = _widget,
+
+                    parent = tk_parent,
+
+                    xml_attributes = _attributes,
+                )
+
+                _init(**kw)
+
+            # end if
+
+            # succeeded
+
+            return _build_ok
 
         # unsupported
 
@@ -3060,6 +3083,23 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
         # parsed attribute inits
 
         self._tkRAD_boolean_support(attribute, **kw)
+
+    # end def
+
+
+
+    def parse_attr_init (self, attribute, **kw):
+        r"""
+            command attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        kw.update(no_tk_config = True)
+
+        self._tkRAD_command_support(attribute, **kw)
 
     # end def
 

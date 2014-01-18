@@ -9,6 +9,27 @@
 ## CHANGELOG
 
 
+### $ 2014-01-18 RS $
+
+* updated `RADXMLWidget`:
+
+    * in `build_element_widget()`:
+
+        * now supports `init()` procedure for created widgets;
+
+        * `init()` is launched at the latest end, AFTER widget's
+        CHILDREN creation;
+
+    * added new `parse_attr_init()`:
+
+        * now fully implemented;
+
+        * allows any widget to launch a specific `init()` procedure
+        e.g. `<label init=".mylabel_init"/>`;
+
+        * syntax is `init="tkRAD.command.support"`;
+
+
 ### $ 2014-01-17 RS $
 
 * updated `RADXMLWidgetBase`:
