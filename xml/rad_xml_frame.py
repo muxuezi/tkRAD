@@ -74,6 +74,8 @@ class RADXMLFrame (XW.RADXMLWidget, TK.Frame):
 
         TK.Frame.__init__(self, master, **self._only_tk(kw))
 
+        self.tk_parent = master
+
         XW.RADXMLWidget.__init__(self, tk_owner = self, **kw)
 
     # end def

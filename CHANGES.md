@@ -9,6 +9,17 @@
 ## CHANGELOG
 
 
+### $ 2014-01-19 RS $
+
+* updated `RADXMLFrame`:
+
+    * in `__init__()`:
+
+        * now supports `self.tk_parent = master` aside
+        `self.tk_owner` as `RADXMLFrame`'s `tk_owner` is
+        exceptionnally `RADXMLFrame` itself for technical reasons;
+
+
 ### $ 2014-01-18 RS $
 
 * updated `RADXMLWidget`:
