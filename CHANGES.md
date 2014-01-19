@@ -11,6 +11,30 @@
 
 ### $ 2014-01-19 RS $
 
+* updated `tkRAD/__init__.py`:
+
+    * now admits direct imports for daily use classes:
+
+        * direct import for `RADApplication`;
+        * direct import for `RADMainWindow`;
+        * direct import for `RADXMLMainWindow`;
+        * direct import for `RADXMLFrame`;
+
+    * usage:
+
+```python
+# simple import
+import tkRAD
+# direct import
+app = tkRAD.RADApplication()
+# direct import
+mw = tkRAD.RADMainWindow()
+# direct import
+xmw = tkRAD.RADXMLMainWindow()
+# direct import
+xf = tkRAD.RADXMLFrame()
+```
+
 * updated `RADXMLFrame`:
 
     * in `__init__()`:

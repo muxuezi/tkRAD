@@ -21,3 +21,15 @@
 
     If not, see: http://www.gnu.org/licenses/
 """
+
+# restrict to daily use classes
+
+from .widgets.rad_application import RADApplication
+
+from .widgets.rad_mainwindow import RADMainWindow
+
+from .xml.rad_xml_mainwindow import RADXMLMainWindow
+
+from .xml.rad_xml_frame import RADXMLFrame
+
+
