@@ -51,20 +51,16 @@ def canonize_id (arg, raise_error = False):
 
     # unknown type - force to empty string
 
-    else:
+    elif raise_error:
 
-        if raise_error:
+        raise TypeError(
 
-            raise TypeError(
-
-                "expected plain string of chars."
-            )
-
-        # end if
-
-        return ""
+            "expected plain string of chars."
+        )
 
     # end if
+
+    return ""
 
 # end def
 
@@ -128,20 +124,16 @@ def canonize_relative_module (arg, raise_error = False):
 
     # unknown type - force to empty string
 
-    else:
+    elif raise_error:
 
-        if raise_error:
+        raise TypeError(
 
-            raise TypeError(
-
-                "expected plain string of chars."
-            )
-
-        # end if
-
-        return ""
+            "expected plain string of chars."
+        )
 
     # end if
+
+    return ""
 
 # end def
 

@@ -9,6 +9,19 @@
 ## CHANGELOG
 
 
+### $ 2014-01-20 RS $
+
+* updated `tkRAD.core.tools`:
+
+    * in
+    `canonize_id()`,
+    `canonize_relative_module()`:
+
+        * optimized code;
+
+        * no border effect;
+
+
 ### $ 2014-01-19 RS $
 
 * updated `tkRAD/__init__.py`:
