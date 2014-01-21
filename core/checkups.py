@@ -83,7 +83,7 @@ def python_require(version, strict = False):
             ).format(vreq = _str_req_version, vcur = _str_cur_version)
         )
 
-        exit()
+        exit(1)
 
     elif _req_version > _cur_version:
 
@@ -97,7 +97,7 @@ def python_require(version, strict = False):
             ).format(vreq = _str_req_version, vcur = _str_cur_version)
         )
 
-        exit()
+        exit(1)
 
     # end if
 

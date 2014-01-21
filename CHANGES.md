@@ -9,6 +9,21 @@
 ## CHANGELOG
 
 
+### $ 2014-01-21 RS $
+
+* updated `tkRAD.core.events`:
+
+    * in
+    `connect()`,
+    `connect_dict()`,
+    `disconnect()`,
+    `raise_event()`:
+
+        * optimized code;
+
+        * no border effect;
+
+
 ### $ 2014-01-20 RS $
 
 * updated `tkRAD.core.tools`:

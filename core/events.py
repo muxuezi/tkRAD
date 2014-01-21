@@ -94,7 +94,7 @@ class EventManager:
 
                         "signal_3": set([slot6, slot7, slot8]), # set
 
-                        "signal_4": slot9,             # single callback
+                        "signal_4": slot9,          # single callback
                     }
                 )
 
@@ -192,7 +192,7 @@ class EventManager:
 
             # update signal set of slots
 
-            self.connections[signal] = set(filter(None, _slots))
+            self.connections[signal] = set(filter(callable, _slots))
 
             # operation succeeded
 
@@ -225,7 +225,7 @@ class EventManager:
 
                         "signal_3": set([slot6, slot7, slot8]), # set
 
-                        "signal_4": slot9,             # single callback
+                        "signal_4": slot9,          # single callback
                     }
                 )
 
@@ -234,7 +234,7 @@ class EventManager:
 
         # param controls
 
-        if isinstance(events_dict, dict) and events_dict:
+        if events_dict and isinstance(events_dict, dict):
 
             # loop on items
 
@@ -260,7 +260,7 @@ class EventManager:
 
         else:
 
-            raise TypeError("Expected dict() object type.")
+            raise TypeError("Expected plain dict() object type.")
 
         # end if
 
@@ -291,11 +291,11 @@ class EventManager:
 
         # get signal current set of slots
 
-        _slots = self.connections.get(signal, None)
+        _slots = self.connections.get(signal)
 
         # signal do exist and has a set of slots
 
-        if isinstance(_slots, set):
+        if _slots and isinstance(_slots, set):
 
             # remove eventual existing slots
 
@@ -303,7 +303,7 @@ class EventManager:
 
             # update signal set of slots
 
-            self.connections[signal] = set(filter(None, _slots))
+            self.connections[signal] = set(filter(callable, _slots))
 
             # operation succeeded
 
@@ -360,40 +360,37 @@ class EventManager:
 
             examples:
 
-                self.events.raise_event("ButtonOKClicked")
+            self.events.raise_event("ButtonOKClicked")
 
-                self.events.raise_event("ButtonOKClicked", event_object)
+            self.events.raise_event("ButtonOKClicked", event_object)
 
-                self.events.raise_event("ButtonOKClicked", widget = self.btn_ok)
+            self.events.raise_event(
+                "ButtonOKClicked", widget = self.btn_ok
+            )
 
             returns True if signal exists, False otherwise;
         """
 
         # get signal current set of slots
 
-        _slots = self.connections.get(signal, None)
+        _slots = self.connections.get(signal)
 
         # signal do exist and has a set of slots
 
-        if isinstance(_slots, set):
+        if _slots and isinstance(_slots, set):
 
-            # strip out NULL pointers /!\
+            # keep only callable slots
 
-            _slots = set(filter(None, _slots))
+            _slots = set(filter(callable, _slots))
 
             # browse the set
 
             for _slot in _slots:
 
                 # call each slot one by one
-
                 # with arguments and keywords
 
-                if callable(_slot):
-
-                    _slot(*args, **kw)
-
-                # end if
+                _slot(*args, **kw)
 
             # end for
 
