@@ -32,6 +32,8 @@ from ..core import i18n
 
 from ..core import uri
 
+from ..core import tools
+
 
 
 class RADApplication:
@@ -131,6 +133,8 @@ class RADApplication:
 
         self._init_options(**kw)
 
+        self._init_i18n(**kw)
+
         self._parse_sys_argv(**kw)
 
         self._check_dependencies(**kw)
@@ -195,6 +199,59 @@ class RADApplication:
         # notice: failed checkups will raise exception and exit()
 
         checkups.python_require(**_python)
+
+    # end def
+
+
+
+    def _init_i18n (self, **kw):
+        r"""
+            protected method def;
+
+            inits internationalization (i18n);
+
+            no return value (void);
+        """
+
+        # inits
+
+        i18n.install(
+
+            lc_dir = tools.choose_str(
+
+                kw.get("lc_dir"),
+
+                self.options["app"].get("lc_dir"),
+
+                "^/locale",
+            ),
+
+            lc_lang = tools.choose_str(
+
+                kw.get("lc_lang"),
+
+                self.options["app"].get("lc_lang"),
+            ),
+        )
+
+    # end def
+
+
+
+    def _init_members (self, **kw):
+        r"""
+            protected method def;
+
+            inits class members;
+
+            no return value (void);
+        """
+
+        # member inits
+
+        self._set_run_mode(kw.get("run_mode", "gui"))
+
+        self.__kw = kw
 
     # end def
 
@@ -318,25 +375,6 @@ class RADApplication:
 
             silent_mode = True,
         )
-
-    # end def
-
-
-
-    def _init_members (self, **kw):
-        r"""
-            protected method def;
-
-            inits class members;
-
-            no return value (void);
-        """
-
-        # member inits
-
-        self._set_run_mode(kw.get("run_mode", "gui"))
-
-        self.__kw = kw
 
     # end def
 

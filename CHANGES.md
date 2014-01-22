@@ -9,6 +9,42 @@
 ## CHANGELOG
 
 
+### $ 2014-01-22 RS $
+
+* updated `RADApplication`:
+
+    * added new `_init_i18n()`:
+
+        * now fully implemented;
+
+* updated `tkRAD.core.i18n`:
+
+    * in `install()`:
+
+        * optimized code;
+
+        * now supports silent and automatic user locale language
+        installation by default;
+
+    * added
+    `get_translations_dir()`,
+    `get_translations_lang()`,
+    `get_translations_table()`,
+    `set_translations_table()`:
+
+        * now fully implemented;
+
+
+* updated `tkRAD.core.uri`:
+
+    * in
+    `canonize()`:
+
+        * optimized code;
+
+        * no border effect;
+
+
 ### $ 2014-01-21 RS $
 
 * updated `tkRAD.core.events`:

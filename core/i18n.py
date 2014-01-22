@@ -34,6 +34,8 @@ import os.path as OP
 
 from . import uri
 
+from . import tools
+
 
 
 # current translations directory init
@@ -44,7 +46,7 @@ __translations_dir = "^/locale"
 
 # current translations language init
 
-__translations_lang = locale.getlocale()
+__translations_lang = tools.choose_str(locale.getdefaultlocale()[0])
 
 
 
@@ -61,7 +63,7 @@ def _(text):
         returns translated text on success, original text otherwise;
     """
 
-    return str(__translations_table.get(text, text))
+    return tools.choose_str(__translations_table.get(text), text)
 
 # end def
 
@@ -71,7 +73,40 @@ __builtins__["_"] = _
 
 
 
-def install (tr_dir, tr_lang):
+def get_translations_dir ():
+    r"""
+        gets locale translations directory;
+    """
+
+    return __translations_dir
+
+# end def
+
+
+
+def get_translations_lang ():
+    r"""
+        gets locale translations language;
+    """
+
+    return __translations_lang
+
+# end def
+
+
+
+def get_translations_table ():
+    r"""
+        gets locale translations hash table;
+    """
+
+    return __translations_table
+
+# end def
+
+
+
+def install (lc_dir=None, lc_lang=None):
     r"""
         sets up translations directory and language;
 
@@ -80,11 +115,19 @@ def install (tr_dir, tr_lang):
         no return value (void);
     """
 
-    set_translations_dir(tr_dir)
+    set_translations_dir(lc_dir)
 
-    set_translations_lang(tr_lang)
+    set_translations_lang(lc_lang)
 
-    update_translations_table()
+    try:
+
+        update_translations_table()
+
+    except:
+
+        set_translations_table(dict())
+
+    # end try
 
 # end def
 
@@ -101,7 +144,7 @@ def set_translations_dir (arg):
 
     # set new value
 
-    __translations_dir = str(arg)
+    __translations_dir = tools.choose_str(arg, __translations_dir)
 
 # end def
 
@@ -118,7 +161,24 @@ def set_translations_lang (arg):
 
     # set new value
 
-    __translations_lang = str(arg)
+    __translations_lang = tools.choose_str(arg, __translations_lang)
+
+# end def
+
+
+
+def set_translations_table (arg):
+    r"""
+        sets up locale translations hash table;
+    """
+
+    # allow updates
+
+    global __translations_table
+
+    # set new value
+
+    __translations_table = dict(arg)
 
 # end def
 
@@ -142,7 +202,7 @@ def update_translations_table ():
         OP.join(__translations_dir, __translations_lang + ".po")
     )
 
-    with open(_uri, "r", encoding = "utf-8") as _file:
+    with open(_uri, "r", encoding="UTF-8") as _file:
 
         _data = _file.read()
 
@@ -176,7 +236,7 @@ def update_translations_table ():
 
     _data = re.sub(r"(?i)msgstr", r":", _data)
 
-    # try new translation table
+    # try new translations table
 
     __translations_table = eval("{" + _data + "}")
 

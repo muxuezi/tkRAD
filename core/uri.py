@@ -48,12 +48,12 @@ def canonize (uri, raise_error = False):
 
         tries to retrieve abspath() / realpath();
 
-        returns parsed URI or empty string "" if unknown @uri object;
+        returns parsed URI on success or empty string "" otherwise;
     """
 
     # param control
 
-    if isinstance(uri, str) and uri:
+    if uri and isinstance(uri, str):
 
         # app root directory implementation
 
@@ -69,22 +69,15 @@ def canonize (uri, raise_error = False):
 
     # unsupported
 
-    else:
+    elif raise_error:
 
-        if raise_error:
-
-            raise TypeError(
-
-                "expected plain string of chars."
-            )
-
-        # end if
-
-        # force to empty string
-
-        return ""
+        raise TypeError("expected plain string of chars.")
 
     # end if
+
+    # force to empty string
+
+    return ""
 
 #end def
 
