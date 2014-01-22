@@ -19,6 +19,9 @@
 
 * updated `tkRAD.core.i18n`:
 
+    * renamed `update_translations_table()` to
+    `load_translations_table()`;
+
     * in `install()`:
 
         * optimized code;

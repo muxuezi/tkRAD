@@ -56,7 +56,7 @@ __translations_table = dict()
 
 
 
-def _(text):
+def _ (text):
     r"""
         tries to retrieve a locale translation along setup;
 
@@ -121,7 +121,7 @@ def install (lc_dir=None, lc_lang=None):
 
     try:
 
-        update_translations_table()
+        load_translations_table()
 
     except:
 
@@ -184,9 +184,9 @@ def set_translations_table (arg):
 
 
 
-def update_translations_table ():
+def load_translations_table (lc_dir=None, lc_lang=None):
     r"""
-        tries to update translations table along current lang and dir;
+        tries to load translations table along lc_lang and lc_dir;
 
         no return value (void);
     """
@@ -197,10 +197,11 @@ def update_translations_table ():
 
     # look for translations file
 
-    _uri = uri.canonize(
+    lc_dir = tools.choose_str(lc_dir, __translations_dir)
 
-        OP.join(__translations_dir, __translations_lang + ".po")
-    )
+    lc_lang = tools.choose_str(lc_lang, __translations_lang)
+
+    _uri = uri.canonize(OP.join(lc_dir, lc_lang + ".po"))
 
     with open(_uri, "r", encoding="UTF-8") as _file:
 
