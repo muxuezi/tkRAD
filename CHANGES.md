@@ -13,7 +13,7 @@
 
 * updated `RADApplication`:
 
-    * optimized code anywhere in whole class def
+    * optimized code anywhere in whole class def;
 
     * in `_init_options()`:
 
