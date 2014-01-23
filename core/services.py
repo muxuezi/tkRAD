@@ -36,7 +36,28 @@ __service_manager = None
 
 
 
-# service getter
+# named service getter
+
+def ask_for (service_name, **kw):
+    r"""
+        returns service object along service name if exists;
+
+        returns None otherwise;
+
+        supports kw["silent_mode"] = True/False;
+
+        raises KeyError if service does not exist and
+
+        kw["silent_mode"] is False or missing;
+    """
+
+    return get_service_manager().get_service(service_name, **kw)
+
+# end def
+
+
+
+# service manager getter
 
 def get_service_manager ():
     r"""
@@ -63,32 +84,13 @@ def register_service (service_name, service_object, **kw):
 
         raises KeyError if service name already exists;
 
-        overrides silently if kw["silent_mode"] is True;
+        stops silently if kw["silent_mode"] is True;
 
-        no return value (void);
+        returns True on success, False otherwise;
     """
 
-    get_service_manager()\
+    return get_service_manager()\
         .register_service(service_name, service_object, **kw)
-
-# end def
-
-
-
-def ask_for (service_name, **kw):
-    r"""
-        returns service object along service name if exists;
-
-        returns None otherwise;
-
-        supports kw["silent_mode"] = True/False;
-
-        raises KeyError if service does not exist and
-
-        kw["silent_mode"] is False or missing;
-    """
-
-    return get_service_manager().get_service(service_name, **kw)
 
 # end def
 
@@ -110,48 +112,37 @@ class ServiceManager:
             class constructor - initializes service hashtable;
         """
 
+        self.clear_all()
+
+    # end def
+
+
+
+    def clear_all (self):
+        r"""
+            resets service manager to a new dict() object;
+
+            no return value (void);
+        """
+
         self.services = dict()
 
     # end def
 
 
 
-    def register_service (self, service_name, service_object, **kw):
+    def delete_service (self, service_name):
         r"""
-            registers an object as app-wide service by name;
+            deletes service object along service name;
 
-            raises KeyError if service name already exists;
-
-            overrides silently if kw["silent_mode"] is True;
+            always silent operation;
 
             no return value (void);
         """
 
-        # param inits
+        # delete service by name
 
-        service_name = str(service_name)
-
-        # service should not be overridden /!\
-
-        if service_name not in self.services:
-
-            self.services[service_name] = service_object
-
-        elif not kw.get("silent_mode", False):
-
-            # service already exists /!\
-
-            raise KeyError(
-
-                (
-                    "Service '{name}' already registered."
-
-                    "Should not be overridden in any way."
-
-                ).format(name = service_name)
-            )
-
-        # end if
+        self.services.pop(str(service_name), None)
 
     # end def
 
@@ -180,9 +171,7 @@ class ServiceManager:
 
             return self.services.get(service_name)
 
-        elif not kw.get("silent_mode", False):
-
-            # raise error
+        elif not kw.get("silent_mode"):
 
             raise KeyError(
 
@@ -191,11 +180,99 @@ class ServiceManager:
                 .format(name = service_name)
             )
 
-            # failed
+        # end if
 
-            return None
+        return None
+
+    # end def
+
+
+
+    def register_service (self, service_name, service_object, **kw):
+        r"""
+            registers an object as app-wide service by name;
+
+            raises KeyError if service name already exists;
+
+            stops silently if kw["silent_mode"] is True;
+
+            returns True on success, False otherwise;
+        """
+
+        # param inits
+
+        service_name = str(service_name)
+
+        # service should not be overridden /!\
+
+        if service_name not in self.services:
+
+            self.services[service_name] = service_object
+
+            return True
+
+        elif not kw.get("silent_mode"):
+
+            # service already exists /!\
+
+            raise KeyError(
+
+                (
+                    "Service '{name}' already registered."
+
+                    "Should not be overridden in any way."
+
+                ).format(name = service_name)
+            )
 
         # end if
+
+        return False
+
+    # end def
+
+
+
+    def replace_service (self, service_name, service_object, **kw):
+        r"""
+            replaces an existing service by name;
+
+            raises KeyError if service name *DOES NOT* already exists;
+
+            stops silently if kw["silent_mode"] is True;
+
+            returns True on success, False otherwise;
+        """
+
+        # param inits
+
+        service_name = str(service_name)
+
+        # service has to be overridden
+
+        if service_name in self.services:
+
+            self.services[service_name] = service_object
+
+            return True
+
+        elif not kw.get("silent_mode"):
+
+            # service *NOT* already exists
+
+            raise KeyError(
+
+                (
+                    "Service '{name}' is *NOT* already registered."
+
+                    "Must first exist before being replaced."
+
+                ).format(name = service_name)
+            )
+
+        # end if
+
+        return False
 
     # end def
 

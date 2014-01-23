@@ -9,6 +9,39 @@
 ## CHANGELOG
 
 
+### $ 2014-01-23 RS $
+
+
+* updated `tkRAD.core.services`:
+
+    * added new `ServiceManager.clear_all()`:
+
+        * now fully implemented;
+
+        * resets service manager to a new `dict()` object;
+
+    * added new `ServiceManager.delete_service()`:
+
+        * now fully implemented;
+
+        * silent deletion of named service;
+
+    * added new `ServiceManager.replace_service()`:
+
+        * now fully implemented;
+
+        * allow overridings of existing named service;
+
+    * in
+    `ServiceManager.get_service()`,
+    `ServiceManager.register_service()`,
+    `module.register_service()`:
+
+        * optimized code;
+
+        * no border effect;
+
+
 ### $ 2014-01-22 RS $
 
 * updated `RADApplication`:
