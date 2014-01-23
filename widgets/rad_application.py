@@ -60,15 +60,17 @@ class RADApplication:
         "copyright": _("(c) YEAR author name."),
 
         "license": _("""
-            This program is free software: you can redistribute it and/or
-            modify it under the terms of the GNU General Public License as
-            published by the Free Software Foundation, either version 3 of
-            the License, or (at your option) any later version.
+            This program is free software: you can redistribute it
+            and/or modify it under the terms of the GNU General
+            Public License as published by the Free Software
+            Foundation, either version 3 of the License, or (at your
+            option) any later version.
 
-            This program is distributed in the hope that it will be useful,
-            but WITHOUT ANY WARRANTY; without even the implied warranty of
-            MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-            General Public License for more details.
+            This program is distributed in the hope that it will be
+            useful, but WITHOUT ANY WARRANTY; without even the
+            implied warranty of MERCHANTABILITY or FITNESS FOR A
+            PARTICULAR PURPOSE. See the GNU General Public License
+            for more details.
 
             You should have received a copy of the GNU General Public
             License along with this program.
@@ -154,11 +156,16 @@ class RADApplication:
 
         # notice: failed checkups will raise exception
 
-        if not kw.get("no_dependencies", False):
+        if not kw.get("no_dependencies"):
 
             checkups.check_directories(
 
-                kw.get("app_root_dir", uri.get_app_root_dir()),
+                tools.choose_str(
+
+                    kw.get("app_root_dir"),
+
+                    uri.get_app_root_dir(),
+                ),
 
                 *kw.get("check_dirs", self.DIRECTORIES)
             )
@@ -185,14 +192,22 @@ class RADApplication:
 
         _python = {
 
-            "version": kw.get(
+            "version": tools.choose_str(
 
-                "python_version", self.PYTHON.get("version", "3.2")
+                kw.get("python_version"),
+
+                self.PYTHON.get("version"),
+
+                "3.2",
             ),
 
-            "strict": kw.get(
+            "strict": tools.choose(
 
-                "python_strict", self.PYTHON.get("strict", False)
+                kw.get("python_strict"),
+
+                self.PYTHON.get("strict"),
+
+                False,
             ),
         }
 
@@ -249,7 +264,7 @@ class RADApplication:
 
         # member inits
 
-        self._set_run_mode(kw.get("run_mode", "gui"))
+        self._set_run_mode(tools.choose_str(kw.get("run_mode"), "GUI"))
 
         self.__kw = kw
 
@@ -276,26 +291,46 @@ class RADApplication:
 
         self.user_options.set_config_dir(
 
-            kw.get("rc_dir", self.RC_OPTIONS.get("user_dir"))
+            tools.choose_str(
+
+                kw.get("rc_dir"),
+
+                self.RC_OPTIONS.get("user_dir"),
+            )
         )
 
         self.user_options.set_config_file(
 
-            kw.get("rc_file", self.RC_OPTIONS.get("user_file"))
+            tools.choose_str(
+
+                kw.get("rc_file"),
+
+                self.RC_OPTIONS.get("user_file"),
+            )
         )
 
         # get a private option manager for this class /!\
 
-        self.options = OPT.OptionManager(self)
+        self.options = OPT.OptionManager()
 
         self.options.set_config_dir(
 
-            kw.get("app_rc_dir", self.RC_OPTIONS.get("app_dir"))
+            tools.choose_str(
+
+                kw.get("app_rc_dir"),
+
+                self.RC_OPTIONS.get("app_dir"),
+            )
         )
 
         self.options.set_config_file(
 
-            kw.get("app_rc_file", self.RC_OPTIONS.get("app_file"))
+            tools.choose_str(
+
+                kw.get("app_rc_file"),
+
+                self.RC_OPTIONS.get("app_file"),
+            )
         )
 
         # init default values
@@ -310,7 +345,12 @@ class RADApplication:
 
         self._set_run_mode(
 
-            self.options["app"].get("run_mode", self._run_mode(**kw))
+            tools.choose_str(
+
+                self.options["app"].get("run_mode"),
+
+                self._run_mode(**kw),
+            )
         )
 
     # end def
@@ -332,8 +372,17 @@ class RADApplication:
 
         uri.set_app_root_dir(
 
-            kw.get("app_root_dir", inspect.stack()[-1][1])
+            tools.choose_str(
+
+                kw.get("app_root_dir"),
+
+                inspect.stack()[-1][1],
+            )
         )
+
+        # free some useless memory right now /!\
+
+        del inspect
 
     # end def
 
@@ -354,20 +403,20 @@ class RADApplication:
 
         # member inits
 
-        self.service = SM.get_service_manager()
+        self.services = SM.get_service_manager()
 
         # will raise KeyError if service name already registered
 
-        self.service.register_service(
+        self.services.register_service(
 
-            kw.get("app_service", "app"),
+            tools.choose_str(kw.get("app_service"), "app"),
 
             self
         )
 
         # force service name to be this class /!\
 
-        self.service.register_service(
+        self.services.register_service(
 
             "application",
 
@@ -442,7 +491,19 @@ class RADApplication:
 
         # member inits
 
-        self._set_run_mode(kw.get("run_mode", self.sys_argv.run_mode))
+        self._set_run_mode(
+
+            tools.choose_str(
+
+                kw.get("run_mode"),
+
+                self.sys_argv.run_mode,
+            )
+        )
+
+        # free some useless memory right now /!\
+
+        del AP
 
     # end def
 
@@ -469,10 +530,20 @@ class RADApplication:
 
             run_mode property setter;
 
+            must be either 'CLI' or 'GUI';
+
             no return value (void);
         """
 
-        self.__run_mode = str(mode).upper()
+        mode = str(mode).upper()
+
+        if mode != "CLI":
+
+            mode = "GUI"
+
+        # end if
+
+        self.__run_mode = mode
 
     # end def
 
@@ -483,6 +554,8 @@ class RADApplication:
             protected method def;
 
             starts non-GUI implementation of this application;
+
+            CLI: Command-Line Interface (shell console);
 
             no return value (void);
         """
@@ -534,17 +607,36 @@ class RADApplication:
             if not self.mainwindow.mainframe.winfo_children():
 
                 self.mainwindow.mainframe.xml_build(
-    r"""
-    <tkwidget>
-        <frame layout="pack" resizable="yes"/>
-        <label text="this should better work with:" layout="pack"/>
-        <label text="{uri}" fg="red" layout="pack"/>
-        <label text="/!\ don't forget to create missing directories /!\"
-                layout="pack"/>
-        <button text="Quit" command="@quit" layout="pack"/>
-        <frame layout="pack" resizable="yes"/>
-    </tkwidget>
-    """
+                    r"""
+                    <tkwidget>
+                        <frame
+                            layout="pack"
+                            resizable="yes"
+                        />
+                        <label
+                            text="this should better work with:"
+                            layout="pack"
+                        />
+                        <label
+                            text="{uri}"
+                            fg="red"
+                            layout="pack"
+                        />
+                        <label
+                            text="/!\ don't forget to create missing directories /!\"
+                            layout="pack"
+                        />
+                        <button
+                            text="Quit"
+                            command="@quit"
+                            layout="pack"
+                        />
+                        <frame
+                            layout="pack"
+                            resizable="yes"
+                        />
+                    </tkwidget>
+                    """
                     .format(
 
                         uri = self.mainwindow.mainframe.get_xml_uri()

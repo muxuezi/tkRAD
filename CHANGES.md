@@ -11,6 +11,14 @@
 
 ### $ 2014-01-23 RS $
 
+* updated `RADApplication`:
+
+    * optimized code anywhere in whole class def
+
+    * in `_init_options()`:
+
+        * fixed bug about `OptionManager.set_owner()`;
+
 
 * updated `tkRAD.core.options`:
 
