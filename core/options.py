@@ -48,7 +48,7 @@ __option_manager = None
 
 # service getter
 
-def get_option_manager (owner = None, **kw):
+def get_option_manager (**kw):
     r"""
         gets application-wide unique instance for rc option manager;
     """
@@ -57,7 +57,7 @@ def get_option_manager (owner = None, **kw):
 
     if not isinstance(__option_manager, OptionManager):
 
-        __option_manager = OptionManager(owner, **kw)
+        __option_manager = OptionManager(**kw)
 
     # end if
 
@@ -94,7 +94,7 @@ class OptionManager(CP.ConfigParser):
 
 
 
-    def __init__ (self, owner = None, **kw):
+    def __init__ (self, **kw):
         r"""
             class constructor - inits params and rc sections;
         """
@@ -104,8 +104,6 @@ class OptionManager(CP.ConfigParser):
         CP.ConfigParser.__init__(self)
 
         # member inits
-
-        self.set_owner(owner)
 
         self.set_config_dir(kw.get("rc_dir"))
 
@@ -121,7 +119,7 @@ class OptionManager(CP.ConfigParser):
 
 
 
-    def ensure_config_dir (self):
+    def _ensure_config_dir (self):
         r"""
             creates missing directories if necessary;
 
@@ -148,6 +146,34 @@ class OptionManager(CP.ConfigParser):
 
 
 
+    def _get_uri (self):
+        r"""
+            builds URI along rc config dir and filename;
+
+            returns URI on success, None otherwise;
+        """
+
+        # inits
+
+        _uri = None
+
+        # ensure rc_dir is OK
+
+        if self._ensure_config_dir():
+
+            _uri = OP.join(
+
+                self.get_config_dir(), self.get_config_file()
+            )
+
+        # end if
+
+        return _uri
+
+    # end def
+
+
+
     def get_config_dir (self):
         r"""
             configuration directory getter;
@@ -165,45 +191,6 @@ class OptionManager(CP.ConfigParser):
         """
 
         return self.__rc_file
-
-    # end def
-
-
-
-    def get_owner (self):
-        r"""
-            returns owner pointer of 'this' instanciated class object;
-        """
-
-        return self.owner
-
-    # end def
-
-
-
-    def get_uri (self):
-        r"""
-            builds URI along rc config dir and filename;
-
-            returns URI on success, None otherwise;
-        """
-
-        # inits
-
-        _uri = None
-
-        # ensure rc_dir is OK
-
-        if self.ensure_config_dir():
-
-            _uri = OP.join(
-
-                self.get_config_dir(), self.get_config_file()
-            )
-
-        # end if
-
-        return _uri
 
     # end def
 
@@ -234,7 +221,7 @@ class OptionManager(CP.ConfigParser):
 
                 tools.choose_str(
 
-                    self.get_uri(),
+                    self._get_uri(),
 
                     OP.join(
 
@@ -285,13 +272,13 @@ class OptionManager(CP.ConfigParser):
 
         # inits
 
-        _uri = self.get_uri()
+        _uri = self._get_uri()
 
         if tools.is_pstr(_uri):
 
-            with open(_uri, "w") as _fd:
+            with open(_uri, "w") as _file:
 
-                self.write(_fd)
+                self.write(_file)
 
             # end with
 
@@ -355,19 +342,6 @@ class OptionManager(CP.ConfigParser):
         """
 
         self["DEFAULT"].update(kw)
-
-    # end def
-
-
-
-    def set_owner (self, owner):
-        r"""
-            sets up owner pointer of 'this' instanciated class object;
-
-            no return value (void);
-        """
-
-        self.owner = owner
 
     # end def
 

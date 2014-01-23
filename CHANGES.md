@@ -12,6 +12,28 @@
 ### $ 2014-01-23 RS $
 
 
+* updated `tkRAD.core.options`:
+
+    * in `module.get_option_manager()`:
+
+        * removed `owner` param;
+
+    * in `OptionManager`:
+
+        * renamed
+        `ensure_config_dir()` to `_ensure_config_dir()`,
+        `get_uri()` to `_get_uri()`:
+
+            * set `public` to `protected` methods;
+
+        * in `__init__()`:
+
+            * removed `owner` param;
+
+        * removed `get_owner()`, `set_owner()` :
+
+            * have become useless;
+
 * updated `tkRAD.core.services`:
 
     * added new `ServiceManager.clear_all()`:
