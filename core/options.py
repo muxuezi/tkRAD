@@ -113,7 +113,7 @@ class OptionManager(CP.ConfigParser):
 
         self.set_sections(*self.SECTIONS)
 
-        self.__loaded = False
+        self._reset_load()
 
     # end def
 
@@ -163,12 +163,27 @@ class OptionManager(CP.ConfigParser):
 
             _uri = OP.join(
 
-                self.get_config_dir(), self.get_config_file()
+                self.get_config_dir(),
+
+                self.get_config_file()
             )
 
         # end if
 
         return _uri
+
+    # end def
+
+
+
+    def _reset_load (self):
+        r"""
+            resets loading op flag;
+
+            no return value (void);
+        """
+
+        self.__loaded = False
 
     # end def
 
@@ -250,12 +265,12 @@ class OptionManager(CP.ConfigParser):
 
             not be saved before this operation;
 
-            no return value (void);
+            returns a list of read files on success, None otherwise;
         """
 
-        self.__loaded = False
+        self._reset_load()
 
-        self.load()
+        return self.load()
 
     # end def
 
@@ -308,6 +323,8 @@ class OptionManager(CP.ConfigParser):
             tools.choose_str(value, self.CONFIG.get("dir"))
         )
 
+        self._reset_load()
+
     # end def
 
 
@@ -327,6 +344,8 @@ class OptionManager(CP.ConfigParser):
 
             tools.choose_str(value, self.CONFIG.get("file"))
         )
+
+        self._reset_load()
 
     # end def
 

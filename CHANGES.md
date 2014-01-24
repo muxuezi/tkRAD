@@ -9,6 +9,23 @@
 ## CHANGELOG
 
 
+### $ 2014-01-24 RS $
+
+* updated `tkRAD.core.options`:
+
+    * in `OptionManager`:
+
+        * updated `set_config_dir()`, `set_config_file()`:
+
+            * now take in account loading op flag;
+
+        * added new `_reset_load()`:
+
+            * now fully implemented;
+
+            * resets loading op flag;
+
+
 ### $ 2014-01-23 RS $
 
 * updated `RADApplication`:
