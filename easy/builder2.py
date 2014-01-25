@@ -54,15 +54,15 @@ def build (xml, master = None):
 
         into a Tk() toplevel window for demo testing;
 
-        returns a Tkinter.Frame widget containing XML built-in
+        returns a tkinter.Frame widget containing XML built-in
 
-        Tkinter widgets;
+        tkinter widgets;
 
         examples:
 
             # testing XML widgets from char string
 
-            from tkRAD.easy import builder2
+            from tkRAD.easy import builder
 
             xml = \"""
 
@@ -76,25 +76,25 @@ def build (xml, master = None):
 
             \"""
 
-            builder2.build(xml)
+            builder.build(xml)
 
             # testing from file URI
 
-            from tkRAD.easy import builder2
+            from tkRAD.easy import builder
 
-            builder2.build("./test.xml")
+            builder.build("./test.xml")
 
             # testing with a parent widget
 
-            import Tkinter as TK
+            import tkinter as TK
 
-            from tkRAD.easy import builder2
+            from tkRAD.easy import builder
 
             root = TK.Tk()
 
             my_window = TK.Frame(root)
 
-            my_widget = builder2.build("./test.xml", my_window)
+            my_widget = builder.build("./test.xml", my_window)
 
             my_window.pack()
 
@@ -109,15 +109,15 @@ def build (xml, master = None):
 
 class Builder (TK.Frame):
     r"""
-        /!\ tkRAD.easy.builder2 is a STANDALONE module /!\
+        /!\ tkRAD.easy.builder is a STANDALONE module /!\
 
         you can pick it up and use it *as is* in your own project;
 
-        lightweight XML to Tkinter widget building class;
+        lightweight XML to tkinter widget building class;
 
         this class implements the very minimal needs for very simple
 
-        Tkinter widget generation sourced from an XML file or
+        tkinter widget generation sourced from an XML file or
 
         from an XML string of chars;
 
@@ -129,7 +129,7 @@ class Builder (TK.Frame):
 
             # testing XML widgets from char string
 
-            from tkRAD.easy import builder2 as B
+            from tkRAD.easy import builder as B
 
             xml = \"""
 
@@ -147,15 +147,15 @@ class Builder (TK.Frame):
 
             # testing from file URI
 
-            from tkRAD.easy import builder2 as B
+            from tkRAD.easy import builder as B
 
             B.Builder().build("./test.xml")
 
             # testing with a parent widget
 
-            import Tkinter as TK
+            import tkinter as TK
 
-            from tkRAD.easy import builder2 as B
+            from tkRAD.easy import builder as B
 
             root = TK.Tk()
 
@@ -194,9 +194,9 @@ class Builder (TK.Frame):
 
         "fill": TK.BOTH,
 
-        "padx": 2,
+        "padx": 0,
 
-        "pady": 2,
+        "pady": 0,
 
     } # end of PACK_OPTIONS
 
@@ -239,7 +239,11 @@ class Builder (TK.Frame):
             no return value (void);
         """
 
-        # param controls - set autorun session if needed
+        # member inits
+
+        self.__autorun = False
+
+        # set autorun session if needed
 
         if not master:
 
@@ -250,12 +254,6 @@ class Builder (TK.Frame):
             # set flag on
 
             self.__autorun = True
-
-        else:
-
-            # set flag off
-
-            self.__autorun = False
 
         # end if
 
@@ -283,7 +281,7 @@ class Builder (TK.Frame):
         r"""
             builds an XML element along its class name
 
-            and a parent Tkinter widget;
+            and a parent tkinter widget;
 
             recurse on XML element's children to build them too;
 
@@ -304,13 +302,9 @@ class Builder (TK.Frame):
 
             _widget = tk_parent
 
-        # create Tkinter widget
+        # create tkinter widget
 
         else:
-
-            # search for correct class name
-
-            _classname = self.TK_CLASSES.get(_tagl, _tag)
 
             # parse some minimal XML attributes
 
@@ -320,7 +314,17 @@ class Builder (TK.Frame):
 
             _id = xml_element.attrib.pop("id", None)
 
+            # search for correct class name
+
+            _classname = self.TK_CLASSES.get(_tagl, _tag)
+
             # create widget
+
+            r"""
+                $ 2014-01-25 RS $
+                caution: people may use ttk or PWM
+                do *NOT* prefix {_class} with 'TK.' /!\
+            """
 
             _widget = eval(
 
@@ -368,21 +372,57 @@ class Builder (TK.Frame):
 
         # incorrect id name?
 
-        if not attr_id:
+        if not self.is_pstr(attr_id):
 
             # reset id name
 
-            attr_id = "object" + str(self.OI_COUNT)
-
-            # update object instance (oi) counter
-
-            self.OI_COUNT += 1
+            attr_id = self._get_unique_id("object")
 
         # end if
 
         # return normalized id
 
         return attr_id
+
+    # end def
+
+
+
+    def _get_unique_id (self, radix):
+        r"""
+            tries to find a new and unique indexed 'id' name along
+            @radix param name;
+
+            returns new unique 'id' name on success, None otherwise;
+        """
+
+        # param controls
+
+        if self.is_pstr(radix):
+
+            # this prevents from counting overflow /!\
+
+            while self.OI_COUNT:
+
+                # set new indexed 'id' name
+
+                _uid = radix + str(self.OI_COUNT)
+
+                self.OI_COUNT += 1
+
+                # got unique 'id' name?
+
+                if _uid not in self.objects:
+
+                    return _uid
+
+                # end if
+
+            # end while
+
+        # end if
+
+        return None
 
     # end def
 
@@ -439,7 +479,6 @@ class Builder (TK.Frame):
             raise TypeError(
 
                 "XML argument must be a string of chars."
-
             )
 
         # end if
@@ -517,21 +556,15 @@ class Builder (TK.Frame):
 
             # attribute parsing is OPTIONAL /!\
 
-            if hasattr(self, _parser):
+            _parser = getattr(self, _parser, None)
 
-                # set real method def for parser
+            # callable parser?
 
-                _parser = getattr(self, _parser)
+            if callable(_parser):
 
-                # callable parser?
+                # call parser with good params
 
-                if callable(_parser):
-
-                    # call parser with good params
-
-                    _parser(_value, _attrs, **_kw)
-
-                # end if
+                _parser(_value, _attrs, **_kw)
 
             # end if
 
@@ -562,7 +595,7 @@ class Builder (TK.Frame):
 
     def build (self, arg):
         r"""
-            tries to build Tkinter widgets from a char string or
+            tries to build tkinter widgets from a char string or
 
             from a file URI;
 
@@ -572,7 +605,7 @@ class Builder (TK.Frame):
 
             returns 'self' as a widget container of all built-in
 
-            Tkinter widgets for further use in your own program;
+            tkinter widgets for further use in your own program;
         """
 
         try:
@@ -581,7 +614,7 @@ class Builder (TK.Frame):
 
             self._init_xml_tree(arg)
 
-            # build XML element as Tkinter widget
+            # build XML element as tkinter widget
 
             self._build_element(self.xml_tree.getroot(), self)
 
@@ -648,15 +681,11 @@ class Builder (TK.Frame):
 
             return re.sub(r"\W+", r"", attr_id)
 
+        # end if
+
         # unsupported
 
-        else:
-
-            # nullify string
-
-            return ""
-
-        # end if
+        return ""
 
     # end def
 
@@ -741,11 +770,8 @@ if __name__ == "__main__":
 
     xml = """
         <root>
-
             <label text="hello good people!"/>
-
             <button text="OK" command="self.quit"/>
-
         </root>
     """
 

@@ -61,15 +61,15 @@ If&nbsp;not,&nbsp;see:&nbsp;<a href="http://www.gnu.org/licenses/">http://www.gn
 <font color="#000000" face="helvetica, arial"><a name="Builder">class <strong>Builder</strong></a>(<a href="Tkinter.html#Frame">Tkinter.Frame</a>)</font></td></tr>
     
 <tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
-<td colspan=2><tt>/!\&nbsp;tkRAD.easy.builder2&nbsp;is&nbsp;a&nbsp;STANDALONE&nbsp;module&nbsp;/!\<br>
+<td colspan=2><tt>/!\&nbsp;tkRAD.easy.builder&nbsp;is&nbsp;a&nbsp;STANDALONE&nbsp;module&nbsp;/!\<br>
 &nbsp;<br>
 you&nbsp;can&nbsp;pick&nbsp;it&nbsp;up&nbsp;and&nbsp;use&nbsp;it&nbsp;*as&nbsp;is*&nbsp;in&nbsp;your&nbsp;own&nbsp;project;<br>
 &nbsp;<br>
-lightweight&nbsp;XML&nbsp;to&nbsp;Tkinter&nbsp;widget&nbsp;building&nbsp;class;<br>
+lightweight&nbsp;XML&nbsp;to&nbsp;tkinter&nbsp;widget&nbsp;building&nbsp;class;<br>
 &nbsp;<br>
 this&nbsp;class&nbsp;implements&nbsp;the&nbsp;very&nbsp;minimal&nbsp;needs&nbsp;for&nbsp;very&nbsp;simple<br>
 &nbsp;<br>
-Tkinter&nbsp;widget&nbsp;generation&nbsp;sourced&nbsp;from&nbsp;an&nbsp;XML&nbsp;file&nbsp;or<br>
+tkinter&nbsp;widget&nbsp;generation&nbsp;sourced&nbsp;from&nbsp;an&nbsp;XML&nbsp;file&nbsp;or<br>
 &nbsp;<br>
 from&nbsp;an&nbsp;XML&nbsp;string&nbsp;of&nbsp;chars;<br>
 &nbsp;<br>
@@ -81,7 +81,7 @@ examples:<br>
 &nbsp;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;testing&nbsp;XML&nbsp;widgets&nbsp;from&nbsp;char&nbsp;string<br>
 &nbsp;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;tkRAD.easy&nbsp;import&nbsp;builder2&nbsp;as&nbsp;B<br>
+&nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;tkRAD.easy&nbsp;import&nbsp;builder&nbsp;as&nbsp;B<br>
 &nbsp;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;xml&nbsp;=&nbsp;\"""<br>
 &nbsp;<br>
@@ -99,15 +99,15 @@ examples:<br>
 &nbsp;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;testing&nbsp;from&nbsp;file&nbsp;URI<br>
 &nbsp;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;tkRAD.easy&nbsp;import&nbsp;builder2&nbsp;as&nbsp;B<br>
+&nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;tkRAD.easy&nbsp;import&nbsp;builder&nbsp;as&nbsp;B<br>
 &nbsp;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;B.<a href="#Builder">Builder</a>().<a href="#Builder-build">build</a>("./test.xml")<br>
 &nbsp;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;testing&nbsp;with&nbsp;a&nbsp;parent&nbsp;widget<br>
 &nbsp;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;import&nbsp;Tkinter&nbsp;as&nbsp;TK<br>
+&nbsp;&nbsp;&nbsp;&nbsp;import&nbsp;tkinter&nbsp;as&nbsp;TK<br>
 &nbsp;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;tkRAD.easy&nbsp;import&nbsp;builder2&nbsp;as&nbsp;B<br>
+&nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;tkRAD.easy&nbsp;import&nbsp;builder&nbsp;as&nbsp;B<br>
 &nbsp;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;root&nbsp;=&nbsp;TK.Tk()<br>
 &nbsp;<br>
@@ -143,7 +143,7 @@ and&nbsp;prepares&nbsp;for&nbsp;testing&nbsp;session&nbsp;auto&nbsp;running;<br>
 &nbsp;<br>
 no&nbsp;return&nbsp;value&nbsp;(void);</tt></dd></dl>
 
-<dl><dt><a name="Builder-build"><strong>build</strong></a>(self, arg)</dt><dd><tt>tries&nbsp;to&nbsp;build&nbsp;Tkinter&nbsp;widgets&nbsp;from&nbsp;a&nbsp;char&nbsp;string&nbsp;or<br>
+<dl><dt><a name="Builder-build"><strong>build</strong></a>(self, arg)</dt><dd><tt>tries&nbsp;to&nbsp;build&nbsp;tkinter&nbsp;widgets&nbsp;from&nbsp;a&nbsp;char&nbsp;string&nbsp;or<br>
 &nbsp;<br>
 from&nbsp;a&nbsp;file&nbsp;URI;<br>
 &nbsp;<br>
@@ -153,7 +153,7 @@ if&nbsp;any&nbsp;exception&nbsp;raises;<br>
 &nbsp;<br>
 returns&nbsp;'self'&nbsp;as&nbsp;a&nbsp;widget&nbsp;container&nbsp;of&nbsp;all&nbsp;built-in<br>
 &nbsp;<br>
-Tkinter&nbsp;widgets&nbsp;for&nbsp;further&nbsp;use&nbsp;in&nbsp;your&nbsp;own&nbsp;program;</tt></dd></dl>
+tkinter&nbsp;widgets&nbsp;for&nbsp;further&nbsp;use&nbsp;in&nbsp;your&nbsp;own&nbsp;program;</tt></dd></dl>
 
 <dl><dt><a name="Builder-canonize_id"><strong>canonize_id</strong></a>(self, attr_id)</dt><dd><tt>sets&nbsp;@attr_id&nbsp;param&nbsp;in&nbsp;conformance&nbsp;with&nbsp;__identifier__<br>
 &nbsp;<br>
@@ -189,7 +189,7 @@ Data and other attributes defined here:<br>
 
 <dl><dt><strong>OI_COUNT</strong> = 1</dl>
 
-<dl><dt><strong>PACK_OPTIONS</strong> = {'expand': 1, 'fill': 'both', 'padx': 2, 'pady': 2, 'side': 'top'}</dl>
+<dl><dt><strong>PACK_OPTIONS</strong> = {'expand': 1, 'fill': 'both', 'padx': 0, 'pady': 0, 'side': 'top'}</dl>
 
 <dl><dt><strong>TK_CLASSES</strong> = {'button': 'TK.Button', 'canvas': 'TK.Canvas', 'checkbutton': 'TK.Checkbutton', 'entry': 'TK.Entry', 'frame': 'TK.Frame', 'label': 'TK.Label', 'labelframe': 'TK.LabelFrame', 'listbox': 'TK.Listbox', 'menu': 'TK.Menu', 'menubutton': 'TK.Menubutton', ...}</dl>
 
@@ -925,15 +925,15 @@ if&nbsp;@master&nbsp;param&nbsp;is&nbsp;None,&nbsp;built-in&nbsp;widgets&nbsp;wi
 &nbsp;<br>
 into&nbsp;a&nbsp;Tk()&nbsp;toplevel&nbsp;window&nbsp;for&nbsp;demo&nbsp;testing;<br>
 &nbsp;<br>
-returns&nbsp;a&nbsp;Tkinter.<a href="Tkinter.html#Frame">Frame</a>&nbsp;widget&nbsp;containing&nbsp;XML&nbsp;built-in<br>
+returns&nbsp;a&nbsp;tkinter.<a href="Tkinter.html#Frame">Frame</a>&nbsp;widget&nbsp;containing&nbsp;XML&nbsp;built-in<br>
 &nbsp;<br>
-Tkinter&nbsp;widgets;<br>
+tkinter&nbsp;widgets;<br>
 &nbsp;<br>
 examples:<br>
 &nbsp;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;testing&nbsp;XML&nbsp;widgets&nbsp;from&nbsp;char&nbsp;string<br>
 &nbsp;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;tkRAD.easy&nbsp;import&nbsp;builder2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;tkRAD.easy&nbsp;import&nbsp;builder<br>
 &nbsp;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;xml&nbsp;=&nbsp;\"""<br>
 &nbsp;<br>
@@ -947,25 +947,25 @@ examples:<br>
 &nbsp;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;\"""<br>
 &nbsp;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;builder2.<a href="#-build">build</a>(xml)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;builder.<a href="#-build">build</a>(xml)<br>
 &nbsp;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;testing&nbsp;from&nbsp;file&nbsp;URI<br>
 &nbsp;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;tkRAD.easy&nbsp;import&nbsp;builder2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;tkRAD.easy&nbsp;import&nbsp;builder<br>
 &nbsp;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;builder2.<a href="#-build">build</a>("./test.xml")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;builder.<a href="#-build">build</a>("./test.xml")<br>
 &nbsp;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;testing&nbsp;with&nbsp;a&nbsp;parent&nbsp;widget<br>
 &nbsp;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;import&nbsp;Tkinter&nbsp;as&nbsp;TK<br>
+&nbsp;&nbsp;&nbsp;&nbsp;import&nbsp;tkinter&nbsp;as&nbsp;TK<br>
 &nbsp;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;tkRAD.easy&nbsp;import&nbsp;builder2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;tkRAD.easy&nbsp;import&nbsp;builder<br>
 &nbsp;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;root&nbsp;=&nbsp;TK.Tk()<br>
 &nbsp;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;my_window&nbsp;=&nbsp;TK.<a href="Tkinter.html#Frame">Frame</a>(root)<br>
 &nbsp;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;my_widget&nbsp;=&nbsp;builder2.<a href="#-build">build</a>("./test.xml",&nbsp;my_window)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;my_widget&nbsp;=&nbsp;builder.<a href="#-build">build</a>("./test.xml",&nbsp;my_window)<br>
 &nbsp;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;my_window.pack()<br>
 &nbsp;<br>

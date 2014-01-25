@@ -9,6 +9,34 @@
 ## CHANGELOG
 
 
+### $ 2014-01-25 RS $
+
+* updated `tkRAD.easy.builder2`:
+
+    * TESTED OK;
+
+    * reset all module code along `tkRAD.easy.builder` new code
+    optimizations;
+
+* updated `tkRAD.easy.builder`:
+
+    * in `Builder`:
+
+        * TESTED OK;
+
+        * optimized code anywhere in module;
+
+        * updated `_get_correct_id()`:
+
+            * optimized along `_get_unique_id()`;
+
+        * added new `_get_unique_id()`:
+
+            * copied from `RADXMLBase._get_unique_id()`;
+
+            * adapted locally;
+
+
 ### $ 2014-01-24 RS $
 
 * updated `tkRAD.core.options`:
@@ -170,16 +198,16 @@
     * usage:
 
 ```python
-# simple import
-import tkRAD
-# direct import
-app = tkRAD.RADApplication()
-# direct import
-mw = tkRAD.RADMainWindow()
-# direct import
-xmw = tkRAD.RADXMLMainWindow()
-# direct import
-xf = tkRAD.RADXMLFrame()
+    # simple import
+    import tkRAD
+    # direct import
+    app = tkRAD.RADApplication()
+    # direct import
+    mw = tkRAD.RADMainWindow()
+    # direct import
+    xmw = tkRAD.RADXMLMainWindow()
+    # direct import
+    xf = tkRAD.RADXMLFrame()
 ```
 
 * updated `RADXMLFrame`:

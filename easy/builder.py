@@ -194,9 +194,9 @@ class Builder (TK.Frame):
 
         "fill": TK.BOTH,
 
-        "padx": 2,
+        "padx": 0,
 
-        "pady": 2,
+        "pady": 0,
 
     } # end of PACK_OPTIONS
 
@@ -239,7 +239,11 @@ class Builder (TK.Frame):
             no return value (void);
         """
 
-        # param controls - set autorun session if needed
+        # member inits
+
+        self.__autorun = False
+
+        # set autorun session if needed
 
         if not master:
 
@@ -250,12 +254,6 @@ class Builder (TK.Frame):
             # set flag on
 
             self.__autorun = True
-
-        else:
-
-            # set flag off
-
-            self.__autorun = False
 
         # end if
 
@@ -308,10 +306,6 @@ class Builder (TK.Frame):
 
         else:
 
-            # search for correct class name
-
-            _classname = self.TK_CLASSES.get(_tagl, _tag)
-
             # parse some minimal XML attributes
 
             self._parse_xml_attributes(xml_element, tk_parent)
@@ -320,7 +314,17 @@ class Builder (TK.Frame):
 
             _id = xml_element.attrib.pop("id", None)
 
+            # search for correct class name
+
+            _classname = self.TK_CLASSES.get(_tagl, _tag)
+
             # create widget
+
+            r"""
+                $ 2014-01-25 RS $
+                caution: people may use ttk or PWM
+                do *NOT* prefix {_class} with 'TK.' /!\
+            """
 
             _widget = eval(
 
@@ -368,21 +372,57 @@ class Builder (TK.Frame):
 
         # incorrect id name?
 
-        if not attr_id:
+        if not self.is_pstr(attr_id):
 
             # reset id name
 
-            attr_id = "object" + str(self.OI_COUNT)
-
-            # update object instance (oi) counter
-
-            self.OI_COUNT += 1
+            attr_id = self._get_unique_id("object")
 
         # end if
 
         # return normalized id
 
         return attr_id
+
+    # end def
+
+
+
+    def _get_unique_id (self, radix):
+        r"""
+            tries to find a new and unique indexed 'id' name along
+            @radix param name;
+
+            returns new unique 'id' name on success, None otherwise;
+        """
+
+        # param controls
+
+        if self.is_pstr(radix):
+
+            # this prevents from counting overflow /!\
+
+            while self.OI_COUNT:
+
+                # set new indexed 'id' name
+
+                _uid = radix + str(self.OI_COUNT)
+
+                self.OI_COUNT += 1
+
+                # got unique 'id' name?
+
+                if _uid not in self.objects:
+
+                    return _uid
+
+                # end if
+
+            # end while
+
+        # end if
+
+        return None
 
     # end def
 
@@ -439,7 +479,6 @@ class Builder (TK.Frame):
             raise TypeError(
 
                 "XML argument must be a string of chars."
-
             )
 
         # end if
@@ -517,21 +556,15 @@ class Builder (TK.Frame):
 
             # attribute parsing is OPTIONAL /!\
 
-            if hasattr(self, _parser):
+            _parser = getattr(self, _parser, None)
 
-                # set real method def for parser
+            # callable parser?
 
-                _parser = getattr(self, _parser)
+            if callable(_parser):
 
-                # callable parser?
+                # call parser with good params
 
-                if callable(_parser):
-
-                    # call parser with good params
-
-                    _parser(_value, _attrs, **_kw)
-
-                # end if
+                _parser(_value, _attrs, **_kw)
 
             # end if
 
@@ -648,15 +681,11 @@ class Builder (TK.Frame):
 
             return re.sub(r"\W+", r"", attr_id)
 
+        # end if
+
         # unsupported
 
-        else:
-
-            # nullify string
-
-            return ""
-
-        # end if
+        return ""
 
     # end def
 
@@ -741,11 +770,8 @@ if __name__ == "__main__":
 
     xml = """
         <root>
-
             <label text="hello good people!"/>
-
             <button text="OK" command="self.quit"/>
-
         </root>
     """
 
