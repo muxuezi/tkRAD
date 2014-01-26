@@ -107,6 +107,42 @@ def build (xml, master = None):
 
 
 
+def canonize_id (arg):
+    r"""
+        sets @arg param in conformance with __identifier__
+
+        language def (allows only regexp("\w+") in id naming);
+
+        returns canonized id name or empty string otherwise;
+    """
+
+    # param controls
+
+    if is_pstr(arg):
+
+        return re.sub(r"\W+", r"", arg)
+
+    # end if
+
+    # unsupported
+
+    return ""
+
+# end def
+
+
+
+def is_pstr (arg):
+    r"""
+        determines if @arg param is of plain string type or not;
+    """
+
+    return arg and isinstance(arg, str)
+
+# end def
+
+
+
 class Builder (TK.Frame):
     r"""
         /!\ tkRAD.easy.builder is a STANDALONE module /!\
@@ -368,11 +404,11 @@ class Builder (TK.Frame):
 
         # param inits
 
-        attr_id = self.canonize_id(attr_id)
+        attr_id = canonize_id(attr_id)
 
         # incorrect id name?
 
-        if not self.is_pstr(attr_id):
+        if not is_pstr(attr_id):
 
             # reset id name
 
@@ -398,7 +434,7 @@ class Builder (TK.Frame):
 
         # param controls
 
-        if self.is_pstr(radix):
+        if is_pstr(radix):
 
             # this prevents from counting overflow /!\
 
@@ -430,11 +466,12 @@ class Builder (TK.Frame):
 
     def _init_xml_tree (self, arg):
         r"""
-            determines if @arg param is a valid file URI,
+            chooses between internal XML source code and file URI;
 
-            tries to parse XML source string of chars otherwise;
+            raises TypeError if @arg is not at least a plain string
+            of chars;
 
-            raises TypeError if @arg is not at least a string of chars;
+            parses new XML tree along results;
 
             no return value (void);
         """
@@ -447,28 +484,24 @@ class Builder (TK.Frame):
 
         self.OI_COUNT = 1
 
-        # param controls - arg must be XML string or file URI
+        # arg must be XML source code or file URI
 
-        if self.is_pstr(arg):
+        if is_pstr(arg):
 
-            # argument is a file URI?
+            # got XML tag?
 
-            if "<" not in arg:
+            if re.search(r"<.*?>", arg):
 
-                # internal XML tree init
+                # XML source code
 
-                self.xml_tree = ET.parse(arg)
-
-            # try to parse XML string of chars
+                self.xml_tree = \
+                    ET.ElementTree(element = ET.fromstring(arg))
 
             else:
 
-                # internal XML tree init
+                # file URI
 
-                self.xml_tree = ET.ElementTree(
-
-                        element = ET.fromstring(arg)
-                )
+                self.xml_tree = ET.parse(arg)
 
             # end if
 
@@ -476,10 +509,7 @@ class Builder (TK.Frame):
 
         else:
 
-            raise TypeError(
-
-                "XML argument must be a string of chars."
-            )
+            raise TypeError("must be a plain string of chars.")
 
         # end if
 
@@ -508,7 +538,8 @@ class Builder (TK.Frame):
         r"""
             parses XML attribute 'id';
 
-            normalizes it to match __identifier__ standard language def;
+            normalizes it to match __identifier__ standard language
+            def;
 
             no return value (void);
         """
@@ -666,31 +697,6 @@ class Builder (TK.Frame):
 
 
 
-    def canonize_id (self, attr_id):
-        r"""
-            sets @attr_id param in conformance with __identifier__
-
-            language def (allows only regexp("\w+") in id naming);
-
-            returns canonized id name or empty string otherwise;
-        """
-
-        # param controls
-
-        if self.is_pstr(attr_id):
-
-            return re.sub(r"\W+", r"", attr_id)
-
-        # end if
-
-        # unsupported
-
-        return ""
-
-    # end def
-
-
-
     def get_object_by_id (self, attr_id):
         r"""
             tries to retrieve the object created through its definition
@@ -704,7 +710,7 @@ class Builder (TK.Frame):
             returns None otherwise;
         """
 
-        return self.objects.get(self.canonize_id(attr_id))
+        return self.objects.get(canonize_id(attr_id))
 
     # end def
 
@@ -730,17 +736,6 @@ class Builder (TK.Frame):
             _widget.place_forget()
 
         # end for
-
-    # end def
-
-
-
-    def is_pstr (self, arg):
-        r"""
-            determines if @arg param is of plain string type or not;
-        """
-
-        return arg and isinstance(arg, str)
 
     # end def
 

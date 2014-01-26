@@ -9,6 +9,28 @@
 ## CHANGELOG
 
 
+### $ 2014-01-26 RS $
+
+* updated `tkRAD.easy.builder2`:
+
+    * TESTED OK;
+
+    * reset all module code along `tkRAD.easy.builder` new code
+    optimizations;
+
+* updated `tkRAD.easy.builder`:
+
+    * TESTED OK;
+
+    * moved `Builder.canonize_id()` to `module.canonize_id()`:
+
+        * readapted code along this new constraint;
+
+    * moved `Builder.is_pstr()` to `module.is_pstr()`:
+
+        * readapted code along this new constraint;
+
+
 ### $ 2014-01-25 RS $
 
 * updated `tkRAD.easy.builder2`:

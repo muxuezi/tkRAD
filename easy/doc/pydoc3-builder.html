@@ -156,12 +156,6 @@ returns&nbsp;'self'&nbsp;as&nbsp;a&nbsp;widget&nbsp;container&nbsp;of&nbsp;all&n
 &nbsp;<br>
 tkinter&nbsp;widgets&nbsp;for&nbsp;further&nbsp;use&nbsp;in&nbsp;your&nbsp;own&nbsp;program;</tt></dd></dl>
 
-<dl><dt><a name="Builder-canonize_id"><strong>canonize_id</strong></a>(self, attr_id)</dt><dd><tt>sets&nbsp;@attr_id&nbsp;param&nbsp;in&nbsp;conformance&nbsp;with&nbsp;__identifier__<br>
-&nbsp;<br>
-language&nbsp;def&nbsp;(allows&nbsp;only&nbsp;regexp("\w+")&nbsp;in&nbsp;id&nbsp;naming);<br>
-&nbsp;<br>
-returns&nbsp;canonized&nbsp;id&nbsp;name&nbsp;or&nbsp;empty&nbsp;string&nbsp;otherwise;</tt></dd></dl>
-
 <dl><dt><a name="Builder-get_object_by_id"><strong>get_object_by_id</strong></a>(self, attr_id)</dt><dd><tt>tries&nbsp;to&nbsp;retrieve&nbsp;the&nbsp;object&nbsp;created&nbsp;through&nbsp;its&nbsp;definition<br>
 &nbsp;<br>
 into&nbsp;an&nbsp;XML&nbsp;element&nbsp;declared&nbsp;with&nbsp;id='@attr_id'&nbsp;param<br>
@@ -177,8 +171,6 @@ returns&nbsp;None&nbsp;otherwise;</tt></dd></dl>
 <a href="#Builder-place">place</a>()&nbsp;them&nbsp;in&nbsp;a&nbsp;specific&nbsp;user-defined&nbsp;way;<br>
 &nbsp;<br>
 no&nbsp;return&nbsp;value&nbsp;(void);</tt></dd></dl>
-
-<dl><dt><a name="Builder-is_pstr"><strong>is_pstr</strong></a>(self, arg)</dt><dd><tt>determines&nbsp;if&nbsp;@arg&nbsp;param&nbsp;is&nbsp;of&nbsp;plain&nbsp;string&nbsp;type&nbsp;or&nbsp;not;</tt></dd></dl>
 
 <dl><dt><a name="Builder-set_pack_options"><strong>set_pack_options</strong></a>(self, **kw)</dt><dd><tt>sets&nbsp;specific&nbsp;w.<a href="#Builder-pack">pack</a>()&nbsp;options&nbsp;for&nbsp;widget&nbsp;building;<br>
 &nbsp;<br>
@@ -987,5 +979,11 @@ examples:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;my_window.pack()<br>
 &nbsp;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;root.mainloop()</tt></dd></dl>
+ <dl><dt><a name="-canonize_id"><strong>canonize_id</strong></a>(arg)</dt><dd><tt>sets&nbsp;@arg&nbsp;param&nbsp;in&nbsp;conformance&nbsp;with&nbsp;__identifier__<br>
+&nbsp;<br>
+language&nbsp;def&nbsp;(allows&nbsp;only&nbsp;regexp("\w+")&nbsp;in&nbsp;id&nbsp;naming);<br>
+&nbsp;<br>
+returns&nbsp;canonized&nbsp;id&nbsp;name&nbsp;or&nbsp;empty&nbsp;string&nbsp;otherwise;</tt></dd></dl>
+ <dl><dt><a name="-is_pstr"><strong>is_pstr</strong></a>(arg)</dt><dd><tt>determines&nbsp;if&nbsp;@arg&nbsp;param&nbsp;is&nbsp;of&nbsp;plain&nbsp;string&nbsp;type&nbsp;or&nbsp;not;</tt></dd></dl>
 </td></tr></table>
 </body></html>
