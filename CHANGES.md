@@ -19,16 +19,16 @@
         `show_statusbar` for testing sessions;
 
         * now using:
-```
-    <menu label="_Show">
-        <checkbutton
-            label="Show statusbar"
-            command="@ToggleStatusbar"
-            variable="show_statusbar"
-            onvalue="1"
-        />
-    </menu>
-```
+        ```
+            <menu label="_Show">
+                <checkbutton
+                    label="Show statusbar"
+                    command="@ToggleStatusbar"
+                    variable="show_statusbar"
+                    onvalue="1"
+                />
+            </menu>
+        ```
         will provide automagic implementation in
         `RADApplication.mainwindow`;
 
