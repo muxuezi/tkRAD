@@ -9,6 +9,27 @@
 ## CHANGELOG
 
 
+### $ 2014-01-27 RS $
+
+* updated `RADApplication`:
+
+    * in `_start_gui()`:
+
+        * added support for implicit `menu.checkbutton.cvar` named
+        `show_statusbar` for testing sessions;
+
+        * now using:
+        `<menu label="_Show">
+            <checkbutton
+                label="Show statusbar"
+                command="@ToggleStatusbar"
+                variable="show_statusbar"
+                onvalue="1"
+            />
+        </menu>` will provide automagic implementation in
+        `RADApplication.mainwindow`;
+
+
 ### $ 2014-01-26 RS $
 
 * updated `tkRAD.easy.builder2`:

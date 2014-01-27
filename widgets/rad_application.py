@@ -30,9 +30,9 @@ from ..core import checkups
 
 from ..core import i18n
 
-from ..core import uri
-
 from ..core import tools
+
+from ..core import uri
 
 
 
@@ -598,7 +598,15 @@ class RADApplication:
 
         try:
 
+            if kw.get("xml_menu"):
+
+                self.mainwindow.topmenu.xml_build(kw.get("xml_menu"))
+
+            # end if
+
             self.mainwindow.mainframe.xml_build(kw.get("xml"))
+
+            self.mainwindow.connect_statusbar("show_statusbar")
 
             self.mainwindow.run()
 
@@ -661,7 +669,8 @@ class RADApplication:
         r"""
             starts up GUI or non-GUI implementation of this
 
-            application along @kw param, sys.argv params and rc options;
+            application along @kw param, sys.argv params and rc
+            options;
 
             no return value (void);
         """
