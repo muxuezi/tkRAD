@@ -154,6 +154,10 @@ class RADApplication:
             no return value (void);
         """
 
+        # this is a minimal example
+        # feel free to put here your
+        # own code in subclasses /!\
+
         # notice: failed checkups will raise exception
 
         if not kw.get("no_dependencies"):
@@ -187,6 +191,10 @@ class RADApplication:
 
             no return value (void);
         """
+
+        # this is a minimal example
+        # feel free to put here your
+        # own code in subclasses /!\
 
         # inits
 
@@ -228,6 +236,10 @@ class RADApplication:
             no return value (void);
         """
 
+        # this is a minimal example
+        # feel free to put here your
+        # own code in subclasses /!\
+
         # inits
 
         i18n.install(
@@ -262,6 +274,10 @@ class RADApplication:
             no return value (void);
         """
 
+        # this is a minimal example
+        # feel free to put here your
+        # own code in subclasses /!\
+
         # member inits
 
         self._set_run_mode(tools.choose_str(kw.get("run_mode"), "GUI"))
@@ -280,6 +296,10 @@ class RADApplication:
 
             no return value (void);
         """
+
+        # this is a minimal example
+        # feel free to put here your
+        # own code in subclasses /!\
 
         # lib imports
 
@@ -366,6 +386,10 @@ class RADApplication:
             no return value (void);
         """
 
+        # this is a minimal example
+        # feel free to put here your
+        # own code in subclasses /!\
+
         # lib imports
 
         import inspect
@@ -396,6 +420,10 @@ class RADApplication:
 
             no return value (void);
         """
+
+        # this is a minimal example
+        # feel free to put here your
+        # own code in subclasses /!\
 
         # lib imports
 
@@ -437,6 +465,10 @@ class RADApplication:
 
             no return value (void);
         """
+
+        # this is a minimal example
+        # feel free to put here your
+        # own code in subclasses /!\
 
         # lib imports
 
@@ -518,6 +550,10 @@ class RADApplication:
             should return only "GUI" or "CLI" char strings;
         """
 
+        # this is a minimal example
+        # feel free to put here your
+        # own code in subclasses /!\
+
         return self.__run_mode
 
     # end def
@@ -534,6 +570,10 @@ class RADApplication:
 
             no return value (void);
         """
+
+        # this is a minimal example
+        # feel free to put here your
+        # own code in subclasses /!\
 
         mode = str(mode).upper()
 
@@ -560,7 +600,9 @@ class RADApplication:
             no return value (void);
         """
 
-        # put here your own code in subclass /!\
+        # this is a minimal example
+        # feel free to put here your
+        # own code in subclasses /!\
 
         print(
 
@@ -588,7 +630,9 @@ class RADApplication:
             no return value (void);
         """
 
-        # put here your own code in subclass /!\
+        # this is a specific example
+        # feel free to put here your
+        # own code in subclasses /!\
 
         # lib imports
 
