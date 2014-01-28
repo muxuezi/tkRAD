@@ -77,6 +77,8 @@ class RADCanvas (RW.RADWidgetBase, TK.Canvas):
 
         # default values
 
+        self.CONFIG = self.CONFIG.copy()
+
         self.CONFIG.update(kw)
 
         # super inits

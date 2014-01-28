@@ -9,6 +9,15 @@
 ## CHANGELOG
 
 
+### $ 2014-01-28 RS $
+
+* updated `RADFrame`, `RADCanvas`:
+
+    * in `__init__()`:
+
+        * fixed bug on multiple instance `dict()` XRef `self.CONFIG`
+        widget class pre-configuration;
+
 ### $ 2014-01-27 RS $
 
 * updated `RADApplication`:

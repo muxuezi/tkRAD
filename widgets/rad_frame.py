@@ -45,7 +45,7 @@ class RADFrame (RW.RADWidgetBase, TK.Frame):
 
     CONFIG = {
 
-        # for subclass tkinter config()
+        # for subclass widget pre-configuration
 
     } # end of CONFIG
 
@@ -66,6 +66,8 @@ class RADFrame (RW.RADWidgetBase, TK.Frame):
     def __init__ (self, master = None, **kw):
 
         # default values
+
+        self.CONFIG = self.CONFIG.copy()
 
         self.CONFIG.update(kw)
 
