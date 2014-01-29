@@ -142,11 +142,11 @@ class RADMainWindow (RW.RADWidgetBase, TK.Tk):
 
         self._init_title(**kw)
 
+        self._init_topmenu(**kw)
+
         self._init_mainframe(**kw)
 
         self._init_statusbar(**kw)
-
-        self._init_topmenu(**kw)
 
         self._init_layout(**kw)
 
@@ -167,21 +167,21 @@ class RADMainWindow (RW.RADWidgetBase, TK.Tk):
 
         # bind events
 
-        self.bind("<Configure>", self.slot_root_changed)
+        self.bind("<Configure>", self._slot_root_changed)
 
         self.events.connect_dict(
             {
-                "quit": self.slot_quit_app,
+                "quit": self._slot_quit_app,
 
-                "Quit": self.slot_quit_app,
+                "Quit": self._slot_quit_app,
 
-                "quitapp": self.slot_quit_app,
+                "quitapp": self._slot_quit_app,
 
-                "QuitApp": self.slot_quit_app,
+                "QuitApp": self._slot_quit_app,
 
-                "PendingTaskOn": self.slot_pending_task_on,
+                "PendingTaskOn": self._slot_pending_task_on,
 
-                "PendingTaskOff": self.slot_pending_task_off,
+                "PendingTaskOff": self._slot_pending_task_off,
 
                 "ToggleStatusbar": self.statusbar.toggle,
             }
@@ -204,17 +204,27 @@ class RADMainWindow (RW.RADWidgetBase, TK.Tk):
 
         self.resizable(
 
-            **kw.get("resizable", dict(width = True, height = True))
+            **tools.choose(
+
+                kw.get("resizable"),
+
+                dict(width=True, height=True),
+            )
         )
 
         self.minsize(
 
-            **kw.get("minsize", dict(width = 100, height = 100))
+            **tools.choose(
+
+                kw.get("minsize"),
+
+                dict(width = 100, height = 100),
+            )
         )
 
         # main window geometry inits
 
-        # caution: this is useful even while maximized               /!\
+        # CAUTION: this is useful even while maximized
 
         self.geometry(
 
@@ -285,13 +295,18 @@ class RADMainWindow (RW.RADWidgetBase, TK.Tk):
             text = _("Put here your own Frame() widget.")
         )
 
-        self.mainframe = kw.get("mainframe", _frame)
+        self.mainframe = tools.choose(
+
+            kw.get("mainframe"),
+
+            _frame,
+        )
 
         self.tk_owner = self.mainframe
 
         self.tk_children = self.mainframe.winfo_children
 
-        self.mainframe.quit_app = self.slot_quit_app
+        self.mainframe.quit_app = self._slot_quit_app
 
     # end def
 
@@ -342,9 +357,9 @@ class RADMainWindow (RW.RADWidgetBase, TK.Tk):
 
         self.options.set_defaults(
 
-            **kw.get(
+            **tools.choose(
 
-                "rc_defaults",
+                kw.get("rc_defaults"),
 
                 dict(
 
@@ -353,7 +368,7 @@ class RADMainWindow (RW.RADWidgetBase, TK.Tk):
                     mainwindow = "640x480+20+20",
 
                     mainwindow_state = "normal",
-                )
+                ),
             )
         )
 
@@ -376,7 +391,12 @@ class RADMainWindow (RW.RADWidgetBase, TK.Tk):
 
         # widget inits
 
-        self.statusbar = kw.get("statusbar", SB.RADStatusBar(self))
+        self.statusbar = tools.choose(
+
+            kw.get("statusbar"),
+
+            SB.RADStatusBar(self),
+        )
 
     # end def
 
@@ -430,13 +450,23 @@ class RADMainWindow (RW.RADWidgetBase, TK.Tk):
 
         # widget inits
 
-        self.topmenu = kw.get("topmenu", XM.RADXMLMenu(self))
+        self.topmenu = tools.choose(
+
+            kw.get("topmenu"),
+
+            XM.RADXMLMenu(self),
+        )
 
         if isinstance(self.topmenu, XM.RADXMLMenu):
 
             self.topmenu.set_xml_filename(
 
-                kw.get("topmenu_xml_filename", "topmenu")
+                tools.choose_str(
+
+                    kw.get("topmenu_xml_filename"),
+
+                    "topmenu",
+                )
             )
 
         # end if
@@ -456,7 +486,7 @@ class RADMainWindow (RW.RADWidgetBase, TK.Tk):
 
         # capture window manager's events handling
 
-        self.protocol("WM_DELETE_WINDOW", self.slot_quit_app)
+        self.protocol("WM_DELETE_WINDOW", self._slot_quit_app)
 
     # end def
 
@@ -504,6 +534,119 @@ class RADMainWindow (RW.RADWidgetBase, TK.Tk):
 
 
 
+    def _slot_pending_task_off (self, *args, **kw):
+        r"""
+            slot method for event signal "PendingTaskOff";
+
+            no return value (void);
+        """
+
+        self.__pending_task = False
+
+        self.statusbar.notify(_("An important task has finished."))
+
+    # end def
+
+
+
+    def _slot_pending_task_on (self, *args, **kw):
+        r"""
+            slot method for event signal "PendingTaskOn";
+
+            no return value (void);
+        """
+
+        self.__pending_task = True
+
+        self.statusbar.notify(_("An important task has started."))
+
+    # end def
+
+
+
+    def _slot_quit_app (self, *args, **kw):
+        """
+            slot method before quitting app definitely;
+
+            asks for confirmation in dialog before acting;
+
+            this should be overridden in subclass in order to
+
+            meet your own needs;
+
+            no return value (void);
+        """
+
+        if self.get_pending_task():
+
+            MB.showwarning(
+
+                _("Pending operation"),
+
+                _(
+                    "Some very important task is pending by now. "
+
+                    "Please wait for completion and then retry."
+                )
+            )
+
+        elif MB.askokcancel(
+
+            _("Quit app?"),
+
+            _("Are you sure you want to quit this application?")
+        ):
+
+            self.options.save()
+
+            self.quit()
+
+        # end if
+
+    # end def
+
+
+
+    def _slot_root_changed (self, tk_event = None, *args, **kw):
+        r"""
+            slot method for tkinter event "<Configure>";
+
+            manages special non-tkinter case of 'maximized' window
+
+            state and updates rc config options on-the-fly;
+
+            no return value (void);
+        """
+
+        # /!\ avoid useless calls from child widgets /!\
+
+        if not isinstance(tk_event.widget, self.__class__):
+
+            return
+
+        # end if
+
+        # inits
+
+        _maximized = int(self.attributes("-zoomed"))
+
+        if _maximized:
+
+            self._set_state("maximized")
+
+        else:
+
+            self._set_state("normal")
+
+            self.options["geometry"]\
+                ["mainwindow"] = str(self.geometry())
+
+        # end if
+
+    # end def
+
+
+
     def connect_statusbar (self, stringvarname):
         r"""
             connects self.statusbar.toggle_var to a self.topmenu or
@@ -544,6 +687,26 @@ class RADMainWindow (RW.RADWidgetBase, TK.Tk):
             self.statusbar.toggle_var = _cvar
 
             self.statusbar.toggle()
+
+        else:
+
+            raise TypeError(
+
+                _(
+                    "could *NOT* connect statusbar "
+
+                    "to control variable named '{cvar}': "
+
+                    "current statusbar type {obj} is *NOT SUPPORTED*"
+                )
+
+                .format(
+
+                    cvar = str(stringvarname),
+
+                    obj = repr(self.statusbar),
+                )
+            )
 
         # end if
 
@@ -653,7 +816,7 @@ class RADMainWindow (RW.RADWidgetBase, TK.Tk):
 
         self._set_state("maximized")
 
-        # Tk() main window has some buggy behaviour sometimes        /!\
+        # Tk() main window has some buggy behaviour sometimes
 
         self.update()
 
@@ -737,119 +900,6 @@ class RADMainWindow (RW.RADWidgetBase, TK.Tk):
         self.deiconify()
 
         self._set_state("normal")
-
-    # end def
-
-
-
-    def slot_pending_task_off (self, *args, **kw):
-        r"""
-            slot method for event signal "PendingTaskOff";
-
-            no return value (void);
-        """
-
-        self.__pending_task = False
-
-        self.statusbar.notify(_("An important task has finished."))
-
-    # end def
-
-
-
-    def slot_pending_task_on (self, *args, **kw):
-        r"""
-            slot method for event signal "PendingTaskOn";
-
-            no return value (void);
-        """
-
-        self.__pending_task = True
-
-        self.statusbar.notify(_("An important task has started."))
-
-    # end def
-
-
-
-    def slot_quit_app (self, *args, **kw):
-        """
-            slot method before quitting app definitely;
-
-            asks for confirmation in dialog before acting;
-
-            this should be overridden in subclass in order to
-
-            meet your own needs;
-
-            no return value (void);
-        """
-
-        if self.get_pending_task():
-
-            MB.showwarning(
-
-                _("Pending operation"),
-
-                _(
-                    "Some very important task is pending by now. "
-
-                    "Please wait for completion and then retry."
-                )
-            )
-
-        elif MB.askokcancel(
-
-            _("Quit app?"),
-
-            _("Are you sure you want to quit this application?")
-        ):
-
-            self.options.save()
-
-            self.quit()
-
-        # end if
-
-    # end def
-
-
-
-    def slot_root_changed (self, tk_event = None, *args, **kw):
-        r"""
-            slot method for tkinter event "<Configure>";
-
-            manages special non-tkinter case of 'maximized' window
-
-            state and updates rc config options on-the-fly;
-
-            no return value (void);
-        """
-
-        # /!\ avoid useless calls from child widgets /!\
-
-        if not isinstance(tk_event.widget, self.__class__):
-
-            return
-
-        # end if
-
-        # inits
-
-        _maximized = int(self.attributes("-zoomed"))
-
-        if _maximized:
-
-            self._set_state("maximized")
-
-        else:
-
-            self._set_state("normal")
-
-            self.options["geometry"]\
-                ["mainwindow"] = str(self.geometry())
-
-        # end if
 
     # end def
 

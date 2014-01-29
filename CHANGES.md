@@ -9,6 +9,22 @@
 ## CHANGELOG
 
 
+### $ 2014-01-29 RS $
+
+* updated `RADMainWindow`:
+
+    * in `connect_statusbar()`:
+
+        * now raises `TypeError` if statusbar object type is *NOT*
+        supported;
+
+    * optimized code anywhere;
+
+    * moved all `slot_*()` methods to `_slot_*()`:
+
+        * made them `protected`;
+
+
 ### $ 2014-01-28 RS $
 
 * updated `RADFrame`, `RADCanvas`:
@@ -17,6 +33,7 @@
 
         * fixed bug on multiple instance `dict()` XRef `self.CONFIG`
         widget class pre-configuration;
+
 
 ### $ 2014-01-27 RS $
 
