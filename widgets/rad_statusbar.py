@@ -117,7 +117,7 @@ class RADStatusBar (RF.RADFrame):
 
 
 
-    def get_correct_delay (self, value = None):
+    def get_correct_delay (self, delay = None):
         r"""
             tries to retrieve a correct delay value amongst many;
 
@@ -130,9 +130,9 @@ class RADStatusBar (RF.RADFrame):
 
             tools.choose_num(
 
-                lambda x: x >= 0,
+                lambda x: x > 0,
 
-                value,
+                delay,
 
                 self.options["gui"]
                     .get("statusbar_notification_delay"),
@@ -149,7 +149,7 @@ class RADStatusBar (RF.RADFrame):
 
 
 
-    def info(self, text = None):
+    def info (self, text = None):
         r"""
             sets the highest priority-level message for this status
 
@@ -202,9 +202,12 @@ class RADStatusBar (RF.RADFrame):
 
         self.__static_text = None
 
-        self.__toggle_var = None
+        self.toggle_var = TK.StringVar()
 
         self.delay = self.NOTIFICATION_DELAY
+
+        self.MINIMUM_CONSISTENT_DELAY = \
+            abs(self.MINIMUM_CONSISTENT_DELAY)
 
         # rc options inits
 
@@ -416,9 +419,17 @@ class RADStatusBar (RF.RADFrame):
             no return value (void);
         """
 
-        self.toggle_var.set(str(value))
+        if self.toggle_var:
 
-        self.toggle()
+            self.toggle_var.set(str(value))
+
+            self.toggle()
+
+        else:
+
+            print("[WARNING] toggle_var is *NOT* set up.")
+
+        # end if
 
     # end def
 
