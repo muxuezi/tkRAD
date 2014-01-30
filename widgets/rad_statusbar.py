@@ -53,7 +53,9 @@ class RADStatusBar (RF.RADFrame):
 
 
 
-    NOTIFICATION_DELAY = 5                                  # in seconds
+    NOTIFICATION_DELAY = 5 # seconds
+
+    MINIMUM_CONSISTENT_DELAY = 0.5 # seconds
 
 
 
@@ -95,7 +97,12 @@ class RADStatusBar (RF.RADFrame):
     @delay.setter
     def delay (self, value):
 
-        self.__delay = max(0.5, tools.ensure_float(value))
+        self.__delay = max(
+
+            self.MINIMUM_CONSISTENT_DELAY,
+
+            tools.ensure_float(value),
+        )
 
     # end def
 
@@ -114,12 +121,12 @@ class RADStatusBar (RF.RADFrame):
         r"""
             tries to retrieve a correct delay value amongst many;
 
-            returns found value or at least 0.5, otherwise;
+            returns found value or default value, otherwise;
         """
 
         return max(
 
-            0.5,
+            self.MINIMUM_CONSISTENT_DELAY,
 
             tools.choose_num(
 
@@ -127,13 +134,14 @@ class RADStatusBar (RF.RADFrame):
 
                 value,
 
-                self.options["gui"].get("statusbar_notification_delay"),
+                self.options["gui"]
+                    .get("statusbar_notification_delay"),
 
                 self.delay,
 
                 self.NOTIFICATION_DELAY,
 
-                5                                   # last but not least
+                5 # last but not least
             )
         )
 
@@ -168,7 +176,7 @@ class RADStatusBar (RF.RADFrame):
 
             _("Ready."),
 
-            "Ready."                                # last but not least
+            "Ready."
         )
 
         # end if
@@ -316,17 +324,17 @@ class RADStatusBar (RF.RADFrame):
 
             if tools.ensure_int(_value):
 
-                self.events.raise_event("StatusbarShow", widget = self)
-
                 self.grid()
+
+                self.events.raise_event("StatusbarShow", widget = self)
 
             # hide status bar
 
             else:
 
-                self.events.raise_event("StatusbarHide", widget = self)
-
                 self.grid_remove()
+
+                self.events.raise_event("StatusbarHide", widget = self)
 
             # end if
 
@@ -343,7 +351,8 @@ class RADStatusBar (RF.RADFrame):
     @property
     def toggle_var (self):
         r"""
-            returns current internal tkinter StringVar control variable;
+            returns current internal tkinter StringVar control
+            variable;
         """
 
         return self.__toggle_var

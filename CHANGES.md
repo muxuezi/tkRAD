@@ -9,6 +9,13 @@
 ## CHANGELOG
 
 
+### $ 2014-01-30 RS $
+
+* updated `RADStatusBar`:
+
+    * optimized code anywhere;
+
+
 ### $ 2014-01-29 RS $
 
 * updated `RADMainWindow`:
