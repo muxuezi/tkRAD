@@ -9,6 +9,15 @@
 ## CHANGELOG
 
 
+### $ 2014-01-31 RS $
+
+* updated `RADXMLMainWindow`:
+
+    * in `_init_mainframe()`:
+
+        * renamed `self.slot_quit_app` to `self._slot_quit_app` ;
+
+
 ### $ 2014-01-30 RS $
 
 * updated `RADStatusBar`:

@@ -61,7 +61,7 @@ class RADXMLMainWindow (MW.RADMainWindow):
 
         self.tk_children = self.mainframe.winfo_children
 
-        self.mainframe.quit_app = self.slot_quit_app
+        self.mainframe.quit_app = self._slot_quit_app
 
     # end def
 
