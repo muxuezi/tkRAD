@@ -45,6 +45,14 @@ class RADXMLFrame (XW.RADXMLWidget, TK.Frame):
 
 
 
+    CONFIG = {
+
+        # for subclass widget pre-configuration
+
+    } # end of CONFIG
+
+
+
     TK_ATTRS = (
 
         "bg", "background", "bd", "borderwidth", "cursor", "height",
@@ -70,13 +78,19 @@ class RADXMLFrame (XW.RADXMLWidget, TK.Frame):
             RADXMLWidget inits;
         """
 
+        # default values
+
+        self.CONFIG = self.CONFIG.copy()
+
+        self.CONFIG.update(kw)
+
         # super inits
 
-        TK.Frame.__init__(self, master, **self._only_tk(kw))
+        TK.Frame.__init__(self, master, **self._only_tk(self.CONFIG))
 
         self.tk_parent = master
 
-        XW.RADXMLWidget.__init__(self, tk_owner = self, **kw)
+        XW.RADXMLWidget.__init__(self, tk_owner = self, **self.CONFIG)
 
     # end def
 

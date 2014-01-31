@@ -11,11 +11,32 @@
 
 ### $ 2014-01-31 RS $
 
+* updated `RADXMLWidget`:
+
+    * in
+    `build_element_widget()`,
+    `build_element_tkmenu()`,
+    `build_element_optionmenu()`,
+    `build_element_listbox()`:
+
+        * now calling `_set_class_member()` for class member inits;
+
+    * added new `_set_class_member(name, widget)`:
+
+        * now fully implemented;
+
+        * now widget attr `name` becomes `self.tk_owner.{name}`
+        class member instead of `tk_parent.{name}` class member;
+
+* updated `RADXMLFrame`:
+
+    * adapted along `RADFrame` config philosophy;
+
 * updated `RADXMLMainWindow`:
 
     * in `_init_mainframe()`:
 
-        * renamed `self.slot_quit_app` to `self._slot_quit_app` ;
+        * renamed `self.slot_quit_app` to `self._slot_quit_app`;
 
 
 ### $ 2014-01-30 RS $

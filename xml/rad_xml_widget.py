@@ -539,6 +539,49 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
+    def _set_class_member (self, name, widget):
+        r"""
+            protected method def;
+
+            sets @widget as self.tk_owner class member along @name;
+
+            no return value (void);
+        """
+
+        # param controls
+
+        if tools.is_pstr(name):
+
+            if hasattr(self.tk_owner, name):
+
+                raise AttributeError(
+                    _(
+                        "cannot set up class member "
+
+                        "'{attr_name}': already exists in "
+
+                        "tk_owner '{obj_type}'."
+
+                    ).format(
+
+                        attr_name = name,
+
+                        obj_type = repr(self.tk_owner),
+                    )
+                )
+
+            else:
+
+                setattr(self.tk_owner, name, widget)
+
+            # end if
+
+        # end if
+
+    # end def
+
+
+
     def _set_layout (self, widget, attrs, tk_parent):
         r"""
             protected method def;
@@ -1198,9 +1241,9 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             self.register_object_by_id(_widget, _attributes.get("id"))
 
-            # set widget as parent class member
+            # set widget as class member
 
-            exec("tk_parent.{name} = _widget".format(**_attributes))
+            self._set_class_member(_attributes.get("name"), _widget)
 
             # tk configure()
 
@@ -1503,9 +1546,9 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             self.register_object_by_id(_widget, _attributes.get("id"))
 
-            # set widget as parent class member
+            # set widget as class member
 
-            exec("tk_parent.{name} = _widget".format(**_attributes))
+            self._set_class_member(_attributes.get("name"), _widget)
 
             # startup inits
 
@@ -1860,6 +1903,10 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             self.register_object_by_id(_widget, _attributes.get("id"))
 
+            # set widget as class member
+
+            self._set_class_member(_attributes.get("name"), _widget)
+
             # reset XML tree
 
             _widget.set_xml_tree(element = xml_element)
@@ -2022,9 +2069,9 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             self.WIDGET = _widget
 
-            # set widget as parent class member
+            # set widget as class member
 
-            exec("tk_parent.{name} = _widget".format(**_attributes))
+            self._set_class_member(_attributes.get("name"), _widget)
 
             # configure widget
 

@@ -26,6 +26,8 @@
 
 # lib imports
 
+from ..core import tools
+
 from ..widgets import rad_mainwindow as MW
 
 from . import rad_xml_frame as XF
@@ -48,12 +50,26 @@ class RADXMLMainWindow (MW.RADMainWindow):
 
         # widget inits
 
-        self.mainframe = XF.RADXMLFrame(self, **kw)
+        self.mainframe = tools.choose(
 
-        self.mainframe.set_xml_filename(
+            kw.get("mainframe"),
 
-            kw.get("xml_filename", "mainwindow")
+            XF.RADXMLFrame(self, **kw),
         )
+
+        if hasattr(self.mainframe, "set_xml_filename"):
+
+            self.mainframe.set_xml_filename(
+
+                tools.choose_str(
+
+                    kw.get("xml_filename"),
+
+                    "mainwindow",
+                )
+            )
+
+        # end if
 
         # shortcut inits
 
