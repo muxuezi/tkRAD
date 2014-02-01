@@ -11,6 +11,10 @@
 
 ### $ 2014-02-01 RS $
 
+* updated `RADXMLAttribute`:
+
+    * optimized code anywhere;
+
 * updated `RADXMLWidgetBase`, `RADXMLWidget`, `RADXMLMenu`:
 
     * renamed all `build_element_*()` to `_build_element_*()`;

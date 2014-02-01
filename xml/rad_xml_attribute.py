@@ -181,7 +181,7 @@ class RADXMLAttribute:
     @name.setter
     def name (self, value):
 
-        if isinstance(value, str) and value:
+        if value and isinstance(value, str):
 
             self.__attr_name = value
 
