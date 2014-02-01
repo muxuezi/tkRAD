@@ -55,7 +55,7 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
     # overrides RADXMLBase.ATTRIBUTE_PARSER
 
-    ATTRIBUTE_PARSER = "parse_attr_{xml_attr}"
+    ATTRIBUTE_PARSER = "_parse_attr_{xml_attr}"
 
 
 
@@ -72,14 +72,6 @@ class RADXMLWidgetBase (RX.RADXMLBase):
         },
 
     } # end of ATTRS
-
-
-
-    # XML element builder method pattern
-
-    # overrides RADXMLBase.ELEMENT_BUILDER
-
-    ELEMENT_BUILDER = "build_element_{xml_element}"
 
 
 
@@ -181,6 +173,523 @@ class RADXMLWidgetBase (RX.RADXMLBase):
         """
 
         return attribute and not attribute.parsed
+
+    # end def
+
+
+
+    # -----------------------  XML attributes parsing  -----------------
+
+
+
+    def _parse_attr_activebackground (self, attribute, **kw):
+        r"""
+            color attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._tkRAD_color_support(attribute, **kw)
+
+    # end def
+
+
+
+    def _parse_attr_activeforeground (self, attribute, **kw):
+        r"""
+            color attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._tkRAD_color_support(attribute, **kw)
+
+    # end def
+
+
+
+    def _parse_attr_background (self, attribute, **kw):
+        r"""
+            color attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._tkRAD_color_support(attribute, **kw)
+
+    # end def
+
+
+
+    def _parse_attr_bd (self, attribute, **kw):
+        r"""
+            width attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._tkRAD_dimension_support(attribute, **kw)
+
+    # end def
+
+
+
+    def _parse_attr_bg (self, attribute, **kw):
+        r"""
+            color attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._tkRAD_color_support(attribute, **kw)
+
+    # end def
+
+
+
+    def _parse_attr_bitmap (self, attribute, **kw):
+        r"""
+            bitmap attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._tkRAD_bitmap_support(attribute, **kw)
+
+    # end def
+
+
+
+    def _parse_attr_borderwidth (self, attribute, **kw):
+        r"""
+            width attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._tkRAD_dimension_support(attribute, **kw)
+
+    # end def
+
+
+
+    def _parse_attr_checked (self, attribute, **kw):
+        r"""
+            boolean attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        kw.update(no_tk_config = True)
+
+        self._tkRAD_boolean_support(attribute, **kw)
+
+    # end def
+
+
+
+    def _parse_attr_command (self, attribute, **kw):
+        r"""
+            command attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._tkRAD_command_support(attribute, **kw)
+
+    # end def
+
+
+
+    def _parse_attr_compound (self, attribute, **kw):
+        r"""
+            must be one of 'top', 'bottom', 'left', 'right',
+            'center', 'none';
+
+            default value is 'none';
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        kw.update(
+
+            default = "none",
+
+            values = ("top", "bottom", "left", "right", "center"),
+        )
+
+        self._fix_values(attribute, **kw)
+
+    # end def
+
+
+
+    def _parse_attr_cursor (self, attribute, **kw):
+        r"""
+            cursor attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._tkRAD_cursor_support(attribute, **kw)
+
+    # end def
+
+
+
+    def _parse_attr_disabledforeground (self, attribute, **kw):
+        r"""
+            color attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._tkRAD_color_support(attribute, **kw)
+
+    # end def
+
+
+
+    def _parse_attr_fg (self, attribute, **kw):
+        r"""
+            color attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._tkRAD_color_support(attribute, **kw)
+
+    # end def
+
+
+
+    def _parse_attr_font (self, attribute, **kw):
+        r"""
+            font attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._tkRAD_font_support(attribute, **kw)
+
+    # end def
+
+
+
+    def _parse_attr_foreground (self, attribute, **kw):
+        r"""
+            color attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._tkRAD_color_support(attribute, **kw)
+
+    # end def
+
+
+
+    def _parse_attr_id (self, attribute, **kw):
+        r"""
+            id - generic XML attribute;
+
+            sets an element attr 'id' for *any* element in XML file;
+
+            returns user-defined id or numbered name 'objectxxx' if
+            not defined in XML file;
+
+            resets XML element's id to a correct id name, if necessary;
+
+            no return value (void);
+        """
+
+        # caution: *NOT* the same as self._is_new(attribute) /!\
+
+        if self._is_unparsed(attribute):
+
+            # parsed attribute inits
+
+            attribute.value = (
+
+                self.element_get_id(attribute.xml_element)
+            )
+
+            attribute.parsed = True
+
+        # end if
+
+    # end def
+
+
+
+    def _parse_attr_image (self, attribute, **kw):
+        r"""
+            image attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._tkRAD_image_support(attribute, **kw)
+
+    # end def
+
+
+
+    def _parse_attr_menu (self, attribute, **kw):
+        r"""
+            this should always be None as tkRAD manages it on its own;
+
+            no return value (void);
+        """
+
+        # param controls
+
+        if self._is_new(attribute):
+
+            # parsed attribute inits
+
+            attribute.value = None
+
+            self._tk_config(attribute, **kw)
+
+        # end if
+
+    # end def
+
+
+
+    def _parse_attr_name (self, attribute, **kw):
+        r"""
+            name - generic XML attribute;
+
+            sets a class member variable name to handle;
+
+            sets parsed XML 'id' instead, if omitted;
+
+            no return value (void);
+        """
+
+        # caution: *NOT* the same as self._is_new(attribute) /!\
+
+        if self._is_unparsed(attribute):
+
+            # param inits
+
+            _name = tools.choose_str(
+
+                tools.canonize_id(attribute.value),
+
+                self.element_get_id(attribute.xml_element),
+            )
+
+            # parsed attribute inits
+
+            attribute.value = _name.lower()
+
+            attribute.parsed = True
+
+        # end if
+
+    # end def
+
+
+
+    def _parse_attr_offvalue (self, attribute, **kw):
+        r"""
+            value attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._tkRAD_any_value_support(attribute, **kw)
+
+    # end def
+
+
+
+    def _parse_attr_onvalue (self, attribute, **kw):
+        r"""
+            value attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._tkRAD_any_value_support(attribute, **kw)
+
+    # end def
+
+
+
+    def _parse_attr_relief (self, attribute, **kw):
+        r"""
+            relief attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._tkRAD_relief_support(attribute, **kw)
+
+    # end def
+
+
+
+    def _parse_attr_selectcolor (self, attribute, **kw):
+        r"""
+            color attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._tkRAD_color_support(attribute, **kw)
+
+    # end def
+
+
+
+    def _parse_attr_selected (self, attribute, **kw):
+        r"""
+            boolean attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        kw.update(no_tk_config = True)
+
+        self._tkRAD_boolean_support(attribute, **kw)
+
+    # end def
+
+
+
+    def _parse_attr_selectimage (self, attribute, **kw):
+        r"""
+            image attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._tkRAD_image_support(attribute, **kw)
+
+    # end def
+
+
+
+    def _parse_attr_state (self, attribute, **kw):
+        r"""
+            state attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._tkRAD_state_support(attribute, **kw)
+
+    # end def
+
+
+
+    def _parse_attr_underline (self, attribute, **kw):
+        r"""
+            resets underline value to 0 if not an integer value;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._tkRAD_integer_support(attribute, **kw)
+
+    # end def
+
+
+
+    def _parse_attr_value (self, attribute, **kw):
+        r"""
+            value attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._tkRAD_any_value_support(attribute, **kw)
+
+    # end def
+
+
+
+    def _parse_attr_variable (self, attribute, **kw):
+        r"""
+            control variable attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._tkRAD_cvar_support(attribute, **kw)
+
+    # end def
+
+
+
+    def _parse_attr_widget (self, attribute, **kw):
+        r"""
+            widget attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        kw.update(no_tk_config = True)
+
+        self._tkRAD_widget_support(attribute, **kw)
 
     # end def
 
@@ -817,523 +1326,6 @@ class RADXMLWidgetBase (RX.RADXMLBase):
         # end if
 
         attribute.parsed = True
-
-    # end def
-
-
-
-    # -----------------------  XML attributes parsing  -----------------
-
-
-
-    def parse_attr_activebackground (self, attribute, **kw):
-        r"""
-            color attribute;
-
-            no return value (void);
-        """
-
-        # parsed attribute inits
-
-        self._tkRAD_color_support(attribute, **kw)
-
-    # end def
-
-
-
-    def parse_attr_activeforeground (self, attribute, **kw):
-        r"""
-            color attribute;
-
-            no return value (void);
-        """
-
-        # parsed attribute inits
-
-        self._tkRAD_color_support(attribute, **kw)
-
-    # end def
-
-
-
-    def parse_attr_background (self, attribute, **kw):
-        r"""
-            color attribute;
-
-            no return value (void);
-        """
-
-        # parsed attribute inits
-
-        self._tkRAD_color_support(attribute, **kw)
-
-    # end def
-
-
-
-    def parse_attr_bd (self, attribute, **kw):
-        r"""
-            width attribute;
-
-            no return value (void);
-        """
-
-        # parsed attribute inits
-
-        self._tkRAD_dimension_support(attribute, **kw)
-
-    # end def
-
-
-
-    def parse_attr_bg (self, attribute, **kw):
-        r"""
-            color attribute;
-
-            no return value (void);
-        """
-
-        # parsed attribute inits
-
-        self._tkRAD_color_support(attribute, **kw)
-
-    # end def
-
-
-
-    def parse_attr_bitmap (self, attribute, **kw):
-        r"""
-            bitmap attribute;
-
-            no return value (void);
-        """
-
-        # parsed attribute inits
-
-        self._tkRAD_bitmap_support(attribute, **kw)
-
-    # end def
-
-
-
-    def parse_attr_borderwidth (self, attribute, **kw):
-        r"""
-            width attribute;
-
-            no return value (void);
-        """
-
-        # parsed attribute inits
-
-        self._tkRAD_dimension_support(attribute, **kw)
-
-    # end def
-
-
-
-    def parse_attr_checked (self, attribute, **kw):
-        r"""
-            boolean attribute;
-
-            no return value (void);
-        """
-
-        # parsed attribute inits
-
-        kw.update(no_tk_config = True)
-
-        self._tkRAD_boolean_support(attribute, **kw)
-
-    # end def
-
-
-
-    def parse_attr_command (self, attribute, **kw):
-        r"""
-            command attribute;
-
-            no return value (void);
-        """
-
-        # parsed attribute inits
-
-        self._tkRAD_command_support(attribute, **kw)
-
-    # end def
-
-
-
-    def parse_attr_compound (self, attribute, **kw):
-        r"""
-            must be one of 'top', 'bottom', 'left', 'right',
-            'center', 'none';
-
-            default value is 'none';
-
-            no return value (void);
-        """
-
-        # parsed attribute inits
-
-        kw.update(
-
-            default = "none",
-
-            values = ("top", "bottom", "left", "right", "center"),
-        )
-
-        self._fix_values(attribute, **kw)
-
-    # end def
-
-
-
-    def parse_attr_cursor (self, attribute, **kw):
-        r"""
-            cursor attribute;
-
-            no return value (void);
-        """
-
-        # parsed attribute inits
-
-        self._tkRAD_cursor_support(attribute, **kw)
-
-    # end def
-
-
-
-    def parse_attr_disabledforeground (self, attribute, **kw):
-        r"""
-            color attribute;
-
-            no return value (void);
-        """
-
-        # parsed attribute inits
-
-        self._tkRAD_color_support(attribute, **kw)
-
-    # end def
-
-
-
-    def parse_attr_fg (self, attribute, **kw):
-        r"""
-            color attribute;
-
-            no return value (void);
-        """
-
-        # parsed attribute inits
-
-        self._tkRAD_color_support(attribute, **kw)
-
-    # end def
-
-
-
-    def parse_attr_font (self, attribute, **kw):
-        r"""
-            font attribute;
-
-            no return value (void);
-        """
-
-        # parsed attribute inits
-
-        self._tkRAD_font_support(attribute, **kw)
-
-    # end def
-
-
-
-    def parse_attr_foreground (self, attribute, **kw):
-        r"""
-            color attribute;
-
-            no return value (void);
-        """
-
-        # parsed attribute inits
-
-        self._tkRAD_color_support(attribute, **kw)
-
-    # end def
-
-
-
-    def parse_attr_id (self, attribute, **kw):
-        r"""
-            id - generic XML attribute;
-
-            sets an element attr 'id' for *any* element in XML file;
-
-            returns user-defined id or numbered name 'objectxxx' if
-            not defined in XML file;
-
-            resets XML element's id to a correct id name, if necessary;
-
-            no return value (void);
-        """
-
-        # caution: *NOT* the same as self._is_new(attribute) /!\
-
-        if self._is_unparsed(attribute):
-
-            # parsed attribute inits
-
-            attribute.value = (
-
-                self.element_get_id(attribute.xml_element)
-            )
-
-            attribute.parsed = True
-
-        # end if
-
-    # end def
-
-
-
-    def parse_attr_image (self, attribute, **kw):
-        r"""
-            image attribute;
-
-            no return value (void);
-        """
-
-        # parsed attribute inits
-
-        self._tkRAD_image_support(attribute, **kw)
-
-    # end def
-
-
-
-    def parse_attr_menu (self, attribute, **kw):
-        r"""
-            this should always be None as tkRAD manages it on its own;
-
-            no return value (void);
-        """
-
-        # param controls
-
-        if self._is_new(attribute):
-
-            # parsed attribute inits
-
-            attribute.value = None
-
-            self._tk_config(attribute, **kw)
-
-        # end if
-
-    # end def
-
-
-
-    def parse_attr_name (self, attribute, **kw):
-        r"""
-            name - generic XML attribute;
-
-            sets a class member variable name to handle;
-
-            sets parsed XML 'id' instead, if omitted;
-
-            no return value (void);
-        """
-
-        # caution: *NOT* the same as self._is_new(attribute) /!\
-
-        if self._is_unparsed(attribute):
-
-            # param inits
-
-            _name = tools.choose_str(
-
-                tools.canonize_id(attribute.value),
-
-                self.element_get_id(attribute.xml_element),
-            )
-
-            # parsed attribute inits
-
-            attribute.value = _name.lower()
-
-            attribute.parsed = True
-
-        # end if
-
-    # end def
-
-
-
-    def parse_attr_offvalue (self, attribute, **kw):
-        r"""
-            value attribute;
-
-            no return value (void);
-        """
-
-        # parsed attribute inits
-
-        self._tkRAD_any_value_support(attribute, **kw)
-
-    # end def
-
-
-
-    def parse_attr_onvalue (self, attribute, **kw):
-        r"""
-            value attribute;
-
-            no return value (void);
-        """
-
-        # parsed attribute inits
-
-        self._tkRAD_any_value_support(attribute, **kw)
-
-    # end def
-
-
-
-    def parse_attr_relief (self, attribute, **kw):
-        r"""
-            relief attribute;
-
-            no return value (void);
-        """
-
-        # parsed attribute inits
-
-        self._tkRAD_relief_support(attribute, **kw)
-
-    # end def
-
-
-
-    def parse_attr_selectcolor (self, attribute, **kw):
-        r"""
-            color attribute;
-
-            no return value (void);
-        """
-
-        # parsed attribute inits
-
-        self._tkRAD_color_support(attribute, **kw)
-
-    # end def
-
-
-
-    def parse_attr_selected (self, attribute, **kw):
-        r"""
-            boolean attribute;
-
-            no return value (void);
-        """
-
-        # parsed attribute inits
-
-        kw.update(no_tk_config = True)
-
-        self._tkRAD_boolean_support(attribute, **kw)
-
-    # end def
-
-
-
-    def parse_attr_selectimage (self, attribute, **kw):
-        r"""
-            image attribute;
-
-            no return value (void);
-        """
-
-        # parsed attribute inits
-
-        self._tkRAD_image_support(attribute, **kw)
-
-    # end def
-
-
-
-    def parse_attr_state (self, attribute, **kw):
-        r"""
-            state attribute;
-
-            no return value (void);
-        """
-
-        # parsed attribute inits
-
-        self._tkRAD_state_support(attribute, **kw)
-
-    # end def
-
-
-
-    def parse_attr_underline (self, attribute, **kw):
-        r"""
-            resets underline value to 0 if not an integer value;
-
-            no return value (void);
-        """
-
-        # parsed attribute inits
-
-        self._tkRAD_integer_support(attribute, **kw)
-
-    # end def
-
-
-
-    def parse_attr_value (self, attribute, **kw):
-        r"""
-            value attribute;
-
-            no return value (void);
-        """
-
-        # parsed attribute inits
-
-        self._tkRAD_any_value_support(attribute, **kw)
-
-    # end def
-
-
-
-    def parse_attr_variable (self, attribute, **kw):
-        r"""
-            control variable attribute;
-
-            no return value (void);
-        """
-
-        # parsed attribute inits
-
-        self._tkRAD_cvar_support(attribute, **kw)
-
-    # end def
-
-
-
-    def parse_attr_widget (self, attribute, **kw):
-        r"""
-            widget attribute;
-
-            no return value (void);
-        """
-
-        # parsed attribute inits
-
-        kw.update(no_tk_config = True)
-
-        self._tkRAD_widget_support(attribute, **kw)
 
     # end def
 

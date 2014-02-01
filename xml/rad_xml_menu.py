@@ -247,6 +247,190 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
 
 
+    def _build_element_checkbutton (self, xml_tag, xml_element, tk_parent):
+        r"""
+            builds a menu item of type 'checkbutton' (single choice);
+
+            return True on success, False otherwise;
+        """
+
+        return self._build_menu_item(xml_tag, xml_element, tk_parent)
+
+    # end def
+
+
+
+    def _build_element_command (self, xml_tag, xml_element, tk_parent):
+        r"""
+            builds a menu item of type 'command' (action);
+
+            return True on success, False otherwise;
+        """
+
+        return self._build_menu_item(xml_tag, xml_element, tk_parent)
+
+    # end def
+
+
+
+    def _build_element_menu (self, xml_tag, xml_element, tk_parent):
+        r"""
+            builds a tkinter menu widget;
+
+            return True on success, False otherwise;
+        """
+
+        # param controls - submenu
+
+        if not self.is_menu(tk_parent):
+
+            # unsupported
+
+            raise TypeError(
+
+                _(
+                    "Tkinter Menu() object is *NOT* "
+
+                    "insertable into {obj_type} object."
+
+                ).format(obj_type = repr(tk_parent))
+            )
+
+            return False
+
+        # end if
+
+        # default inits
+
+        _moptions = self._init_moptions(xml_element, tk_parent)
+
+        # child menu inits
+
+        _new_menu = TK.Menu(tk_parent, **_moptions)
+
+        # keep a copy aboard
+
+        self.register_object_by_id(_new_menu, xml_element.get("id"))
+
+        # prepare child options
+
+        _coptions = self._init_coptions(xml_element, tk_parent)
+
+        # make some operations on child options
+
+        _coptions["menu"] = _new_menu
+
+        # set widget
+
+        tk_parent.add_cascade(**_coptions)
+
+        # free useless memory right now /!\
+
+        del _moptions, _coptions
+
+        # loop on XML element children - build tk child widgets
+
+        return self.loop_on_children(
+
+            xml_element, _new_menu, accept = self.DTD.get(xml_tag)
+        )
+
+    # end def
+
+
+
+    def _build_element_radiobutton (self, xml_tag, xml_element, tk_parent):
+        r"""
+            builds a menu item of type 'radiobutton' (group choice);
+
+            return True on success, False otherwise;
+        """
+
+        return self._build_menu_item(xml_tag, xml_element, tk_parent)
+
+    # end def
+
+
+
+    def _build_element_separator (self, xml_tag, xml_element, tk_parent):
+        r"""
+            builds a menu separator item;
+
+            return True on success, False otherwise;
+        """
+
+        return self._build_menu_item(xml_tag, xml_element, tk_parent)
+
+    # end def
+
+
+
+    def _build_element_tkmenu (self, xml_tag, xml_element, tk_parent):
+        r"""
+            <tkmenu> is the root node of XML tree;
+
+            its purpose is to get a clean attachment to tk widget
+
+            owner;
+
+            <tkmenu> becomes a tkinter.Menu() object in fact;
+
+            return True on build success, False otherwise;
+        """
+
+        # param controls
+
+        if not self.is_menu_handler(tk_parent):
+
+            # set app's root Tk() object instead /!\
+
+            # caution: winfo_toplevel() is *NOT* a Toplevel() object /!\
+
+            tk_parent = self.tk_owner.winfo_toplevel()
+
+        # end if
+
+        # default inits
+
+        _moptions = self._init_moptions(xml_element, tk_parent)
+
+        # menu inits
+
+        _new_menu = TK.Menu(tk_parent, **_moptions)
+
+        # keep a copy aboard
+
+        self.register_object_by_id(_new_menu, xml_element.get("id"))
+
+        # attach new menu to parent widget
+
+        tk_parent["menu"] = _new_menu
+
+        # free useless memory right now /!\
+
+        del _moptions
+
+        # loop on XML element children
+
+        if self.is_topmenu_handler(tk_parent):
+
+            _dtd = "tkmenu"
+
+        else:
+
+            _dtd = "menu"
+
+        # end if
+
+        return self.loop_on_children(
+
+            xml_element, _new_menu, accept = self.DTD.get(_dtd)
+        )
+
+    # end def
+
+
+
     def _build_menu_item (self, xml_tag, xml_element, tk_parent):
         r"""
             protected method def;
@@ -429,242 +613,11 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
 
 
-    def build_element_checkbutton (self, xml_tag, xml_element, tk_parent):
-        r"""
-            builds a menu item of type 'checkbutton' (single choice);
-
-            return True on success, False otherwise;
-        """
-
-        return self._build_menu_item(xml_tag, xml_element, tk_parent)
-
-    # end def
-
-
-
-    def build_element_command (self, xml_tag, xml_element, tk_parent):
-        r"""
-            builds a menu item of type 'command' (action);
-
-            return True on success, False otherwise;
-        """
-
-        return self._build_menu_item(xml_tag, xml_element, tk_parent)
-
-    # end def
-
-
-
-    def build_element_menu (self, xml_tag, xml_element, tk_parent):
-        r"""
-            builds a tkinter menu widget;
-
-            return True on success, False otherwise;
-        """
-
-        # param controls - submenu
-
-        if not self.is_menu(tk_parent):
-
-            # unsupported
-
-            raise TypeError(
-
-                _(
-                    "Tkinter Menu() object is *NOT* "
-
-                    "insertable into {obj_type} object."
-
-                ).format(obj_type = repr(tk_parent))
-            )
-
-            return False
-
-        # end if
-
-        # default inits
-
-        _moptions = self._init_moptions(xml_element, tk_parent)
-
-        # child menu inits
-
-        _new_menu = TK.Menu(tk_parent, **_moptions)
-
-        # keep a copy aboard
-
-        self.register_object_by_id(_new_menu, xml_element.get("id"))
-
-        # prepare child options
-
-        _coptions = self._init_coptions(xml_element, tk_parent)
-
-        # make some operations on child options
-
-        _coptions["menu"] = _new_menu
-
-        # set widget
-
-        tk_parent.add_cascade(**_coptions)
-
-        # free useless memory right now /!\
-
-        del _moptions, _coptions
-
-        # loop on XML element children - build tk child widgets
-
-        return self.loop_on_children(
-
-            xml_element, _new_menu, accept = self.DTD.get(xml_tag)
-        )
-
-    # end def
-
-
-
-    def build_element_radiobutton (self, xml_tag, xml_element, tk_parent):
-        r"""
-            builds a menu item of type 'radiobutton' (group choice);
-
-            return True on success, False otherwise;
-        """
-
-        return self._build_menu_item(xml_tag, xml_element, tk_parent)
-
-    # end def
-
-
-
-    def build_element_separator (self, xml_tag, xml_element, tk_parent):
-        r"""
-            builds a menu separator item;
-
-            return True on success, False otherwise;
-        """
-
-        return self._build_menu_item(xml_tag, xml_element, tk_parent)
-
-    # end def
-
-
-
-    def build_element_tkmenu (self, xml_tag, xml_element, tk_parent):
-        r"""
-            <tkmenu> is the root node of XML tree;
-
-            its purpose is to get a clean attachment to tk widget
-
-            owner;
-
-            <tkmenu> becomes a tkinter.Menu() object in fact;
-
-            return True on build success, False otherwise;
-        """
-
-        # param controls
-
-        if not self.is_menu_handler(tk_parent):
-
-            # set app's root Tk() object instead /!\
-
-            # caution: winfo_toplevel() is *NOT* a Toplevel() object /!\
-
-            tk_parent = self.tk_owner.winfo_toplevel()
-
-        # end if
-
-        # default inits
-
-        _moptions = self._init_moptions(xml_element, tk_parent)
-
-        # menu inits
-
-        _new_menu = TK.Menu(tk_parent, **_moptions)
-
-        # keep a copy aboard
-
-        self.register_object_by_id(_new_menu, xml_element.get("id"))
-
-        # attach new menu to parent widget
-
-        tk_parent["menu"] = _new_menu
-
-        # free useless memory right now /!\
-
-        del _moptions
-
-        # loop on XML element children
-
-        if self.is_topmenu_handler(tk_parent):
-
-            _dtd = "tkmenu"
-
-        else:
-
-            _dtd = "menu"
-
-        # end if
-
-        return self.loop_on_children(
-
-            xml_element, _new_menu, accept = self.DTD.get(_dtd)
-        )
-
-    # end def
-
-
-
-    def is_menu (self, widget):
-        r"""
-            determines if object is a tkinter Menu() object;
-
-            return True on success, False otherwise;
-        """
-
-        return isinstance(widget, TK.Menu)
-
-    # end def
-
-
-
-    def is_menu_handler (self, widget):
-        r"""
-            determines if object is a tkinter Menu handler object;
-
-            e.g. a Menu() parent, a Menubutton handler or
-
-            a Tk() toplevel window parent;
-
-            return True on success, False otherwise;
-        """
-
-        return isinstance(widget, (TK.Menu, TK.Menubutton, TK.Tk))
-
-    # end def
-
-
-
-    def is_topmenu_handler (self, widget):
-        r"""
-            determines if object is a tkinter Menu handler object;
-
-            e.g. a Menu() parent, a Menubutton handler or
-
-            a Tk() toplevel window parent;
-
-            return True on success, False otherwise;
-        """
-
-        return isinstance(widget, TK.Tk)
-
-    # end def
-
-
-
     # -----------------------  XML attributes parsing  -----------------
 
 
 
-    def parse_attr_accelerator (self, attribute, **kw):
+    def _parse_attr_accelerator (self, attribute, **kw):
         r"""
             tries to set up a tkinter event sequence along
 
@@ -739,7 +692,7 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
 
 
-    def parse_attr_activeborderwidth (self, attribute, **kw):
+    def _parse_attr_activeborderwidth (self, attribute, **kw):
         r"""
             width attribute;
 
@@ -752,7 +705,7 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
 
 
-    def parse_attr_columnbreak (self, attribute, **kw):
+    def _parse_attr_columnbreak (self, attribute, **kw):
         r"""
             boolean attribute;
 
@@ -767,7 +720,7 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
 
 
-    def parse_attr_hidemargin (self, attribute, **kw):
+    def _parse_attr_hidemargin (self, attribute, **kw):
         r"""
             boolean attribute;
 
@@ -782,7 +735,7 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
 
 
-    def parse_attr_label (self, attribute, **kw):
+    def _parse_attr_label (self, attribute, **kw):
         r"""
             label attribute;
 
@@ -795,7 +748,7 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
 
 
-    def parse_attr_postcommand (self, attribute, **kw):
+    def _parse_attr_postcommand (self, attribute, **kw):
         r"""
             command attribute;
 
@@ -808,7 +761,7 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
 
 
-    def parse_attr_tearoff (self, attribute, **kw):
+    def _parse_attr_tearoff (self, attribute, **kw):
         r"""
             boolean attribute;
 
@@ -823,7 +776,7 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
 
 
-    def parse_attr_tearoffcommand (self, attribute, **kw):
+    def _parse_attr_tearoffcommand (self, attribute, **kw):
         r"""
             command attribute;
 
@@ -836,7 +789,7 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
 
 
-    def parse_attr_title (self, attribute, **kw):
+    def _parse_attr_title (self, attribute, **kw):
         r"""
             label attribute;
 
@@ -844,6 +797,53 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
         """
 
         self._tkRAD_label_support(attribute, **kw)
+
+    # end def
+
+
+
+    def is_menu (self, widget):
+        r"""
+            determines if object is a tkinter Menu() object;
+
+            return True on success, False otherwise;
+        """
+
+        return isinstance(widget, TK.Menu)
+
+    # end def
+
+
+
+    def is_menu_handler (self, widget):
+        r"""
+            determines if object is a tkinter Menu handler object;
+
+            e.g. a Menu() parent, a Menubutton handler or
+
+            a Tk() toplevel window parent;
+
+            return True on success, False otherwise;
+        """
+
+        return isinstance(widget, (TK.Menu, TK.Menubutton, TK.Tk))
+
+    # end def
+
+
+
+    def is_topmenu_handler (self, widget):
+        r"""
+            determines if object is a tkinter Menu handler object;
+
+            e.g. a Menu() parent, a Menubutton handler or
+
+            a Tk() toplevel window parent;
+
+            return True on success, False otherwise;
+        """
+
+        return isinstance(widget, TK.Tk)
 
     # end def
 

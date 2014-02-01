@@ -9,6 +9,29 @@
 ## CHANGELOG
 
 
+### $ 2014-02-01 RS $
+
+* updated `RADXMLWidgetBase`, `RADXMLWidget`, `RADXMLMenu`:
+
+    * renamed all `build_element_*()` to `_build_element_*()`;
+
+    * renamed all `parse_attr_*()` to `_parse_attr_*()`;
+
+    * made all of them `protected`;
+
+* updated `RADXMLWidgetBase`:
+
+    * in member `ATTRIBUTE_PARSER`:
+
+        * renamed methods to be `protected` (heading underscore);
+
+* updated `RADXMLBase`:
+
+    * in members `ATTRIBUTE_PARSER`, `ELEMENT_BUILDER`:
+
+        * renamed methods to be `protected` (heading underscore);
+
+
 ### $ 2014-01-31 RS $
 
 * updated `RADXMLWidget`:

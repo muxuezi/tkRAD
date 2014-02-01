@@ -73,13 +73,13 @@ class RADXMLBase (RW.RADWidgetBase):
 
     # XML attribute parser method pattern
 
-    ATTRIBUTE_PARSER = "parse_{xml_element}_attr_{xml_attr}"
+    ATTRIBUTE_PARSER = "_parse_{xml_element}_attr_{xml_attr}"
 
 
 
     # XML element builder method pattern
 
-    ELEMENT_BUILDER = "build_element_{xml_element}"
+    ELEMENT_BUILDER = "_build_element_{xml_element}"
 
 
 
