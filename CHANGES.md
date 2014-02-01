@@ -23,13 +23,15 @@
 
     * in member `ATTRIBUTE_PARSER`:
 
-        * renamed methods to be `protected` (heading underscore);
+        * renamed methods in template to be `protected` (heading
+        underscore);
 
 * updated `RADXMLBase`:
 
     * in members `ATTRIBUTE_PARSER`, `ELEMENT_BUILDER`:
 
-        * renamed methods to be `protected` (heading underscore);
+        * renamed methods in template to be `protected` (heading
+        underscore);
 
 
 ### $ 2014-01-31 RS $
