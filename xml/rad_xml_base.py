@@ -38,15 +38,15 @@ import tkinter as TK
 
 from tkinter import messagebox as MB
 
-from . import rad_xml_attribute as XA
-
-from . import rad_xml_attributes_dict as XD
+from ..core import tools
 
 from ..core import uri
 
-from ..core import tools
-
 from ..widgets import rad_widget_base as RW
+
+from . import rad_xml_attribute as XA
+
+from . import rad_xml_attributes_dict as XD
 
 
 
@@ -73,7 +73,7 @@ class RADXMLBase (RW.RADWidgetBase):
 
     # XML attribute parser method pattern
 
-    ATTRIBUTE_PARSER = "_parse_{xml_element}_attr_{xml_attr}"
+    ATTRIBUTE_PARSER = "_parse_{xml_element}_attr_{xml_attribute}"
 
 
 
@@ -1136,7 +1136,12 @@ class RADXMLBase (RW.RADWidgetBase):
 
                     str(self.ATTRIBUTE_PARSER)
 
-                    .format(xml_element = _tag, xml_attr = _attr_name)
+                    .format(
+
+                        xml_element = _tag,
+
+                        xml_attribute = _attr_name,
+                    )
                 )
 
                 # optional parser

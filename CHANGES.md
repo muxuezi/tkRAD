@@ -11,6 +11,14 @@
 
 ### $ 2014-02-01 RS $
 
+* updated `RADXMLBase`, `RADXMLWidgetBase`:
+
+    * member `ATTRIBUTE_PARSER` now handles `{xml_attribute}`
+    instead of `{xml_attr}`;
+
+
+### $ 2014-02-01 RS $
+
 * updated `RADXMLAttribute`:
 
     * optimized code anywhere;

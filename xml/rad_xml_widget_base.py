@@ -55,7 +55,7 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
     # overrides RADXMLBase.ATTRIBUTE_PARSER
 
-    ATTRIBUTE_PARSER = "_parse_attr_{xml_attr}"
+    ATTRIBUTE_PARSER = "_parse_attr_{xml_attribute}"
 
 
 
