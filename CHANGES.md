@@ -11,7 +11,19 @@
 
 ### $ 2014-02-03 RS $
 
+* updated `RADXMLBase`, `RADXMLWidget`, `RADXMLMenu`:
+
+    * renamed `loop_on_children()` to `_loop_on_children()`,
+    `parse_xml_attributes()` to `_parse_xml_attributes()`,
+    `register_object_by_id()` to `_register_object_by_id()`:
+
+        * made them `protected` (heading underscore);
+
 * updated `RADXMLBase`:
+
+    * in `get_xml_uri()`:
+
+        * now enriched with new possibilities;
 
     * suppressed member `KEYWORD`: bad idea;
 
@@ -470,7 +482,7 @@
 
     * revised/optimized code almost anywhere;
 
-    * updated all `parse_attr_*()` protos along real needs;
+    * updated all `parse_attr_*()` signatures along real needs;
 
 * updated `RADXMLBase`:
 
@@ -480,7 +492,7 @@
 
     * in `parse_xml_attributes()`:
 
-        * now assumes larger anonymous parser protos `parser(**kw)`;
+        * now assumes larger anonymous parser signatures `parser(**kw)`;
 
 * updated `RADXMLAttribute`:
 
@@ -514,7 +526,7 @@
 
         * now fully implemented;
 
-    * updated all `parse_attr_*()` protos along real needs;
+    * updated all `parse_attr_*()` signatures along real needs;
 
     * in `_fix_values()`, `parse_attr_id()`:
 
@@ -536,7 +548,7 @@
 
     * revised/optimized code almost anywhere;
 
-    * updated all `parse_attr_*()` protos along real needs;
+    * updated all `parse_attr_*()` signatures along real needs;
 
     * in `parse_attr_wrap()`:
 

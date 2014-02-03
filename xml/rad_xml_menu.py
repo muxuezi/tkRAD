@@ -310,7 +310,7 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
         # keep a copy aboard
 
-        self.register_object_by_id(_new_menu, xml_element.get("id"))
+        self._register_object_by_id(_new_menu, xml_element.get("id"))
 
         # prepare child options
 
@@ -330,7 +330,7 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
         # loop on XML element children - build tk child widgets
 
-        return self.loop_on_children(
+        return self._loop_on_children(
 
             xml_element, _new_menu, accept = self.DTD.get(xml_tag)
         )
@@ -400,7 +400,7 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
         # keep a copy aboard
 
-        self.register_object_by_id(_new_menu, xml_element.get("id"))
+        self._register_object_by_id(_new_menu, xml_element.get("id"))
 
         # attach new menu to parent widget
 
@@ -422,7 +422,7 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
         # end if
 
-        return self.loop_on_children(
+        return self._loop_on_children(
 
             xml_element, _new_menu, accept = self.DTD.get(_dtd)
         )
@@ -537,7 +537,7 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
         # parse XML attributes
 
-        _coptions = self.parse_xml_attributes(
+        _coptions = self._parse_xml_attributes(
 
             xml_element, tk_parent, xml_attrs = _coptions
         )
@@ -597,7 +597,7 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
         # parse XML attributes
 
-        _moptions = self.parse_xml_attributes(
+        _moptions = self._parse_xml_attributes(
 
             xml_element, tk_parent, xml_attrs = _moptions
         )

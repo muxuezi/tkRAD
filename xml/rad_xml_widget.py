@@ -613,7 +613,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             # build inclusion
 
-            return self.loop_on_children(
+            return self._loop_on_children(
 
                 xml_element, tk_parent, accept=self.DTD.get("widget")
             )
@@ -772,7 +772,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             # keep a copy aboard
 
-            self.register_object_by_id(_widget, _attributes.get("id"))
+            self._register_object_by_id(_widget, _attributes.get("id"))
 
             # set widget as class member
 
@@ -1077,7 +1077,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             # keep a copy aboard
 
-            self.register_object_by_id(_widget, _attributes.get("id"))
+            self._register_object_by_id(_widget, _attributes.get("id"))
 
             # set widget as class member
 
@@ -1434,7 +1434,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             # register widget
 
-            self.register_object_by_id(_widget, _attributes.get("id"))
+            self._register_object_by_id(_widget, _attributes.get("id"))
 
             # set widget as class member
 
@@ -1490,7 +1490,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             # accept only following XML subelements
 
-            return self.loop_on_children(
+            return self._loop_on_children(
 
                 xml_element, tk_parent, accept=self.DTD.get("widget"),
             )
@@ -1596,7 +1596,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             # keep a copy aboard
 
-            self.register_object_by_id(_widget, _attributes.get("id"))
+            self._register_object_by_id(_widget, _attributes.get("id"))
 
             # keep a copy for specific post-implementations
 
@@ -1624,7 +1624,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             # loop on XML element children - build tk child widgets
 
-            _build_ok = self.loop_on_children(
+            _build_ok = self._loop_on_children(
 
                 xml_element, _widget, accept=self.DTD.get(xml_tag),
             )
@@ -1785,7 +1785,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         # return parsed XML attributes
 
-        return self.parse_xml_attributes(xml_element, tk_parent, **kw)
+        return self._parse_xml_attributes(xml_element, tk_parent, **kw)
 
     # end def
 

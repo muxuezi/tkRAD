@@ -370,6 +370,285 @@ class RADXMLBase (RW.RADWidgetBase):
     # end def
 
 
+
+    def _loop_on_children (self, xml_element, tk_parent, accept = None):
+        r"""
+            loops on @xml_element param XML subelements with
+
+            @tk_parent param as tkinter parent widget;
+
+            @accept param sets up a list of admitted XML tags
+
+            as subelements of @xml_element param;
+
+            tries to build all accepted subelements;
+
+            raises TypeError on unwanted subelements;
+
+            returns True on overall success, False otherwise;
+        """
+
+        # param controls
+
+        if self.cast_element(xml_element):
+
+            # parent tag inits
+
+            _ptag = self.canonize_tag(xml_element)
+
+            # return value inits
+
+            _ret = True
+
+            # loop on child XML elements
+
+            for _xml_child in xml_element:
+
+                # child tag inits
+
+                _ctag = self.canonize_tag(_xml_child)
+
+                # is child element into 'accept' element list?
+
+                if not accept or _ctag in accept:
+
+                    # build child elements into tk_parent object
+
+                    _ret = self._build_element(_xml_child, tk_parent) \
+                                                                and _ret
+
+                # unwanted child element
+
+                else:
+
+                    raise TypeError(
+
+                        _(
+                            "XML child element <{child_tag}> is *NOT* "
+
+                            "accepted inside <{parent_tag}> element."
+
+                        ).format(child_tag = _ctag, parent_tag = _ptag)
+                    )
+
+                    return False
+
+                # end if
+
+            # end for
+
+            # return final success/failure
+
+            return _ret
+
+        # end if
+
+        # failed (bad XML element)
+
+        return False
+
+    # end def
+
+
+
+    def _parse_xml_attributes (self, xml_element, tk_parent, **kw):
+        r"""
+            parses dict() attributes of an XML ET.Element
+
+            and dispatches to optional specific parsers;
+
+            this method should not be modified for parsing attribute
+
+            methods naming as it suffices to reset self.ATTRIBUTE_PARSER
+
+            in subclass to the desired naming rule;
+
+            if kw["xml_attrs"] filtered attributes exist,
+
+            they replace XML ET.Element.attrib dict() in parsing;
+
+            genuine dicts are kept UNTOUCHED thanks to shallow copying;
+
+            returns new dict() of parsed attributes or None on failure;
+        """
+
+        # param controls
+
+        if self.cast_element(xml_element):
+
+            # XML tag inits
+
+            _tag = self.canonize_tag(xml_element)
+
+            # XML attribute inits
+
+            _attrs = kw.get("xml_attrs", xml_element.attrib)
+
+            r"""
+                $ 2013-12-16 RS $
+                new support:
+                work with RADXMLAttribute objects by now;
+
+                $ 2013-12-18 RS $
+                new support:
+                work with RADXMLAttributesDict by now;
+
+                notice:
+                XA.reset_attributes() provides dict() shallow copy;
+            """
+
+            _attrs = XD.RADXMLAttributesDict(
+
+                XA.reset_attributes(_attrs, xml_element)
+            )
+
+            # loop on RADXMLAttribute attributes list
+
+            for (_attr_name, _attr_object) in _attrs.items():
+
+                # canonize attribute
+
+                _attr_name = str(_attr_name).lower()
+
+                # attribute specific parser
+
+                _parser = tools.canonize_id(
+
+                    str(self.ATTRIBUTE_PARSER)
+
+                    .format(
+
+                        xml_element = _tag,
+
+                        xml_attribute = _attr_name,
+                    )
+                )
+
+                # optional parser
+
+                if hasattr(self, _parser):
+
+                    # real member inits
+
+                    _parser = getattr(self, _parser)
+
+                    # try to call specific parser
+
+                    if callable(_parser):
+
+                        # update keywords
+
+                        kw.update(
+
+                            attribute = _attr_object,
+
+                            attrs = _attrs,
+
+                            tk_parent = tk_parent,
+
+                            xml_element = xml_element,
+
+                            xml_tag = _tag,
+
+                            xml_attr = _attr_name,
+                        )
+
+                        # attribute parsing inits
+
+                        self._before_parsing_attribute(**kw)
+
+                        # call parser
+
+                        _parser(**kw)
+
+                        r"""
+                            $ 2013-12-16 RS $
+                            new support: using RADXMLAttribute by now;
+                        """
+
+                        # update parsing counter
+
+                        _attr_object.parsed = True
+
+                    # end if
+
+                # not implemented
+
+                else:
+
+                    print(
+
+                        _(
+                            "[WARNING] RADXMLBase::"
+
+                            "_parse_xml_attributes: optional parser "
+
+                            "'{parser}()' is *NOT* implemented."
+
+                        ).format(parser = _parser)
+                    )
+
+                # end if
+
+            # end for
+
+            r"""
+                $ 2013-12-18 RS $
+                new support: using RADXMLAttributesDict by now;
+
+                notice:
+                flatten() provides a 'flat' dict() object containing
+                simple (key, value) pairs;
+                all RADXMLAttribute extra data are lost at this point;
+            """
+
+            # return parsed attributes
+
+            return _attrs.flatten()
+
+        # end if
+
+        # failure
+
+        return None
+
+    # end def
+
+
+
+    def _register_object_by_id (self, built_object, attr_id):
+        r"""
+            registers newly created or existing object with the
+
+            XML attribute 'id' which defined it in XML data source;
+
+            this is the counterpart of get_object_by_id() method;
+
+            no return value (void);
+        """
+
+        _id = self._get_object_id(built_object, attr_id)
+
+        if _id not in self.__objects:
+
+            self.__objects[_id] = built_object
+
+        else:
+
+            raise KeyError(
+
+                _(
+                    "cannot override existing object of id '{obj_id}'"
+
+                ).format(obj_id = _id)
+            )
+
+        # end if
+
+    # end def
+
+
+
     def _reset_oi_count (self, value = 1):
         r"""
             resets object instance (oi) counter to a given value;
@@ -726,7 +1005,7 @@ class RADXMLBase (RW.RADWidgetBase):
 
     def get_object_by_id (self, attr_id, default = None):
         r"""
-            this is the counterpart of register_object_by_id() method;
+            this is the counterpart of _register_object_by_id() method;
 
             returns object tagged by @attr_id param on success;
 
@@ -873,11 +1152,15 @@ class RADXMLBase (RW.RADWidgetBase):
                 .get(self.RC_OPTIONS["filename"]),
 
             self.XML_RC.get("filename"),
+
+            self.__class__.__name__.lower(),
+
+            "component",
         )
 
         # strip eventual file exts
 
-        filename = re.sub(r"\..*$", r"", filename.lstrip("."))
+        filename = re.sub(r"\..*$", r"", filename.strip("."))
 
         # failed to retrieve a valid XML filename
 
@@ -902,7 +1185,10 @@ class RADXMLBase (RW.RADWidgetBase):
                 .get(self.RC_OPTIONS["file_ext"]),
 
             self.XML_RC.get("file_ext"),
-        )
+
+            ".xml",
+
+        ).strip(".")
 
         # got a file ext?
 
@@ -910,7 +1196,7 @@ class RADXMLBase (RW.RADWidgetBase):
 
             # filename completion
 
-            filename += "." + _ext.lstrip(".")
+            filename += "." + _ext
 
         # end if
 
@@ -924,20 +1210,9 @@ class RADXMLBase (RW.RADWidgetBase):
                 .get(self.RC_OPTIONS["dir"]),
 
             self.XML_RC.get("dir"),
+
+            "^/xml",
         )
-
-        # failed to retrieve a valid XML directory
-
-        if not _dir:
-
-            raise OSError(
-
-                _("Unable to determine a valid XML directory.")
-            )
-
-            return None
-
-        # end if
 
         # return rebuilt XML URI
 
@@ -977,284 +1252,6 @@ class RADXMLBase (RW.RADWidgetBase):
 
 
 
-    def loop_on_children (self, xml_element, tk_parent, accept = None):
-        r"""
-            loops on @xml_element param XML subelements with
-
-            @tk_parent param as tkinter parent widget;
-
-            @accept param sets up a list of admitted XML tags
-
-            as subelements of @xml_element param;
-
-            tries to build all accepted subelements;
-
-            raises TypeError on unwanted subelements;
-
-            returns True on overall success, False otherwise;
-        """
-
-        # param controls
-
-        if self.cast_element(xml_element):
-
-            # parent tag inits
-
-            _ptag = self.canonize_tag(xml_element)
-
-            # return value inits
-
-            _ret = True
-
-            # loop on child XML elements
-
-            for _xml_child in xml_element:
-
-                # child tag inits
-
-                _ctag = self.canonize_tag(_xml_child)
-
-                # is child element into 'accept' element list?
-
-                if not accept or _ctag in accept:
-
-                    # build child elements into tk_parent object
-
-                    _ret = self._build_element(_xml_child, tk_parent) \
-                                                                and _ret
-
-                # unwanted child element
-
-                else:
-
-                    raise TypeError(
-
-                        _(
-                            "XML child element <{child_tag}> is *NOT* "
-
-                            "accepted inside <{parent_tag}> element."
-
-                        ).format(child_tag = _ctag, parent_tag = _ptag)
-                    )
-
-                    return False
-
-                # end if
-
-            # end for
-
-            # return final success/failure
-
-            return _ret
-
-        # end if
-
-        # failed (bad XML element)
-
-        return False
-
-    # end def
-
-
-
-    def parse_xml_attributes (self, xml_element, tk_parent, **kw):
-        r"""
-            parses dict() attributes of an XML ET.Element
-
-            and dispatches to optional specific parsers;
-
-            this method should not be modified for parsing attribute
-
-            methods naming as it suffices to reset self.ATTRIBUTE_PARSER
-
-            in subclass to the desired naming rule;
-
-            if kw["xml_attrs"] filtered attributes exist,
-
-            they replace XML ET.Element.attrib dict() in parsing;
-
-            genuine dicts are kept UNTOUCHED thanks to shallow copying;
-
-            returns new dict() of parsed attributes or None on failure;
-        """
-
-        # param controls
-
-        if self.cast_element(xml_element):
-
-            # XML tag inits
-
-            _tag = self.canonize_tag(xml_element)
-
-            # XML attribute inits
-
-            _attrs = kw.get("xml_attrs", xml_element.attrib)
-
-            r"""
-                $ 2013-12-16 RS $
-                new support:
-                work with RADXMLAttribute objects by now;
-
-                $ 2013-12-18 RS $
-                new support:
-                work with RADXMLAttributesDict by now;
-
-                notice:
-                XA.reset_attributes() provides dict() shallow copy;
-            """
-
-            _attrs = XD.RADXMLAttributesDict(
-
-                XA.reset_attributes(_attrs, xml_element)
-            )
-
-            # loop on RADXMLAttribute attributes list
-
-            for (_attr_name, _attr_object) in _attrs.items():
-
-                # canonize attribute
-
-                _attr_name = str(_attr_name).lower()
-
-                # attribute specific parser
-
-                _parser = tools.canonize_id(
-
-                    str(self.ATTRIBUTE_PARSER)
-
-                    .format(
-
-                        xml_element = _tag,
-
-                        xml_attribute = _attr_name,
-                    )
-                )
-
-                # optional parser
-
-                if hasattr(self, _parser):
-
-                    # real member inits
-
-                    _parser = getattr(self, _parser)
-
-                    # try to call specific parser
-
-                    if callable(_parser):
-
-                        # update keywords
-
-                        kw.update(
-
-                            attribute = _attr_object,
-
-                            attrs = _attrs,
-
-                            tk_parent = tk_parent,
-
-                            xml_element = xml_element,
-
-                            xml_tag = _tag,
-
-                            xml_attr = _attr_name,
-                        )
-
-                        # attribute parsing inits
-
-                        self._before_parsing_attribute(**kw)
-
-                        # call parser
-
-                        _parser(**kw)
-
-                        r"""
-                            $ 2013-12-16 RS $
-                            new support: using RADXMLAttribute by now;
-                        """
-
-                        # update parsing counter
-
-                        _attr_object.parsed = True
-
-                    # end if
-
-                # not implemented
-
-                else:
-
-                    print(
-
-                        _(
-                            "[WARNING] RADXMLBase::"
-
-                            "parse_xml_attributes: optional parser "
-
-                            "'{parser}()' is *NOT* implemented."
-
-                        ).format(parser = _parser)
-                    )
-
-                # end if
-
-            # end for
-
-            r"""
-                $ 2013-12-18 RS $
-                new support: using RADXMLAttributesDict by now;
-
-                notice:
-                flatten() provides a 'flat' dict() object containing
-                simple (key, value) pairs;
-                all RADXMLAttribute extra data are lost at this point;
-            """
-
-            # return parsed attributes
-
-            return _attrs.flatten()
-
-        # end if
-
-        # failure
-
-        return None
-
-    # end def
-
-
-
-    def register_object_by_id (self, built_object, attr_id):
-        r"""
-            registers newly created or existing object with the
-
-            XML attribute 'id' which defined it in XML data source;
-
-            this is the counterpart of get_object_by_id() method;
-
-            no return value (void);
-        """
-
-        _id = self._get_object_id(built_object, attr_id)
-
-        if _id not in self.__objects:
-
-            self.__objects[_id] = built_object
-
-        else:
-
-            raise KeyError(
-
-                _(
-                    "cannot override existing object of id '{obj_id}'"
-
-                ).format(obj_id = _id)
-            )
-
-        # end if
-
-    # end def
-
-
-
     def set_cvar (self, vartype, varname):
         r"""
             creates (if not already exists) a tkinter control variable
@@ -1274,7 +1271,7 @@ class RADXMLBase (RW.RADWidgetBase):
 
         if vartype in self.__tk_variables:
 
-            # efficient memory management - do not use .setdefault()
+            # efficient memory management - do *NOT* use .setdefault()
 
             if varname not in self.__tk_variables[vartype]:
 
@@ -1294,7 +1291,7 @@ class RADXMLBase (RW.RADWidgetBase):
 
             # return already existing or newly created cvar
 
-            return self.__tk_variables[vartype].get(varname, None)
+            return self.__tk_variables[vartype].get(varname)
 
         else:
 
@@ -1401,7 +1398,7 @@ class RADXMLBase (RW.RADWidgetBase):
 
             keywords should be either 'element' or 'file' as in
 
-            xml.etree.ElementTree() constructor proto;
+            xml.etree.ElementTree() constructor signature;
 
             no return value (void);
         """
@@ -1531,10 +1528,6 @@ class RADXMLBase (RW.RADWidgetBase):
             exit(1)
 
         # end try
-
-        # reset object instance counter
-
-        self._reset_oi_count()
 
     # end def
 
