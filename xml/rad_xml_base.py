@@ -83,20 +83,6 @@ class RADXMLBase (RW.RADWidgetBase):
 
 
 
-    # param defs
-
-    KEYWORD = {
-
-        "dir": "xml_dir",
-
-        "filename": "xml_filename",
-
-        "file_ext": "xml_file_ext",
-
-    } # end of KEYWORD
-
-
-
     RC_OPTIONS = {
 
         "dir": "default_xml_dir",
@@ -140,17 +126,17 @@ class RADXMLBase (RW.RADWidgetBase):
 
         self.__objects = dict()
 
-        self.set_xml_dir(kw.get(self.KEYWORD["dir"]))
+        self.set_xml_dir(kw.get("xml_dir"))
 
-        self.set_xml_filename(kw.get(self.KEYWORD["filename"]))
+        self.set_xml_filename(kw.get("xml_filename"))
 
-        self.set_xml_file_ext(kw.get(self.KEYWORD["file_ext"]))
+        self.set_xml_file_ext(kw.get("xml_file_ext"))
 
         # XML_RC redefs
 
         _classname = self.__class__.__name__.lower()
 
-        self.XML_RC["filename"] = _classname
+        self.XML_RC.setdefault("filename", _classname)
 
         self.RC_OPTIONS.setdefault("section", _classname)
 
@@ -166,7 +152,7 @@ class RADXMLBase (RW.RADWidgetBase):
 
         }
 
-        # super inits
+        # super class inits
 
         RW.RADWidgetBase.__init__(self, tk_owner, **kw)
 
@@ -1573,7 +1559,7 @@ class RADXMLBase (RW.RADWidgetBase):
 
                 self.get_xml_uri(filename),
 
-                encoding = "utf-8",
+                encoding = "UTF-8",
 
                 xml_declaration = True,
 

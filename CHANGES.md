@@ -9,6 +9,18 @@
 ## CHANGELOG
 
 
+### $ 2014-02-03 RS $
+
+* updated `RADXMLBase`:
+
+    * suppressed member `KEYWORD`: bad idea;
+
+    * in `__init__()`:
+
+        * now `XML_RC["filename"]` accepts previous inits (no more
+        forced overridings);
+
+
 ### $ 2014-02-02 RS $
 
 * updated `RADXMLBase`, `RADXMLWidgetBase`:
