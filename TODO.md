@@ -8,4 +8,4 @@
 
 ## TODO
 
-    * update `tkRAD.*.support` missing some supports /!\
+    * `tkRAD.*.support`: documentation OK, missing IMPLEMENTATIONS;
