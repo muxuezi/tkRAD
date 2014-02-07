@@ -8,4 +8,8 @@
 
 ## TODO
 
-    * `tkRAD.*.support`: documentation OK, missing IMPLEMENTATIONS;
+* `tkRAD.*.support`:
+
+    * documentation OK;
+
+    * missing some code IMPLEMENTATIONS e.g. image, scrollbar, etc;
