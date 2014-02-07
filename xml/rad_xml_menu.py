@@ -71,8 +71,6 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
             "id": None,
 
-            "name": None,
-
             "selected": None,
 
             "checked": None,
@@ -802,11 +800,27 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
 
 
+    def get_menu (self, attr_id):
+        r"""
+            this method is a coding comfort and shortcut for method
+            get_object_by_id();
+
+            returns menu object along @attr_id if object exists;
+
+            returns None otherwise;
+        """
+
+        return self.get_object_by_id(attr_id)
+
+    # end def
+
+
+
     def is_menu (self, widget):
         r"""
             determines if object is a tkinter Menu() object;
 
-            return True on success, False otherwise;
+            returns True on success, False otherwise;
         """
 
         return isinstance(widget, TK.Menu)
@@ -823,7 +837,7 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
             a Tk() toplevel window parent;
 
-            return True on success, False otherwise;
+            returns True on success, False otherwise;
         """
 
         return isinstance(widget, (TK.Menu, TK.Menubutton, TK.Tk))
@@ -840,7 +854,7 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
             a Tk() toplevel window parent;
 
-            return True on success, False otherwise;
+            returns True on success, False otherwise;
         """
 
         return isinstance(widget, TK.Tk)

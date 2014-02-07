@@ -112,7 +112,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         "listbox": {
 
-            "name": None,
+            #~ "name": None,
 
             "class": None,
 
@@ -140,7 +140,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         "optionmenu": {
 
-            "name": None,
+            #~ "name": None,
 
             "listvariable": None,
 
@@ -170,7 +170,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         "widget": {
 
-            "name": None,
+            #~ "name": None,
 
             "class": None,
 
@@ -188,7 +188,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         "include": {
 
-            "name": None,
+            #~ "name": None,
 
             "src": None,
 
@@ -4427,49 +4427,6 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
         # unsupported - empty string
 
         return ""
-
-    # end def
-
-
-
-    def _set_class_member (self, name, widget):
-        r"""
-            protected method def;
-
-            sets @widget as self.tk_owner class member along @name;
-
-            no return value (void);
-        """
-
-        # param controls
-
-        if tools.is_pstr(name):
-
-            if hasattr(self.tk_owner, name):
-
-                raise AttributeError(
-                    _(
-                        "cannot set up class member "
-
-                        "'{attr_name}': already exists in "
-
-                        "tk_owner '{obj_type}'."
-
-                    ).format(
-
-                        attr_name = name,
-
-                        obj_type = repr(self.tk_owner),
-                    )
-                )
-
-            else:
-
-                setattr(self.tk_owner, name, widget)
-
-            # end if
-
-        # end if
 
     # end def
 

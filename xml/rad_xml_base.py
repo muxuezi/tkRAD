@@ -666,6 +666,49 @@ class RADXMLBase (RW.RADWidgetBase):
 
 
 
+    def _set_class_member (self, name, widget):
+        r"""
+            protected method def;
+
+            sets @widget as self.tk_owner class member along @name;
+
+            no return value (void);
+        """
+
+        # param controls
+
+        if tools.is_pstr(name):
+
+            if hasattr(self.tk_owner, name):
+
+                raise AttributeError(
+                    _(
+                        "cannot set up class member "
+
+                        "'{attr_name}': already exists in "
+
+                        "tk_owner '{obj_type}'."
+
+                    ).format(
+
+                        attr_name = name,
+
+                        obj_type = repr(self.tk_owner),
+                    )
+                )
+
+            else:
+
+                setattr(self.tk_owner, name, widget)
+
+            # end if
+
+        # end if
+
+    # end def
+
+
+
     def canonize_tag (self, xml_element):
         r"""
             returns a lowercased char string of @xml_element.tag;

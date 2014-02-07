@@ -9,6 +9,37 @@
 ## CHANGELOG
 
 
+### $ 2014-02-07 RS $
+
+* updated `RADXMLWidget`:
+
+    * moved `_set_class_member()` from `RADXMLWidget` to `RADXMLBase`:
+
+        * method `_set_class_member()` is in fact a real generic XML
+        service;
+
+    * disabled XML attr `name`:
+
+        * now developpers must *EXPLICITLY* declare `<widget
+        name="..."/>` to get a class member in `tk_owner`;
+
+        * this avoids unexpected `AttributeError` exceptions and
+        useless memory overloads with unwanted class members;
+
+
+* updated `RADXMLMenu`:
+
+    * added `get_menu (self, attr_id)`:
+
+        * coding comfort and shortcut for `get_object_by_id()`;
+
+        * now fully implemented;
+
+    * disabled XML attr `name`:
+
+        * useless for menus (use `get_object_by_id()` instead);
+
+
 ### $ 2014-02-03 RS $
 
 * updated `RADXMLBase`, `RADXMLWidget`, `RADXMLMenu`:
