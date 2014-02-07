@@ -727,9 +727,17 @@ class RADXMLWidgetBase (RX.RADXMLBase):
             no return value (void);
         """
 
-        # FIXME: should implement something here? ------------------------------FIXME
+        # param controls
 
-        self._tkRAD_any_value_support(attribute, **kw)
+        if self._is_new(attribute):
+
+            # parsed attribute inits
+
+            attribute.value = self.get_bitmap_uri(attribute.value)
+
+            self._tk_config(attribute)
+
+        # end if
 
     # end def
 
@@ -1070,9 +1078,17 @@ class RADXMLWidgetBase (RX.RADXMLBase):
             no return value (void);
         """
 
-        # FIXME: should implement something here?
+        # param controls
 
-        self._tkRAD_any_value_support(attribute, **kw)
+        if self._is_new(attribute):
+
+            # parsed attribute inits
+
+            attribute.value = self.set_image(attribute.value)
+
+            self._tk_config(attribute)
+
+        # end if
 
     # end def
 

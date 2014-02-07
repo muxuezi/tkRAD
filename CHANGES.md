@@ -11,6 +11,23 @@
 
 ### $ 2014-02-07 RS $
 
+* updated `RADXMLBase`:
+
+    * added
+    new `get_bitmap_uri(self, path)`,
+    new `set_image(self, path)`,
+    new `get_image(self, path)`:
+
+        * now fully implemented;
+
+* updated `RADXMLWidgetBase`:
+
+    * in
+    `_tkRAD_image_support()`,
+    `_tkRAD_bitmap_support()`:
+
+        * now fully implemented;
+
 * updated `RADXMLWidget`:
 
     * moved `_set_class_member()` from `RADXMLWidget` to `RADXMLBase`:

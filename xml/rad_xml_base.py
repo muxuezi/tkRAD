@@ -126,6 +126,8 @@ class RADXMLBase (RW.RADWidgetBase):
 
         self.__objects = dict()
 
+        self.__images = dict()
+
         self.set_xml_dir(kw.get("xml_dir"))
 
         self.set_xml_filename(kw.get("xml_filename"))
@@ -862,6 +864,34 @@ class RADXMLBase (RW.RADWidgetBase):
 
 
 
+    def get_bitmap_uri (self, path):
+        r"""
+            tries to retrieve a bitmap URI along @path;
+
+            returns URI on success, empty string otherwise;
+        """
+
+        # $ 2014-02-07 RS $
+        # CAUTION:
+        # do *NOT* use TK.BitmapImage() /!\
+        # it is Tcl BUGGY and crashes tkinter/Tcl library /!\
+
+        # param inits
+
+        if tools.is_pstr(path) and path not in ("error", "gray75",
+        "gray50", "gray25", "gray12", "hourglass", "info",
+        "questhead", "question", "warning"):
+
+            path = "@" + uri.canonize(path.lstrip("@"))
+
+        # end if
+
+        return path
+
+    # end def
+
+
+
     def get_correct_id(self, value):
         r"""
             always provide a correct id name
@@ -1015,6 +1045,20 @@ class RADXMLBase (RW.RADWidgetBase):
         # failure
 
         return None
+
+    # end def
+
+
+
+    def get_image (self, path):
+        r"""
+            tries to retrieve an image from self.__images dict()
+            along @path;
+
+            returns image object if found, None otherwise;
+        """
+
+        return self.__images.get(uri.canonize(path))
 
     # end def
 
@@ -1367,6 +1411,33 @@ class RADXMLBase (RW.RADWidgetBase):
         """
 
         return self.set_cvar("doublevar", varname)
+
+    # end def
+
+
+
+    def set_image (self, path):
+        r"""
+            tries to set up an image along @path;
+
+            if original image exists, keeps untouched;
+
+            returns image object, None on trouble;
+        """
+
+        # param inits
+
+        path = uri.canonize(path)
+
+        # new image to register?
+
+        if path and path not in self.__images:
+
+            self.__images[path] = TK.PhotoImage(file=path)
+
+        # end if
+
+        return self.__images.get(path)
 
     # end def
 
