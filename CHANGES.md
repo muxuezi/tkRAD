@@ -9,6 +9,23 @@
 ## CHANGELOG
 
 
+### $ 2014-02-08 RS $
+
+* updated `RADXMLWidget`:
+
+    * in `_build_element_scrollbar()`:
+
+        * now target widget is automagically connected to scrollbar,
+        if it is technically possible;
+
+        * raises `TypeError` with explanations on trouble and
+        connection explicit request;
+
+    * added new `_parse_attr_connect()`:
+
+        * now fully implemented;
+
+
 ### $ 2014-02-07 RS $
 
 * updated `RADXMLBase`:

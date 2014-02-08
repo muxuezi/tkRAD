@@ -1257,7 +1257,56 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
             returns True on build success, False otherwise;
         """
 
-        return self._build_tk_native(xml_tag, xml_element, tk_parent)
+        _ok = self._build_tk_native(xml_tag, xml_element, tk_parent)
+
+        # make connections
+
+        _scrollbar = self.WIDGET
+
+        _target = self.TK_CHILD_CONFIG.get("connect")
+
+        if _target and _scrollbar:
+
+            try:
+
+                # connect vertically
+
+                if _scrollbar.cget("orient") == "vertical":
+
+                    _target.configure(yscrollcommand = _scrollbar.set)
+
+                    _scrollbar.configure(command = _target.yview)
+
+                # connect horizontally
+
+                else:
+
+                    _target.configure(xscrollcommand = _scrollbar.set)
+
+                    _scrollbar.configure(command = _target.xview)
+
+                # end if
+
+            except:
+
+                raise TypeError(
+
+                    _(
+                        "cannot connect widget {w_type} "
+
+                        "of id '{w_id}' to scrollbar."
+
+                    ).format(
+
+                        w_type = type(_target),
+
+                        w_id = xml_element.get("connect")
+                    )
+                ) from None
+
+        # end if
+
+        return _ok
 
     # end def
 
@@ -2505,6 +2554,23 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
         # parsed attribute inits
 
         self._tkRAD_boolean_support(attribute, **kw)
+
+    # end def
+
+
+
+    def _parse_attr_connect (self, attribute, **kw):
+        r"""
+            scrollbar attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        kw.update(tk_child_config = True)
+
+        self._tkRAD_widget_support(attribute, **kw)
 
     # end def
 
