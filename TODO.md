@@ -8,8 +8,4 @@
 
 ## TODO
 
-* `tkRAD.*.support`:
-
-    * documentation OK;
-
-    * missing some code IMPLEMENTATIONS e.g. image, scrollbar, etc;
+* Code stability? Stable release v1.0? Windows? MacOS? Linux?
