@@ -620,15 +620,24 @@ class RADMainWindow (RW.RADWidgetBase, TK.Tk):
 
         # /!\ avoid useless calls from child widgets /!\
 
-        if not isinstance(tk_event.widget, self.__class__):
+        if hasattr(tk_event, "widget") and \
+                    not isinstance(tk_event.widget, self.__class__):
 
             return
 
         # end if
 
-        # inits
+        # look for WM_STATE_MAXIMIZED
 
-        _maximized = int(self.attributes("-zoomed"))
+        try:
+
+            _maximized = int(self.attributes("-zoomed"))
+
+        except:
+
+            _maximized = 0
+
+        # end try
 
         if _maximized:
 
@@ -810,15 +819,28 @@ class RADMainWindow (RW.RADWidgetBase, TK.Tk):
             no return value (void);
         """
 
-        self.deiconify()
+        # WM attributes control
 
-        self.attributes("-zoomed", "1")
+        if "-zoomed" in self.attributes():
 
-        self._set_state("maximized")
+            self.deiconify()
 
-        # Tk() main window has some buggy behaviour sometimes
+            self.attributes("-zoomed", "1")
 
-        self.update()
+            self._set_state("maximized")
+
+            # Tk() main window has
+            # weird behaviour sometimes
+
+            self.update()
+
+        else:
+
+            # warn users
+
+            print("[WARNING] could *NOT* maximize main window.")
+
+        # end if
 
     # end def
 

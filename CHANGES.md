@@ -9,7 +9,31 @@
 ## CHANGELOG
 
 
+### $ 2014-02-10 RS $
+
+* updated `tkRAD.core.checkups`:
+
+    * in `python_require()`:
+
+        * updated code along new `parse_version()` function;
+
+    * added new `parse_version()`:
+
+        * now fully implemented;
+
+
 ### $ 2014-02-09 RS $
+
+* updated `RADMainWindow`:
+
+    * in `maximize()`, `_slot_root_changed()`:
+
+        * fixed bug about WM_ATTRIBUTES:
+
+            * not all OSes handle "-zoomed" attribute;
+
+            * WM_STATE_MAXIMIZED state will only work if attribute
+            "-zoomed" exists on running platform;
 
 * updated `RADXMLWidget`:
 

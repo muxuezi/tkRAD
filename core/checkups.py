@@ -28,84 +28,7 @@
 
 
 
-# lib imports
-
-import os.path as OP
-
-import platform
-
-from pkg_resources import parse_version
-
-
-
-def python_require(version, strict = False):
-    r"""
-        verifies if current Python interpreter version matches
-
-        @version param constraints along @strict param;
-
-        raises SystemError if Python current version is lesser than
-
-        required @version param version;
-
-        raises SystemError if @strict is True and current Python version
-
-        does not match *exactly* required @version param version;
-
-        each exception stops definitely script execution i.e. exit();
-
-        no return value (void);
-    """
-
-    # init params
-
-    _str_req_version = str(version)
-
-    _str_cur_version = str(platform.python_version())
-
-    _strict = bool(strict)
-
-    # inits
-
-    _req_version = parse_version(_str_req_version)
-
-    _cur_version = parse_version(_str_cur_version)
-
-    if _strict and (_req_version != _cur_version):
-
-        raise SystemError(
-
-            (
-                "This program expects *STRICT* Python "
-
-                "version {vreq} while current version is {vcur}."
-
-            ).format(vreq = _str_req_version, vcur = _str_cur_version)
-        )
-
-        exit(1)
-
-    elif _req_version > _cur_version:
-
-        raise SystemError(
-
-            (
-                "This program expects *AT LEAST* Python "
-
-                "version {vreq} while current version is {vcur}."
-
-            ).format(vreq = _str_req_version, vcur = _str_cur_version)
-        )
-
-        exit(1)
-
-    # end if
-
-# end def
-
-
-
-def check_directories(root_dir, *dir_list):
+def check_directories (root_dir, *dir_list):
     r"""
         verifies if a set of app-vital directories do exist;
 
@@ -114,7 +37,7 @@ def check_directories(root_dir, *dir_list):
         returns True on success, False otherwise;
     """
 
-    # param inits
+    import os.path as OP
 
     root_dir = str(root_dir)
 
@@ -140,5 +63,105 @@ def check_directories(root_dir, *dir_list):
     # all is OK
 
     return True
+
+# end def
+
+
+
+def parse_version (version, get_string = False):
+    r"""
+        tries to compute a version string into a comparable list()
+        object;
+
+        returns parsed str(@version) if @get_string;
+
+        returns max 3-items list() object otherwise;
+    """
+
+    import re
+
+    _version = re.sub(r"\.+", r".", str(version))
+
+    _version = re.sub(r"[^0-9\.].*$", r"", _version).strip(".")
+
+    # parsed string version
+
+    if get_string:
+
+        return _version
+
+    # end if
+
+    # parsed list() version
+
+    return list(map(int, ("0" + _version).split(".")))[:3]
+
+# end def
+
+
+
+def python_require (version, strict = False):
+    r"""
+        verifies if current Python interpreter version matches
+
+        @version param constraints along @strict param;
+
+        raises SystemError if Python current version is lesser than
+
+        required @version param version;
+
+        raises SystemError if @strict is True and current Python version
+
+        does not match *exactly* required @version param version;
+
+        each exception stops definitely script execution i.e. exit();
+
+        no return value (void);
+    """
+
+    import platform
+
+    _req_version = str(version)
+
+    _cur_version = str(platform.python_version())
+
+    # compare strict version
+
+    if strict and (_req_version != _cur_version):
+
+        raise SystemError(
+
+            (
+                "This program expects *STRICT* Python "
+
+                "version {vreq} while current version is {vcur}."
+
+            ).format(vreq=_req_version, vcur=_cur_version)
+        )
+
+        exit(1)
+
+    # compare loose version
+
+    elif parse_version(_req_version) > parse_version(_cur_version):
+
+        raise SystemError(
+
+            (
+                "This program expects *AT LEAST* Python "
+
+                "version {vreq} while current version is {vcur}."
+
+            ).format(
+
+                vreq = parse_version(_req_version, get_string = True),
+
+                vcur = _cur_version
+            )
+        )
+
+        exit(1)
+
+    # end if
 
 # end def
