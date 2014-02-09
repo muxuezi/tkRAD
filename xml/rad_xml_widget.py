@@ -390,10 +390,13 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         _ok = self._build_tk_native(xml_tag, xml_element, tk_parent)
 
-        if hasattr(self.WIDGET, "select") \
-                                        and xml_element.get("checked"):
+        if xml_element.get("checked"):
 
             self.WIDGET.select()
+
+        else:
+
+            self.WIDGET.deselect()
 
         # end if
 
@@ -580,28 +583,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             _widget.XML_RC.clear()
 
-            # be careful of infinite self-inclusion (recursions) /!\
-
-            _src = _attributes.get("src")
-
-            if self.get_xml_uri() == _widget.get_xml_uri(_src):
-
-                raise OSError(
-
-                    _(
-                        "XML file self-inclusion is *NOT* allowed. "
-
-                        "Will cause infinite recursions."
-                    )
-                )
-
-                return False
-
-            # end if
+            # $ 2014-02-09 RS $
+            # CAUTION:
+            # removed self-inclusion security;
+            # let Python handle this trap!
 
             # get XML tree
 
-            _widget.xml_load(_src)
+            _widget.xml_load(_attributes.get("src"))
 
             # include new XML tree to current one
 
@@ -609,7 +598,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             # free useless memory right now /!\
 
-            del _attributes, _widget, _src
+            del _attributes, _widget
 
             # build inclusion
 
@@ -778,14 +767,6 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             self._set_class_member(_attributes.get("name"), _widget)
 
-            # tk configure()
-
-            if self.TK_CONFIG:
-
-                _widget.configure(**self.TK_CONFIG)
-
-            # end if
-
             # prepare list of choices
 
             _widget.delete(0, TK.END)
@@ -835,6 +816,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
                 _widget.activate(_start)
 
                 _widget.see(_start)
+
+            # end if
+
+            # tk configure()
+
+            if self.TK_CONFIG:
+
+                _widget.configure(**self.TK_CONFIG)
 
             # end if
 
@@ -1196,10 +1185,13 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         _ok = self._build_tk_native(xml_tag, xml_element, tk_parent)
 
-        if hasattr(self.WIDGET, "select") \
-                                        and xml_element.get("selected"):
+        if xml_element.get("selected"):
 
             self.WIDGET.select()
+
+        else:
+
+            self.WIDGET.deselect()
 
         # end if
 
@@ -2102,9 +2094,9 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         kw.update(
 
-            default = "underline",
+            default = "dotbox",
 
-            values = ("dotbox", "none"),
+            values = ("underline", "none"),
         )
 
         self._fix_values(attribute, **kw)

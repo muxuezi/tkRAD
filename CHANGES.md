@@ -9,6 +9,45 @@
 ## CHANGELOG
 
 
+### $ 2014-02-09 RS $
+
+* updated `RADXMLWidget`:
+
+    * in `_build_element_listbox()`:
+
+        * fixed bug on `state="disabled"`:
+
+            * list items were *NOT* showing up;
+
+            * now config is OK;
+
+    * in `_parse_attr_activestyle()`:
+
+        * default value is `dotbox` *NOT* `underline` as documented
+        on Tkinter's website;
+
+    * in `_build_element_include()`:
+
+        * removed self-inclusion security: *NOT* perfect enough;
+
+        * let Python interpreter handle this trap;
+
+    * in
+    `_build_element_checkbutton()`,
+    `_build_element_radiobutton()`:
+
+        * made checked/unchecked status clearer;
+
+* updated `RADXMLWidgetBase`:
+
+    * in `_tkRAD_command_support()`:
+
+        * now `lambda(*args, s=..., e=..., **kw)` does
+        `s.raise_event(e, *args, **kw)`;
+
+        * now added `**kw` to `lambda()` from event support;
+
+
 ### $ 2014-02-08 RS $
 
 * updated `RADXMLWidget`:

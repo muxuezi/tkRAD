@@ -825,9 +825,9 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
                 _cmd = (
 
-                    lambda *args, s=self.events, e=_cmd[1:]:
+                    lambda *args, s=self.events, e=_cmd[1:], **kw:
 
-                        s.raise_event(e)
+                        s.raise_event(e, *args, **kw)
                 )
 
             # self.app methods support
