@@ -11,6 +11,8 @@
 
 ### $ 2014-02-10 RS $
 
+* updated wiki wiki documentation anywhere along new constraints;
+
 * anywhere in `tkRAD` lib:
 
     * renamed all `*canonize*()` to `*normalize*()`;

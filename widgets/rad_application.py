@@ -78,7 +78,7 @@ class RADApplication:
             If not, see: http://www.gnu.org/licenses/
         """),
 
-        "license_uri": _("http://www.gnu.org/licenses/"),
+        "license_url": _("http://www.gnu.org/licenses/"),
 
     } # end of APP
 
