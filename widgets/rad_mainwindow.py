@@ -868,7 +868,13 @@ class RADMainWindow (RW.RADWidgetBase, TK.Tk):
             no return value (void);
         """
 
+        # enter the loop
+
         self.mainloop()
+
+        # avoid unexpected stimuli
+
+        self.hide()
 
     # end def
 

@@ -11,6 +11,36 @@
 
 ### $ 2014-02-10 RS $
 
+* added new `tkRAD.core.path`:
+
+    * duplicated incorrectly named `tkRAD.core.uri`;
+
+    * renamed `canonize()` to `normalize()`;
+
+    * updated all `import uri` to `import path` anywhere in `tkRAD`;
+
+    * updated all `uri.canonize()` to `path.normalize()` anywhere in
+    `tkRAD`;
+
+* updated `tkRAD.core.uri`:
+
+    * fixed MS-Windows normpath() bug;
+
+    * renamed all `uri` params to `path`;
+
+    * duplicated module to `tkRAD.core.path`;
+
+    * abandoned maintenance: incorrect vocabulary;
+
+    * kept module for backward compatibility;
+
+* updated `RADMainWindow`:
+
+    * in `run()`:
+
+        * added `self.hide()` after event main loop to avoid
+        unexpected postponed stimuli;
+
 * updated `tkRAD.core.checkups`:
 
     * in `python_require()`:

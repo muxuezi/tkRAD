@@ -40,7 +40,7 @@ __app_root_dir = "."
 
 
 
-def canonize (uri, raise_error = False):
+def canonize (path, raise_error = False):
     """
         substitutes heading ^ by __app_root_dir;
 
@@ -48,24 +48,30 @@ def canonize (uri, raise_error = False):
 
         tries to retrieve abspath() / realpath();
 
-        returns parsed URI on success or empty string "" otherwise;
+        returns parsed path on success;
+
+        returns empty string otherwise;
     """
 
     # param control
 
-    if uri and isinstance(uri, str):
+    if path and isinstance(path, str):
+
+        # normalize OP.sep along platform /!\
+
+        path = OP.normcase(OP.normpath(path))
 
         # app root directory implementation
 
-        if uri.startswith("^"):
+        if path.startswith("^"):
 
-            uri = OP.join(__app_root_dir, uri.lstrip("^" + OP.sep))
+            path = OP.join(__app_root_dir, path.lstrip("^" + OP.sep))
 
         # end if
 
-        # return parsed URI
+        # return parsed path
 
-        return OP.abspath(OP.realpath(OP.expanduser(uri)))
+        return OP.abspath(OP.realpath(OP.expanduser(path)))
 
     # unsupported
 
