@@ -32,7 +32,7 @@ import locale
 
 import os.path as OP
 
-from . import uri
+from . import path
 
 from . import tools
 
@@ -68,6 +68,7 @@ def _ (text):
 # end def
 
 
+# set overall scope function
 
 __builtins__["_"] = _
 
@@ -201,9 +202,9 @@ def load_translations_table (lc_dir=None, lc_lang=None):
 
     lc_lang = tools.choose_str(lc_lang, __translations_lang)
 
-    _uri = uri.canonize(OP.join(lc_dir, lc_lang + ".po"))
+    _path = path.normalize(OP.join(lc_dir, lc_lang + ".po"))
 
-    with open(_uri, "r", encoding="UTF-8") as _file:
+    with open(_path, "r", encoding="UTF-8") as _file:
 
         _data = _file.read()
 

@@ -97,7 +97,7 @@ examples:<br>
 &nbsp;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;B.<a href="#Builder">Builder</a>().<a href="#Builder-build">build</a>(xml)<br>
 &nbsp;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;testing&nbsp;from&nbsp;file&nbsp;URI<br>
+&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;testing&nbsp;from&nbsp;file&nbsp;path<br>
 &nbsp;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;tkRAD.easy&nbsp;import&nbsp;builder&nbsp;as&nbsp;B<br>
 &nbsp;<br>
@@ -146,7 +146,7 @@ no&nbsp;return&nbsp;value&nbsp;(void);</tt></dd></dl>
 
 <dl><dt><a name="Builder-build"><strong>build</strong></a>(self, arg)</dt><dd><tt>tries&nbsp;to&nbsp;build&nbsp;tkinter&nbsp;widgets&nbsp;from&nbsp;a&nbsp;char&nbsp;string&nbsp;or<br>
 &nbsp;<br>
-from&nbsp;a&nbsp;file&nbsp;URI;<br>
+from&nbsp;a&nbsp;file&nbsp;path;<br>
 &nbsp;<br>
 will&nbsp;pop-up&nbsp;a&nbsp;message&nbsp;box&nbsp;with&nbsp;a&nbsp;traceback&nbsp;message<br>
 &nbsp;<br>
@@ -928,7 +928,7 @@ widget&nbsp;is&nbsp;located.</tt></dd></dl>
 <tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
 <td width="100%"><dl><dt><a name="-build"><strong>build</strong></a>(xml, master<font color="#909090">=None</font>)</dt><dd><tt>easy&nbsp;widget&nbsp;building&nbsp;function;<br>
 &nbsp;<br>
-@xml&nbsp;param&nbsp;can&nbsp;be&nbsp;either&nbsp;an&nbsp;XML&nbsp;string&nbsp;of&nbsp;chars&nbsp;or&nbsp;a&nbsp;file&nbsp;URI;<br>
+@xml&nbsp;param&nbsp;can&nbsp;be&nbsp;either&nbsp;an&nbsp;XML&nbsp;string&nbsp;of&nbsp;chars&nbsp;or&nbsp;a&nbsp;file&nbsp;path;<br>
 &nbsp;<br>
 if&nbsp;@master&nbsp;param&nbsp;is&nbsp;None,&nbsp;built-in&nbsp;widgets&nbsp;will&nbsp;pop&nbsp;up<br>
 &nbsp;<br>
@@ -958,7 +958,7 @@ examples:<br>
 &nbsp;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;builder.<a href="#-build">build</a>(xml)<br>
 &nbsp;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;testing&nbsp;from&nbsp;file&nbsp;URI<br>
+&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;testing&nbsp;from&nbsp;file&nbsp;path<br>
 &nbsp;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;tkRAD.easy&nbsp;import&nbsp;builder<br>
 &nbsp;<br>
@@ -979,11 +979,11 @@ examples:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;my_window.pack()<br>
 &nbsp;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;root.mainloop()</tt></dd></dl>
- <dl><dt><a name="-canonize_id"><strong>canonize_id</strong></a>(arg)</dt><dd><tt>sets&nbsp;@arg&nbsp;param&nbsp;in&nbsp;conformance&nbsp;with&nbsp;__identifier__<br>
+ <dl><dt><a name="-is_pstr"><strong>is_pstr</strong></a>(arg)</dt><dd><tt>determines&nbsp;if&nbsp;@arg&nbsp;param&nbsp;is&nbsp;of&nbsp;plain&nbsp;string&nbsp;type&nbsp;or&nbsp;not;</tt></dd></dl>
+ <dl><dt><a name="-normalize_id"><strong>normalize_id</strong></a>(arg)</dt><dd><tt>sets&nbsp;@arg&nbsp;param&nbsp;in&nbsp;conformance&nbsp;with&nbsp;__identifier__<br>
 &nbsp;<br>
 language&nbsp;def&nbsp;(allows&nbsp;only&nbsp;regexp("\w+")&nbsp;in&nbsp;id&nbsp;naming);<br>
 &nbsp;<br>
-returns&nbsp;canonized&nbsp;id&nbsp;name&nbsp;or&nbsp;empty&nbsp;string&nbsp;otherwise;</tt></dd></dl>
- <dl><dt><a name="-is_pstr"><strong>is_pstr</strong></a>(arg)</dt><dd><tt>determines&nbsp;if&nbsp;@arg&nbsp;param&nbsp;is&nbsp;of&nbsp;plain&nbsp;string&nbsp;type&nbsp;or&nbsp;not;</tt></dd></dl>
+returns&nbsp;normalized&nbsp;id&nbsp;name&nbsp;or&nbsp;empty&nbsp;string&nbsp;otherwise;</tt></dd></dl>
 </td></tr></table>
 </body></html>

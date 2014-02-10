@@ -40,7 +40,7 @@ from tkinter import messagebox as MB
 
 from ..core import tools
 
-from ..core import uri
+from ..core import path
 
 from ..widgets import rad_widget_base as RW
 
@@ -223,9 +223,9 @@ class RADXMLBase (RW.RADWidgetBase):
 
         # inits
 
-        _tag = self.canonize_tag(xml_element)
+        _tag = self.normalize_tag(xml_element)
 
-        _elt_builder = tools.canonize_id(
+        _elt_builder = tools.normalize_id(
 
             str(self.ELEMENT_BUILDER).format(xml_element = _tag)
         )
@@ -287,7 +287,7 @@ class RADXMLBase (RW.RADWidgetBase):
 
         # param inits
 
-        attr_id = tools.canonize_id(attr_id)
+        attr_id = tools.normalize_id(attr_id)
 
         # no id?
 
@@ -396,7 +396,7 @@ class RADXMLBase (RW.RADWidgetBase):
 
             # parent tag inits
 
-            _ptag = self.canonize_tag(xml_element)
+            _ptag = self.normalize_tag(xml_element)
 
             # return value inits
 
@@ -408,7 +408,7 @@ class RADXMLBase (RW.RADWidgetBase):
 
                 # child tag inits
 
-                _ctag = self.canonize_tag(_xml_child)
+                _ctag = self.normalize_tag(_xml_child)
 
                 # is child element into 'accept' element list?
 
@@ -455,19 +455,16 @@ class RADXMLBase (RW.RADWidgetBase):
 
     def _parse_xml_attributes (self, xml_element, tk_parent, **kw):
         r"""
-            parses dict() attributes of an XML ET.Element
-
-            and dispatches to optional specific parsers;
+            parses dict() attributes of an XML ET.Element and
+            dispatches to optional specific parsers;
 
             this method should not be modified for parsing attribute
+            methods naming as it suffices to reset
+            self.ATTRIBUTE_PARSER in subclass to the desired naming
+            rule;
 
-            methods naming as it suffices to reset self.ATTRIBUTE_PARSER
-
-            in subclass to the desired naming rule;
-
-            if kw["xml_attrs"] filtered attributes exist,
-
-            they replace XML ET.Element.attrib dict() in parsing;
+            if kw["xml_attrs"] filtered attributes exist, they
+            replace XML ET.Element.attrib dict() in parsing;
 
             genuine dicts are kept UNTOUCHED thanks to shallow copying;
 
@@ -480,7 +477,7 @@ class RADXMLBase (RW.RADWidgetBase):
 
             # XML tag inits
 
-            _tag = self.canonize_tag(xml_element)
+            _tag = self.normalize_tag(xml_element)
 
             # XML attribute inits
 
@@ -508,13 +505,13 @@ class RADXMLBase (RW.RADWidgetBase):
 
             for (_attr_name, _attr_object) in _attrs.items():
 
-                # canonize attribute
+                # normalize attribute
 
                 _attr_name = str(_attr_name).lower()
 
                 # attribute specific parser
 
-                _parser = tools.canonize_id(
+                _parser = tools.normalize_id(
 
                     str(self.ATTRIBUTE_PARSER)
 
@@ -711,7 +708,7 @@ class RADXMLBase (RW.RADWidgetBase):
 
 
 
-    def canonize_tag (self, xml_element):
+    def normalize_tag (self, xml_element):
         r"""
             returns a lowercased char string of @xml_element.tag;
         """
@@ -864,11 +861,11 @@ class RADXMLBase (RW.RADWidgetBase):
 
 
 
-    def get_bitmap_uri (self, path):
+    def get_bitmap_path (self, path):
         r"""
-            tries to retrieve a bitmap URI along @path;
+            tries to retrieve a bitmap path along @path;
 
-            returns URI on success, empty string otherwise;
+            returns path on success, empty string otherwise;
         """
 
         # $ 2014-02-07 RS $
@@ -882,7 +879,7 @@ class RADXMLBase (RW.RADWidgetBase):
         "gray50", "gray25", "gray12", "hourglass", "info",
         "questhead", "question", "warning"):
 
-            path = "@" + uri.canonize(path.lstrip("@"))
+            path = "@" + path.normalize(path.lstrip("@"))
 
         # end if
 
@@ -898,14 +895,14 @@ class RADXMLBase (RW.RADWidgetBase):
 
             whatever @value param is at the beginning;
 
-            returns canonized (filtered) value if exists,
+            returns normalized (filtered) value if exists,
 
             returns numbered unique 'objectxxx' otherwise;
         """
 
         # param inits
 
-        value = tools.canonize_id(value)
+        value = tools.normalize_id(value)
 
         # no id?
 
@@ -1021,7 +1018,7 @@ class RADXMLBase (RW.RADWidgetBase):
 
         # param inits
 
-        attr_id = tools.canonize_id(attr_id)
+        attr_id = tools.normalize_id(attr_id)
 
         # param controls
 
@@ -1058,7 +1055,7 @@ class RADXMLBase (RW.RADWidgetBase):
             returns image object if found, None otherwise;
         """
 
-        return self.__images.get(uri.canonize(path))
+        return self.__images.get(path.normalize(path))
 
     # end def
 
@@ -1101,7 +1098,7 @@ class RADXMLBase (RW.RADWidgetBase):
 
         return self.__objects.get(
 
-            tools.canonize_id(attr_id).lower(),
+            tools.normalize_id(attr_id).lower(),
 
             default
         )
@@ -1195,33 +1192,33 @@ class RADXMLBase (RW.RADWidgetBase):
 
 
 
-    def get_xml_uri (self, filename = None):
+    def get_xml_path (self, filename = None):
         r"""
-            tries to retrieve a valid URI from several cases;
+            tries to retrieve a valid path from several cases;
 
             @filename param can either be a filename radix to be
 
-            automagically rebuilt or a complete file path (URI);
+            automagically rebuilt or a complete file path (path);
 
-            raises OSError if unable to build a correct URI;
+            raises OSError if unable to build a correct path;
 
-            returns final URI on success, None otherwise;
+            returns final path on success, None otherwise;
         """
 
         # param controls
 
         if tools.is_pstr(filename):
 
-            # @filename param may be a URI
+            # @filename param may be a path
 
-            _uri = uri.canonize(filename)
+            _path = path.normalize(filename)
 
             # $ 2013-12-31 RS $
-            # fixed ugly URI construction on faulty paths
+            # fixed ugly path construction on faulty paths
 
-            if OP.isfile(_uri) or OP.sep in filename:
+            if OP.isfile(_path) or OP.sep in filename:
 
-                return _uri
+                return _path
 
             # end if
 
@@ -1301,9 +1298,9 @@ class RADXMLBase (RW.RADWidgetBase):
             "^/xml",
         )
 
-        # return rebuilt XML URI
+        # return rebuilt XML path
 
-        return OP.join(uri.canonize(_dir), filename)
+        return OP.join(path.normalize(_dir), filename)
 
     # end def
 
@@ -1427,7 +1424,7 @@ class RADXMLBase (RW.RADWidgetBase):
 
         # param inits
 
-        path = uri.canonize(path)
+        path = path.normalize(path)
 
         # new image to register?
 
@@ -1531,7 +1528,7 @@ class RADXMLBase (RW.RADWidgetBase):
 
             @filename param can either be a filename radix to be
 
-            automagically rebuilt, a complete file path (URI) or
+            automagically rebuilt, a complete file path (path) or
 
             an XML source string of chars;
 
@@ -1545,7 +1542,7 @@ class RADXMLBase (RW.RADWidgetBase):
             # verify XML tree before processing
 
             if tools.is_pstr(filename) or \
-                                        not self.is_tree(self.__xml_tree):
+                                    not self.is_tree(self.__xml_tree):
 
                 # try to load once
 
@@ -1604,7 +1601,7 @@ class RADXMLBase (RW.RADWidgetBase):
 
             @arg param can either be a filename radix to be
 
-            automagically rebuilt, a complete file path (URI) or
+            automagically rebuilt, a complete file path (path) or
 
             an XML source string of chars;
 
@@ -1621,13 +1618,13 @@ class RADXMLBase (RW.RADWidgetBase):
 
                 self.set_xml_tree(element = ET.fromstring(arg))
 
-            # should be a filename or URI
+            # should be a filename or path
 
             else:
 
-                # XML parse file URI
+                # XML parse file path
 
-                self.__xml_tree = ET.parse(self.get_xml_uri(arg))
+                self.__xml_tree = ET.parse(self.get_xml_path(arg))
 
             # end if
 
@@ -1653,7 +1650,7 @@ class RADXMLBase (RW.RADWidgetBase):
 
             @filename param can either be a filename radix to be
 
-            automagically rebuilt or a complete file path (URI);
+            automagically rebuilt or a complete file path (path);
 
             no return value (void);
         """
@@ -1664,7 +1661,7 @@ class RADXMLBase (RW.RADWidgetBase):
 
             self.__xml_tree.write(
 
-                self.get_xml_uri(filename),
+                self.get_xml_path(filename),
 
                 encoding = "UTF-8",
 

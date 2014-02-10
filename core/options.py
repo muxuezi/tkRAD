@@ -34,7 +34,7 @@ import os.path as OP
 
 import configparser as CP
 
-from . import uri
+from . import path
 
 from . import tools
 
@@ -146,22 +146,22 @@ class OptionManager(CP.ConfigParser):
 
 
 
-    def _get_uri (self):
+    def _get_path (self):
         r"""
-            builds URI along rc config dir and filename;
+            builds path along rc config dir and filename;
 
-            returns URI on success, None otherwise;
+            returns path on success, None otherwise;
         """
 
         # inits
 
-        _uri = None
+        _path = None
 
         # ensure rc_dir is OK
 
         if self._ensure_config_dir():
 
-            _uri = OP.join(
+            _path = OP.join(
 
                 self.get_config_dir(),
 
@@ -170,7 +170,7 @@ class OptionManager(CP.ConfigParser):
 
         # end if
 
-        return _uri
+        return _path
 
     # end def
 
@@ -194,7 +194,7 @@ class OptionManager(CP.ConfigParser):
             configuration directory getter;
         """
 
-        return uri.canonize(self.__rc_dir)
+        return path.normalize(self.__rc_dir)
 
     # end def
 
@@ -236,11 +236,11 @@ class OptionManager(CP.ConfigParser):
 
                 tools.choose_str(
 
-                    self._get_uri(),
+                    self._get_path(),
 
                     OP.join(
 
-                        uri.canonize(self.CONFIG.get("dir")),
+                        path.normalize(self.CONFIG.get("dir")),
 
                         self.get_config_file()
                     ),
@@ -287,11 +287,11 @@ class OptionManager(CP.ConfigParser):
 
         # inits
 
-        _uri = self._get_uri()
+        _path = self._get_path()
 
-        if tools.is_pstr(_uri):
+        if tools.is_pstr(_path):
 
-            with open(_uri, "w") as _file:
+            with open(_path, "w") as _file:
 
                 self.write(_file)
 
@@ -318,7 +318,7 @@ class OptionManager(CP.ConfigParser):
 
         # private member inits
 
-        self.__rc_dir = uri.canonize(
+        self.__rc_dir = path.normalize(
 
             tools.choose_str(value, self.CONFIG.get("dir"))
         )

@@ -30,9 +30,9 @@ from ..core import checkups
 
 from ..core import i18n
 
-from ..core import tools
+from ..core import path
 
-from ..core import uri
+from ..core import tools
 
 
 
@@ -168,7 +168,7 @@ class RADApplication:
 
                     kw.get("app_root_dir"),
 
-                    uri.get_app_root_dir(),
+                    path.get_app_root_dir(),
                 ),
 
                 *kw.get("check_dirs", self.DIRECTORIES)
@@ -394,7 +394,7 @@ class RADApplication:
 
         import inspect
 
-        uri.set_app_root_dir(
+        path.set_app_root_dir(
 
             tools.choose_str(
 
@@ -489,11 +489,11 @@ class RADApplication:
 
         _parser.add_argument(
 
-            "--run-mode",
+            "-m", "--run-mode",
 
             nargs = 1,
 
-            default = "gui",
+            default = ["gui"],
 
             type = str,
 
@@ -529,7 +529,9 @@ class RADApplication:
 
                 kw.get("run_mode"),
 
-                self.sys_argv.run_mode,
+                self.sys_argv.run_mode[0],
+
+                "GUI",
             )
         )
 
@@ -670,7 +672,7 @@ class RADApplication:
                             layout="pack"
                         />
                         <label
-                            text="{uri}"
+                            text="{path}"
                             fg="red"
                             layout="pack"
                         />
@@ -691,7 +693,7 @@ class RADApplication:
                     """
                     .format(
 
-                        uri = self.mainwindow.mainframe.get_xml_uri()
+                        path = self.mainwindow.mainframe.get_xml_path()
                     )
                 )
 

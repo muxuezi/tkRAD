@@ -11,6 +11,10 @@
 
 ### $ 2014-02-10 RS $
 
+* anywhere in `tkRAD` lib:
+
+    * renamed all `*canonize*()` to `*normalize*()`;
+
 * added new `tkRAD.core.path`:
 
     * duplicated incorrectly named `tkRAD.core.uri`;

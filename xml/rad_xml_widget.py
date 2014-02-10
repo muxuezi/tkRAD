@@ -32,7 +32,7 @@ import tkinter as TK
 
 from ..core import tools
 
-from ..core import uri
+from ..core import path
 
 from . import rad_xml_widget_base as RB
 
@@ -2278,7 +2278,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         # parsed attribute inits
 
-        attribute.value = tools.canonize_id(attribute.value)
+        attribute.value = tools.normalize_id(attribute.value)
 
         # caution: *NO* self._tk_config() by here /!\
 
@@ -2485,7 +2485,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             _class = tools.choose_str(
 
-                tools.canonize_id(attribute.value),
+                tools.normalize_id(attribute.value),
 
                 self.WIDGET_CLASS,
 
@@ -2725,7 +2725,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
             # parsed attribute inits
 
             attribute.value = \
-                tools.canonize_relative_module(attribute.value)
+                tools.normalize_relative_module(attribute.value)
 
             # caution: *NO* self._tk_config() by here /!\
 
@@ -2870,7 +2870,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             # parsed attribute inits
 
-            attribute.value = tools.canonize_import(attribute.value)
+            attribute.value = tools.normalize_import(attribute.value)
 
             # caution: *NO* self._tk_config() by here /!\
 
@@ -3320,7 +3320,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
                 # attribute inits
 
-                _import = tools.canonize_import(_module.get("import"))
+                _import = tools.normalize_import(_module.get("import"))
 
                 # choose between attrs
 
@@ -3328,7 +3328,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
                     _name = tools.choose_str(
 
-                        tools.canonize_id(_module.get("as")),
+                        tools.normalize_id(_module.get("as")),
 
                         _import,
 
@@ -3887,7 +3887,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def _parse_attr_src (self, attribute, **kw):
         r"""
-            canonizes URI in XML attr 'src';
+            normalizes path in XML attr 'src';
 
             no return value (void);
         """
@@ -3898,7 +3898,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             # parsed attribute inits
 
-            attribute.value = uri.canonize(attribute.value)
+            attribute.value = path.normalize(attribute.value)
 
             # caution: *NO* self._tk_config() by here /!\
 

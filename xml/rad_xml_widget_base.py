@@ -509,7 +509,7 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
             _name = tools.choose_str(
 
-                tools.canonize_id(attribute.value),
+                tools.normalize_id(attribute.value),
 
                 self.element_get_id(attribute.xml_element),
             )
@@ -733,7 +733,7 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
             # parsed attribute inits
 
-            attribute.value = self.get_bitmap_uri(attribute.value)
+            attribute.value = self.get_bitmap_path(attribute.value)
 
             self._tk_config(attribute)
 
@@ -1050,7 +1050,7 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
                     _sch,
 
-                    tools.canonize_id(_family.group(1)).lower(),
+                    tools.normalize_id(_family.group(1)).lower(),
 
                     _font
                 )

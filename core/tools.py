@@ -34,7 +34,7 @@ import re
 
 
 
-def canonize_id (arg, raise_error = False):
+def normalize_id (arg, raise_error = False):
     r"""
         filters @arg param char string to __identifier__
 
@@ -66,7 +66,7 @@ def canonize_id (arg, raise_error = False):
 
 
 
-def canonize_import (arg, raise_error = False):
+def normalize_import (arg, raise_error = False):
     r"""
         filters @arg param in order to comply with syntax constraints
 
@@ -87,7 +87,7 @@ def canonize_import (arg, raise_error = False):
 
     else:
 
-        return canonize_relative_module(arg, raise_error)
+        return normalize_relative_module(arg, raise_error)
 
     # end if
 
@@ -95,7 +95,7 @@ def canonize_import (arg, raise_error = False):
 
 
 
-def canonize_relative_module (arg, raise_error = False):
+def normalize_relative_module (arg, raise_error = False):
     r"""
         filters @arg param char string along Python's relative_module
 

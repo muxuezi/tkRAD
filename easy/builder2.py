@@ -48,7 +48,7 @@ def build (xml, master = None):
     r"""
         easy widget building function;
 
-        @xml param can be either an XML string of chars or a file URI;
+        @xml param can be either an XML string of chars or a file path;
 
         if @master param is None, built-in widgets will pop up
 
@@ -78,7 +78,7 @@ def build (xml, master = None):
 
             builder.build(xml)
 
-            # testing from file URI
+            # testing from file path
 
             from tkRAD.easy import builder
 
@@ -107,13 +107,13 @@ def build (xml, master = None):
 
 
 
-def canonize_id (arg):
+def normalize_id (arg):
     r"""
         sets @arg param in conformance with __identifier__
 
         language def (allows only regexp("\w+") in id naming);
 
-        returns canonized id name or empty string otherwise;
+        returns normalized id name or empty string otherwise;
     """
 
     # param controls
@@ -181,7 +181,7 @@ class Builder (TK.Frame):
 
             B.Builder().build(xml)
 
-            # testing from file URI
+            # testing from file path
 
             from tkRAD.easy import builder as B
 
@@ -395,7 +395,7 @@ class Builder (TK.Frame):
 
     def _get_correct_id (self, attr_id):
         r"""
-            canonizes XML attribute @attr_id param;
+            normalizes XML attribute @attr_id param;
 
             resets to numbered unique 'objectxxxx' if incorrect id;
 
@@ -404,7 +404,7 @@ class Builder (TK.Frame):
 
         # param inits
 
-        attr_id = canonize_id(attr_id)
+        attr_id = normalize_id(attr_id)
 
         # incorrect id name?
 
@@ -466,7 +466,7 @@ class Builder (TK.Frame):
 
     def _init_xml_tree (self, arg):
         r"""
-            chooses between internal XML source code and file URI;
+            chooses between internal XML source code and file path;
 
             raises TypeError if @arg is not at least a plain string
             of chars;
@@ -484,7 +484,7 @@ class Builder (TK.Frame):
 
         self.OI_COUNT = 1
 
-        # arg must be XML source code or file URI
+        # arg must be XML source code or file path
 
         if is_pstr(arg):
 
@@ -499,7 +499,7 @@ class Builder (TK.Frame):
 
             else:
 
-                # file URI
+                # file path
 
                 self.xml_tree = ET.parse(arg)
 
@@ -628,7 +628,7 @@ class Builder (TK.Frame):
         r"""
             tries to build tkinter widgets from a char string or
 
-            from a file URI;
+            from a file path;
 
             will pop-up a message box with a traceback message
 
@@ -641,7 +641,7 @@ class Builder (TK.Frame):
 
         try:
 
-            # param controls - arg must be XML string or file URI
+            # param controls - arg must be XML string or file path
 
             self._init_xml_tree(arg)
 
@@ -710,7 +710,7 @@ class Builder (TK.Frame):
             returns None otherwise;
         """
 
-        return self.objects.get(canonize_id(attr_id))
+        return self.objects.get(normalize_id(attr_id))
 
     # end def
 
