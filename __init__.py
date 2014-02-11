@@ -22,6 +22,12 @@
     If not, see: http://www.gnu.org/licenses/
 """
 
+# set i18n by default
+
+from .core import i18n
+
+i18n.install()
+
 # restrict to daily use classes
 
 from .widgets.rad_application import RADApplication
@@ -31,5 +37,3 @@ from .widgets.rad_mainwindow import RADMainWindow
 from .xml.rad_xml_mainwindow import RADXMLMainWindow
 
 from .xml.rad_xml_frame import RADXMLFrame
-
-

@@ -11,6 +11,21 @@
 
 ### $ 2014-02-10 RS $
 
+* now `tkRAD` is **ready** for *STABLE RELEASE*;
+
+* `tkRAD` has been TESTED OK on Windows 8 platform;
+
+* in `RADApplication.APP`:
+
+    * added `description` member;
+
+* updated `tkRAD/__init__.py`:
+
+    * now `import tkRAD` sets up `i18n.install()` by default;
+
+
+### $ 2014-02-10 RS $
+
 * updated wiki wiki documentation anywhere along new constraints;
 
 * anywhere in `tkRAD` lib:

@@ -53,6 +53,8 @@ class RADApplication:
 
         "version": _("0.1a"),
 
+        "description": _("Describe here my application"),
+
         "title": _("My Application is wonderful!"),
 
         "author": _("my name <email@domain.org>"),
