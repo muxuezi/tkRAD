@@ -8,4 +8,9 @@
 
 ## TODO
 
-* Code stability? Stable release v1.0? Windows? MacOS? Linux?
+* Translate whole wiki doc in English;
+
+* in `tkRAD.core.options`: is `ensure_dir()` really *RELEVANT*?
+
+* suppress it definitely?
+
