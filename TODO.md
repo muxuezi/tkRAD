@@ -16,3 +16,8 @@
 
 * what about multiple calls of `i18n.install()`? heavy files!
 
+* is `StructDict`, `RADXMLAttributesDict` really *USEFUL*?
+
+* see for removal in future stable version?
+
+
