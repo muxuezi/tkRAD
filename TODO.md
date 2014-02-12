@@ -14,3 +14,5 @@
 
 * suppress it definitely?
 
+* what about multiple calls of `i18n.install()`? heavy files!
+
