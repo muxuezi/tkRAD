@@ -155,23 +155,22 @@ At this time, `tkRAD` library has been:
 
 * Linux:
 
-    * TESTED OK under Lubuntu, Xubuntu and Ubuntu;
+  * **TESTED OK** under Lubuntu, Xubuntu and Ubuntu;
 
-    * should work quite fine under any Linux distribution;
+  * should work quite fine under any Linux distribution;
 
 * macOS:
 
-    * NOT YET TESTED;
+  * **NOT YET TESTED**;
 
 * MS-Windows:
 
-    * PARTIALLY TESTED;
+  * **TESTED OK** under MS-Windows 8 with **Python v3.3.3**;
 
-    * `tkRAD.easy.builder` has been TESTED OK for Python v3.2+;
+  * `tkRAD.easy.builder2` has been **TESTED OK** for **Python v2.7+**;
 
-    * `tkRAD.easy.builder2` has been TESTED OK for Python v2.7+;
-
-    * `tkRAD.core`, `tkRAD.widgets`, `tkRAD.xml`: NOT YET TESTED;
+  * Code is very few platform-dependent and should remain STABLE in
+  time between each release;
 
 Any platform users feedback is still the welcome.
 
