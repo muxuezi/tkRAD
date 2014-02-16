@@ -119,58 +119,14 @@ class OptionManager(CP.ConfigParser):
 
 
 
-    def _ensure_config_dir (self):
-        r"""
-            creates missing directories if necessary;
-
-            raises exceptions to the CLI console in case of errors;
-
-            returns True on success, False otherwise;
-        """
-
-        try:
-
-            os.makedirs(self.get_config_dir(), exist_ok = True)
-
-            return True
-
-        except:
-
-            raise
-
-            return False
-
-        # end try
-
-    # end def
-
-
-
     def _get_path (self):
         r"""
             builds path along rc config dir and filename;
 
-            returns path on success, None otherwise;
+            returns path;
         """
 
-        # inits
-
-        _path = None
-
-        # ensure rc_dir is OK
-
-        if self._ensure_config_dir():
-
-            _path = OP.join(
-
-                self.get_config_dir(),
-
-                self.get_config_file()
-            )
-
-        # end if
-
-        return _path
+        return OP.join(self.get_config_dir(), self.get_config_file())
 
     # end def
 

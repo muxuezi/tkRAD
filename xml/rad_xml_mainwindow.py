@@ -73,7 +73,11 @@ class RADXMLMainWindow (MW.RADMainWindow):
 
         # shortcut inits
 
-        self.xml_build = self.mainframe.xml_build
+        if hasattr(self.mainframe, "xml_build"):
+
+            self.xml_build = self.mainframe.xml_build
+
+        # end if
 
         self.tk_children = self.mainframe.winfo_children
 

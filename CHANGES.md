@@ -9,6 +9,43 @@
 ## CHANGELOG
 
 
+### $ 2014-02-16 RS $
+
+* in `TODO.md`:
+
+    * now TODO list is up-to-date;
+
+* in `RADXMLMainWindow`:
+
+    * in `_init_mainframe()`:
+
+        * now `self.xml_build` shortcut made safer;
+
+* in `tkRAD.core.options.OptionManager`:
+
+    * removed `_ensure_config_dir()`: *NOT* useful;
+
+    * now exceptions will raise on incorrect paths with `load()` and
+    `save()`;
+
+    * it's better this way, OK;
+
+* in `tkRAD.core.i18n`:
+
+    * checked multiple loading of translations table:
+
+        * Python does *NOT* call `install()` more than once;
+
+        * TESTED OK;
+
+* in `RADXMLMenu`:
+
+    * in `_build_menu_item()`:
+
+        * fixed minor bug: XML declared selected/checked items were
+        not really activated by default;
+
+
 ### $ 2014-02-10 RS $
 
 * now `tkRAD` is **ready** for *STABLE RELEASE*;

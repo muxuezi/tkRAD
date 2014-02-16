@@ -134,57 +134,6 @@ def install (lc_dir=None, lc_lang=None):
 
 
 
-def set_translations_dir (arg):
-    r"""
-        sets up locale translations directory;
-    """
-
-    # allow updates
-
-    global __translations_dir
-
-    # set new value
-
-    __translations_dir = tools.choose_str(arg, __translations_dir)
-
-# end def
-
-
-
-def set_translations_lang (arg):
-    r"""
-        sets up locale translations language to use;
-    """
-
-    # allow updates
-
-    global __translations_lang
-
-    # set new value
-
-    __translations_lang = tools.choose_str(arg, __translations_lang)
-
-# end def
-
-
-
-def set_translations_table (arg):
-    r"""
-        sets up locale translations hash table;
-    """
-
-    # allow updates
-
-    global __translations_table
-
-    # set new value
-
-    __translations_table = dict(arg)
-
-# end def
-
-
-
 def load_translations_table (lc_dir=None, lc_lang=None):
     r"""
         tries to load translations table along lc_lang and lc_dir;
@@ -241,6 +190,57 @@ def load_translations_table (lc_dir=None, lc_lang=None):
     # try new translations table
 
     __translations_table = eval("{" + _data + "}")
+
+# end def
+
+
+
+def set_translations_dir (arg):
+    r"""
+        sets up locale translations directory;
+    """
+
+    # allow updates
+
+    global __translations_dir
+
+    # set new value
+
+    __translations_dir = tools.choose_str(arg, __translations_dir)
+
+# end def
+
+
+
+def set_translations_lang (arg):
+    r"""
+        sets up locale translations language to use;
+    """
+
+    # allow updates
+
+    global __translations_lang
+
+    # set new value
+
+    __translations_lang = tools.choose_str(arg, __translations_lang)
+
+# end def
+
+
+
+def set_translations_table (arg):
+    r"""
+        sets up locale translations hash table;
+    """
+
+    # allow updates
+
+    global __translations_table
+
+    # set new value
+
+    __translations_table = dict(arg)
 
 # end def
 

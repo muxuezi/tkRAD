@@ -475,11 +475,16 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
             _coptions = self._init_coptions(xml_element, tk_parent)
 
-            # is checkbutton/radiobutton set up by default?
+            # control var inits
 
-            if _coptions.get("checked") or _coptions.get("selected"):
+            _cvar = _coptions.get("variable")
 
-                _coptions.get("variable").set(
+            # set up by default?
+
+            if _cvar and (xml_element.get("checked") or
+                                xml_element.get("selected")):
+
+                _cvar.set(
 
                     tools.choose_str(
 
