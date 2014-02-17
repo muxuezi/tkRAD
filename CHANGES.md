@@ -9,6 +9,48 @@
 ## CHANGELOG
 
 
+### $ 2014-02-17 RS $
+
+* in `RADXMLWidget`:
+
+    * in `_parse_attr_anchor()` + `ANCHORS`:
+
+        * optimized all regexp replacements with `re.compile()`;
+
+* in `RADXMLMenu`:
+
+    * in `_parse_attr_accelerator()` + `SYMBOLS`:
+
+        * optimized all regexp replacements with `re.compile()`;
+
+* in `RADXMLBase`:
+
+    * in `delete_dict_items()`:
+
+        * optimized stripping of common keys between `dict.keys()`
+        and `*args`;
+
+    * in `xml_build()`:
+
+        * now casting XML root element to match with subclass
+        DOCTYPE constraints;
+
+    * added new `_cast_root_element()`:
+
+        * now fully implemented;
+
+    * added new `DOCTYPE`:
+
+        * main member defines XML root element e.g. `tkwidget`,
+        `tkmenu`, etc;
+
+* in `RADWidgetBase`:
+
+    * added new `classname()`:
+
+        * now fully implemented;
+
+
 ### $ 2014-02-16 RS $
 
 * in `TODO.md`:

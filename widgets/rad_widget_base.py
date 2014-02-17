@@ -148,7 +148,7 @@ class RADWidgetBase:
 
         # redefs - if keys do not already exist
 
-        _classname = self.__class__.__name__.lower()
+        _classname = self.classname().lower()
 
         self.RC_OPTIONS.setdefault("section", _classname)
 
@@ -295,6 +295,17 @@ class RADWidgetBase:
             return False
 
         # end if
+
+    # end def
+
+
+
+    def classname (self):
+        r"""
+            returns object's classname;
+        """
+
+        return str(self.__class__.__name__)
 
     # end def
 

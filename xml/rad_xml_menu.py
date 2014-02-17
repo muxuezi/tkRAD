@@ -40,140 +40,105 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
     r"""
         generic XML to tkinter menu builder;
 
-        this is THE tkinter menu MAIN building processor;
+        this is THE tkinter menu building processor of tkRAD;
 
         supports all menu / submenu type inclusions;
 
         supports *direct* access by XML 'id' attribute for root menus
-
-        and for any cascading submenu at any level of inclusion;
-
+        and for any cascading submenu at any level of inclusion
         e.g. _menu = self.get_object_by_id('xml_defined_menu_id');
 
-        NO SUPPORT for direct access to menu items such as separators,
-
-        commands, checkbuttons and radiobuttons since tkinter does
-
-        technically *NOT* allow such identification / access;
+        NO SUPPORT for direct access to menu items such as
+        separators, commands, checkbuttons and radiobuttons since
+        tkinter does technically *NOT* allow such identification /
+        access;
     """
 
 
 
+    # default XML attribute values
     # overrides RADXMLWidgetBase.ATTRS
 
     ATTRS = {
 
-        # $ 2013-12-25 RS $
-        # caution: the followings are *MUST HAVE* inits only /!\
-        #          declare only the essential                /!\
+        # these are stripped out from _moptions and _coptions
 
         "generic": {
-
             "id": None,
-
             "selected": None,
-
             "checked": None,
-
         },
 
+        # only for grouping and enumerating
 
         "common": {
-
             #~ "activebackground": None,
-
             #~ "activeforeground": None,
-
-            "background": None,
-
+            #~ "background": None,
             #~ "font": None,
-
-            "foreground": None,
-
+            #~ "foreground": None,
             #~ "selectcolor": None,
         },
 
+        # these are stripped out from _coptions
 
         "menu": {
-
-            #~ "activeborderwidth": None,
-
-            #~ "bd": None,
-
+            "activeborderwidth": None,
+            "bd": None,
             "bg": None,
-
-            #~ "borderwidth": None,
-
-            #~ "cursor": None,
-
-            #~ "disabledforeground": None,
-
+            "borderwidth": None,
+            "cursor": None,
+            "disabledforeground": None,
             "fg": None,
-
             "postcommand": None,
-
-            #~ "relief": None,
-
+            "relief": None,
             "tearoff": 0,
-
             "tearoffcommand": None,
-
             "title": None,
         },
 
+        # these are stripped out from _moptions
 
         "child": {
-
             "accelerator": None,
-
-            #~ "bitmap": None,
-
-            #~ "columnbreak": None,
-
+            "bitmap": None,
+            "columnbreak": None,
             "command": None,
-
-            #~ "compound": None,
-
-            #~ "hidemargin": None,
-
-            #~ "image": None,
-
+            "compound": None,
+            "hidemargin": None,
+            "image": None,
             "label": None,
-
-            #~ "menu": None,
-
-            #~ "offvalue": None,
-
-            #~ "onvalue": None,
-
-            #~ "selectimage": None,
-
-            #~ "state": None,
-
+            "menu": None,
+            "offvalue": None,
+            "onvalue": None,
+            "selectimage": None,
+            "state": None,
             "underline": None,
-
-            #~ "value": None,
-
-            #~ "variable": None,
+            "value": None,
+            "variable": None,
         },
 
     } # end of ATTRS
 
 
 
-    # accepted XML child elements for XML key parent element
+    # XML tree root element
+    # overrides RADXMLBase.DOCTYPE
+
+    DOCTYPE = "tkmenu"
+
+
+
+    # accepted XML child elements for XML container element
 
     DTD = {
 
         "menu": (
-
             "menu", "command", "checkbutton", "radiobutton",
-
             "separator",
         ),
 
         "tkmenu": (
-
             "menu",
         ),
 
@@ -181,62 +146,61 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
 
 
-    # tk menu accelerator symbols configuration
+    # 'accelerator' XML attribute pre-compiled subs
 
     SYMBOLS = (
 
-        (r"\^+|C-|(?i)co?n?tro?l", r"Control-"),
-        (r"M-|(?i)meta|(?i)alt", r"Alt-"),
-        (r"(?i)shi?ft", r"Shift-"),
-        (r"\+$", r"plus"),
-        (r"\-$", r"minus"),
-        (r"\*$", r"asterisk"),
-        (r"\/$", r"slash"),
-        (r"\.$", r"period"),
-        (r"\,$", r"comma"),
-        (r"\:$", r"colon"),
-        (r"\;$", r"semicolon"),
-        (r"\?$", r"question"),
-        (r"\!$", r"exclam"),
-        (r"\$$", r"dollar"),
-        (r"\%$", r"percent"),
-        (r"\@$", r"at"),
-        (r"\&$", r"ampersand"),
-        (r"\#$", r"numbersign"),
-        (r"\_$", r"underscore"),
-        (r"(?i)less|(?i)\blt\b", r"less"),
-        (r"(?i)greater|(?i)\bgt\b", r"greater"),
-        (r"(?i)spa?ce?", r"space"),
-        (r"(?i)ba?ckspa?ce?", r"BackSpace"),
-        (r"(?i)del(?:ete)?\b", r"Delete"),
-        (r"(?i)bre?a?k|(?i)ca?nce?l", r"Cancel"),
-        (r"(?i)esc(?:ape)?\b", r"Escape"),
-        (r"(?i)tab(?:ulate)?", r"Tab"),
-        (r"(?i)ho?me?", r"Home"),
-        (r"(?i)end", r"End"),
-        (r"(?i)page[\s\+\-]*?up", r"Prior"),
-        (r"(?i)page[\s\+\-]*?do?w?n", r"Next"),
-        (r"(?i)(?:arrow)?[\s\+\-]*?up", r"Up"),
-        (r"(?i)(?:arrow)?[\s\+\-]*?do?w?n", r"Down"),
-        (r"(?i)(?:arrow)?[\s\+\-]*?left", r"Left"),
-        (r"(?i)(?:arrow)?[\s\+\-]*?right", r"Right"),
-        (r"(?i)f(\d+)$", r"F\1"),                          # F1~F12 keys
-        (r"[<>]+", r""),                          # "<Ctrl><Z>" notation
-        (r"^\W+|\W+$", r""),
-        (r"\W+", r"-"),
+        (re.compile(r"\^+|C-|(?i)co?n?tro?l"), r"Control-"),
+        (re.compile(r"M-|(?i)meta|(?i)alt"), r"Alt-"),
+        (re.compile(r"(?i)shi?ft"), r"Shift-"),
+        (re.compile(r"\+$"), r"plus"),
+        (re.compile(r"\-$"), r"minus"),
+        (re.compile(r"\*$"), r"asterisk"),
+        (re.compile(r"\/$"), r"slash"),
+        (re.compile(r"\.$"), r"period"),
+        (re.compile(r"\,$"), r"comma"),
+        (re.compile(r"\:$"), r"colon"),
+        (re.compile(r"\;$"), r"semicolon"),
+        (re.compile(r"\?$"), r"question"),
+        (re.compile(r"\!$"), r"exclam"),
+        (re.compile(r"\$$"), r"dollar"),
+        (re.compile(r"\%$"), r"percent"),
+        (re.compile(r"\@$"), r"at"),
+        (re.compile(r"\&$"), r"ampersand"),
+        (re.compile(r"\#$"), r"numbersign"),
+        (re.compile(r"\_$"), r"underscore"),
+        (re.compile(r"(?i)less|(?i)\blt\b"), r"less"),
+        (re.compile(r"(?i)greater|(?i)\bgt\b"), r"greater"),
+        (re.compile(r"(?i)spa?ce?"), r"space"),
+        (re.compile(r"(?i)ba?ckspa?ce?"), r"BackSpace"),
+        (re.compile(r"(?i)del(?:ete)?\b"), r"Delete"),
+        (re.compile(r"(?i)bre?a?k|(?i)ca?nce?l"), r"Cancel"),
+        (re.compile(r"(?i)esc(?:ape)?\b"), r"Escape"),
+        (re.compile(r"(?i)tab(?:ulate)?"), r"Tab"),
+        (re.compile(r"(?i)ho?me?"), r"Home"),
+        (re.compile(r"(?i)end"), r"End"),
+        (re.compile(r"(?i)page[\s\+\-]*?up"), r"Prior"),
+        (re.compile(r"(?i)page[\s\+\-]*?do?w?n"), r"Next"),
+        (re.compile(r"(?i)(?:arrow)?[\s\+\-]*?up"), r"Up"),
+        (re.compile(r"(?i)(?:arrow)?[\s\+\-]*?do?w?n"), r"Down"),
+        (re.compile(r"(?i)(?:arrow)?[\s\+\-]*?left"), r"Left"),
+        (re.compile(r"(?i)(?:arrow)?[\s\+\-]*?right"), r"Right"),
+        (re.compile(r"(?i)f(\d+)$"), r"F\1"),           # F1~F12 keys
+        (re.compile(r"[<>]+"), r""),           # "<Ctrl><Z>" notation
+        (re.compile(r"^\W+|\W+$"), r""),
+        (re.compile(r"\W+"), r"-"),
 
     ) # end of SYMBOLS
 
 
 
+    # XML file path parts for xml_build() automatic mode
     # overrides RADXMLBase.XML_RC
 
     XML_RC = {
-
         "dir": "^/xml/menu",
-
+        # do *NOT* define "filename" here
         "file_ext": ".xml",
-
     } # end of XML_RC
 
 
@@ -249,10 +213,34 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
         r"""
             builds a menu item of type 'checkbutton' (single choice);
 
-            return True on success, False otherwise;
+            returns True;
         """
 
-        return self._build_menu_item(xml_tag, xml_element, tk_parent)
+        # $ 2014-02-17 RS $
+        # XML root element is now casted
+        # no more need to cast tk_parent
+
+        # prepare child options
+
+        _coptions = self._init_coptions(xml_element, tk_parent)
+
+        # control var inits
+
+        _cvar = _coptions.get("variable")
+
+        # set up by default?
+
+        if _cvar and xml_element.get("checked"):
+
+            _cvar.set(tools.choose_str(_coptions.get("onvalue")))
+
+        # end if
+
+        # set menu item
+
+        tk_parent.add_checkbutton(**_coptions)
+
+        return True
 
     # end def
 
@@ -262,10 +250,22 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
         r"""
             builds a menu item of type 'command' (action);
 
-            return True on success, False otherwise;
+            returns True;
         """
 
-        return self._build_menu_item(xml_tag, xml_element, tk_parent)
+        # $ 2014-02-17 RS $
+        # XML root element is now casted
+        # no more need to cast tk_parent
+
+        # prepare child options
+
+        _coptions = self._init_coptions(xml_element, tk_parent)
+
+        # set menu item
+
+        tk_parent.add_command(**_coptions)
+
+        return True
 
     # end def
 
@@ -318,7 +318,7 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
         _coptions["menu"] = _new_menu
 
-        # set widget
+        # set menu item
 
         tk_parent.add_cascade(**_coptions)
 
@@ -326,7 +326,7 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
         del _moptions, _coptions
 
-        # loop on XML element children - build tk child widgets
+        # loop on XML element children
 
         return self._loop_on_children(
 
@@ -339,12 +339,37 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
     def _build_element_radiobutton (self, xml_tag, xml_element, tk_parent):
         r"""
-            builds a menu item of type 'radiobutton' (group choice);
+            builds a menu item of type 'radiobutton' (options group
+            choice);
 
-            return True on success, False otherwise;
+            returns True;
         """
 
-        return self._build_menu_item(xml_tag, xml_element, tk_parent)
+        # $ 2014-02-17 RS $
+        # XML root element is now casted
+        # no more need to cast tk_parent
+
+        # prepare child options
+
+        _coptions = self._init_coptions(xml_element, tk_parent)
+
+        # control var inits
+
+        _cvar = _coptions.get("variable")
+
+        # set up by default?
+
+        if _cvar and xml_element.get("selected"):
+
+            _cvar.set(tools.choose_str(_coptions.get("value")))
+
+        # end if
+
+        # set menu item
+
+        tk_parent.add_radiobutton(**_coptions)
+
+        return True
 
     # end def
 
@@ -354,10 +379,16 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
         r"""
             builds a menu separator item;
 
-            return True on success, False otherwise;
+            returns True;
         """
 
-        return self._build_menu_item(xml_tag, xml_element, tk_parent)
+        # $ 2014-02-17 RS $
+        # XML root element is now casted
+        # no more need to cast tk_parent
+
+        tk_parent.add_separator()
+
+        return True
 
     # end def
 
@@ -380,9 +411,9 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
         if not self.is_menu_handler(tk_parent):
 
-            # set app's root Tk() object instead /!\
+            # set app's root Tk() object instead
 
-            # caution: winfo_toplevel() is *NOT* a Toplevel() object /!\
+            # caution: winfo_toplevel() is *NOT* a Toplevel() object
 
             tk_parent = self.tk_owner.winfo_toplevel()
 
@@ -424,87 +455,6 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
             xml_element, _new_menu, accept = self.DTD.get(_dtd)
         )
-
-    # end def
-
-
-
-    def _build_menu_item (self, xml_tag, xml_element, tk_parent):
-        r"""
-            protected method def;
-
-            builds a menu item of given type;
-
-            return True on success, False otherwise;
-        """
-
-        # param controls
-
-        if not self.is_menu(tk_parent):
-
-            # unsupported
-
-            raise TypeError(
-
-                _(
-                    "Menu item '{menu_item}' is only insertable "
-
-                    "into tkinter Menu() object, not in {obj_type}."
-
-                ).format(
-
-                    menu_item = xml_tag, obj_type = repr(tk_parent)
-                )
-            )
-
-            return False
-
-        # end if
-
-        # go straight
-
-        if xml_tag == "separator":
-
-            # set widget
-
-            tk_parent.add_separator()
-
-        else:
-
-            # prepare child options
-
-            _coptions = self._init_coptions(xml_element, tk_parent)
-
-            # control var inits
-
-            _cvar = _coptions.get("variable")
-
-            # set up by default?
-
-            if _cvar and (xml_element.get("checked") or
-                                xml_element.get("selected")):
-
-                _cvar.set(
-
-                    tools.choose_str(
-
-                        _coptions.get("onvalue"),
-
-                        _coptions.get("value"),
-                    )
-                )
-
-            # end if
-
-            # set widget
-
-            tk_parent.add(xml_tag, **_coptions)
-
-        # end if
-
-        # succeeded
-
-        return True
 
     # end def
 
@@ -641,7 +591,7 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
             for (_search, _replace) in self.SYMBOLS:
 
-                _acc = re.sub(_search, _replace, _acc)
+                _acc = _search.sub(_replace, _acc)
 
             # end for
 

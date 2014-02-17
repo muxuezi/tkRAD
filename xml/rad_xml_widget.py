@@ -40,20 +40,17 @@ from . import rad_xml_widget_base as RB
 
 class RADXMLWidget (RB.RADXMLWidgetBase):
     r"""
-        main class for XML to tkinter widget building;
+        generic XML to tkinter widget builder;
 
-        this is THE tkinter widget MAIN building processor;
+        this is THE tkinter widget building processor of tkRAD;
 
-        supports tkinter natives in XML script;
-
+        supports tkinter natives in XML script
         e.g. <button id="" text="OK" command="@OKClicked" .../>
 
-        supports user-defined specific widgets in XML script;
-
+        supports user-defined specific widgets in XML script
         e.g. <widget id="" class="MyClassName" .../>
 
-        supports on-the-fly module imports;
-
+        supports on-the-fly module imports
         e.g. <module import="tkinter" as="TK"/>
 
         and many, many other features (see doc for more);
@@ -61,193 +58,129 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
+    # 'anchor' XML attribute pre-compiled subs
+
     ANCHORS = (
 
-        (r"(?i)north|top|up", TK.N),
-        (r"(?i)south|bottom|down", TK.S),
-        (r"(?i)east|right", TK.E),
-        (r"(?i)west|left", TK.W),
-        (r"\W+", r""),
-        (TK.N + "+", TK.N),
-        (TK.S + "+", TK.S),
-        (TK.E + "+", TK.E),
-        (TK.W + "+", TK.W),
-        (TK.W + TK.N, TK.NW),
-        (TK.E + TK.N, TK.NE),
-        (TK.W + TK.S, TK.SW),
-        (TK.E + TK.S, TK.SE),
-    )
+        (re.compile(r"(?i)north|top|up"), TK.N),
+        (re.compile(r"(?i)south|bottom|down"), TK.S),
+        (re.compile(r"(?i)east|right"), TK.E),
+        (re.compile(r"(?i)west|left"), TK.W),
+        (re.compile(r"\W+"), r""),
+        (re.compile(TK.N + "+"), TK.N),
+        (re.compile(TK.S + "+"), TK.S),
+        (re.compile(TK.E + "+"), TK.E),
+        (re.compile(TK.W + "+"), TK.W),
+        (re.compile(TK.W + TK.N), TK.NW),
+        (re.compile(TK.E + TK.N), TK.NE),
+        (re.compile(TK.W + TK.S), TK.SW),
+        (re.compile(TK.E + TK.S), TK.SE),
+
+    ) # end of ANCHORS
 
 
-
-    # overrides RADXMLWidgetBase.ATTRS
 
     # default XML attribute values
+    # overrides RADXMLWidgetBase.ATTRS
 
     ATTRS = {
 
         "common": {
-
             "id": None,
         },
 
-
         "button": {
-
             "underline": None,
         },
-
 
         "checkbutton": {
-
             "underline": None,
         },
-
 
         "label": {
-
             "underline": None,
         },
-
 
         "listbox": {
-
             #~ "name": None,
-
             "class": None,
-
             "args": None,
-
             "module": None,
-
             "choices": None,
-
             "start": None,
-
             "layout": None,         # can be: None or pack|grid|place
-
             "layout_options": None, # pack_opts|grid_opts|place_opts
-
             "resizable": "no",      # can be: no|yes|width|height
         },
-
 
         "menubutton": {
-
             "underline": None,
         },
 
-
         "optionmenu": {
-
             #~ "name": None,
-
             "listvariable": None,
-
             "variable": None,
-
             "choices": None,
-
             "start": None,
-
             "layout": None,         # can be: None or pack|grid|place
-
             "layout_options": None, # pack_opts|grid_opts|place_opts
-
             "resizable": "no",      # can be: no|yes|width|height
         },
 
-
         "radiobutton": {
-
             "underline": None,
         },
-
 
         "tkwidget": {
         },
 
-
         "widget": {
-
             #~ "name": None,
-
             "class": None,
-
             "args": None,
-
             "module": None,
-
             "layout": None,         # can be: None or pack|grid|place
-
             "layout_options": None, # pack_opts|grid_opts|place_opts
-
             "resizable": "no",      # can be: no|yes|width|height
         },
 
-
         "include": {
-
             #~ "name": None,
-
             "src": None,
-
             "xml_dir": None,
-
             "xml_filename": None,
-
             "xml_file_ext": None,
         },
 
-
         "module": {
-
             "from": None,
-
             "import": None,
-
             "as": None,
         },
 
-
         "configure": {
-
             "widget": None,
         },
 
-
         "layout": {
-
             "widget": None,
-
             "layout": "pack",       # can be: pack|grid|place
-
             "layout_options": None, # pack_opts|grid_opts|place_opts
-
             "resizable": "no",      # can be: no|yes|width|height
         },
 
-
         "event": {
-
             "signal": None,
-
             "slot": None,
         },
 
-
         "tkevent": {
-
             "widget": None,
-
             "bind": "bind", # can be: bind|bind_class|bind_all
-
             "class": None,
-
             "seq": None,  # tk event sequence: '<modifier-type-detail>'
-
             "slot": None, # slot event handler (method or function)
-
             "add": None,  # can be: None or '+' only
         },
 
@@ -281,28 +214,32 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
-    # accepted XML child elements for XML key parent element
+    # XML tree root element
+    # overrides RADXMLBase.DOCTYPE
+
+    DOCTYPE = "tkwidget"
+
+
+
+    # accepted XML child elements for XML container element
 
     DTD = {
 
         "widget": (
-
             "module", "widget", "include", "configure",
-
             "layout", "event", "tkevent", "tkmenu",
-
         ) + tuple(CLASSES.keys()),
 
     } # end of DTD
 
 
-
+    # XML file path parts for xml_build() automatic mode
     # overrides RADXMLBase.XML_RC
 
     XML_RC = {
 
         "dir": "^/xml/widget",
-
+        # do *NOT* define "filename" here
         "file_ext": ".xml",
 
     } # end of XML_RC
@@ -2188,7 +2125,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             for (_search, _replace) in self.ANCHORS:
 
-                _anchor = re.sub(_search, _replace, _anchor)
+                _anchor = _search.sub(_replace, _anchor)
 
             # end for
 

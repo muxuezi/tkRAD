@@ -77,6 +77,12 @@ class RADXMLBase (RW.RADWidgetBase):
 
 
 
+    # XML tree root element
+
+    DOCTYPE = "tkbase"
+
+
+
     # XML element builder method pattern
 
     ELEMENT_BUILDER = "_build_element_{xml_element}"
@@ -136,7 +142,7 @@ class RADXMLBase (RW.RADWidgetBase):
 
         # XML_RC redefs
 
-        _classname = self.__class__.__name__.lower()
+        _classname = self.classname().lower()
 
         self.XML_RC.setdefault("filename", _classname)
 
@@ -273,6 +279,40 @@ class RADXMLBase (RW.RADWidgetBase):
         # end if
 
         # failure
+
+        return False
+
+    # end def
+
+
+
+    def _cast_root_element (self, xml_element):
+        r"""
+            casts root element along self.DOCTYPE type;
+
+            returns True on success, False otherwise;
+        """
+
+        if self.cast_element(xml_element):
+
+            # DOCTYPE
+
+            if self.normalize_tag(xml_element) == self.DOCTYPE:
+
+                return True
+
+            else:
+
+                raise TypeError(
+                    _(
+                        "XML root element *MUST* be "
+
+                        "of '{doctype}' type."
+
+                    ).format(doctype = self.DOCTYPE)
+                )
+
+        # end if
 
         return False
 
@@ -812,6 +852,8 @@ class RADXMLBase (RW.RADWidgetBase):
 
         _dict = dict_object.copy()
 
+        args = set(args).intersection(set(_dict.keys()))
+
         # loop on args
 
         for _key in args:
@@ -1237,7 +1279,7 @@ class RADXMLBase (RW.RADWidgetBase):
 
             self.XML_RC.get("filename"),
 
-            self.__class__.__name__.lower(),
+            self.classname().lower(),
 
             "component",
         )
@@ -1550,14 +1592,21 @@ class RADXMLBase (RW.RADWidgetBase):
 
             # end if
 
-            # start XML widget building
+            # cast root element
 
-            return self._build_element(
+            _root = self.__xml_tree.getroot()
 
-                self.__xml_tree.getroot(),
+            if self._cast_root_element(_root):
 
-                self.tk_owner
-            )
+                # start XML widget building
+
+                return self._build_element(_root, self.tk_owner)
+
+            else:
+
+                return False
+
+            # end if
 
         except:
 
