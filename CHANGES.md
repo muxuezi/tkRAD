@@ -9,6 +9,49 @@
 ## CHANGELOG
 
 
+### $ 2014-02-18 RS $
+
+* optimizing code for `tkRAD v1.2: 'Optimized Kangaroo'` release;
+
+* in `RADXMLMenu`:
+
+    * in `ATTRS`:
+
+        * now only *INDISPENSABLE* item attrs *MUST* figure out in
+        there, for optimization reasons;
+
+    * added new `KEYS`:
+
+        * now *ALL* item attrs *MUST* figure out in there, for
+        optimization reasons;
+
+    * fully optimized `_init_coptions()`, `_init_moptions()` and all
+    `_build_element_*()` methods;
+
+    * added
+    new `_init_generics()`,
+    new `_init_checkables()`:
+
+        * now fully implemented;
+
+* in `tkRAD.core.tools`:
+
+    * added
+    new `dict_delete_items()`,
+    new `dict_only_keys()`:
+
+        * now fully implemented;
+
+* in `RADXMLBase`:
+
+    * `delete_dict_items()` is now *DEPRECATED*;
+
+    * **kept** `delete_dict_items()` method **for compatibility**
+    reasons;
+
+    * use `tools.dict_delete_items()` instead, by now;
+
+
 ### $ 2014-02-17 RS $
 
 * in `RADXMLWidget`:

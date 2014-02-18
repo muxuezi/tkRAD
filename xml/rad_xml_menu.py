@@ -61,61 +61,26 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
     ATTRS = {
 
-        # these are stripped out from _moptions and _coptions
+        # $ 2014-02-18 RS $
+        # CAUTION:
+        # since tkRAD v1.2
+        # put here only *INDISPENSABLE* attrs
+        # this is for optimization reasons
 
         "generic": {
             "id": None,
-            "selected": None,
-            "checked": None,
         },
 
-        # only for grouping and enumerating
-
-        "common": {
-            #~ "activebackground": None,
-            #~ "activeforeground": None,
-            #~ "background": None,
-            #~ "font": None,
-            #~ "foreground": None,
-            #~ "selectcolor": None,
+        "checkable": {
         },
-
-        # these are stripped out from _coptions
 
         "menu": {
-            "activeborderwidth": None,
-            "bd": None,
-            "bg": None,
-            "borderwidth": None,
-            "cursor": None,
-            "disabledforeground": None,
-            "fg": None,
-            "postcommand": None,
-            "relief": None,
             "tearoff": 0,
-            "tearoffcommand": None,
-            "title": None,
         },
 
-        # these are stripped out from _moptions
-
         "child": {
-            "accelerator": None,
-            "bitmap": None,
-            "columnbreak": None,
-            "command": None,
-            "compound": None,
-            "hidemargin": None,
-            "image": None,
             "label": None,
-            "menu": None,
-            "offvalue": None,
-            "onvalue": None,
-            "selectimage": None,
-            "state": None,
             "underline": None,
-            "value": None,
-            "variable": None,
         },
 
     } # end of ATTRS
@@ -143,6 +108,40 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
         ),
 
     } # end of DTD
+
+
+
+    # mandatory XML attribute keys for each item
+
+    KEYS = {
+
+        # $ 2014-02-18 RS $
+        # CAUTION:
+        # since tkRAD v1.2
+        # *ALL* attrs must figure out there
+        # this is for optimization reasons
+
+        # please, do *NOT* change this
+        # unless you know what you are doing
+
+        "generic": ("id",),
+
+        "checkable": ("selected", "checked"),
+
+        "menu": ("activebackground", "activeborderwidth",
+        "activeforeground", "background", "bd", "bg", "borderwidth",
+        "cursor", "disabledforeground", "fg", "font", "foreground",
+        "postcommand", "relief", "selectcolor", "tearoff",
+        "tearoffcommand", "title"),
+
+        "child": ("accelerator", "activebackground",
+        "activeforeground", "background", "bitmap", "columnbreak",
+        "command", "compound", "font", "foreground", "hidemargin",
+        "image", "label", "menu", "offvalue", "onvalue",
+        "selectcolor", "selectimage", "state", "underline", "value",
+        "variable"),
+
+    } # end of KEYS
 
 
 
@@ -220,6 +219,10 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
         # XML root element is now casted
         # no more need to cast tk_parent
 
+        # XML attributes init
+
+        _attrs = self._init_checkables(xml_element, tk_parent)
+
         # prepare child options
 
         _coptions = self._init_coptions(xml_element, tk_parent)
@@ -230,7 +233,7 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
         # set up by default?
 
-        if _cvar and xml_element.get("checked"):
+        if _cvar and _attrs.get("checked"):
 
             _cvar.set(tools.choose_str(_coptions.get("onvalue")))
 
@@ -300,6 +303,8 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
         # default inits
 
+        _attrs = self._init_generics(xml_element, tk_parent)
+
         _moptions = self._init_moptions(xml_element, tk_parent)
 
         # child menu inits
@@ -308,7 +313,7 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
         # keep a copy aboard
 
-        self._register_object_by_id(_new_menu, xml_element.get("id"))
+        self._register_object_by_id(_new_menu, _attrs.get("id"))
 
         # prepare child options
 
@@ -324,7 +329,7 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
         # free useless memory right now /!\
 
-        del _moptions, _coptions
+        del _attrs, _moptions, _coptions
 
         # loop on XML element children
 
@@ -349,6 +354,10 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
         # XML root element is now casted
         # no more need to cast tk_parent
 
+        # XML attributes init
+
+        _attrs = self._init_checkables(xml_element, tk_parent)
+
         # prepare child options
 
         _coptions = self._init_coptions(xml_element, tk_parent)
@@ -359,7 +368,7 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
         # set up by default?
 
-        if _cvar and xml_element.get("selected"):
+        if _cvar and _attrs.get("selected"):
 
             _cvar.set(tools.choose_str(_coptions.get("value")))
 
@@ -413,13 +422,15 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
             # set app's root Tk() object instead
 
-            # caution: winfo_toplevel() is *NOT* a Toplevel() object
+            # CAUTION: winfo_toplevel() is *NOT* a Toplevel() object
 
             tk_parent = self.tk_owner.winfo_toplevel()
 
         # end if
 
         # default inits
+
+        _attrs = self._init_generics(xml_element, tk_parent)
 
         _moptions = self._init_moptions(xml_element, tk_parent)
 
@@ -429,7 +440,7 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
         # keep a copy aboard
 
-        self._register_object_by_id(_new_menu, xml_element.get("id"))
+        self._register_object_by_id(_new_menu, _attrs.get("id"))
 
         # attach new menu to parent widget
 
@@ -437,7 +448,7 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
         # free useless memory right now /!\
 
-        del _moptions
+        del _attrs, _moptions
 
         # loop on XML element children
 
@@ -460,32 +471,61 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
 
 
+    def _init_checkables (self, xml_element, tk_parent):
+        r"""
+            protected method def;
+
+            parses only tkRAD implemented checkable XML attrs;
+
+            returns parsed attrs;
+        """
+
+        # shallow copy inits
+
+        _attrs = self.ATTRS["checkable"].copy()
+
+        # override (key, value) pairs
+
+        _attrs.update(
+
+            tools.dict_only_keys(
+
+                xml_element.attrib, *self.KEYS["checkable"]
+            )
+        )
+
+        # return parsed XML attributes
+
+        return self._parse_xml_attributes(
+
+            xml_element, tk_parent, xml_attrs = _attrs
+        )
+
+    # end def
+
+
+
     def _init_coptions (self, xml_element, tk_parent):
         r"""
             protected method def;
 
             prepares menu item child options (coptions);
 
-            returns parsed and cleaned up coptions;
+            returns parsed attrs;
         """
 
         # shallow copy inits
 
         _coptions = self.ATTRS["child"].copy()
 
-        # update with "generic"
+        # override (key, value) pairs
 
-        _coptions.update(self.ATTRS["generic"])
+        _coptions.update(
 
-        # override (key/value) pairs
+            tools.dict_only_keys(
 
-        _coptions.update(xml_element.attrib)
-
-        # strip unwanted XML attributes
-
-        _coptions = self.delete_dict_items(
-
-            _coptions, *self.ATTRS["menu"].keys()
+                xml_element.attrib, *self.KEYS["child"]
+            )
         )
 
         # parse XML attributes
@@ -495,13 +535,13 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
             xml_element, tk_parent, xml_attrs = _coptions
         )
 
-        # attr inits
+        # keyboard accelerator inits
 
         _acc = self.TK_ACCEL
 
         _cmd = _coptions.get("command")
 
-        # keyboard shortcuts event binding
+        # event binding
 
         if tools.is_pstr(_acc) and callable(_cmd):
 
@@ -509,12 +549,55 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
         # end if
 
-        # strip unsupported XML attributes
+        # return parsed XML attributes
 
-        return self.delete_dict_items(
+        return _coptions
 
-            _coptions, *self.ATTRS["generic"].keys()
+    # end def
+
+
+
+    def _init_generics (self, xml_element, tk_parent):
+        r"""
+            protected method def;
+
+            parses only tkRAD implemented generic XML attrs;
+
+            returns parsed attrs;
+        """
+
+        # $ 2014-02-18 RS $
+        # tkRAD >= v1.2
+        # code optimization:
+        # as "generic" has only one "id" item
+        # don't lose your time!
+
+        return dict(id = self.element_get_id(xml_element))
+
+        """
+        # genuine code
+
+        # shallow copy inits
+
+        _attrs = self.ATTRS["generic"].copy()
+
+        # override (key, value) pairs
+
+        _attrs.update(
+
+            tools.dict_only_keys(
+
+                xml_element.attrib, *self.KEYS["generic"]
+            )
         )
+
+        # return parsed XML attributes
+
+        return self._parse_xml_attributes(
+
+            xml_element, tk_parent, xml_attrs = _attrs
+        )
+        """
 
     # end def
 
@@ -526,40 +609,28 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
             prepares menu widget options (moptions);
 
-            returns parsed and cleaned up moptions;
+            returns parsed attrs;
         """
 
         # shallow copy inits
 
         _moptions = self.ATTRS["menu"].copy()
 
-        # update with "generic"
+        # override (key, value) pairs
 
-        _moptions.update(self.ATTRS["generic"])
+        _moptions.update(
 
-        # override XML attribute (key/value) pairs
+            tools.dict_only_keys(
 
-        _moptions.update(xml_element.attrib)
-
-        # strip unwanted XML attributes
-
-        _moptions = self.delete_dict_items(
-
-            _moptions, *self.ATTRS["child"].keys()
+                xml_element.attrib, *self.KEYS["menu"]
+            )
         )
 
-        # parse XML attributes
+        # return parsed XML attributes
 
-        _moptions = self._parse_xml_attributes(
+        return self._parse_xml_attributes(
 
             xml_element, tk_parent, xml_attrs = _moptions
-        )
-
-        # strip unsupported XML attributes
-
-        return self.delete_dict_items(
-
-            _moptions, *self.ATTRS["generic"].keys()
         )
 
     # end def

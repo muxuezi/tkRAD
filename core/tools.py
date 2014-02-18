@@ -236,6 +236,82 @@ def choose_str (*args):
 
 
 
+def dict_delete_items (dict_object, *args):
+    r"""
+        strips all keys listed in args from a dict() object;
+
+        shallow copy: keeps original dict() object UNTOUCHED /!\
+
+        returns new modified dict() object;
+    """
+
+    # inits
+
+    _dict = dict()
+
+    # param controls
+
+    if is_pdict(dict_object):
+
+        # inits
+
+        _dict = dict_object.copy()
+
+        args = set(args).intersection(set(_dict.keys()))
+
+        # loop on args
+
+        for _key in args:
+
+            _dict.pop(_key, None)
+
+        # end for
+
+    # end if
+
+    return _dict
+
+# end def
+
+
+
+def dict_only_keys (dict_object, *args):
+    r"""
+        keeps only listed keynames in args in a dict() object;
+
+        shallow copy: keeps original @dict_object UNTOUCHED /!\
+
+        returns newly built dict() object;
+    """
+
+    # inits
+
+    _dict = dict()
+
+    # param controls
+
+    if is_pdict(dict_object):
+
+        # extract only common keys
+
+        args = set(args).intersection(set(dict_object.keys()))
+
+        # loop on args
+
+        for _key in args:
+
+            _dict[_key] = dict_object[_key]
+
+        # end for
+
+    # end if
+
+    return _dict
+
+# end def
+
+
+
 def ensure_float (arg):
     r"""
         if @arg param is not eval'd to float number, resets to 0;

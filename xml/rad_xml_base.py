@@ -841,6 +841,8 @@ class RADXMLBase (RW.RADWidgetBase):
 
     def delete_dict_items (self, dict_object, *args):
         r"""
+            @DEPRECATED: use tools.dict_delete_items() instead;
+
             strips all keys listed in args from a dict() object;
 
             shallow copy: keeps original dict() object UNTOUCHED /!\
@@ -848,21 +850,10 @@ class RADXMLBase (RW.RADWidgetBase):
             returns new modified dict() object;
         """
 
-        # inits
+        # $ 2014-02-18 RS $
+        # kept for compatibility with tkRAD < v1.2
 
-        _dict = dict_object.copy()
-
-        args = set(args).intersection(set(_dict.keys()))
-
-        # loop on args
-
-        for _key in args:
-
-            _dict.pop(_key, None)
-
-        # end for
-
-        return _dict
+        return tools.dict_delete_items(dict_object, *args)
 
     # end def
 
