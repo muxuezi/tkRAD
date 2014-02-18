@@ -11,6 +11,10 @@
 
 ### $ 2014-02-18 RS $
 
+* `TODO.md`: TODO list is up-to-date;
+
+* updated wiki wiki documentation: OK;
+
 * optimizing code for `tkRAD v1.2: 'Optimized Kangaroo'` release;
 
 * in `RADXMLMenu`:
@@ -27,6 +31,8 @@
 
     * fully optimized `_init_coptions()`, `_init_moptions()` and all
     `_build_element_*()` methods;
+
+    * removed `_build_menu_item()`: *NOT* optimal;
 
     * added
     new `_init_generics()`,
@@ -96,6 +102,8 @@
 
 ### $ 2014-02-16 RS $
 
+* generating tag for `tkRAD v1.1`;
+
 * in `TODO.md`:
 
     * now TODO list is up-to-date;
@@ -132,6 +140,8 @@
 
 
 ### $ 2014-02-10 RS $
+
+* generating tag for `tkRAD v1.0`;
 
 * now `tkRAD` is **ready** for *STABLE RELEASE*;
 

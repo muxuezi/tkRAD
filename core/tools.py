@@ -34,111 +34,6 @@ import re
 
 
 
-def normalize_id (arg, raise_error = False):
-    r"""
-        filters @arg param char string to __identifier__
-
-        language semantics compliance i.e. allows only regexp(r"\w+");
-
-        returns parsed string of chars, empty string otherwise;
-    """
-
-    # param controls
-
-    if is_pstr(arg):
-
-        return re.sub(r"\W+", r"", arg)
-
-    # unknown type - force to empty string
-
-    elif raise_error:
-
-        raise TypeError(
-
-            "expected plain string of chars."
-        )
-
-    # end if
-
-    return ""
-
-# end def
-
-
-
-def normalize_import (arg, raise_error = False):
-    r"""
-        filters @arg param in order to comply with syntax constraints
-
-        of Python's "from ... import relative_or_star as ...";
-
-        returns parsed string of chars, empty string otherwise;
-    """
-
-    # star semantics?
-
-    if "*" in str(arg):
-
-        # must be a lone star /!\
-
-        return "*"
-
-    # should act as __relative_module__ semantics
-
-    else:
-
-        return normalize_relative_module(arg, raise_error)
-
-    # end if
-
-# end def
-
-
-
-def normalize_relative_module (arg, raise_error = False):
-    r"""
-        filters @arg param char string along Python's relative_module
-
-        language specs i.e. allows only regexp(r"[\.\w]+");
-
-        returns parsed string of chars, empty string otherwise;
-    """
-
-    # param controls
-
-    if is_pstr(arg):
-
-        # allow only regexp(r"[\.\w]+")
-
-        arg = re.sub(r"[^\.\w]+", r"", arg)
-
-        # only one dot '.' between each identifier
-
-        arg = re.sub(r"\b\.+", r".", arg)
-
-        # no trailing dots on the right side
-
-        arg = re.sub(r"\b\.+$", r"", arg)
-
-        return arg
-
-    # unknown type - force to empty string
-
-    elif raise_error:
-
-        raise TypeError(
-
-            "expected plain string of chars."
-        )
-
-    # end if
-
-    return ""
-
-# end def
-
-
-
 def choose (*args):
     r"""
         returns the first of bool(@args) which is True;
@@ -408,6 +303,111 @@ def is_ptuple (arg):
     """
 
     return arg and isinstance(arg, tuple)
+
+# end def
+
+
+
+def normalize_id (arg, raise_error = False):
+    r"""
+        filters @arg param char string to __identifier__
+
+        language semantics compliance i.e. allows only regexp(r"\w+");
+
+        returns parsed string of chars, empty string otherwise;
+    """
+
+    # param controls
+
+    if is_pstr(arg):
+
+        return re.sub(r"\W+", r"", arg)
+
+    # unknown type - force to empty string
+
+    elif raise_error:
+
+        raise TypeError(
+
+            "expected plain string of chars."
+        )
+
+    # end if
+
+    return ""
+
+# end def
+
+
+
+def normalize_import (arg, raise_error = False):
+    r"""
+        filters @arg param in order to comply with syntax constraints
+
+        of Python's "from ... import relative_or_star as ...";
+
+        returns parsed string of chars, empty string otherwise;
+    """
+
+    # star semantics?
+
+    if "*" in str(arg):
+
+        # must be a lone star /!\
+
+        return "*"
+
+    # should act as __relative_module__ semantics
+
+    else:
+
+        return normalize_relative_module(arg, raise_error)
+
+    # end if
+
+# end def
+
+
+
+def normalize_relative_module (arg, raise_error = False):
+    r"""
+        filters @arg param char string along Python's relative_module
+
+        language specs i.e. allows only regexp(r"[\.\w]+");
+
+        returns parsed string of chars, empty string otherwise;
+    """
+
+    # param controls
+
+    if is_pstr(arg):
+
+        # allow only regexp(r"[\.\w]+")
+
+        arg = re.sub(r"[^\.\w]+", r"", arg)
+
+        # only one dot '.' between each identifier
+
+        arg = re.sub(r"\b\.+", r".", arg)
+
+        # no trailing dots on the right side
+
+        arg = re.sub(r"\b\.+$", r"", arg)
+
+        return arg
+
+    # unknown type - force to empty string
+
+    elif raise_error:
+
+        raise TypeError(
+
+            "expected plain string of chars."
+        )
+
+    # end if
+
+    return ""
 
 # end def
 
