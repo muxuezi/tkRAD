@@ -811,11 +811,48 @@ class RADMainWindow (RW.RADWidgetBase, TK.Tk):
     @mainframe.setter
     def mainframe (self, widget):
 
+        # param controls
+
         if self.cast_widget(widget):
+
+            # set new widget
 
             self.__mainframe = widget
 
-            widget.grid(row = 0, column = 0, **self.GRID_OPTIONS)
+            # support for XML widget building?
+
+            if hasattr(widget, "xml_build"):
+
+                # make shortcut
+
+                self.xml_build = widget.xml_build
+
+            # got previous shortcut def?
+
+            elif hasattr(self, "xml_build"):
+
+                # debugging info
+
+                def _debug (xml = None, self = self, *args, **kw):
+
+                    raise AttributeError(
+                        _(
+                            "current mainframe object '{obj_type}' "
+                            "does *NOT* support xml_build() method."
+
+                        ).format(obj_type = repr(self.mainframe))
+                    )
+
+                # end def
+
+                self.xml_build = _debug
+
+            # end if
+
+            widget.grid(
+
+                in_ = self, row = 0, column = 0, **self.GRID_OPTIONS
+            )
 
         # end if
 
