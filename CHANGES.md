@@ -11,7 +11,13 @@
 
 ### $ 2014-02-19 RS $
 
+* generating tag for `tkRAD v1.2`:
 
+    * release name: `Optimized Kangaroo`;
+
+    * this release is *STABLE*: no more future features planned;
+
+    * all is optimized OK;
 
 * updated wiki doc: OK;
 
