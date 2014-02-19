@@ -107,6 +107,17 @@ def build (xml, master = None):
 
 
 
+def is_pstr (arg):
+    r"""
+        determines if @arg param is of plain string type or not;
+    """
+
+    return arg and isinstance(arg, str)
+
+# end def
+
+
+
 def normalize_id (arg):
     r"""
         sets @arg param in conformance with __identifier__
@@ -127,17 +138,6 @@ def normalize_id (arg):
     # unsupported
 
     return ""
-
-# end def
-
-
-
-def is_pstr (arg):
-    r"""
-        determines if @arg param is of plain string type or not;
-    """
-
-    return arg and isinstance(arg, str)
 
 # end def
 
