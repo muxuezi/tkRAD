@@ -976,7 +976,7 @@ class RADMainWindow (RW.RADWidgetBase, TK.Tk):
             self._init_statusbar() protected virtual method;
         """
 
-        return self.__statusbar_widget
+        return self.__statusbar
 
     # end def
 
@@ -987,9 +987,12 @@ class RADMainWindow (RW.RADWidgetBase, TK.Tk):
 
         if self.cast_widget(widget):
 
-            self.__statusbar_widget = widget
+            self.__statusbar = widget
 
-            widget.grid(row = 1, column = 0, **self.GRID_OPTIONS)
+            widget.grid(
+
+                in_ = self, row = 1, column = 0, **self.GRID_OPTIONS
+            )
 
         # end if
 
@@ -1000,7 +1003,7 @@ class RADMainWindow (RW.RADWidgetBase, TK.Tk):
     @statusbar.deleter
     def statusbar (self):
 
-        del self.__statusbar_widget
+        del self.__statusbar
 
     # end def
 
@@ -1028,7 +1031,7 @@ class RADMainWindow (RW.RADWidgetBase, TK.Tk):
             self._init_topmenu() protected virtual method;
         """
 
-        return self.__menu_widget
+        return self.__topmenu
 
     # end def
 
@@ -1039,16 +1042,15 @@ class RADMainWindow (RW.RADWidgetBase, TK.Tk):
 
         if isinstance(widget, (TK.Menu, XM.RADXMLMenu)):
 
-            self.__menu_widget = widget
+            self.__topmenu = widget
 
         else:
 
             raise TypeError(
-
                 _(
-                    "top menu must be of type tkinter.Menu "
+                    "top menu must be one of 'tkinter.Menu' or "
 
-                    "or at least of type tkRAD.xml.RADXMLMenu."
+                    "'tkRAD.xml.RADXMLMenu' type."
                 )
             )
 
@@ -1061,7 +1063,7 @@ class RADMainWindow (RW.RADWidgetBase, TK.Tk):
     @topmenu.deleter
     def topmenu (self):
 
-        del self.__menu_widget
+        del self.__topmenu
 
     # end def
 
@@ -1069,7 +1071,7 @@ class RADMainWindow (RW.RADWidgetBase, TK.Tk):
 
     def xml_build (self, filename = None, silent_mode = False):
         r"""
-            this is a shortcut for mainframe.xml_build();
+            this is a shortcut for self.mainframe.xml_build();
 
             no return value (void);
         """
@@ -1078,7 +1080,7 @@ class RADMainWindow (RW.RADWidgetBase, TK.Tk):
 
             if hasattr(self.mainframe, "xml_build"):
 
-                self.mainframe.xml_build(filename, silent_mode)
+                return self.mainframe.xml_build(filename, silent_mode)
 
             else:
 
@@ -1095,6 +1097,8 @@ class RADMainWindow (RW.RADWidgetBase, TK.Tk):
             # end if
 
         # end if
+
+        return False
 
     # end def
 
