@@ -802,7 +802,7 @@ class RADMainWindow (RW.RADWidgetBase, TK.Tk):
             self._init_mainframe() protected virtual method;
         """
 
-        return self.__mainframe_widget
+        return self.__mainframe
 
     # end def
 
@@ -813,7 +813,7 @@ class RADMainWindow (RW.RADWidgetBase, TK.Tk):
 
         if self.cast_widget(widget):
 
-            self.__mainframe_widget = widget
+            self.__mainframe = widget
 
             widget.grid(row = 0, column = 0, **self.GRID_OPTIONS)
 
@@ -826,7 +826,7 @@ class RADMainWindow (RW.RADWidgetBase, TK.Tk):
     @mainframe.deleter
     def mainframe (self):
 
-        del self.__mainframe_widget
+        del self.__mainframe
 
     # end def
 
