@@ -9,6 +9,17 @@
 ## CHANGELOG
 
 
+### $ 2014-02-19 RS $
+
+
+
+* updated wiki doc: OK;
+
+* preparing for `tkRAD v1.2` stable release;
+
+* optimizing code in all modules of `tkRAD`;
+
+
 ### $ 2014-02-18 RS $
 
 * `TODO.md`: TODO list is up-to-date;
