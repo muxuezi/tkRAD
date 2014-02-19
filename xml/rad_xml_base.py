@@ -748,17 +748,6 @@ class RADXMLBase (RW.RADWidgetBase):
 
 
 
-    def normalize_tag (self, xml_element):
-        r"""
-            returns a lowercased char string of @xml_element.tag;
-        """
-
-        return str(xml_element.tag).lower()
-
-    # end def
-
-
-
     def cast_element (self, xml_element):
         r"""
             casts @xml_element param to see if it is a real
@@ -851,6 +840,7 @@ class RADXMLBase (RW.RADWidgetBase):
         """
 
         # $ 2014-02-18 RS $
+        # @DEPRECATED
         # kept for compatibility with tkRAD < v1.2
 
         return tools.dict_delete_items(dict_object, *args)
@@ -1214,17 +1204,6 @@ class RADXMLBase (RW.RADWidgetBase):
 
 
 
-    def get_xml_tree (self):
-        r"""
-            returns current internal XML tree data structure;
-        """
-
-        return self.__xml_tree
-
-    # end def
-
-
-
     def get_xml_path (self, filename = None):
         r"""
             tries to retrieve a valid path from several cases;
@@ -1339,6 +1318,17 @@ class RADXMLBase (RW.RADWidgetBase):
 
 
 
+    def get_xml_tree (self):
+        r"""
+            returns current internal XML tree data structure;
+        """
+
+        return self.__xml_tree
+
+    # end def
+
+
+
     def is_element (self, xml_element):
         r"""
             determines if @xml_element param is a real
@@ -1364,6 +1354,17 @@ class RADXMLBase (RW.RADWidgetBase):
         """
 
         return isinstance(tree_object, ET.ElementTree)
+
+    # end def
+
+
+
+    def normalize_tag (self, xml_element):
+        r"""
+            returns a lowercased char string of @xml_element.tag;
+        """
+
+        return str(xml_element.tag).lower()
 
     # end def
 
