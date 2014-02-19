@@ -208,7 +208,7 @@ class RADMainWindow (RW.RADWidgetBase, TK.Tk):
 
                 kw.get("resizable"),
 
-                dict(width=True, height=True),
+                dict(width = True, height = True),
             )
         )
 
@@ -543,7 +543,17 @@ class RADMainWindow (RW.RADWidgetBase, TK.Tk):
 
         self.__pending_task = False
 
-        self.statusbar.notify(_("An important task has finished."))
+        self.statusbar.notify(
+
+            tools.choose_str(
+
+                kw.get("message"),
+
+                kw.get("info"),
+
+                _("An important task has finished."),
+            )
+        )
 
     # end def
 
@@ -558,7 +568,17 @@ class RADMainWindow (RW.RADWidgetBase, TK.Tk):
 
         self.__pending_task = True
 
-        self.statusbar.notify(_("An important task has started."))
+        self.statusbar.notify(
+
+            tools.choose_str(
+
+                kw.get("message"),
+
+                kw.get("info"),
+
+                _("An important task has started."),
+            )
+        )
 
     # end def
 
