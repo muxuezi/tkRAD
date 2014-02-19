@@ -1036,9 +1036,11 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
             _font = attribute.value
 
-            _sch = r"'([^']+)'"         # catches 'quoted long names'
+            # catches 'quoted long names'
 
-            _family = re.search(_sch, _font)
+            _sch = re.compile(r"'(.*?)'")
+
+            _family = _sch.search(_font)
 
             # resets font family name to tkinter-compliant font name
 
@@ -1046,9 +1048,7 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
             if _family:
 
-                _font = re.sub(
-
-                    _sch,
+                _font = _sch.sub(
 
                     tools.normalize_id(_family.group(1)).lower(),
 
