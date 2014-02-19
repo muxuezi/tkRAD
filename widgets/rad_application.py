@@ -496,7 +496,7 @@ class RADApplication:
 
                 "{classname} class console argument parser."
 
-            ).format(classname = self.classname())
+            ).format(classname = self.__class__.__name__)
         )
 
         # init CLI arguments
