@@ -318,6 +318,8 @@ class RADApplication:
                 kw.get("rc_dir"),
 
                 self.RC_OPTIONS.get("user_dir"),
+
+                "~/.config/app",
             )
         )
 
@@ -328,6 +330,8 @@ class RADApplication:
                 kw.get("rc_file"),
 
                 self.RC_OPTIONS.get("user_file"),
+
+                "app.rc",
             )
         )
 
@@ -342,6 +346,8 @@ class RADApplication:
                 kw.get("app_rc_dir"),
 
                 self.RC_OPTIONS.get("app_dir"),
+
+                "^/etc",
             )
         )
 
@@ -352,6 +358,8 @@ class RADApplication:
                 kw.get("app_rc_file"),
 
                 self.RC_OPTIONS.get("app_file"),
+
+                "app.rc",
             )
         )
 
@@ -372,6 +380,8 @@ class RADApplication:
                 self.options["app"].get("run_mode"),
 
                 self._run_mode(**kw),
+
+                "GUI",
             )
         )
 
@@ -403,6 +413,8 @@ class RADApplication:
                 kw.get("app_root_dir"),
 
                 inspect.stack()[-1][1],
+
+                ".",
             )
         )
 
