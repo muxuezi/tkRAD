@@ -107,7 +107,7 @@ def get_translations_table ():
 
 
 
-def install (lc_dir=None, lc_lang=None):
+def install (lc_dir = None, lc_lang = None):
     r"""
         sets up translations directory and language;
 
@@ -134,7 +134,7 @@ def install (lc_dir=None, lc_lang=None):
 
 
 
-def load_translations_table (lc_dir=None, lc_lang=None):
+def load_translations_table (lc_dir = None, lc_lang = None):
     r"""
         tries to load translations table along lc_lang and lc_dir;
 
