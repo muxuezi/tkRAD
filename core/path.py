@@ -40,6 +40,17 @@ __app_root_dir = "."
 
 
 
+def get_app_root_dir ():
+    r"""
+        module private instance pointer getter
+    """
+
+    return __app_root_dir
+
+# end def
+
+
+
 def normalize (path, raise_error = False):
     """
         substitutes heading ^ by __app_root_dir;
@@ -86,17 +97,6 @@ def normalize (path, raise_error = False):
     return ""
 
 #end def
-
-
-
-def get_app_root_dir ():
-    r"""
-        module private instance pointer getter
-    """
-
-    return __app_root_dir
-
-# end def
 
 
 
