@@ -11,6 +11,11 @@
 
 ### $ 2014-02-20 RS $
 
+* in `RADXMLBase`:
+
+    * fixed `path` parameter / module name conflict bug with module
+    alias `P`;
+
 * in `tkRAD.core.options`:
 
     * in `save()`:

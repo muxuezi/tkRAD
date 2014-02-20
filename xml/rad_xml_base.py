@@ -40,7 +40,7 @@ from tkinter import messagebox as MB
 
 from ..core import tools
 
-from ..core import path
+from ..core import path as P
 
 from ..widgets import rad_widget_base as RW
 
@@ -902,7 +902,7 @@ class RADXMLBase (RW.RADWidgetBase):
         "gray50", "gray25", "gray12", "hourglass", "info",
         "questhead", "question", "warning"):
 
-            path = "@" + path.normalize(path.lstrip("@"))
+            path = "@" + P.normalize(path.lstrip("@"))
 
         # end if
 
@@ -1078,7 +1078,7 @@ class RADXMLBase (RW.RADWidgetBase):
             returns image object if found, None otherwise;
         """
 
-        return self.__images.get(path.normalize(path))
+        return self.__images.get(P.normalize(path))
 
     # end def
 
@@ -1223,7 +1223,7 @@ class RADXMLBase (RW.RADWidgetBase):
 
             # @filename param may be a path
 
-            _path = path.normalize(filename)
+            _path = P.normalize(filename)
 
             # $ 2013-12-31 RS $
             # fixed ugly path construction on faulty paths
@@ -1312,7 +1312,7 @@ class RADXMLBase (RW.RADWidgetBase):
 
         # return rebuilt XML path
 
-        return OP.join(path.normalize(_dir), filename)
+        return OP.join(P.normalize(_dir), filename)
 
     # end def
 
@@ -1458,7 +1458,7 @@ class RADXMLBase (RW.RADWidgetBase):
 
         # param inits
 
-        path = path.normalize(path)
+        path = P.normalize(path)
 
         # new image to register?
 
