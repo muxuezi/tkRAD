@@ -236,30 +236,43 @@ class OptionManager(CP.ConfigParser):
         r"""
             saves internal options to a predefined rc file;
 
-            may raise OSError on several file problems;
-
             no return value (void);
         """
 
-        # inits
+        try:
 
-        _path = self._get_path()
+            # get RC file path
 
-        if tools.is_pstr(_path):
+            _path = self._get_path()
+
+            # ensure directories do exist
+
+            os.makedirs(self.get_config_dir(), exist_ok = True)
+
+            # now try to open RC file
 
             with open(_path, "w") as _file:
+
+                # write data
 
                 self.write(_file)
 
             # end with
 
-        else:
+        except Exception as e:
 
-            # raise exception
+            # console warning
 
-            raise OSError("Could not save options configuration file.")
+            print(
 
-        # end if
+                "[WARNING] could *NOT* save "
+
+                "options configuration file."
+
+                "\nGot the following error:\n" + str(e)
+            )
+
+        # end try
 
     # end def
 

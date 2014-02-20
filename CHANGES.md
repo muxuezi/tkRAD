@@ -9,6 +9,15 @@
 ## CHANGELOG
 
 
+### $ 2014-02-20 RS $
+
+* in `tkRAD.core.options`:
+
+    * in `save()`:
+
+        * fixed bug on RC config saving op;
+
+
 ### $ 2014-02-19 RS $
 
 * generating tag for `tkRAD v1.2`:
