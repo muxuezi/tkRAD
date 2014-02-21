@@ -895,9 +895,7 @@ class RADMainWindow (RW.RADWidgetBase, TK.Tk):
 
         self.mainloop()
 
-        # avoid unexpected stimuli
-
-        self.hide()
+        self.destroy()
 
     # end def
 

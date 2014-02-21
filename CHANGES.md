@@ -11,6 +11,22 @@
 
 ### $ 2014-02-21 RS $
 
+* in `RADMainWindow`:
+
+    * in `run()`:
+
+        * fixed bug: added `self.destroy()`;
+
+        * caution: even while destroying app, getting the following
+        `Tcl/Tk` error while testing in console:
+
+```Tcl
+invalid command name "139710702393608callit"
+    while executing
+"139710702393608callit"
+    ("after" script)
+```
+
 * in `tkRAD.easy.builder[2]`:
 
     * in `build()`:
