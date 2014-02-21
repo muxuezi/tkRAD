@@ -666,6 +666,10 @@ class Builder (TK.Frame):
 
                 self.winfo_toplevel().withdraw()
 
+                self.destroy()
+
+                return None
+
             # end if
 
             # return 'this' pointer

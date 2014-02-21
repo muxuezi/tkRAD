@@ -9,6 +9,18 @@
 ## CHANGELOG
 
 
+### $ 2014-02-21 RS $
+
+* in `tkRAD.easy.builder[2]`:
+
+    * in `build()`:
+
+        * fixed bug: in autorun mode `Tk()` persistent instance may
+        cause errors elsewhere;
+
+        * now destroying instance + returning `None` to get sure;
+
+
 ### $ 2014-02-20 RS $
 
 * in `RADXMLBase`:
