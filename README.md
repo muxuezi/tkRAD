@@ -48,33 +48,6 @@ along with this program.
 If not, see http://www.gnu.org/licenses/
 
 
-## DOCUMENTATION
-
-`tkRAD` is self-documented in its own source code;
-
-feel free to use:
-
-    $ pydoc3 -b
-
-in a UNIX-like console terminal set in the closest parent directory
-of `tkRAD/` e.g.:
-
-    $ cd ~/tmp      # where you have ~/tmp/tkRAD/ copied in;
-
-    $ pydoc3 -b
-
-and study generated autodoc in your favourite internet browser;
-
-
-## WIKI WIKI
-
-Please, feel free to visit `tkRAD` internationalized (i18n) wiki
-documentation for more detailed explanations, tips and tricks and
-source code examples.
-
-Last known URL: https://github.com/tarball69/tkRAD/wiki
-
-
 ## FEATURES
 
 The current public release of `tkRAD` supports at least:
@@ -106,50 +79,11 @@ your needs, just create your own implementations derived from
 and `RADXMLWidget`.
 
 
-## REQUIREMENTS
+## DEVELOPMENT STATUS
 
-### Mandatory requirements:
+Classifier:
 
-* `tkRAD` works fine with **Python v3.2 or later** installed on your
-own OS platform;
-
-* at least `tkinter` package must also be installed, which is the
-common default case when you install Python;
-
-make sure this package really exists on your system by entering in a
-console terminal:
-
-    $ python3
-
-    >>> import tkinter    # case-sensitive /!\
-
-if you get an error message, `tkinter` is *NOT* installed;
-
-use your favourite package manager to solve this issue;
-
-### Optional requirements:
-
-* only `tkRAD.easy.builder2` needs **Python v2.7 or later**
-installed to work fine, since this module has been especially
-designed for these early versions of Python;
-
-* if you use `tkRAD.easy.builder2` with Python v2.7+, you must also
-have `Tkinter` package installed, which is the common default case
-when you install Python2.7+;
-
-make sure this package really exists on your system by entering in a
-console terminal:
-
-    $ python
-
-    >>> import Tkinter    # case-sensitive /!\
-
-if you get an error message, `Tkinter` is *NOT* installed;
-
-use your favourite package manager to solve this issue;
-
-
-## STABILITY
+    Development Status :: 5 - Production/Stable
 
 At this time, `tkRAD` library has been:
 
@@ -177,7 +111,34 @@ Any platform users feedback is still the welcome.
 
 ## CHANGES
 
-Please, refer to CHANGES file for more detail.
+Please, refer to `CHANGES.md` file for more detail.
+
+
+## DOCUMENTATION
+
+`tkRAD` is self-documented in its own source code;
+
+feel free to use:
+
+    $ pydoc3 -b
+
+in a UNIX-like console terminal set in the closest parent directory
+of `tkRAD/` e.g.:
+
+    $ cd ~/tmp      # where you have ~/tmp/tkRAD/ copied in;
+
+    $ pydoc3 -b
+
+and study generated autodoc in your favourite internet browser;
+
+
+## WIKI WIKI
+
+Please, feel free to visit `tkRAD` internationalized (i18n) wiki
+documentation for more detailed explanations, tips and tricks and
+source code examples.
+
+Last known URL: https://github.com/tarball69/tkRAD/wiki
 
 
 ## INSTALLATION
@@ -193,6 +154,48 @@ Since `tkRAD` library may evolve rapidly and thus might become less
 compatible with your ongoing code development, it is a rather
 relevant practice to keep your favourite `tkRAD` version copied into
 your own application's source library.
+
+### REQUIREMENTS
+
+#### Mandatory requirements:
+
+* `tkRAD` works fine with **Python v3.2 or later** installed on your
+own OS platform;
+
+* at least `tkinter` package must also be installed, which is the
+common default case when you install Python;
+
+make sure this package really exists on your system by entering in a
+console terminal:
+
+    $ python3
+
+    >>> import tkinter    # case-sensitive /!\
+
+if you get an error message, `tkinter` is *NOT* installed;
+
+use your favourite package manager to solve this issue;
+
+#### Optional requirements:
+
+* only `tkRAD.easy.builder2` needs **Python v2.7 or later**
+installed to work fine, since this module has been especially
+designed for these early versions of Python;
+
+* if you use `tkRAD.easy.builder2` with Python v2.7+, you must also
+have `Tkinter` package installed, which is the common default case
+when you install Python2.7+;
+
+make sure this package really exists on your system by entering in a
+console terminal:
+
+    $ python
+
+    >>> import Tkinter    # case-sensitive /!\
+
+if you get an error message, `Tkinter` is *NOT* installed;
+
+use your favourite package manager to solve this issue;
 
 
 ## BASIC USAGE
