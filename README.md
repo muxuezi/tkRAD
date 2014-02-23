@@ -155,7 +155,7 @@ compatible with your ongoing code development, it is a rather
 relevant practice to keep your favourite `tkRAD` version copied into
 your own application's source library.
 
-### REQUIREMENTS
+### Requirements
 
 #### Mandatory requirements:
 
