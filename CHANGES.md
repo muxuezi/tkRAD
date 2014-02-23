@@ -9,6 +9,27 @@
 ## CHANGELOG
 
 
+### $ 2014-02-23 RS $
+
+* in `RADXMLWidget`:
+
+    * in
+    `_build_element_configure()`,
+    `_build_element_listbox()`,
+    `_build_element_widget()`:
+
+        * updated code along with `_set_widget_config()`;
+
+    * added new `_set_widget_config()`:
+
+        * now config `dict()` object is filtered along with widget's
+        attrs to avoid useless traps;
+
+        * now fully implemented;
+
+        * returns True on success, False otherwise;
+
+
 ### $ 2014-02-21 RS $
 
 * in `RADMainWindow`:

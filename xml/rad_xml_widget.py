@@ -373,19 +373,9 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             _widget = _attributes.get("widget", tk_parent)
 
-            # widget exists and is configurable?
+            # try to configure widget (True=success, False=failure)
 
-            if hasattr(_widget, "configure"):
-
-                # configure widget
-
-                _widget.configure(**self.TK_CONFIG)
-
-                # succeeded
-
-                return True
-
-            # end if
+            return self._set_widget_config(_widget, self.TK_CONFIG)
 
         # end if
 
@@ -758,11 +748,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             # tk configure()
 
-            if self.TK_CONFIG:
-
-                _widget.configure(**self.TK_CONFIG)
-
-            # end if
+            self._set_widget_config(_widget, self.TK_CONFIG)
 
             # set layout
 
@@ -1586,11 +1572,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             # configure widget
 
-            if hasattr(_widget, "configure") and self.TK_CONFIG:
-
-                _widget.configure(**self.TK_CONFIG)
-
-            # end if
+            self._set_widget_config(_widget, self.TK_CONFIG)
 
             # set layout
 
@@ -4620,6 +4602,43 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
         # update layout options
 
         attrs["layout_options"] = _lopts
+
+    # end def
+
+
+
+    def _set_widget_config (self, widget, config):
+        r"""
+            protected method def;
+
+            tries to set up tkinter @widget's attributes along with
+            @config param;
+
+            returns True on success, False otherwise;
+        """
+
+        if hasattr(widget, "configure") and tools.is_pdict(config):
+
+            # filter TK attrs first
+
+            config = tools.dict_only_keys(
+
+                config, *widget.configure().keys()
+            )
+
+            # then configure widget
+
+            widget.configure(**config)
+
+            # succeeded
+
+            return True
+
+        # end if
+
+        # failed
+
+        return False
 
     # end def
 
