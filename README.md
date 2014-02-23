@@ -18,8 +18,8 @@ easiness and simplicity.
 
 `tkRAD` provides the necessary **core tools** to quickly start up an
 application development or for Tkinter widget testing through
-`tkRAD.easy.builder` module - see '[BASIC USAGE](#basic-usage)'
-examples below.
+`tkRAD.easy.builder` module - see '[QUICK START](#quick-start)'
+instructions below.
 
 
 ## LICENSE
@@ -68,7 +68,7 @@ keyboard accelerator support;
 generic widget container class;
 
 * Tkinter XML widget building for **easy TESTING** through
-`tkRAD.easy.builder` module - see '[BASIC USAGE](#basic-usage)' below;
+`tkRAD.easy.builder` module;
 
 * some innovative and really **useful programming tools** in
 `tkRAD.core` package modules;
@@ -132,7 +132,7 @@ of `tkRAD/` e.g.:
 and study generated autodoc in your favourite internet browser;
 
 
-## WIKI WIKI
+### Wiki wiki
 
 Please, feel free to visit `tkRAD` internationalized (i18n) wiki
 documentation for more detailed explanations, tips and tricks and
@@ -198,137 +198,11 @@ if you get an error message, `Tkinter` is *NOT* installed;
 use your favourite package manager to solve this issue;
 
 
-## BASIC USAGE
+## QUICK START
 
-Let's play with `tkRAD`!
+Please refer to our newest wiki page:
 
-For this example series, we'll suppose you're under a UNIX-like
-console terminal.
-
-MS-Windows users, please see '[MS-WINDOWS USERS](#ms-windows-users)'
-below.
-
-Now [pick up a zipped copy]
-(https://github.com/tarball69/tkRAD/wiki/En%3Ainstall)
-of `tkRAD/` directory and put it in a temporary directory, let's
-say into:
-
-    $ cd ~/tmp
-
-Unzip the archive (replace `xxx` by the real value) and then rename it:
-
-    $ unzip tkRAD-xxx.zip
-
-    $ mv tkRAD-xxx tkRAD
-
-Notice: `$` symbol is the shell command-line prompt, you shall not
-type it(!)
-
-You should have something like this:
-
-    $ ls
-
-    tkRAD/
-    tkRAD-xxx.zip
-
-Dive into tkRAD's `easy` directory:
-
-    $ cd tkRAD/easy
-
-Call a **Python3.2+** interactive console and type:
-
-    $ python3
-
-    >>> import builder as B
-
-Notice: `>>>` symbol is the Python interpreter prompt, you shall not
-type it(!)
-
-Remember it is *NOT* a good programming practice to use:
-
-    >>> from builder import *       # /!\ NO /!\
-
-Now, try the embedded XML example file:
-
-    >>> B.build("builder-example.xml")
-
-And tell your friends what you saw today.
-
-### Another example
-
-Keep your Python interpreter on and type:
-
-    >>> import builder as B
-
-    >>> xml = """
-
-        <root>
-
-            <label text="hello good people!" bg="white" fg="blue" />
-
-            <button text="Quit" command="self.quit" />
-
-        </root>
-
-    """
-
-    >>> B.build(xml)
-
-As you can see, it is possible to check out some XML source code
-directly into your Python code without the need of any external XML
-file(!)
-
-With **Python2.7+** you can (almost) do the same:
-
-    $ python
-
-    >>> import builder2 as B
-
-    >>> B.build("builder-example.xml")
-
-    And then:
-
-    >>> xml = """
-
-        <root>
-
-            <label text="hello good people!" bg="white" fg="blue" />
-
-            <button text="Quit" command="self.quit" />
-
-        </root>
-
-    """
-
-    >>> B.build(xml)
-
-Good day for programming, isn't it? :-)
-
-
-## MS-WINDOWS USERS
-
-MS-Windows users may easily try `tkRAD.easy.builder` by following
-these steps:
-
-* grab a copy of `tkRAD/` directory on your platform;
-
-* put this copy into a temporary directory on your machine;
-
-* browse with your file manager into `tkRAD/easy` directory;
-
-* double-click on `builder.py` Python file if you have **Python
-v3.2+** installed and take a look at the embedded example windows
-that should pop-up automatically;
-
-* double-click on `builder2.py` Python file if you have **Python
-v2.7+** installed and take a look at the embedded example windows
-that should pop-up automatically;
-
-Please remember `tkRAD` library has entirely been designed for
-**Python version 3.2** or later, *NOT* for **Python version 2.7** or
-later.
-
-**CAUTION: /!\ Only `builder2.py` is Python2.7+ compatible /!\**
+https://github.com/tarball69/tkRAD/wiki/en%3Aeasy_builder
 
 
 ## THE LITTLE STORY
