@@ -1642,7 +1642,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
                 self.CLASSES.get(xml_tag),
 
-                xml_tag.capitalize(),
+                xml_tag,
 
                 "Frame",
             )
@@ -1651,7 +1651,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
             # new support:
             # now TK and ttk are embedded in predefined classnames;
 
-            _cname = _cname.split(".")
+            _cname = _cname.strip(".").split(".")
 
             _module = tools.choose_str(xml_element.get("module"))
 
@@ -1663,7 +1663,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             # set real classname
 
-            xml_element.set("class", _cname[-1])
+            xml_element.set("class", tools.normalize_id(_cname[-1]))
 
             # must force XML attr module name
 
