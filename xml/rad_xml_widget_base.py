@@ -516,7 +516,7 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
             # parsed attribute inits
 
-            attribute.value = _name.lower()
+            attribute.value = _name #.lower()
 
             attribute.parsed = True
 

@@ -30,6 +30,8 @@ import re
 
 import tkinter as TK
 
+from tkinter import ttk
+
 from ..core import tools
 
 from ..core import path
@@ -188,27 +190,53 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
+    # $ 2014-02-24 RS $
+    # new support:
+    # now TK and ttk are embedded in predefined classnames;
+
     CLASSES = {
 
-        "button":           "Button",
-        "canvas":           "Canvas",
-        "checkbutton":      "Checkbutton",
-        "entry":            "Entry",
-        "frame":            "Frame",
-        "label":            "Label",
-        "labelframe":       "LabelFrame",
-        "listbox":          "Listbox",
-        "menu":             "Menu",
-        "menubutton":       "Menubutton",
-        "message":          "Message",
-        "optionmenu":       "OptionMenu",
-        "panedwindow":      "PanedWindow",
-        "radiobutton":      "Radiobutton",
-        "scale":            "Scale",
-        "scrollbar":        "Scrollbar",
-        "spinbox":          "Spinbox",
-        "text":             "Text",
-        "toplevel":         "Toplevel",
+        # tkinter native classes support
+
+        "button":           "TK.Button",
+        "canvas":           "TK.Canvas",
+        "checkbutton":      "TK.Checkbutton",
+        "entry":            "TK.Entry",
+        "frame":            "TK.Frame",
+        "label":            "TK.Label",
+        "labelframe":       "TK.LabelFrame",
+        "listbox":          "TK.Listbox",
+        "menu":             "TK.Menu",
+        "menubutton":       "TK.Menubutton",
+        "message":          "TK.Message",
+        "optionmenu":       "TK.OptionMenu",
+        "panedwindow":      "TK.PanedWindow",
+        "radiobutton":      "TK.Radiobutton",
+        "scale":            "TK.Scale",
+        "scrollbar":        "TK.Scrollbar",
+        "spinbox":          "TK.Spinbox",
+        "text":             "TK.Text",
+        "toplevel":         "TK.Toplevel",
+
+        # ttk additional classes support
+
+        "ttkbutton":        "ttk.Button",
+        "ttkcheckbutton":   "ttk.Checkbutton",
+        "ttkcombobox":      "ttk.Combobox",
+        "ttkentry":         "ttk.Entry",
+        "ttkframe":         "ttk.Frame",
+        "ttklabel":         "ttk.Label",
+        "ttklabelframe":    "ttk.LabelFrame",
+        "ttkmenubutton":    "ttk.Menubutton",
+        "ttknotebook":      "ttk.Notebook",
+        "ttkpanedwindow":   "ttk.PanedWindow",
+        "ttkprogressbar":   "ttk.Progressbar",
+        "ttkradiobutton":   "ttk.Radiobutton",
+        "ttkscale":         "ttk.Scale",
+        "ttkscrollbar":     "ttk.Scrollbar",
+        "ttkseparator":     "ttk.Separator",
+        "ttksizegrip":      "ttk.Sizegrip",
+        "ttktreeview":      "ttk.Treeview",
 
     } # end of CLASSES
 
@@ -252,21 +280,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def _build_element_button (self, xml_tag, xml_element, tk_parent):
         r"""
-            XML element definition is almost the same as
-
-            tkinter's native widget of the same (lowercased)
-
-            class name;
-
-            example:
-
-                <button name="btn_ok" text="OK" bg="red"/>
-
-            is slightly the same as:
-
-                self.btn_ok = Button(self, text="OK", bg="red")
-
-            with 'self' the parent widget;
+            Tkinter native widget building;
 
             returns True on build success, False otherwise;
         """
@@ -279,21 +293,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def _build_element_canvas (self, xml_tag, xml_element, tk_parent):
         r"""
-            XML element definition is almost the same as
-
-            tkinter's native widget of the same (lowercased)
-
-            class name;
-
-            example:
-
-                <canvas name="my_canvas" bg="red"/>
-
-            is slightly the same as:
-
-                self.my_canvas = Canvas(self, bg="red")
-
-            with 'self' the parent widget;
+            Tkinter native widget building;
 
             returns True on build success, False otherwise;
         """
@@ -306,21 +306,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def _build_element_checkbutton (self, xml_tag, xml_element, tk_parent):
         r"""
-            XML element definition is almost the same as
-
-            tkinter's native widget of the same (lowercased)
-
-            class name;
-
-            example:
-
-                <checkbutton name="my_chkbtn" bg="red"/>
-
-            is slightly the same as:
-
-                self.my_chkbtn = Checkbutton(self, bg="red")
-
-            with 'self' the parent widget;
+            Tkinter native widget building;
 
             returns True on build success, False otherwise;
         """
@@ -389,21 +375,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def _build_element_entry (self, xml_tag, xml_element, tk_parent):
         r"""
-            XML element definition is almost the same as
-
-            tkinter's native widget of the same (lowercased)
-
-            class name;
-
-            example:
-
-                <entry name="my_entry" bg="red"/>
-
-            is slightly the same as:
-
-                self.my_entry = Entry(self, bg="red")
-
-            with 'self' the parent widget;
+            Tkinter native widget building;
 
             returns True on build success, False otherwise;
         """
@@ -457,21 +429,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def _build_element_frame (self, xml_tag, xml_element, tk_parent):
         r"""
-            XML element definition is almost the same as
-
-            tkinter's native widget of the same (lowercased)
-
-            class name;
-
-            example:
-
-                <frame name="my_frame" bg="red"/>
-
-            is slightly the same as:
-
-                self.my_frame = Frame(self, bg="red")
-
-            with 'self' the parent widget;
+            Tkinter native widget building;
 
             returns True on build success, False otherwise;
         """
@@ -546,21 +504,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def _build_element_label (self, xml_tag, xml_element, tk_parent):
         r"""
-            XML element definition is almost the same as
-
-            tkinter's native widget of the same (lowercased)
-
-            class name;
-
-            example:
-
-                <label name="my_label" bg="red"/>
-
-            is slightly the same as:
-
-                self.my_label = Label(self, bg="red")
-
-            with 'self' the parent widget;
+            Tkinter native widget building;
 
             returns True on build success, False otherwise;
         """
@@ -573,21 +517,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def _build_element_labelframe (self, xml_tag, xml_element, tk_parent):
         r"""
-            XML element definition is almost the same as
-
-            tkinter's native widget of the same (lowercased)
-
-            class name;
-
-            example:
-
-                <labelframe name="my_lf" bg="red"/>
-
-            is slightly the same as:
-
-                self.my_lf = LabelFrame(self, bg="red")
-
-            with 'self' the parent widget;
+            Tkinter native widget building;
 
             returns True on build success, False otherwise;
         """
@@ -642,21 +572,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def _build_element_listbox (self, xml_tag, xml_element, tk_parent):
         r"""
-            XML element definition is almost the same as
-
-            tkinter's native widget of the same (lowercased)
-
-            class name;
-
-            example:
-
-                <listbox name="my_listbox" bg="red"/>
-
-            is slightly the same as:
-
-                self.my_listbox = Listbox(self, bg="red")
-
-            with 'self' the parent widget;
+            Tkinter native widget building;
 
             returns True on build success, False otherwise;
         """
@@ -789,15 +705,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def _build_element_menu (self, xml_tag, xml_element, tk_parent):
         r"""
-            tkinter menu defs should be written apart from a classical
-
-            <tkwidget> XML script into a <tkmenu> XML script;
-
-            this method tries to do this for you by emulating
-
-            @xml_element param as if it were a RADXMLMenu
-
-            XML tree root node;
+            Tkinter native widget building;
 
             returns True on build success, False otherwise;
         """
@@ -810,21 +718,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def _build_element_menubutton (self, xml_tag, xml_element, tk_parent):
         r"""
-            XML element definition is almost the same as
-
-            tkinter's native widget of the same (lowercased)
-
-            class name;
-
-            example:
-
-                <menubutton name="my_mb" bg="red"/>
-
-            is slightly the same as:
-
-                self.my_mb = Menubutton(self, bg="red")
-
-            with 'self' the parent widget;
+            Tkinter native widget building;
 
             returns True on build success, False otherwise;
         """
@@ -837,21 +731,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def _build_element_message (self, xml_tag, xml_element, tk_parent):
         r"""
-            XML element definition is almost the same as
-
-            tkinter's native widget of the same (lowercased)
-
-            class name;
-
-            example:
-
-                <message name="my_msg" bg="red"/>
-
-            is slightly the same as:
-
-                self.my_msg = Message(self, bg="red")
-
-            with 'self' the parent widget;
+            Tkinter native widget building;
 
             returns True on build success, False otherwise;
         """
@@ -920,28 +800,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def _build_element_optionmenu (self, xml_tag, xml_element, tk_parent):
         r"""
-            XML element definition is QUITE SPECIFIC by here;
-
-            example:
-
-                <optionmenu
-                    name="my_om"
-                    variable="myvar"
-                    choices="'hello', 'good people', 123, 456.78"
-                    start="@2"
-                />
-
-            will do the same as:
-
-                _cvar = get_stringvar("myvar")
-
-                _choices = get_choices()
-
-                parent.my_om = OptionMenu(parent, _cvar, *_choices)
-
-                _cvar.set(str(_choices[2]))
-
-            with 'parent' the parent widget;
+            Tkinter native widget building;
 
             returns True on build success, False otherwise;
         """
@@ -1060,21 +919,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def _build_element_panedwindow (self, xml_tag, xml_element, tk_parent):
         r"""
-            XML element definition is almost the same as
-
-            tkinter's native widget of the same (lowercased)
-
-            class name;
-
-            example:
-
-                <panedwindow name="my_pw" bg="red"/>
-
-            is slightly the same as:
-
-                self.my_pw = PanedWindow(self, bg="red")
-
-            with 'self' the parent widget;
+            Tkinter native widget building;
 
             returns True on build success, False otherwise;
         """
@@ -1087,21 +932,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def _build_element_radiobutton (self, xml_tag, xml_element, tk_parent):
         r"""
-            XML element definition is almost the same as
-
-            tkinter's native widget of the same (lowercased)
-
-            class name;
-
-            example:
-
-                <radiobutton name="my_rb" bg="red"/>
-
-            is slightly the same as:
-
-                self.my_rb = Radiobutton(self, bg="red")
-
-            with 'self' the parent widget;
+            Tkinter native widget building;
 
             returns True on build success, False otherwise;
         """
@@ -1126,21 +957,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def _build_element_scale (self, xml_tag, xml_element, tk_parent):
         r"""
-            XML element definition is almost the same as
-
-            tkinter's native widget of the same (lowercased)
-
-            class name;
-
-            example:
-
-                <scale name="my_scale" bg="red"/>
-
-            is slightly the same as:
-
-                self.my_scale = Scale(self, bg="red")
-
-            with 'self' the parent widget;
+            Tkinter native widget building;
 
             returns True on build success, False otherwise;
         """
@@ -1153,21 +970,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def _build_element_scrollbar (self, xml_tag, xml_element, tk_parent):
         r"""
-            XML element definition is almost the same as
-
-            tkinter's native widget of the same (lowercased)
-
-            class name;
-
-            example:
-
-                <scrollbar name="my_scrollbar" bg="red"/>
-
-            is slightly the same as:
-
-                self.my_scrollbar = Scrollbar(self, bg="red")
-
-            with 'self' the parent widget;
+            Tkinter native widget building;
 
             returns True on build success, False otherwise;
         """
@@ -1229,21 +1032,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def _build_element_spinbox (self, xml_tag, xml_element, tk_parent):
         r"""
-            XML element definition is almost the same as
-
-            tkinter's native widget of the same (lowercased)
-
-            class name;
-
-            example:
-
-                <spinbox name="my_spbx" bg="red"/>
-
-            is slightly the same as:
-
-                self.my_spbx = Spinbox(self, bg="red")
-
-            with 'self' the parent widget;
+            Tkinter native widget building;
 
             returns True on build success, False otherwise;
         """
@@ -1256,21 +1045,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def _build_element_text (self, xml_tag, xml_element, tk_parent):
         r"""
-            XML element definition is almost the same as
-
-            tkinter's native widget of the same (lowercased)
-
-            class name;
-
-            example:
-
-                <text name="my_text" bg="red"/>
-
-            is slightly the same as:
-
-                self.my_text = Text(self, bg="red")
-
-            with 'self' the parent widget;
+            Tkinter native widget building;
 
             returns True on build success, False otherwise;
         """
@@ -1483,21 +1258,228 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     def _build_element_toplevel (self, xml_tag, xml_element, tk_parent):
         r"""
-            XML element definition is almost the same as
+            Tkinter native widget building;
 
-            tkinter's native widget of the same (lowercased)
+            returns True on build success, False otherwise;
+        """
 
-            class name;
+        return self._build_tk_native(xml_tag, xml_element, tk_parent)
 
-            example:
+    # end def
 
-                <toplevel name="my_toplevel" bg="red"/>
 
-            is slightly the same as:
 
-                self.my_toplevel = Toplevel(self, bg="red")
+    def _build_element_ttkbutton (self, xml_tag, xml_element, tk_parent):
+        r"""
+            Tkinter ttk widget building;
 
-            with 'self' the parent widget;
+            returns True on build success, False otherwise;
+        """
+
+        return self._build_tk_native(xml_tag, xml_element, tk_parent)
+
+    # end def
+
+
+
+    def _build_element_ttkcheckbutton (self, xml_tag, xml_element, tk_parent):
+        r"""
+            Tkinter ttk widget building;
+
+            returns True on build success, False otherwise;
+        """
+
+        return self._build_tk_native(xml_tag, xml_element, tk_parent)
+
+    # end def
+
+
+
+    def _build_element_ttkcombobox (self, xml_tag, xml_element, tk_parent):
+        r"""
+            Tkinter ttk widget building;
+
+            returns True on build success, False otherwise;
+        """
+
+        return self._build_tk_native(xml_tag, xml_element, tk_parent)
+
+    # end def
+
+
+
+    def _build_element_ttkentry (self, xml_tag, xml_element, tk_parent):
+        r"""
+            Tkinter ttk widget building;
+
+            returns True on build success, False otherwise;
+        """
+
+        return self._build_tk_native(xml_tag, xml_element, tk_parent)
+
+    # end def
+
+
+
+    def _build_element_ttkframe (self, xml_tag, xml_element, tk_parent):
+        r"""
+            Tkinter ttk widget building;
+
+            returns True on build success, False otherwise;
+        """
+
+        return self._build_tk_native(xml_tag, xml_element, tk_parent)
+
+    # end def
+
+
+
+    def _build_element_ttklabel (self, xml_tag, xml_element, tk_parent):
+        r"""
+            Tkinter ttk widget building;
+
+            returns True on build success, False otherwise;
+        """
+
+        return self._build_tk_native(xml_tag, xml_element, tk_parent)
+
+    # end def
+
+
+
+    def _build_element_ttklabelframe (self, xml_tag, xml_element, tk_parent):
+        r"""
+            Tkinter ttk widget building;
+
+            returns True on build success, False otherwise;
+        """
+
+        return self._build_tk_native(xml_tag, xml_element, tk_parent)
+
+    # end def
+
+
+
+    def _build_element_ttkmenubutton (self, xml_tag, xml_element, tk_parent):
+        r"""
+            Tkinter ttk widget building;
+
+            returns True on build success, False otherwise;
+        """
+
+        return self._build_tk_native(xml_tag, xml_element, tk_parent)
+
+    # end def
+
+
+
+    def _build_element_ttknotebook (self, xml_tag, xml_element, tk_parent):
+        r"""
+            Tkinter ttk widget building;
+
+            returns True on build success, False otherwise;
+        """
+
+        return self._build_tk_native(xml_tag, xml_element, tk_parent)
+
+    # end def
+
+
+
+    def _build_element_ttkpanedwindow (self, xml_tag, xml_element, tk_parent):
+        r"""
+            Tkinter ttk widget building;
+
+            returns True on build success, False otherwise;
+        """
+
+        return self._build_tk_native(xml_tag, xml_element, tk_parent)
+
+    # end def
+
+
+
+    def _build_element_ttkprogressbar (self, xml_tag, xml_element, tk_parent):
+        r"""
+            Tkinter ttk widget building;
+
+            returns True on build success, False otherwise;
+        """
+
+        return self._build_tk_native(xml_tag, xml_element, tk_parent)
+
+    # end def
+
+
+
+    def _build_element_ttkradiobutton (self, xml_tag, xml_element, tk_parent):
+        r"""
+            Tkinter ttk widget building;
+
+            returns True on build success, False otherwise;
+        """
+
+        return self._build_tk_native(xml_tag, xml_element, tk_parent)
+
+    # end def
+
+
+
+    def _build_element_ttkscale (self, xml_tag, xml_element, tk_parent):
+        r"""
+            Tkinter ttk widget building;
+
+            returns True on build success, False otherwise;
+        """
+
+        return self._build_tk_native(xml_tag, xml_element, tk_parent)
+
+    # end def
+
+
+
+    def _build_element_ttkscrollbar (self, xml_tag, xml_element, tk_parent):
+        r"""
+            Tkinter ttk widget building;
+
+            returns True on build success, False otherwise;
+        """
+
+        return self._build_element_scrollbar(xml_tag, xml_element, tk_parent)
+
+    # end def
+
+
+
+    def _build_element_ttkseparator (self, xml_tag, xml_element, tk_parent):
+        r"""
+            Tkinter ttk widget building;
+
+            returns True on build success, False otherwise;
+        """
+
+        return self._build_tk_native(xml_tag, xml_element, tk_parent)
+
+    # end def
+
+
+
+    def _build_element_ttksizegrip (self, xml_tag, xml_element, tk_parent):
+        r"""
+            Tkinter ttk widget building;
+
+            returns True on build success, False otherwise;
+        """
+
+        return self._build_tk_native(xml_tag, xml_element, tk_parent)
+
+    # end def
+
+
+
+    def _build_element_ttktreeview (self, xml_tag, xml_element, tk_parent):
+        r"""
+            Tkinter ttk widget building;
 
             returns True on build success, False otherwise;
         """
@@ -1656,16 +1638,36 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             # param inits
 
-            xml_element.set(
+            _cname = tools.choose_str(
 
-                "class",
+                self.CLASSES.get(xml_tag),
 
-                self.CLASSES.get(xml_tag, xml_tag.capitalize())
+                xml_tag.capitalize(),
+
+                "Frame",
             )
 
-            # already import'ed tkinter as TK for tkinter natives /!\
+            # $ 2014-02-24 RS $
+            # new support:
+            # now TK and ttk are embedded in predefined classnames;
 
-            xml_element.set("module", xml_element.get("module", "TK."))
+            _cname = _cname.split(".")
+
+            _module = tools.choose_str(xml_element.get("module"))
+
+            if len(_cname) > 1:
+
+                _module = _cname[0] + "."
+
+            # end if
+
+            # set real classname
+
+            xml_element.set("class", _cname[-1])
+
+            # must force XML attr module name
+
+            xml_element.set("module", _module)
 
             # build widget by faking xml_tag = "widget"
 
@@ -3221,50 +3223,67 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
         # bug fix:
         # @attribute may be None sometimes;
 
-        # Tk natives: if module id is 'TK.' -> no need to go further;
+        if self._is_new(attribute):
 
-        if self._is_new(attribute) and attribute.value != "TK.":
+            # module id inits
 
-            # module name inits
+            _module = attribute.value.lstrip(".")
 
-            _name = ""
+            # predefined module name?
 
-            # try to get <module> element for more info
+            if _module.endswith("."):
 
-            _module = self.get_element_by_id(attribute.value)
+                # init module name
 
-            # found corresponding <module> element?
+                _name = _module
 
-            if self.is_element(_module):
-
-                # attribute inits
-
-                _import = tools.normalize_import(_module.get("import"))
-
-                # choose between attrs
-
-                if _import != "*":
-
-                    _name = tools.choose_str(
-
-                        tools.normalize_id(_module.get("as")),
-
-                        _import,
-
-                    ) + "."
-
-                # end if
-
-            # module not found
+            # XML source module id
 
             else:
 
-                raise KeyError(
-                    _(
-                        "module of id '{mid}' has *NOT* been found."
+                # init module name
 
-                    ).format(mid = attribute.value)
-                )
+                _name = ""
+
+                # try to get <module> element for more info
+
+                _module = self.get_element_by_id(_module)
+
+                # found corresponding <module> element?
+
+                if self.is_element(_module):
+
+                    # attribute inits
+
+                    _import = \
+                        tools.normalize_import(_module.get("import"))
+
+                    # choose between attrs
+
+                    if _import != "*":
+
+                        _name = tools.choose_str(
+
+                            tools.normalize_id(_module.get("as")),
+
+                            _import,
+
+                        ) + "."
+
+                    # end if
+
+                # module not found
+
+                else:
+
+                    raise KeyError(
+                        _(
+                            "module of id '{mid}' has *NOT* been found."
+
+                        ).format(mid = attribute.value)
+                    )
+
+                # end if
 
             # end if
 

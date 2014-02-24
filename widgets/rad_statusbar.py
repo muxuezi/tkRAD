@@ -28,6 +28,8 @@
 
 import tkinter as TK
 
+from tkinter import ttk
+
 from ..core import tools
 
 from . import rad_frame as RF
@@ -217,6 +219,8 @@ class RADStatusBar (RF.RADFrame):
 
         # widget inits
 
+        ttk.Sizegrip(self).pack(padx=2, pady=2, side=TK.RIGHT)
+
         self.message = TK.StringVar()
 
         self.label = TK.Label(
@@ -232,7 +236,7 @@ class RADStatusBar (RF.RADFrame):
             relief = TK.SUNKEN,
         )
 
-        self.label.pack(padx = 2, pady = 2, **self.PACK_OPTIONS)
+        self.label.pack(padx=2, pady=2, **self.PACK_OPTIONS)
 
         self.info()
 

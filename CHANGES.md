@@ -9,6 +9,40 @@
 ## CHANGELOG
 
 
+### $ 2014-02-24 RS $
+
+* in `RADStatusBar`:
+
+    * added `ttk.Sizegrip` for fancier look'n'feel;
+
+* in `RADXMLWidgetBase`:
+
+    * in `_parse_attr_name()`:
+
+        * XML attr `name` no longer have to be lower-cased;
+
+        * now accepting case-sensitive class member names;
+
+* in `RADXMLWidget`:
+
+    * ***IDEA:*** what about creating `<tkstyle>` profile with
+    `configure()` options that any `tkinter` **NATIVE** widget could
+    apply with XML attr `style="tkstyle_id"`?
+
+    * studying future `<ttkmap>` XML element;
+
+    * studying future `<ttkstyle>` XML element;
+
+    * added first level support for ttk widgets;
+
+    * in
+    `CLASSES`,
+    `_build_tk_native()`,
+    `_parse_attr_module()`:
+
+        * enlarged to new tkinter + ttk supports;
+
+
 ### $ 2014-02-23 RS $
 
 * in `RADXMLWidget`:
