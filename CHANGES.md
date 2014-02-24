@@ -103,13 +103,12 @@ apply with XML attr `style="tkstyle_id"`?
 
         * caution: even while destroying app, getting the following
         `Tcl/Tk` error while testing in console:
-
-```Tcl
-invalid command name "139710702393608callit"
-    while executing
-"139710702393608callit"
-    ("after" script)
-```
+        ```Tcl
+        invalid command name "139710702393608callit"
+            while executing
+        "139710702393608callit"
+            ("after" script)
+        ```
 
 * in `tkRAD.easy.builder[2]`:
 
