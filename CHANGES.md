@@ -39,8 +39,8 @@ apply with XML attr `style="tkstyle_id"`?
 
         * now widget *MUST* be init'ed before calling this method e.g.:
         ```python
-                ttk.Frame.__init__(self, master)
-                self.configure(**self._only_tk(self.CONFIG))
+        ttk.Frame.__init__(self, master)
+        self.configure(**self._only_tk(self.CONFIG))
         ```
 
         * no need more to use `TK_ATTRS` main member: getting
