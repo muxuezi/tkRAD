@@ -55,24 +55,6 @@ class RADCanvas (RW.RADWidgetBase, TK.Canvas):
 
 
 
-    TK_ATTRS = (
-
-        "bg", "background", "bd", "borderwidth", "closeenough",
-
-        "confine", "cursor", "height", "highlightbackground",
-
-        "highlightcolor", "highlightthickness", "relief",
-
-        "scrollregion", "selectbackground", "selectborderwidth",
-
-        "selectforeground", "takefocus" , "width", "xscrollincrement",
-
-        "xscrollcommand", "yscrollincrement", "yscrollcommand",
-
-    ) # end of TK_ATTRS
-
-
-
     def __init__ (self, master = None, **kw):
 
         # default values
@@ -83,7 +65,9 @@ class RADCanvas (RW.RADWidgetBase, TK.Canvas):
 
         # super inits
 
-        TK.Canvas.__init__(self, master, **self._only_tk(self.CONFIG))
+        TK.Canvas.__init__(self, master)
+
+        self.configure(**self._only_tk(self.CONFIG))
 
         RW.RADWidgetBase.__init__(self, master, **self.CONFIG)
 

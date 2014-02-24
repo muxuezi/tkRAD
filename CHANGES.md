@@ -11,6 +11,45 @@
 
 ### $ 2014-02-24 RS $
 
+* ***IDEA:*** what about creating `<tkstyle>` profile with
+`configure()` options that any `tkinter` **NATIVE** widget could
+apply with XML attr `style="tkstyle_id"`?
+
+* studying future `<ttkmap>` XML element;
+
+* studying future `<ttkstyle>` XML element;
+
+* in `RADCanvas`:
+
+    * stripped out `TK_ATTRS` class main member: now *USELESS*;
+
+    * updated code in `__init__()` along with new constraints;
+
+* in `RADFrame` and `RADXMLFrame`:
+
+    * stripped out `TK_ATTRS` class main member: now *USELESS*;
+
+    * upgraded class ancestor from `tkinter.Frame` to `ttk.Frame`;
+
+    * now supports `ttk.Style()`, `ttk.Style().map()` and so on;
+
+* in `RADWidgetBase`:
+
+    * rewritten `_only_tk()`:
+
+        * now widget *MUST* be init'ed before calling this method e.g.:
+
+```python
+        ttk.Frame.__init__(self, master)
+        self.configure(**self._only_tk(self.CONFIG))
+```
+
+        * no need more to use `TK_ATTRS` main member: getting
+        tkinter attrs **directly** from `self.configure().keys()`;
+
+        * Caution: `self.configure()` needs `self.tk`: Tkinter
+        widget must be init'ed before calling this;
+
 * in `RADStatusBar`:
 
     * added `ttk.Sizegrip` for fancier look'n'feel;
@@ -25,22 +64,13 @@
 
 * in `RADXMLWidget`:
 
-    * ***IDEA:*** what about creating `<tkstyle>` profile with
-    `configure()` options that any `tkinter` **NATIVE** widget could
-    apply with XML attr `style="tkstyle_id"`?
-
-    * studying future `<ttkmap>` XML element;
-
-    * studying future `<ttkstyle>` XML element;
-
     * added first level support for ttk widgets;
 
-    * in
-    `CLASSES`,
-    `_build_tk_native()`,
-    `_parse_attr_module()`:
+    * in `CLASSES`, `_build_tk_native()`, `_parse_attr_module()`:
 
         * enlarged to new tkinter + ttk supports;
+
+        * this needs to be implemented further more;
 
 
 ### $ 2014-02-23 RS $

@@ -26,19 +26,19 @@
 
 # lib imports
 
-import tkinter as TK
+from tkinter import ttk
 
 from . import rad_widget_base as RW
 
 
 
-class RADFrame (RW.RADWidgetBase, TK.Frame):
+class RADFrame (RW.RADWidgetBase, ttk.Frame):
     r"""
-        generic tkinter.Frame + RADWidgetBase subclass;
+        generic Frame + RADWidgetBase subclass;
 
         implements all tkRAD app-wide services by default;
 
-        acts as a tkinter.Frame widget container;
+        acts as a Frame widget container;
     """
 
 
@@ -48,18 +48,6 @@ class RADFrame (RW.RADWidgetBase, TK.Frame):
         # for subclass widget pre-configuration
 
     } # end of CONFIG
-
-
-
-    TK_ATTRS = (
-
-        "bg", "background", "bd", "borderwidth", "cursor", "height",
-
-        "highlightbackground", "highlightcolor", "highlightthickness",
-
-        "padx", "pady", "relief", "takefocus", "width",
-
-    ) # end of TK_ATTRS
 
 
 
@@ -73,7 +61,9 @@ class RADFrame (RW.RADWidgetBase, TK.Frame):
 
         # super inits
 
-        TK.Frame.__init__(self, master, **self._only_tk(self.CONFIG))
+        ttk.Frame.__init__(self, master)
+
+        self.configure(**self._only_tk(self.CONFIG))
 
         RW.RADWidgetBase.__init__(self, master, **self.CONFIG)
 

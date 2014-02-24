@@ -216,13 +216,22 @@ class RADWidgetBase:
 
         _dict = dict()
 
-        _attrs = set(self.TK_ATTRS) & set(kw.keys())
+        # $ 2014-02-24 RS $
+        # Caution:
+        # TK widget *MUST* be init'ed before calling _only_tk() /!\
+        # self.configure() needs self.tk to work well
 
-        for _key in _attrs:
+        if hasattr(self, "tk") and hasattr(self, "configure"):
 
-            _dict[_key] = kw.get(_key)
+            _attrs = set(self.configure().keys()) & set(kw.keys())
 
-        # end for
+            for _key in _attrs:
+
+                _dict[_key] = kw.get(_key)
+
+            # end for
+
+        # end if
 
         return _dict
 

@@ -26,21 +26,21 @@
 
 # lib imports
 
-import tkinter as TK
+from tkinter import ttk
 
 from . import rad_xml_widget as XW
 
 
 
-class RADXMLFrame (XW.RADXMLWidget, TK.Frame):
+class RADXMLFrame (XW.RADXMLWidget, ttk.Frame):
     r"""
         general purpose widget builder and container;
 
-        subclasses tkRAD.xml.RADXMLWidget and tkinter.Frame;
+        subclasses tkRAD.xml.RADXMLWidget and ttk.Frame;
 
         acts as an XML tkinter widget factory and handles child widgets
 
-        in its own tkinter.Frame container;
+        into its own ttk.Frame container;
     """
 
 
@@ -53,30 +53,7 @@ class RADXMLFrame (XW.RADXMLWidget, TK.Frame):
 
 
 
-    TK_ATTRS = (
-
-        "bg", "background", "bd", "borderwidth", "cursor", "height",
-
-        "highlightbackground", "highlightcolor", "highlightthickness",
-
-        "padx", "pady", "relief", "takefocus", "width",
-
-    ) # end of TK_ATTRS
-
-
-
     def __init__ (self, master = None, **kw):
-        r"""
-            class constructor;
-
-            initializes tkinter.Frame first and then RADXMLWidget;
-
-            @kw keywords are filtered in Frame inits to avoid
-
-            useless extra exceptions, but are kept fully genuine in
-
-            RADXMLWidget inits;
-        """
 
         # default values
 
@@ -86,7 +63,9 @@ class RADXMLFrame (XW.RADXMLWidget, TK.Frame):
 
         # super inits
 
-        TK.Frame.__init__(self, master, **self._only_tk(self.CONFIG))
+        ttk.Frame.__init__(self, master)
+
+        self.configure(**self._only_tk(self.CONFIG))
 
         self.tk_parent = master
 
