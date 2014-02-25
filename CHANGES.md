@@ -17,18 +17,18 @@
 
         * now fully implemented;
 
-        * XML attr of `<ttkstyle apply="NewName.TButton" .../>`;
+        * XML attr of `<ttkstyle apply="newName.oldName" .../>`;
 
     * added new `_build_element_ttkstyle()`:
 
-        * now implements `ttk.Style().configure(_name, **attrs)`;
+        * now implements `ttk.Style().configure(_apply, **attrs)`;
 
     * added new `_parse_attr_style()`:
 
         * now fully implemented;
 
         * XML attr `style` now can either be `style="style_id"` for
-        tkinter native widgets or be `style="newname.oldname"` for
+        tkinter native widgets or be `style="newName.oldName"` for
         ttk widgets referring to a `ttk.Style()` definition or to a
         `<ttkstyle>` XML element def (which is the same, in fact);
 

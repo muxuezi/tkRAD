@@ -2161,17 +2161,11 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
     def _parse_attr_anchor (self, attribute, **kw):
         r"""
             many location supports;
-
             supports 'north', 'top' or 'up' for TK.N;
-
             supports 'south', 'bottom' or 'down' for TK.S;
-
             supports 'east' or 'right' for TK.E;
-
             supports 'west' or 'left' for TK.W;
-
             supports 'center' for TK.CENTER;
-
             supports any consistent combination of above values  for
             TK.NW, TK.NE, TK.SW and TK.SE, of course, e.g:
             anchor="top left" or anchor="down right", etc;
@@ -2209,6 +2203,31 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
             attribute.value = _anchor
 
             self._tk_config(attribute, **kw)
+
+        # end if
+
+    # end def
+
+
+
+    def _parse_attr_apply (self, attribute, **kw):
+        r"""
+            XML attr for '<ttkstyle apply="newName.oldName".../>';
+
+            no return value (void);
+        """
+
+        # param controls
+
+        if self._is_new(attribute):
+
+            # parsed attribute inits
+
+            attribute.value = re.sub(r"[^\w\.]+", r"", attribute.value)
+
+            # caution: *NO* self._tk_config() by here /!\
+
+            attribute.parsed = True
 
         # end if
 
