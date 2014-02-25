@@ -223,7 +223,7 @@ class RADStatusBar (RF.RADFrame):
 
         self.message = TK.StringVar()
 
-        self.label = TK.Label(
+        self.label = ttk.Label(
 
             self,
 

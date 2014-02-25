@@ -11,7 +11,16 @@
 
 ### $ 2014-02-25 RS $
 
+* in `RADStatusBar`:
+
+    * replaced `TK.Label` by `ttk.Label` for fancier look'n'feel;
+
 * in `RADXMLWidget`:
+
+    * in `_set_widget_config()`:
+
+        * now supports `style` profile for tkinter widgets default
+        configuration;
 
     * added new `_parse_attr_apply()`:
 

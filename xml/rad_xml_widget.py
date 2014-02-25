@@ -4770,18 +4770,36 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
             returns True on success, False otherwise;
         """
 
+        # param controls
+
         if hasattr(widget, "configure") and tools.is_pdict(config):
 
-            # filter TK attrs first
+            # $ 2014-02-25 RS $
+            # New support:
+            # style profile default inits
 
-            config = tools.dict_only_keys(
+            _attrs = config.get("style")
 
-                config, *widget.configure().keys()
+            if not tools.is_pdict(_attrs):
+
+                _attrs = dict()
+
+            # end if
+
+            # override with XML element specific XML attr defs
+
+            _attrs.update(config)
+
+            # filter TK attrs
+
+            _attrs = tools.dict_only_keys(
+
+                _attrs, *widget.configure().keys()
             )
 
-            # then configure widget
+            # configure widget
 
-            widget.configure(**config)
+            widget.configure(**_attrs)
 
             # succeeded
 
