@@ -13,6 +13,16 @@
 
 * in `RADXMLWidget`:
 
+    * added new `_parse_attr_apply()`:
+
+        * now fully implemented;
+
+        * XML attr of `<ttkstyle apply="NewName.TButton" .../>`;
+
+    * added new `_build_element_ttkstyle()`:
+
+        * now implements `ttk.Style().configure(_name, **attrs)`;
+
     * added new `_parse_attr_style()`:
 
         * now fully implemented;

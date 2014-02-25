@@ -254,8 +254,8 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
     DTD = {
 
         "widget": (
-            "module", "widget", "include", "configure",
-            "layout", "event", "tkevent", "tkmenu",
+            "module", "widget", "include", "configure", "layout",
+            "event", "tkevent", "tkmenu", "style", "ttkstyle",
         ) + tuple(CLASSES.keys()),
 
     } # end of DTD
@@ -1512,6 +1512,48 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
         """
 
         return self._build_tk_native(xml_tag, xml_element, tk_parent)
+
+    # end def
+
+
+
+    def _build_element_ttkstyle (self, xml_tag, xml_element, tk_parent):
+        r"""
+            Tkinter ttk widgets style building;
+
+            returns True on build success, False otherwise;
+        """
+
+        # param controls
+
+        if self.cast_element(xml_element):
+
+            # attribute inits
+
+            _attributes = self._init_attributes(
+
+                xml_tag, xml_element, tk_parent
+            )
+
+            # remove some XML attrs from dictionary
+
+            _attributes.pop("id", None)
+
+            _apply = _attributes.pop("apply", ".")
+
+            # update ttk style defs
+
+            ttk.Style().configure(_apply, **_attributes)
+
+            # succeeded
+
+            return True
+
+        # end if
+
+        # failed
+
+        return False
 
     # end def
 
@@ -4002,25 +4044,21 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         if self._is_new(attribute):
 
-            # try to get a TK_CONFIG style profile
+            # style id inits
 
-            _style = self.get_object_by_id(attribute.value)
+            _style = attribute.value
 
-            # got dictionary profile?
+            if "." not in _style:
 
-            if tools.is_pdict(_style):
-
-                # parsed attribute inits
-
-                attribute.value = _style
-
-                self._tk_config(attribute)
+                _style = self.get_object_by_id(_style, _style)
 
             # end if
 
-            # parsed whatever happens
+            # parsed attribute inits
 
-            attribute.parsed = True
+            attribute.value = _style
+
+            self._tk_config(attribute)
 
         # end if
 
