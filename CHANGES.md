@@ -34,6 +34,8 @@
 
     * added new `_build_element_style()`:
 
+        * building def for `<style.../>` XML element;
+
         * now implements a TK_CONFIG default profile to be
         overridden by other XML attrs;
 
