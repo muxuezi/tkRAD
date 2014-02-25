@@ -9,6 +9,32 @@
 ## CHANGELOG
 
 
+### $ 2014-02-25 RS $
+
+* in `RADXMLWidget`:
+
+    * added new `_parse_attr_style()`:
+
+        * now fully implemented;
+
+        * XML attr `style` now can either be `style="style_id"` for
+        tkinter native widgets or be `style="newname.oldname"` for
+        ttk widgets referring to a `ttk.Style()` definition or to a
+        `<ttkstyle>` XML element def (which is the same, in fact);
+
+    * added new `_build_element_style()`:
+
+        * now implements a TK_CONFIG default profile to be
+        overridden by other XML attrs;
+
+        * you can put here any Tkinter attrs as
+        `_set_widget_config()` will filter attrs along widget's own
+        `configure()` attrs;
+
+        * common attrs can be applied to any native widget, when
+        matching attrs are met;
+
+
 ### $ 2014-02-24 RS $
 
 * ***IDEA:*** what about creating `<tkstyle>` profile with

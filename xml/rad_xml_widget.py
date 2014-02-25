@@ -1043,6 +1043,46 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
+    def _build_element_style (self, xml_tag, xml_element, tk_parent):
+        r"""
+            Tkinter native widgets style building;
+
+            returns True on build success, False otherwise;
+        """
+
+        # param controls
+
+        if self.cast_element(xml_element):
+
+            # attribute inits
+
+            _attributes = self._init_attributes(
+
+                xml_tag, xml_element, tk_parent
+            )
+
+            # remove XML attr id from dictionary
+
+            _id = _attributes.pop("id", None)
+
+            # register dictionary for XML attr 'style="style_id"'
+
+            self._register_object_by_id(_attributes, _id)
+
+            # succeeded
+
+            return True
+
+        # end if
+
+        # failed
+
+        return False
+
+    # end def
+
+
+
     def _build_element_text (self, xml_tag, xml_element, tk_parent):
         r"""
             Tkinter native widget building;
@@ -3946,6 +3986,43 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
         # parsed attribute inits
 
         self._parse_attr__sticky(attribute, **kw)
+
+    # end def
+
+
+
+    def _parse_attr_style (self, attribute, **kw):
+        r"""
+            tkinter/ttk XML attr style def;
+
+            no return value (void);
+        """
+
+        # param controls
+
+        if self._is_new(attribute):
+
+            # try to get a TK_CONFIG style profile
+
+            _style = self.get_object_by_id(attribute.value)
+
+            # got dictionary profile?
+
+            if tools.is_pdict(_style):
+
+                # parsed attribute inits
+
+                attribute.value = _style
+
+                self._tk_config(attribute)
+
+            # end if
+
+            # parsed whatever happens
+
+            attribute.parsed = True
+
+        # end if
 
     # end def
 
