@@ -11,11 +11,32 @@
 
 ### $ 2014-02-26 RS $
 
+* in `RADXMLMenu`:
+
+    * in `is_menu_handler()`:
+
+        * added support for `ttk.Menubutton`;
+
+* in `RADXMLWidgetBase`:
+
+    * in `_parse_attr_compound()`:
+
+        * enlarged values to meet ttk AND tkinter natives needs;
+
 * in `RADXMLWidget`:
+
+    * added
+    new `_parse_attr_indicatorcolor()`,
+    new `_parse_attr_invalidcommand()`,
+    new `_parse_attr_padding()`:
+
+        * now fully implemented;
 
     * in `_build_element_ttkstyle()`:
 
         * now supports CDATA script with **CSS-like syntax**;
+
+        * added support for cascading defs of same elements;
 
 e.g. you can do things like this:
 

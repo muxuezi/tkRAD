@@ -30,6 +30,8 @@ import re
 
 import tkinter as TK
 
+from tkinter import ttk
+
 from ..core import tools
 
 from . import rad_xml_widget_base as XW
@@ -866,7 +868,10 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
             returns True on success, False otherwise;
         """
 
-        return isinstance(widget, (TK.Menu, TK.Menubutton, TK.Tk))
+        return isinstance(
+
+            widget, (TK.Menu, TK.Menubutton, ttk.Menubutton, TK.Tk)
+        )
 
     # end def
 

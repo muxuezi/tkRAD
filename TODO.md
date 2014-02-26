@@ -10,6 +10,10 @@
 
 * finish *ALL* ttk widgets support;
 
+    * now stopped implementing support at `ttk.Notebook`: TODO;
+
+    * will resume tomorrow `ttk.Notebook --> ttk.Treeview`;
+
 * update WIKI doc with new items:
 
     * create new wiki pages for *ALL* ttk widgets (lc_lang: en/fr);

@@ -1329,7 +1329,15 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
             returns True on build success, False otherwise;
         """
 
-        return self._build_tk_native(xml_tag, xml_element, tk_parent)
+        _ok = self._build_tk_native(xml_tag, xml_element, tk_parent)
+
+        if xml_element.get("checked"):
+
+            self.WIDGET.invoke()
+
+        # end if
+
+        return _ok
 
     # end def
 
@@ -1459,7 +1467,15 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
             returns True on build success, False otherwise;
         """
 
-        return self._build_tk_native(xml_tag, xml_element, tk_parent)
+        _ok = self._build_tk_native(xml_tag, xml_element, tk_parent)
+
+        if xml_element.get("selected"):
+
+            self.WIDGET.invoke()
+
+        # end if
+
+        return _ok
 
     # end def
 
@@ -1634,16 +1650,23 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
                                 _states = _element[1:]
 
+                                _element = _element[0]
+
                                 _mattrs = _attrs.copy()
 
                                 for (_key, _value) in _mattrs.items():
 
-                                    _mattrs[_key] = \
-                                        [tuple(_states + [_value])]
+                                    _map = _style.map(_element, _key)
+
+                                    _map.insert(
+                                        0, tuple(_states + [_value])
+                                    )
+
+                                    _mattrs[_key] = _map
 
                                 # end for
 
-                                _style.map(_element[0], **_mattrs)
+                                _style.map(_element, **_mattrs)
 
                             # got configuring
 
@@ -3157,6 +3180,21 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
+    def _parse_attr_invalidcommand (self, attribute, **kw):
+        r"""
+            command attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._tkRAD_command_support(attribute, **kw)
+
+    # end def
+
+
+
     def _parse_attr_jump (self, attribute, **kw):
         r"""
             boolean attribute;
@@ -3597,6 +3635,21 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
         # parsed attribute inits
 
         self._tkRAD_relief_support(attribute, **kw)
+
+    # end def
+
+
+
+    def _parse_attr_padding (self, attribute, **kw):
+        r"""
+            dimension attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._tkRAD_dimension_support(attribute, **kw)
 
     # end def
 

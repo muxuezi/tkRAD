@@ -319,7 +319,7 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
 
 
-    def _parse_attr_compound (self, attribute, **kw):
+    def _parse_attr_compound (self, attribute, xml_tag, **kw):
         r"""
             must be one of 'top', 'bottom', 'left', 'right',
             'center', 'none';
@@ -329,13 +329,21 @@ class RADXMLWidgetBase (RX.RADXMLBase):
             no return value (void);
         """
 
+        _values = ("top", "bottom", "left", "right", "center")
+
+        if tools.is_pstr(xml_tag) and xml_tag.startswith("ttk"):
+
+            _values += ("image", "text")
+
+        # end if
+
         # parsed attribute inits
 
         kw.update(
 
             default = "none",
 
-            values = ("top", "bottom", "left", "right", "center"),
+            values = _values,
         )
 
         self._fix_values(attribute, **kw)
