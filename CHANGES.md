@@ -15,9 +15,9 @@
 
     * in `_build_element_ttkstyle()`:
 
-        * now support CDATA script with **CSS-like syntax**;
+        * now supports CDATA script with **CSS-like syntax**;
 
-e.g. you can do such things:
+e.g. you can do things like this:
 
 ```python
 #!/usr/bin/env python3
