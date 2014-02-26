@@ -8,7 +8,9 @@
 
 ## TODO
 
-* update wiki doc with new items:
+* finish *ALL* ttk widgets support;
+
+* update WIKI doc with new items:
 
     * create new wiki pages for *ALL* ttk widgets (lc_lang: en/fr);
 
