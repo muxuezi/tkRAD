@@ -1543,7 +1543,123 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             # update ttk style defs
 
-            ttk.Style().configure(_apply, **_attributes)
+            _style = ttk.Style()    # see below /!\
+
+            _style.configure(_apply, **_attributes)
+
+            # CSS-like syntax
+
+            if tools.is_pstr(xml_element.text):
+
+                # CDATA inits
+
+                _cdata = (
+                    xml_element.text
+                        # strip unwanted chars
+                        .strip("\n\t ;")
+                        # remove line ends
+                        .replace("\n", "")
+                        # convert double quotes to single quotes
+                        .replace('"', "'")
+                )
+
+                # remove /* ... */ comments
+
+                _cdata = re.sub(r"/\*.*?\*/", "", _cdata)
+
+                # ttk root style is '.', CSS is '*'
+
+                _cdata = _cdata.replace("*", ".")
+
+                # get def chunks
+                # i.e. elements {**attrs} elements {**attrs} ...
+
+                _cdata = list(
+                    filter(
+                        None,
+                        set(
+                            re.split(r"(.*?\{.*?\})", _cdata)
+                        )
+                    )
+                )
+
+                for _def in _cdata:
+
+                    # def chunks init i.e. elements { **attrs }
+
+                    _elements, _attrs = _def.split("{")
+
+                    # filter elements
+                    # i.e. element:state:!state, element, ...
+                    # element:state, new.old:state, ...
+
+                    _elements = \
+                        re.sub(r"[^\w,.!:]+", "", _elements).split(",")
+
+                    # filter and parse XML attrs
+                    # i.e. attr_key: value; ...
+                    # --> {"attr_key": "value", ...}
+
+                    _attrs = self._parse_xml_attributes(
+                        xml_element,
+                        tk_parent,
+                        xml_attrs = eval(
+                            "{{{}}}"
+                            .format(
+                                re.sub(
+                                    r"\s*(\w+)\s*:\s*(.*?)\s*;",
+                                    r'"\1":"\2",',
+                                    _attrs.strip("{ }")
+                                )
+                            )
+                        ),
+                    )
+
+                    # got attrs?
+
+                    if tools.is_pdict(_attrs):
+
+                        for _element in _elements:
+
+                            # pseudo-format support
+                            # i.e. element:state:!state:...
+
+                            _element = _element.split(":")
+
+                            # got mapping?
+
+                            if len(_element) > 1:
+
+                                # inits
+
+                                _states = _element[1:]
+
+                                _mattrs = _attrs.copy()
+
+                                for (_key, _value) in _mattrs.items():
+
+                                    _mattrs[_key] = \
+                                        [tuple(_states + [_value])]
+
+                                # end for
+
+                                _style.map(_element[0], **_mattrs)
+
+                            # got configuring
+
+                            else:
+
+                                _style.configure(_element[0], **_attrs)
+
+                            # end if
+
+                        # end for
+
+                    # end if
+
+                # end for
+
+            # end if
 
             # succeeded
 
@@ -2914,6 +3030,21 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
         # parsed attribute inits
 
         self._tkRAD_float_support(attribute, **kw)
+
+    # end def
+
+
+
+    def _parse_attr_indicatorcolor (self, attribute, **kw):
+        r"""
+            color attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._tkRAD_color_support(attribute, **kw)
 
     # end def
 
@@ -4772,7 +4903,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         # param controls
 
-        if hasattr(widget, "configure") and tools.is_pdict(config):
+        if hasattr(widget, "configure") and isinstance(config, dict):
 
             # $ 2014-02-25 RS $
             # New support:
