@@ -13,9 +13,17 @@
 
 * in `RADXMLWidget`:
 
+    * optimized code
+    in `_build_element_ttkstyle()`,
+    in `_build_element_widget()`,
+    in `_init_attributes()`;
+
+    * added new XML element `<ttktab>` child of `<ttknotebook>`;
+
     * added new XML element `<ttktheme use="theme_name"/>`;
 
     * added
+    new `_build_element_ttktab()`,
     new `_build_element_ttktheme()`,
     new `_parse_attr_use()`,
     new `_parse_attr_displaycolumns()`,

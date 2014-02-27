@@ -8,12 +8,6 @@
 
 ## TODO
 
-* finish *ALL* ttk widgets support;
-
-    * now stopped implementing support at `ttk.Notebook`: TODO;
-
-    * will resume tomorrow `ttk.Notebook --> ttk.Treeview`;
-
 * update WIKI doc with new items:
 
     * create new wiki pages for *ALL* ttk widgets (lc_lang: en/fr);
@@ -22,6 +16,10 @@
 
     * add new XML element `<ttkstyle apply="newName.oldName"
     ttk_attrs/>`;
+
+    * add new XML element `<ttktheme use="theme_name"/>`;
+
+    * add new XML element `<ttktab>` child of `<ttknotebook>`;
 
     * add XML attr `style` to *ANY* widget:
 

@@ -95,23 +95,11 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
             "underline": None,
         },
 
-        "ttkbutton": {
-            "underline": None,
-        },
-
         "checkbutton": {
             "underline": None,
         },
 
-        "ttkcheckbutton": {
-            "underline": None,
-        },
-
         "label": {
-            "underline": None,
-        },
-
-        "ttklabel": {
             "underline": None,
         },
 
@@ -131,10 +119,6 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
             "underline": None,
         },
 
-        "ttkmenubutton": {
-            "underline": None,
-        },
-
         "optionmenu": {
             #~ "name": None,
             "listvariable": None,
@@ -150,11 +134,32 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
             "underline": None,
         },
 
+        "tkwidget": {
+        },
+
+        "ttkbutton": {
+            "underline": None,
+        },
+
+        "ttkcheckbutton": {
+            "underline": None,
+        },
+
+        "ttklabel": {
+            "underline": None,
+        },
+
+        "ttkmenubutton": {
+            "underline": None,
+        },
+
         "ttkradiobutton": {
             "underline": None,
         },
 
-        "tkwidget": {
+        "ttktab": {
+            "sticky": "all",
+            "underline": -1,
         },
 
         "widget": {
@@ -256,6 +261,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
         "ttkscrollbar":     "ttk.Scrollbar",
         "ttkseparator":     "ttk.Separator",
         "ttksizegrip":      "ttk.Sizegrip",
+        "ttktab":           "ttk.Frame",
         "ttktreeview":      "ttk.Treeview",
 
     } # end of CLASSES
@@ -273,10 +279,12 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     DTD = {
 
+        "ttknotebook": ("ttktab", ),
+
         "widget": (
-            "module", "widget", "include", "configure", "layout",
-            "event", "tkevent", "tkmenu", "style", "ttkstyle",
-            "ttktheme",
+            "configure", "event", "include", "layout", "module",
+            "style", "tkevent", "tkmenu", "ttkstyle", "ttktheme",
+            "widget",
         ) + tuple(CLASSES.keys()),
 
     } # end of DTD
@@ -1651,8 +1659,8 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
                                 re.sub(
                                     r"\s*(\w+)\s*:\s*(.*?)\s*;",
                                     r'"\1":"\2",',
-                                    _attrs.strip("{ }")
-                                )
+                                    _attrs.strip("{ };") + ";"
+                                ).strip(";")
                             )
                         ),
                     )
@@ -1719,6 +1727,19 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
         # failed
 
         return False
+
+    # end def
+
+
+
+    def _build_element_ttktab (self, xml_tag, xml_element, tk_parent):
+        r"""
+            <ttktab> XML element is child of <ttknotebook>;
+
+            returns True on build success, False otherwise;
+        """
+
+        return self._build_tk_native(xml_tag, xml_element, tk_parent)
 
     # end def
 
@@ -1795,6 +1816,8 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             # widget attribute inits
 
+            kw.update(addon_attrs = self.ATTRS.get("widget"))
+
             _attributes = self._init_attributes(
 
                 xml_tag, xml_element, tk_parent, **kw
@@ -1847,7 +1870,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             _build_ok = self._loop_on_children(
 
-                xml_element, _widget, accept=self.DTD.get(xml_tag),
+                xml_element, _widget,
+
+                accept = tools.choose(
+
+                    self.DTD.get(xml_tag),
+
+                    self.DTD.get("widget"),
+                )
             )
 
             # widget init() procedure
@@ -1948,13 +1978,11 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             xml_element.set("module", _module)
 
-            # build widget by faking xml_tag = "widget"
+            # build widget
 
             return self._build_element_widget(
 
-                "widget",  xml_element,  tk_parent,
-
-                addon_attrs=self.ATTRS.get(xml_tag, dict()),
+                xml_tag,  xml_element,  tk_parent,
             )
 
         # end if
@@ -2006,19 +2034,39 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         # inits
 
-        _attributes = self.ATTRS.get(xml_tag, dict()).copy()
+        _dicts = (
 
-        # add 'common' attrs
+            # XML element's mandatory default attrs
 
-        _attributes.update(self.ATTRS.get("common", dict()))
+            self.ATTRS.get(xml_tag),
 
-        # add more default attrs
+            # 'common' XML attrs
 
-        _attributes.update(kw.get("addon_attrs", dict()))
+            self.ATTRS.get("common"),
 
-        # override with real XML attributes (key/value) pairs
+            # additional external XML attrs
 
-        _attributes.update(xml_element.attrib)
+            kw.get("addon_attrs"),
+
+            # override with real XML attributes
+            # (key/value) pairs
+
+            xml_element.attrib,
+        )
+
+        _attributes = dict()
+
+        # loop on dicts
+
+        for _dict in _dicts:
+
+            if tools.is_pdict(_dict):
+
+                _attributes.update(_dict)
+
+            # end if
+
+        # end for
 
         # update keywords (filtered attributes)
 
@@ -4993,6 +5041,23 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
             # Toplevel window layout inits
 
             self._layout_toplevel(widget, attrs, tk_parent)
+
+        # $ 2014-02-27 RS $
+        # special case of ttk.Notebook children
+
+        elif isinstance(tk_parent, ttk.Notebook):
+
+            # add child instead of laying it out
+
+            tk_parent.add(
+
+                widget,
+
+                **tools.dict_only_keys(
+                    attrs, "compound", "image", "padding", "sticky",
+                    "text", "underline",
+                )
+            )
 
         # $ 2014-02-27 RS $
         # special case of ttk.PanedWindow children

@@ -104,7 +104,7 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
 
 
-    def _fix_values (self, attribute, **kw):
+    def _fix_values (self, attribute, default, values, **kw):
         r"""
             protected method def;
 
@@ -113,21 +113,17 @@ class RADXMLWidgetBase (RX.RADXMLBase):
             no return value (void);
         """
 
-        # param inits
-
-        _values = kw.get("values")
-
         # param controls
 
-        if _values and self._is_new(attribute):
+        if values and self._is_new(attribute):
 
             # inits
 
             _value = attribute.value.lower()
 
-            if _value not in _values:
+            if _value not in values:
 
-                _value = kw.get("default")
+                _value = default
 
             # end if
 
@@ -1157,7 +1153,7 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
                 # menu label underline support (e.g. "_File")
 
-                _attr_underline.value = None
+                _attr_underline.value = -1
 
                 _pos = _label.find("_")
 
