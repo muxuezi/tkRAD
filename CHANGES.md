@@ -9,6 +9,51 @@
 ## CHANGELOG
 
 
+### $ 2014-02-27 RS $
+
+* in `RADXMLWidget`:
+
+    * added new XML element `<ttktheme use="theme_name"/>`;
+
+    * added
+    new `_build_element_ttktheme()`,
+    new `_parse_attr_use()`,
+    new `_parse_attr_displaycolumns()`,
+    new `_parse_attr_columns()`:
+
+        * now fully implemented;
+
+    * in `_parse_attr_selectmode()`, `_parse_attr_show()`:
+
+        * added special support for `ttk.Treeview`;
+
+    * in `_build_element_scrollbar()`:
+
+        * fixed bug: `w.cget("option")` is of `TclObj.index` type
+        and *NOT* of `str` type;
+
+        * must transtype to get real value in comparisons;
+
+    * in `_parse_attr_orient()`:
+
+        * added special support for `ttk.PanedWindow`;
+
+        * `orient` attr is *READ-ONLY* in
+        `ttk.PanedWindow().configure()` and *MUST* only be declared
+        in **class constructor args**;
+
+    * in `_set_layout()`:
+
+        * added new support for `ttk.PanedWindow` child widgets;
+
+    * added
+    new `_parse_attr_maximum()`,
+    new `_parse_attr_mode()`,
+    new `_parse_attr_weight()`:
+
+        * now fully implemented;
+
+
 ### $ 2014-02-26 RS $
 
 * in `RADXMLMenu`:

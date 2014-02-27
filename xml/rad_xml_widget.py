@@ -95,11 +95,23 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
             "underline": None,
         },
 
+        "ttkbutton": {
+            "underline": None,
+        },
+
         "checkbutton": {
             "underline": None,
         },
 
+        "ttkcheckbutton": {
+            "underline": None,
+        },
+
         "label": {
+            "underline": None,
+        },
+
+        "ttklabel": {
             "underline": None,
         },
 
@@ -119,6 +131,10 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
             "underline": None,
         },
 
+        "ttkmenubutton": {
+            "underline": None,
+        },
+
         "optionmenu": {
             #~ "name": None,
             "listvariable": None,
@@ -131,6 +147,10 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
         },
 
         "radiobutton": {
+            "underline": None,
+        },
+
+        "ttkradiobutton": {
             "underline": None,
         },
 
@@ -256,6 +276,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
         "widget": (
             "module", "widget", "include", "configure", "layout",
             "event", "tkevent", "tkmenu", "style", "ttkstyle",
+            "ttktheme",
         ) + tuple(CLASSES.keys()),
 
     } # end of DTD
@@ -989,7 +1010,12 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
                 # connect vertically
 
-                if _scrollbar.cget("orient") == "vertical":
+                # $ 2014-02-27 RS $
+                # bug fix:
+                # be careful with w.cget("..."): *NOT* string objects!
+                # but rather TclObj.index objects (!)
+
+                if str(_scrollbar.cget("orient")) == "vertical":
 
                     _target.configure(yscrollcommand = _scrollbar.set)
 
@@ -1691,6 +1717,38 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
         # end if
 
         # failed
+
+        return False
+
+    # end def
+
+
+
+    def _build_element_ttktheme (self, xml_tag, xml_element, tk_parent):
+        r"""
+            Tkinter ttk theme building;
+
+            returns True on build success, False otherwise;
+        """
+
+        # param controls
+
+        if self.cast_element(xml_element):
+
+            # attribute inits
+
+            _attributes = self._init_attributes(
+
+                xml_tag, xml_element, tk_parent
+            )
+
+            # use new theme, if any.
+
+            ttk.Style().theme_use(_attributes.get("use"))
+
+            return True
+
+        # end if
 
         return False
 
@@ -2697,6 +2755,21 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
+    def _parse_attr_columns (self, attribute, **kw):
+        r"""
+            values attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._parse_attr_values(attribute, **kw)
+
+    # end def
+
+
+
     def _parse_attr_confine (self, attribute, **kw):
         r"""
             boolean attribute;
@@ -2794,6 +2867,21 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
         # parsed attribute inits
 
         self._tkRAD_color_support(attribute, **kw)
+
+    # end def
+
+
+
+    def _parse_attr_displaycolumns (self, attribute, **kw):
+        r"""
+            values attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._parse_attr_values(attribute, **kw)
 
     # end def
 
@@ -2943,7 +3031,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
-    def _parse_attr_height (self, attribute, **kw):
+    def _parse_attr_height (self, attribute, xml_tag, **kw):
         r"""
             integer/dimension attribute along widget type;
 
@@ -2952,8 +3040,8 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         # param controls
 
-        if kw.get("xml_tag") in ("button", "checkbutton", "label",
-        "listbox", "menubutton", "radiobutton", "text"):
+        if xml_tag in ("button", "checkbutton", "label", "listbox",
+        "menubutton", "radiobutton", "text"):
 
             # parsed attribute inits
 
@@ -3401,6 +3489,21 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
+    def _parse_attr_maximum (self, attribute, **kw):
+        r"""
+            integer attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._tkRAD_integer_support(attribute, **kw)
+
+    # end def
+
+
+
     def _parse_attr_maxundo (self, attribute, **kw):
         r"""
             integer attribute;
@@ -3477,6 +3580,30 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
         kw.update(no_tk_config = True)
 
         self._tkRAD_integer_support(attribute, **kw)
+
+    # end def
+
+
+
+    def _parse_attr_mode (self, attribute, **kw):
+        r"""
+            must be one of 'indeterminate', 'determinate';
+
+            default value is 'determinate';
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        kw.update(
+
+            default = "determinate",
+
+            values = ("indeterminate", ),
+        )
+
+        self._fix_values(attribute, **kw)
 
     # end def
 
@@ -3601,7 +3728,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
-    def _parse_attr_orient (self, attribute, **kw):
+    def _parse_attr_orient (self, attribute, attrs, xml_tag, **kw):
         r"""
             must be one of 'vertical', 'horizontal';
 
@@ -3620,6 +3747,25 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
         )
 
         self._fix_values(attribute, **kw)
+
+        # $ 2014-02-27 RS $
+        # special case for ttk.PanedWindow
+
+        if xml_tag == "ttkpanedwindow" and "args" in attrs:
+
+            # in a ttk.PanedWindow object:
+            # must init 'orient' attr in class constructor's 'args'
+            # because 'orient' is *READ-ONLY* in configure()
+
+            _args = tools.choose_str(attrs["args"]).split(",")
+
+            _args.append("orient='{}'".format(attribute.value))
+
+            attrs["args"] = ",".join(filter(None, _args))
+
+            self.TK_CONFIG.pop("orient", None)
+
+        # end if
 
     # end def
 
@@ -3899,7 +4045,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
-    def _parse_attr_selectmode (self, attribute, **kw):
+    def _parse_attr_selectmode (self, attribute, xml_tag, **kw):
         r"""
             must be one of 'browse', 'single', 'multiple', 'extended';
 
@@ -3910,12 +4056,30 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         # parsed attribute inits
 
-        kw.update(
+        # $ 2014-02-27 RS $
+        # new support:
+        # ttk.Treeview hasn't
+        # the same point of view!
 
-            default = "browse",
+        if xml_tag == "ttktreeview":
 
-            values = ("single", "multiple", "extended"),
-        )
+            kw.update(
+
+                default = "extended",
+
+                values = ("none", "browse"),
+            )
+
+        else:
+
+            kw.update(
+
+                default = "browse",
+
+                values = ("single", "multiple", "extended"),
+            )
+
+        # end if
 
         self._fix_values(attribute, **kw)
 
@@ -3956,16 +4120,38 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
-    def _parse_attr_show (self, attribute, **kw):
+    def _parse_attr_show (self, attribute, xml_tag, **kw):
         r"""
             password echo character to show in entry box;
+
+            headings/tree ttk.Treeview display off mode;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_any_value_support(attribute, **kw)
+        # $ 2014-02-27 RS $
+        # new support:
+        # ttk.Treeview hasn't
+        # the same point of view!
+
+        if xml_tag == "ttktreeview":
+
+            kw.update(
+
+                default = "headings",
+
+                values = ("tree", ),
+            )
+
+            self._fix_values(attribute, **kw)
+
+        else:
+
+            self._tkRAD_any_value_support(attribute, **kw)
+
+        # end if
 
     # end def
 
@@ -4185,7 +4371,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
-    def _parse_attr_state (self, attribute, **kw):
+    def _parse_attr_state (self, attribute, xml_tag, **kw):
         r"""
             must be one of 'normal' or 'disabled';
 
@@ -4201,7 +4387,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
         # new support:
         # special case for '<entry>' and '<spinbox>':
 
-        if kw.get("xml_tag") in ("entry", "spinbox"):
+        if xml_tag in ("entry", "spinbox"):
 
             _values = ("disabled", "readonly", )
 
@@ -4425,6 +4611,30 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
+    def _parse_attr_use (self, attribute, **kw):
+        r"""
+            must be one of ttk.Style().theme_use() list;
+
+            default value is 'default';
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        kw.update(
+
+            default = "default",
+
+            values = ttk.Style().theme_names(),
+        )
+
+        self._fix_values(attribute, **kw)
+
+    # end def
+
+
+
     def _parse_attr_validate (self, attribute, **kw):
         r"""
             must be one of 'focus', 'focusin', 'focusout', 'key',
@@ -4509,7 +4719,24 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
-    def _parse_attr_width (self, attribute, **kw):
+    def _parse_attr_weight (self, attribute, **kw):
+        r"""
+            ttk.PanedWindow child configuration attr;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        kw.update(tk_child_config = True)
+
+        self._tkRAD_integer_support(attribute, **kw)
+
+    # end def
+
+
+
+    def _parse_attr_width (self, attribute, xml_tag, **kw):
         r"""
             integer/dimension attribute along widget type;
 
@@ -4518,9 +4745,8 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         # param controls
 
-        if kw.get("xml_tag") in ("button", "checkbutton", "entry",
-        "label", "listbox", "menubutton", "radiobutton", "spinbox",
-        "text"):
+        if xml_tag in ("button", "checkbutton", "entry", "label",
+        "listbox", "menubutton", "radiobutton", "spinbox", "text"):
 
             # parsed attribute inits
 
@@ -4538,7 +4764,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
-    def _parse_attr_wrap (self, attribute, **kw):
+    def _parse_attr_wrap (self, attribute, xml_tag, **kw):
         r"""
             boolean attribute;
 
@@ -4549,7 +4775,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         # parsed attribute inits
 
-        if kw.get("xml_tag") == "text":
+        if xml_tag == "text":
 
             kw.update(
 
@@ -4768,6 +4994,18 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             self._layout_toplevel(widget, attrs, tk_parent)
 
+        # $ 2014-02-27 RS $
+        # special case of ttk.PanedWindow children
+
+        elif isinstance(tk_parent, ttk.PanedWindow):
+
+            # add child instead of laying it out
+
+            tk_parent.add(
+
+                widget, weight=self.TK_CHILD_CONFIG.get("weight")
+            )
+
         # $ 2014-01-15 RS $
         # special case of PanedWindow children
 
@@ -4974,12 +5212,18 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             _attrs.update(config)
 
-            # filter TK attrs
+            # got tk configure() attrs?
 
-            _attrs = tools.dict_only_keys(
+            if tools.is_pdict(widget.configure()):
 
-                _attrs, *widget.configure().keys()
-            )
+                # filter TK attrs along with configure() keys
+
+                _attrs = tools.dict_only_keys(
+
+                    _attrs, *widget.configure().keys()
+                )
+
+            # end if
 
             # configure widget
 
