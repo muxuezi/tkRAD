@@ -15,6 +15,8 @@
 
     * added new `_parse_attr_value()`:
 
+        * now specialized for `<ttkscale>` and other elements;
+
         * now fully implemented;
 
 
