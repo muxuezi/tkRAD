@@ -4723,16 +4723,24 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
-    def _parse_attr_value (self, attribute, **kw):
+    def _parse_attr_value (self, attribute, xml_tag, **kw):
         r"""
-            float attribute;
+            any/float attribute;
 
             no return value (void);
         """
 
         # parsed attribute inits
 
-        self._tkRAD_float_support(attribute, **kw)
+        if xml_tag == "ttkscale":
+
+            self._tkRAD_float_support(attribute, **kw)
+
+        else:
+
+            self._tkRAD_any_value_support(attribute, **kw)
+
+        # end if
 
     # end def
 
