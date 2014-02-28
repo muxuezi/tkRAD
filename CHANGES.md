@@ -9,6 +9,15 @@
 ## CHANGELOG
 
 
+### $ 2014-02-28 RS $
+
+* in `RADXMLWidget`:
+
+    * added new `_parse_attr_value()`:
+
+        * now fully implemented;
+
+
 ### $ 2014-02-27 RS $
 
 * in `RADXMLWidget`:

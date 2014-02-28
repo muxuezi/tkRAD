@@ -4723,6 +4723,21 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
 
 
+    def _parse_attr_value (self, attribute, **kw):
+        r"""
+            float attribute;
+
+            no return value (void);
+        """
+
+        # parsed attribute inits
+
+        self._tkRAD_float_support(attribute, **kw)
+
+    # end def
+
+
+
     def _parse_attr_values (self, attribute, **kw):
         r"""
             choices attribute;
