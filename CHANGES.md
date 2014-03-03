@@ -9,6 +9,13 @@
 ## CHANGELOG
 
 
+### $ 2014-03-03 RS $
+
+* started test/debugging session;
+
+* preparing tkRAD v1.3 - The Full Monty.
+
+
 ### $ 2014-02-28 RS $
 
 * in `RADXMLWidget`:
