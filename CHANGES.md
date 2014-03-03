@@ -15,6 +15,12 @@
 
 * preparing tkRAD v1.3 - The Full Monty.
 
+* in `RADXMLWidget`:
+
+    * in `DTD`:
+
+        * added new constraints for `menubutton`, `ttkmenubutton`;
+
 
 ### $ 2014-02-28 RS $
 

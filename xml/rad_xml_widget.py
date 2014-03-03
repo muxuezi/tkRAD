@@ -279,6 +279,10 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
     DTD = {
 
+        "menubutton": ("menu", "tkmenu"),
+
+        "ttkmenubutton": ("menu", "tkmenu"),
+
         "ttknotebook": ("ttktab", ),
 
         "widget": (
