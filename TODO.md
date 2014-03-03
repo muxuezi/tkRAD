@@ -8,6 +8,4 @@
 
 ## TODO
 
-* update WIKI doc with new items:
-
-    * translate wiki pages of *ALL* `<ttk...>` in French;
+* up-to-date.
