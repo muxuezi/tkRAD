@@ -50,7 +50,7 @@ If not, see http://www.gnu.org/licenses/
 
 ## FEATURES
 
-The current public release of `tkRAD` supports at least:
+This release of `tkRAD` supports:
 
 * **Application frame** with `tkRAD.widgets.RADApplication` class;
 
@@ -73,7 +73,7 @@ generic widget container class;
 * some innovative and really **useful programming tools** in
 `tkRAD.core` package modules;
 
-Since `tkRAD` has been designed for subclassing, if you don't meet
+Since `tkRAD` has been designed for subclassing, if `tkRAD` don't meet
 your needs, just create your own implementations derived from
 `tkRAD.xml` generic classes such as `RADXMLBase`, `RADXMLWidgetBase`
 and `RADXMLWidget`.
@@ -85,7 +85,7 @@ Classifier:
 
     Development Status :: 5 - Production/Stable
 
-At this time, `tkRAD` library has been:
+At this time, `tkRAD` library has been reported to work as follows:
 
 * Linux:
 
@@ -93,7 +93,7 @@ At this time, `tkRAD` library has been:
 
   * should work quite fine under any Linux distribution;
 
-* macOS:
+* MacOS:
 
   * **NOT YET TESTED**;
 
@@ -103,10 +103,10 @@ At this time, `tkRAD` library has been:
 
   * `tkRAD.easy.builder2` has been **TESTED OK** for **Python v2.7+**;
 
-  * Code is very few platform-dependent and should remain STABLE in
-  time between each release;
+Code has very few platform-dependencies and should remain STABLE in 
+time between each release;
 
-Any platform users feedback is still the welcome.
+Any platform users feedback is welcome.
 
 
 ## CHANGES
@@ -138,7 +138,7 @@ Please, feel free to visit `tkRAD` internationalized (i18n) wiki
 documentation for more detailed explanations, tips and tricks and
 source code examples.
 
-Last known URL: https://github.com/tarball69/tkRAD/wiki
+Wiki URL: https://github.com/tarball69/tkRAD/wiki
 
 
 ## INSTALLATION
@@ -234,12 +234,12 @@ everyone.
 
 ## QUICK START
 
-Please refer to our newest wiki page:
+Please refer to the "Easy tests with tkRAD.easy.builder" page:
 
 https://github.com/tarball69/tkRAD/wiki/en%3Aeasy_builder
 
 
-## THE LITTLE STORY
+## History: THE LITTLE STORY
 
 For the little story, the very first public release of `tkRAD` was
 entirely written with an ASUS 1001PX **NETBOOK**(!) computer, under
