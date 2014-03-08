@@ -3,10 +3,31 @@
 
 ## CONTRIBUTORS
 
-    RS    Raphaël SEBAN
+| Initials | Contributor | GitHub membership | Cool project | Current role | Previous role |
+|:--------:|:------------|:-----------------:|:------------:|:------------:|:-------------:|
+| CW | Cyril Walle | **[GrosSacASac] (https://github.com/GrosSacASac)** | **[WebSpree] (https://github.com/GrosSacASac/WebSpree)** | **education counselor** | - |
+| DA | Dale Athanasias | **[daleathan] (https://github.com/daleathan)** | **[widget-tour-py3] (https://github.com/daleathan/widget-tour-py3)** | **wiki contributor** | - |
+| RS | Raphaël Seban | **[tarball69] (https://github.com/tarball69)** | **[tkRAD] (https://github.com/tarball69/tkRAD/wiki)** | **developer** | author |
+|  | who's next? |  |  |  |  |
 
 
 ## CHANGELOG
+
+
+### $ 2014-03-08 DA $
+
+* pull request:
+
+    * simplified grammar and spelling in `README.md` file;
+
+
+### $ 2014-03-08 RS $
+
+* added new collaborators:
+
+    * **Cyril Walle**: education counselor;
+
+    * **Dale Athanasias**: wiki contributor;
 
 
 ### $ 2014-03-03 RS $
