@@ -14,6 +14,16 @@
 ## CHANGELOG
 
 
+### $ 2014-03-09 RS $
+
+* **tkRAD v1.4** new idea: now implementing deferred triggers for
+XML attrs parsing;
+
+* added new `tkRAD/core/defer.py`:
+
+    * class name is now `DeferredTriggerQueue`;
+
+
 ### $ 2014-03-08 DA $
 
 * pull request:
