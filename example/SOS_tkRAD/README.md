@@ -198,6 +198,40 @@ if you get an error message, `Tkinter` is *NOT* installed;
 use your favourite package manager to solve this issue;
 
 
+## BUG REPORT
+
+In order to **track bugs** and fix them correctly, we'd like to hear
+from you.
+
+**If you encountered any problem** during the use of `tkRAD` lib,
+please leave us a comment and tell us:
+
+* environment:
+    * which platform? (Windows, macOS, Linux)
+    * which Python version? (2.7+, 3.2+)
+    * tkinter installed correctly? (yes/no)
+
+* context:
+    * when did it happen?
+        * while trying wiki tutorial code samples?
+        * while trying `tkRAD.easy.builder` features?
+        * while trying to write your own app?
+
+* traceback (optional):
+    * are you sure it is *NOT* an XML source code mistype error?
+    * could you copy/paste the console error text, please?
+    * could you tell us few words about what happened?
+
+**Whatever happened**, we'd like to know about it.
+
+You will find an open issue **"It did *NOT* work for me!"** at:
+
+https://github.com/tarball69/tkRAD/issues/6
+
+**Thank you for contributing** to make `tkRAD` a better place for
+everyone.
+
+
 ## QUICK START
 
 Please refer to the "Easy tests with tkRAD.easy.builder" page:
