@@ -147,6 +147,36 @@ class DeferredTriggerQueue:
 
 
 
+    def flush (self, section, *args, **kw):
+        r"""
+            calls each callback stored into @section buffer with
+            additional new @args and @kw;
+
+            no return value (void);
+        """
+
+        # get section buffer
+
+        _buffer = self.__queue.setdefault(section, list())
+
+        # browse buffer items
+
+        for _item in _buffer:
+
+            # call item with extra args and keywords
+
+            _item.call(*args, **kw)
+
+        # end for
+
+        # clear section by now
+
+        self.clear(section)
+
+    # end def
+
+
+
     def get_queue (self):
         r"""
             returns deferred triggers queue (shallow copy);
@@ -196,7 +226,7 @@ class QueueItem:
             calls callback with additional new *args and **kw, if
             callback is a callable object, otherwise does nothing;
 
-            no return value (void);
+            returns callback return value, None if not a callable;
         """
 
         # member controls
@@ -215,9 +245,13 @@ class QueueItem:
 
             # call callback with new arguments and keywords
 
-            self.callback(*_args, **_kw)
+            return self.callback(*_args, **_kw)
 
         # end if
+
+        # failed
+
+        return None
 
     # end def
 
