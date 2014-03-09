@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tkwidget>
+<!--
+
+    tkWidget template specifications
+
+    tkRAD - tkinter Rapid Application Development library
+
+    (c) 2013+ Raphaël SEBAN <motus@laposte.net>
+
+    This program is free software: you can redistribute it and/or
+    modify it under the terms of the GNU General Public License as
+    published by the Free Software Foundation, either version 3 of
+    the License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+    General Public License for more details.
+
+    You should have received a copy of the GNU General Public
+    License along with this program.
+
+    If not, see: http://www.gnu.org/licenses/
+
+-->
+<tkwidget>
+
+    <!--
+
+        IMPORTANT NOTES:
+
+        * attr 'id' is optional but highly recommended to use,
+
+        especially for direct use in app with get_object_by_id('id');
+
+        * XML declaration order *COUNTS* in scripting:
+
+        do *NOT* refer to uncreated widgets /!\
+
+        * attr 'widget' always refer to a previously declared widget id;
+
+        * attr 'widget' will be "tk_parent" if not set or not found /!\
+
+        * all tkinter natives do not need to rely on 'module' id because
+
+        they are automagically related to a global tkinter importation;
+
+        * all tkinter subclasses are automagically reparented
+
+        i.e. no need to set XML attr args="self, xxx=yyy...";
+
+    -->
+
+
+    <!-- same as Python import sequence -->
+
+    <module
+
+        id="element id"
+
+        from="..pkg.uri"
+
+        import="lib|*"
+
+        as="ALIAS"
+    />
+
+    <!-- non tkinter-native extra widgets (user-defined) -->
+
+    <widget
+
+        id="element id"
+
+        name="varname e.g. self.{varname} = MyClass(self)"
+
+        class="widget's classname (case sensitive)"
+
+        args="constructor args e.g. self.var = MyClass(args)"
+
+        module="import module element id (useless for tk natives)"
+
+        layout="pack|grid|place"
+
+        layout_options="pack_options|grid_options|place_options"
+
+        resizable="no|yes|height|width"
+
+
+        command="event-driven command support"
+
+        bitmap="imagestock support"
+
+        image="imagestock support"
+
+        font="typefont support"
+
+        any_other_tk_attrs="etc, etc..."
+    >
+
+<!--
+        child XML elements (same as tkwidget)
+-->
+
+        <module/>
+        ...
+        <widget>...</widget>
+        <widget>...</widget>
+        <widget>...</widget>
+        ...
+        <label/>
+        <button/>
+        <canvas/>
+        <listbox/>
+        ...
+        <include/>
+        <configure/>
+        <layout/>
+        <event/>
+        <tkevent/>
+
+<!--
+        END of child XML elements
+-->
+
+    </widget>
+
+    <!--
+
+        includes another RADXMLWidget()
+
+    -->
+
+    <include
+
+        src="file path - URI"
+
+        xml_dir="{xml_dir}"
+
+        xml_filename="{xml_filename}"
+
+        xml_file_ext="{xml_file_ext}"
+    />
+
+    <!-- implement tkinter natives for easiness -->
+
+    <!-- see <widget **xml_attrs/> template for more detail -->
+
+    <!--
+
+        CAUTION: tkinter natives do *NOT* need to rely on attr 'module'
+
+        as it is fully automatic for them /!\
+
+        idem for automatic parenting for all tkinter subclasses /!\
+
+    -->
+
+    <!-- same as <widget class="Button" **attrs/> -->
+
+    <button id="" name="" .../>
+
+    <!-- same as <widget class="Canvas" **attrs/> -->
+
+    <canvas id="" name="" />
+
+    <!-- same as <widget class="Checkbutton" **attrs/> -->
+
+    <checkbutton id="" name="" />
+
+    <!-- etc, etc... -->
+
+    <entry id="" name="" />
+
+    <frame id="" name="" />
+
+    <label id="" name="" />
+
+    <labelframe id="" name="" />
+
+    <listbox id="" name="" />
+
+    <menu id="" name="" />
+
+    <menubutton id="" name="" />
+
+    <message id="" name="" />
+
+    <optionmenu id="" name="" />
+
+    <panedwindow id="" name="" />
+
+    <radiobutton id="" name="" />
+
+    <scale id="" name="" />
+
+    <scrollbar id="" name="" />
+
+    <spinbox id="" name="" />
+
+    <text id="" name="" />
+
+    <!-- universal tk widget method w.configure(**options) -->
+
+    <configure
+
+        widget="widget id or 'tk_parent' otherwise"
+
+        command="event-driven command support"
+
+        bitmap="imagestock support"
+
+        image="imagestock support"
+
+        font="typefont support"
+
+        any_other_tk_attrs="etc, etc..."
+    />
+
+    <!-- widget's and children layout inits -->
+
+    <layout
+
+        widget="widget_id_to_apply_on (tk_parent otherwise)"
+
+        layout="grid|pack|place"
+
+        layout_options="grid_options|pack_options|place_options"
+
+        resizable="no|yes|height|width"
+    />
+
+    <!-- same as get_event_manager().connect(signal, slot) -->
+
+    <event
+
+        signal="signal_name"
+
+        slot="slot_method_to_connect"
+    />
+
+    <!-- tkinter event handling -->
+
+    <tkevent
+
+        widget="widget_id_to_connect (tk_parent otherwise)"
+
+        bind="bind|bind_class|bind_all"
+
+        class="classname (case sensitive)"
+
+        seq="tkinter event sequence def"
+
+        slot="slot_method_to_connect"
+
+        add="add"
+    />
+
+</tkwidget>
