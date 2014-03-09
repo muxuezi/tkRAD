@@ -38,7 +38,7 @@ __queue = None
 
 # service getter
 
-def get_deferred_trigger_queue (*args, **kw):
+def get_deferred_trigger_queue ():
     r"""
         gets a unique application-wide instance of the deferred
         trigger queue;
@@ -50,7 +50,7 @@ def get_deferred_trigger_queue (*args, **kw):
 
     if not isinstance(__queue, DeferredTriggerQueue):
 
-        __queue = DeferredTriggerQueue(*args, **kw)
+        __queue = DeferredTriggerQueue()
 
     # end if
 
@@ -74,20 +74,20 @@ class DeferredTriggerQueue:
 
         you can pick it up *as is* and use it in your own project;
 
-        Generic Queue for deferred triggers;
+        Generic sync queue for deferred triggers;
 
     """
 
 
 
-    def __init__ (self, *args, **kw):
+    def __init__ (self):
         r"""
             class constructor inits;
         """
 
         # member inits
 
-        self.__queue = dict(*args, **kw)
+        self.__queue = dict()
 
     # end def
 
@@ -177,19 +177,46 @@ class DeferredTriggerQueue:
 
 
 
-    def get_queue (self):
+    def flush_all (self, *args, **kw):
         r"""
-            returns deferred triggers queue (shallow copy);
+            calls all callbacks stored into the queue with additional
+            new @args and @kw;
+
+            no return value (void);
         """
 
-        # clear all in queue
+        # get queue shallow copy (safe)
 
-        return self.__queue.copy()
+        _queue = self.__queue.copy()
+
+        # browse queue sections
+
+        for _section in _queue.keys():
+
+            # call items with extra args and keywords
+
+            self.flush(_section, *args, **kw)
+
+        # end for
+
+        # clear all by now (safe)
+
+        self.clear()
 
     # end def
 
 
 
+    def get_queue (self):
+        r"""
+            returns current deferred triggers queue (shallow copy);
+        """
+
+        # shallow copy of current queue
+
+        return self.__queue.copy()
+
+    # end def
 
 # end class DeferredTriggerQueue
 
@@ -210,6 +237,8 @@ class QueueItem:
         r"""
             class constructor inits;
         """
+
+        # member inits
 
         self.callback = callback
 
@@ -235,7 +264,9 @@ class QueueItem:
 
             # update extra arguments
 
-            _args = self.arguments.copy().extend(args)
+            _args = self.arguments.copy()
+
+            _args.extend(args)
 
             # update extra keywords
 
@@ -254,6 +285,5 @@ class QueueItem:
         return None
 
     # end def
-
 
 # end class QueueItem
