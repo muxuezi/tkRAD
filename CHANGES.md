@@ -34,6 +34,8 @@ XML attrs parsing;
     * added new class member `self._dt_queue`: private instance of
     `DeferredTriggerQueue`;
 
+    * in `xml_build()`: added support for `self._dt_queue`;
+
 
 ### $ 2014-03-08 DA $
 

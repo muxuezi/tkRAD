@@ -130,7 +130,7 @@ class RADXMLBase (RW.RADWidgetBase):
 
         # protected member inits
 
-        self._dt_queue = defer.DeferredTriggerQueue()
+        self._dt_queue = defer.DeferredTriggerQueue() # private queue
 
         # XML member inits
 
