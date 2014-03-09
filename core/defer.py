@@ -117,9 +117,24 @@ class DeferredTriggerQueue:
             no return value (void);
         """
 
-        # clear all in queue
+        # param inits
 
-        return self.__queue.copy()
+        _buffer = self.__queue.setdefault(section, set())
+
+        # callback is callable?
+
+        if callable(callback):
+
+        else:
+
+            raise TypeError(
+
+                "callback parameter should be "
+
+                "*AT LEAST* a callable object."
+            )
+
+        # end if
 
     # end def
 
