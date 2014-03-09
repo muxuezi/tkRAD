@@ -78,8 +78,6 @@ class DeferredTriggerQueue:
 
     """
 
-
-
     def __init__ (self):
         r"""
             class constructor inits;
@@ -185,13 +183,9 @@ class DeferredTriggerQueue:
             no return value (void);
         """
 
-        # get queue shallow copy (safe)
+        # browse queue sections (shallow copy of keys)
 
-        _queue = self.__queue.copy()
-
-        # browse queue sections
-
-        for _section in _queue.keys():
+        for _section in list(self.__queue.keys()):
 
             # call items with extra args and keywords
 
@@ -230,8 +224,6 @@ class QueueItem:
 
         Stores callback with its additional *args and **kw;
     """
-
-
 
     def __init__ (self, callback, *args, **kw):
         r"""
