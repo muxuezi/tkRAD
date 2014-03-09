@@ -162,3 +162,64 @@ class DeferredTriggerQueue:
 
 
 # end class DeferredTriggerQueue
+
+
+
+# class subcomponent def
+
+class QueueItem:
+    r"""
+        DeferredTriggerQueue subcomponent class def;
+
+        Stores callback with its additional *args and **kw;
+    """
+
+
+
+    def __init__ (self, callback, *args, **kw):
+        r"""
+            class constructor inits;
+        """
+
+        self.callback = callback
+
+        self.arguments = args
+
+        self.keywords = kw
+
+    # end def
+
+
+
+    def call (self, *args, **kw):
+        r"""
+            calls callback with additional new *args and **kw, if
+            callback is a callable object, otherwise does nothing;
+
+            no return value (void);
+        """
+
+        # member controls
+
+        if callable(self.callback):
+
+            # update extra arguments
+
+            _args = self.arguments.copy().extend(args)
+
+            # update extra keywords
+
+            _kw = self.keywords.copy()
+
+            _kw.update(kw)
+
+            # call callback with new arguments and keywords
+
+            self.callback(*_args, **_kw)
+
+        # end if
+
+    # end def
+
+
+# end class QueueItem
