@@ -1598,7 +1598,15 @@ class RADXMLBase (RW.RADWidgetBase):
 
                 # start XML widget building
 
-                return self._build_element(_root, self.tk_owner)
+                _build_ok = self._build_element(_root, self.tk_owner)
+
+                # flush all deferred triggers in queue
+
+                self._dt_queue.flush_all()
+
+                # return building results
+
+                return _build_ok
 
             else:
 
