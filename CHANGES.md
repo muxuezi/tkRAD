@@ -23,6 +23,17 @@ XML attrs parsing;
 
     * class name is now `DeferredTriggerQueue`;
 
+    * get app-wide `DeferredTriggerQueue` instance with
+    `get_deferred_trigger_queue()` or with its shortcut name
+    `get_dt_queue()`;
+
+    * now fully implemented OK;
+
+* in `RADXMLBase`:
+
+    * added new class member `self._dt_queue`: private instance of
+    `DeferredTriggerQueue`;
+
 
 ### $ 2014-03-08 DA $
 

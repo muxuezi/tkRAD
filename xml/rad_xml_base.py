@@ -42,6 +42,8 @@ from ..core import tools
 
 from ..core import path as P
 
+from ..core import defer
+
 from ..widgets import rad_widget_base as RW
 
 from . import rad_xml_attribute as XA
@@ -125,6 +127,10 @@ class RADXMLBase (RW.RADWidgetBase):
         r"""
             class constructor;
         """
+
+        # protected member inits
+
+        self._dt_queue = defer.DeferredTriggerQueue()
 
         # XML member inits
 
