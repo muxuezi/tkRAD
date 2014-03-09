@@ -93,17 +93,31 @@ class DeferredTriggerQueue:
 
 
 
-    def clear (self):
+    def clear (self, section = None):
         r"""
             clears all buffered triggers without calling them as in
             flush() or flush_all();
 
+            if @section is set, clears only mentioned section;
+
             no return value (void);
         """
 
-        # clear all in queue
+        # param controls
 
-        self.__queue.clear()
+        if section:
+
+            # clear only mentioned section
+
+            self.__queue.pop(section, None)
+
+        else:
+
+            # clear all in queue
+
+            self.__queue.clear()
+
+        # end if
 
     # end def
 
@@ -117,24 +131,17 @@ class DeferredTriggerQueue:
             no return value (void);
         """
 
-        # param inits
+        # get section buffer
 
-        _buffer = self.__queue.setdefault(section, set())
+        _buffer = self.__queue.setdefault(section, list())
 
-        # callback is callable?
+        # register new callable into buffer
 
-        if callable(callback):
+        _buffer.append(QueueItem(callback, *args, **kw))
 
-        else:
+        # update section data
 
-            raise TypeError(
-
-                "callback parameter should be "
-
-                "*AT LEAST* a callable object."
-            )
-
-        # end if
+        self.__queue[section] = _buffer
 
     # end def
 
