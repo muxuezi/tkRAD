@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tkmenu>
+<!--
+copyright (c) mentions
+-->
+<tkmenu>
+    <menu label="_File">
+        <command
+            label="_New"
+            accelerator="Ctrl+N"
+            command="@MenuFileNew"
+        />
+        <separator/>
+        <command
+            label="_Open"
+            accelerator="Ctrl+O"
+            command="@MenuFileOpen"
+        />
+        <menu
+            id="open_recent"
+            label="Open _recent"
+            postcommand="@MenuFileOpenRecent"
+        >
+            <command label="&lt;empty&gt;"/>
+        </menu>
+        <separator/>
+        <command
+            label="_Save"
+            accelerator="Ctrl+S"
+            command="@MenuFileSave"
+        />
+        <command
+            label="Save _as"
+            accelerator="Ctrl+Shift+S"
+            command="@MenuFileSaveAs"
+        />
+        <command
+            label="Save all"
+            command="@MenuFileSaveAll"
+        />
+        <separator/>
+        <command
+            label="_Close"
+            accelerator="Ctrl+W"
+            command="@MenuFileClose"
+        />
+        <command
+            label="Close all"
+            accelerator="Ctrl+Shift+W"
+            command="@MenuFileCloseAll"
+        />
+        <separator/>
+        <command
+            label="_Quit"
+            accelerator="Ctrl+Q"
+            command="@quit"
+        />
+    </menu>
+    <menu label="_Edit">
+        <command
+            label="_Cancel"
+            accelerator="Ctrl+Z"
+            command="@MenuEditCancel"
+        />
+        <command
+            label="_Redo"
+            accelerator="Ctrl+Y"
+            command="@MenuEditRedo"
+        />
+        <separator/>
+        <command
+            label="C_ut"
+            accelerator="Ctrl+X"
+            command="@MenuEditCut"
+        />
+        <command
+            label="C_opy"
+            accelerator="Ctrl+C"
+            command="@MenuEditCopy"
+        />
+        <command
+            label="_Paste"
+            accelerator="Ctrl+V"
+            command="@MenuEditPaste"
+        />
+        <separator/>
+        <command
+            label="_Erase"
+            accelerator="Del"
+            command="@MenuEditErase"
+        />
+        <separator/>
+        <command
+            label="Select _all"
+            accelerator="Ctrl+A"
+            command="@MenuEditSelectAll"
+        />
+    </menu>
+    <menu label="_Show">
+        <menu label="_Text size (NOT implemented)">
+            <radiobutton
+                label="Very large"
+                command="@TextSizeSelected"
+                variable="opt_text_size"
+                value="+2"
+            />
+            <radiobutton
+                label="Large"
+                command="@TextSizeSelected"
+                variable="opt_text_size"
+                value="+1"
+            />
+            <radiobutton
+                label="Normal"
+                command="@TextSizeSelected"
+                variable="opt_text_size"
+                value="0"
+                selected="selected"
+            />
+            <radiobutton
+                label="Small"
+                command="@TextSizeSelected"
+                variable="opt_text_size"
+                value="-1"
+            />
+            <radiobutton
+                label="Very small"
+                command="@TextSizeSelected"
+                variable="opt_text_size"
+                value="-2"
+            />
+        </menu>
+        <separator/>
+        <checkbutton
+            label="Show statusbar (implemented)"
+            command="@ToggleStatusbar"
+            variable="show_statusbar"
+        />
+    </menu>
+    <menu label="_Help">
+        <command
+            label="_Online documentation"
+            command="@MenuHelpDocumentation"
+        />
+        <separator/>
+        <command
+            label="_Translate this application"
+            command="@MenuHelpTranslate"
+        />
+        <separator/>
+        <command
+            label="_About"
+            accelerator="Ctrl+?"
+            command="@MenuHelpAbout"
+        />
+    </menu>
+</tkmenu>

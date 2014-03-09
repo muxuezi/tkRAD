@@ -1,0 +1,83 @@
+Metadata-Version: 1.1
+Name: tkRAD
+Version: 1.3-The-Full-Monty
+Summary: tkRAD - Tkinter Rapid Application Development and XML widget builder
+Home-page: https://github.com/tarball69/tkRAD/wiki
+Author: Raphaël SEBAN
+Author-email: motus@laposte.net
+License: 
+Licensed under GNU Lesser General Public License v3.
+    
+Download-URL: https://github.com/tarball69/tkRAD
+Description: 
+        Tkinter Rapid Application Development (RAD) library.
+        
+        `tkRAD` is a **Python3.2+** library designed to enable really Rapid
+        Application Development (RAD) process by using predefined classes to
+        derive in your own subclasses, with quite useful embedded services
+        such as dynamic **Tkinter XML widget building**, service manager,
+        events manager, RC configuration manager and so on.
+        
+        `tkRAD` is a deliberately **short-made API** designed for comfort,
+        easiness and simplicity.
+        
+        `tkRAD` provides the necessary **core tools** to quickly start up an
+        application development or for Tkinter widget testing through
+        `tkRAD.easy.builder` module.
+        
+        
+        ## BUG REPORT
+        
+        In order to **track bugs** and fix them correctly, we'd like to hear
+        from you.
+        
+        **If you encountered any problem** during the use of `tkRAD` lib,
+        please leave us a comment and tell us:
+        
+        * environment:
+            * which platform? (Windows, macOS, Linux)
+            * which Python version? (2.7+, 3.2+)
+            * tkinter installed correctly? (yes/no)
+        
+        * context:
+            * when did it happen?
+                * while trying wiki tutorial code samples?
+                * while trying `tkRAD.easy.builder` features?
+                * while trying to write your own app?
+        
+        * traceback (optional):
+            * are you sure it is *NOT* an XML source code mistype error?
+            * could you copy/paste the console error text, please?
+            * could you tell us few words about what happened?
+        
+        **Whatever happened**, we'd like to know about it.
+        
+        You will find an open issue **"It did *NOT* work for me!"** at:
+        
+        https://github.com/tarball69/tkRAD/issues/6
+        
+        **Thank you for contributing** to make `tkRAD` a better place for
+        everyone.
+        
+        
+Keywords: application,framework,tkinter,gui,xml,widget,builder
+Platform: UNKNOWN
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Environment :: Other Environment
+Classifier: Environment :: MacOS X
+Classifier: Environment :: Win32 (MS Windows)
+Classifier: Environment :: X11 Applications
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved
+Classifier: License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)
+Classifier: License :: OSI Approved :: GNU Library or Lesser General Public License (LGPL)
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.2
+Classifier: Topic :: Software Development
+Classifier: Topic :: Software Development :: Build Tools
+Classifier: Topic :: Software Development :: Libraries :: Application Frameworks
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Software Development :: User Interfaces
+Requires: Tkinter
