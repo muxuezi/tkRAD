@@ -36,6 +36,8 @@ from ..core import options as OPT
 
 from ..core import services as SM
 
+from ..core import tools
+
 
 
 class RADWidgetBase:
@@ -113,7 +115,7 @@ class RADWidgetBase:
 
 
 
-    def __init__ (self, tk_owner = None, **kw):
+    def __init__ (self, tk_owner=None, slot_owner=None, **kw):
         r"""
             implements RAD ready-to-use services:
 
@@ -137,6 +139,8 @@ class RADWidgetBase:
         self._init_instance_members(**kw)
 
         self.tk_owner = tk_owner
+
+        self.slot_owner = tools.choose(slot_owner, tk_owner)
 
         self.app = SM.ask_for("app", silent_mode = True)
 

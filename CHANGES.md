@@ -54,6 +54,14 @@ anywhere to `DeferQueue` as for deferred actions queue buffer;
 
     * updated code elsewhere;
 
+* in `RADWidgetBase`:
+
+    * added new class member `self.slot_owner` for
+    tkRAD.command.support;
+
+    * by now, it is possible to separate `self.tk_owner` from
+    `self.slot_owner`: useful for e.g. `RADXMLFrame`;
+
 
 ### $ 2014-03-09 RS $
 

@@ -69,7 +69,10 @@ class RADXMLFrame (XW.RADXMLWidget, ttk.Frame):
 
         self.tk_parent = master
 
-        XW.RADXMLWidget.__init__(self, tk_owner = self, **self.CONFIG)
+        XW.RADXMLWidget.__init__(
+
+            self, tk_owner=self, slot_owner=master, **self.CONFIG
+        )
 
     # end def
 
