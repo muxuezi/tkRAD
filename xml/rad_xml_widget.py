@@ -1858,6 +1858,12 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             self._set_class_member(_attributes.get("name"), _widget)
 
+            # $ 2014-03-10 RS $
+            # since v1.4: deferred tasks
+            # flush widget section
+
+            self._queue.flush("widget", widget=_widget)
+
             # configure widget
 
             self._set_widget_config(_widget, self.TK_CONFIG)
