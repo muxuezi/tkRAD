@@ -495,7 +495,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             # set inclusion widget
 
-            _widget = RADXMLWidget(tk_owner = tk_parent, **_attributes)
+            _widget = RADXMLWidget(
+
+                tk_owner = tk_parent,
+
+                slot_owner = self.slot_owner,
+
+                **_attributes
+            )
 
             # ensure there won't be any unexpected inclusion /!\
 
@@ -1266,7 +1273,12 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             # widget inits
 
-            _widget = XM.RADXMLMenu(tk_owner = tk_parent)
+            _widget = XM.RADXMLMenu(
+
+                tk_owner = tk_parent,
+
+                slot_owner = self.slot_owner,
+            )
 
             # $ 2014-03-10 RS $
             # since v1.4: deferred tasks

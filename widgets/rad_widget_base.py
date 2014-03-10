@@ -195,8 +195,6 @@ class RADWidgetBase:
 
             if _name.isupper() and isinstance(_value, dict):
 
-                #~ print("\nfound: '{}' = {}".format(_name, _value))
-
                 setattr(self, _name, _value.copy())
 
             # end if

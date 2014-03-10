@@ -936,12 +936,20 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
                     raise AttributeError(
                         _(
-                            "Cannot link command '{cmd}' to "
+                            "In widget '{widget}': "
+                            "cannot link command '{cmd}' to "
                             "'{app}' (self.app) "
                             "- bad XML attribute "
                             "or incorrect self.app"
 
-                        ).format(cmd=_cmd, app=repr(self.app))
+                        ).format(
+
+                            widget=repr(self),
+
+                            cmd=_cmd,
+
+                            app=repr(self.app),
+                        )
                     )
 
                     # cancel command
@@ -975,14 +983,19 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
                     raise AttributeError(
                         _(
-                            "Cannot link command '{cmd}' to "
+                            "In widget '{widget}': "
+                            "cannot link command '{cmd}' to "
                             "'{owner}' (self.slot_owner) "
                             "- bad XML attribute "
-                            "or incorrect self.slot_owner"
+                            "or incorrect owner."
 
                         ).format(
 
-                            cmd=_cmd, owner=repr(self.slot_owner)
+                            widget=repr(self),
+
+                            cmd=_cmd,
+
+                            owner=repr(self.slot_owner),
                         )
                     )
 
