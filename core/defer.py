@@ -38,19 +38,19 @@ __queue = None
 
 # service getter
 
-def get_deferred_trigger_queue ():
+def get_defer_queue ():
     r"""
         gets a unique application-wide instance of the deferred
-        trigger queue;
+        actions queue;
 
         always return the queue unique instance pointer;
     """
 
     global __queue
 
-    if not isinstance(__queue, DeferredTriggerQueue):
+    if not isinstance(__queue, DeferQueue):
 
-        __queue = DeferredTriggerQueue()
+        __queue = DeferQueue()
 
     # end if
 
@@ -60,15 +60,9 @@ def get_deferred_trigger_queue ():
 
 
 
-# alias shortcut for get_deferred_trigger_queue()
-
-get_dt_queue = get_deferred_trigger_queue
-
-
-
 # class def
 
-class DeferredTriggerQueue:
+class DeferQueue:
     r"""
         /!\ this module is *STANDALONE* /!\
 
@@ -212,7 +206,7 @@ class DeferredTriggerQueue:
 
     # end def
 
-# end class DeferredTriggerQueue
+# end class DeferQueue
 
 
 
@@ -220,7 +214,7 @@ class DeferredTriggerQueue:
 
 class QueueItem:
     r"""
-        DeferredTriggerQueue subcomponent class def;
+        DeferQueue subcomponent class def;
 
         Stores callback with its additional *args and **kw;
     """

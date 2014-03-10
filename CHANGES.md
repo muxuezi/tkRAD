@@ -14,6 +14,14 @@
 ## CHANGELOG
 
 
+### $ 2014-03-10 RS $
+
+* `DeferredTriggerQueue` is inappropriate name: now renamed anywhere
+to `DeferQueue` as for deferred actions queue;
+
+* not so simple to find the good naming convention;
+
+
 ### $ 2014-03-09 RS $
 
 * **tkRAD v1.4** new idea: now implementing deferred triggers for
