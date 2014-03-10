@@ -589,6 +589,16 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
                 xml_tag, xml_element, tk_parent
             )
 
+            # $ 2014-03-10 RS $
+            # since v1.4: deferred tasks
+            # flush widget section
+
+            self._queue.flush("widget")
+
+            # ensure neutrality
+
+            _attributes = _attributes.flatten()
+
             # try to retrieve concerned widget
 
             _widget = _attributes.get("widget", tk_parent)
@@ -652,6 +662,16 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
             # set widget as class member
 
             self._set_class_member(_attributes.get("name"), _widget)
+
+            # $ 2014-03-10 RS $
+            # since v1.4: deferred tasks
+            # flush widget section
+
+            self._queue.flush("widget", widget = _widget)
+
+            # ensure neutrality
+
+            _attributes = _attributes.flatten()
 
             # prepare list of choices
 
@@ -897,6 +917,16 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             self._set_class_member(_attributes.get("name"), _widget)
 
+            # $ 2014-03-10 RS $
+            # since v1.4: deferred tasks
+            # flush widget section
+
+            self._queue.flush("widget", widget = _widget)
+
+            # ensure neutrality
+
+            _attributes = _attributes.flatten()
+
             # startup inits
 
             _start = _attributes.get("start")
@@ -1109,6 +1139,16 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
                 xml_tag, xml_element, tk_parent
             )
 
+            # $ 2014-03-10 RS $
+            # since v1.4: deferred tasks
+            # flush widget section
+
+            self._queue.flush("widget")
+
+            # ensure neutrality
+
+            _attributes = _attributes.flatten()
+
             # remove XML attr id from dictionary
 
             _id = _attributes.pop("id", None)
@@ -1167,6 +1207,16 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
                 xml_tag, xml_element, tk_parent
             )
+
+            # $ 2014-03-10 RS $
+            # since v1.4: deferred tasks
+            # flush widget section
+
+            self._queue.flush("widget")
+
+            # ensure neutrality
+
+            _attributes = _attributes.flatten()
 
             # retrieve tkinter widget
 
@@ -1250,6 +1300,16 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
                 xml_tag, xml_element, tk_parent
             )
+
+            # $ 2014-03-10 RS $
+            # since v1.4: deferred tasks
+            # flush widget section
+
+            self._queue.flush("widget")
+
+            # ensure neutrality
+
+            _attributes = _attributes.flatten()
 
             # reset element tag
 
@@ -1599,6 +1659,16 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
                 xml_tag, xml_element, tk_parent
             )
 
+            # $ 2014-03-10 RS $
+            # since v1.4: deferred tasks
+            # flush widget section
+
+            self._queue.flush("widget")
+
+            # ensure neutrality
+
+            _attributes = _attributes.flatten()
+
             # remove some XML attrs from dictionary
 
             _attributes.pop("id", None)
@@ -1776,6 +1846,16 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
                 xml_tag, xml_element, tk_parent
             )
+
+            # $ 2014-03-10 RS $
+            # since v1.4: deferred tasks
+            # flush widget section
+
+            self._queue.flush("widget")
+
+            # ensure neutrality
+
+            _attributes = _attributes.flatten()
 
             # use new theme, if any.
 
