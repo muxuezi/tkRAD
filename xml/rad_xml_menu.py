@@ -584,8 +584,6 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
         if tools.is_pstr(_acc) and callable(_cmd):
 
-            print("bind all OK.")
-
             self.tk_owner.bind_all(_acc, _cmd)
 
         # end if
