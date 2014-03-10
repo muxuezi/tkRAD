@@ -46,6 +46,14 @@ anywhere to `DeferQueue` as for deferred actions queue buffer;
 
 * looking for new ideas before tagging v1.4...
 
+* in `RADXMLWidget`:
+
+    * added new `_init_attributes_flat()`:
+
+        * now fully implemented;
+
+    * updated code elsewhere;
+
 
 ### $ 2014-03-09 RS $
 

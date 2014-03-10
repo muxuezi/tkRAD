@@ -524,7 +524,7 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
             # $ 2014-03-10 RS $
             # since v1.4: deferred tasks
-            # must flatten() in last
+            # must flatten() at last
 
         ).flatten()
 
@@ -570,7 +570,7 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
         self._queue.flush("widget")
 
-        # must flatten() in last
+        # must flatten() at last
 
         _coptions = _coptions.flatten()
 
@@ -638,7 +638,7 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
             # $ 2014-03-10 RS $
             # since v1.4: deferred tasks
-            # must flatten() in last
+            # must flatten() at last
 
         ).flatten()
         """

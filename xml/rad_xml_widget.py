@@ -383,7 +383,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             # attribute inits
 
-            _attributes = self._init_attributes(
+            _attributes = self._init_attributes_flat(
 
                 xml_tag, xml_element, tk_parent
             )
@@ -438,7 +438,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             # attribute inits
 
-            _attributes = self._init_attributes(
+            _attributes = self._init_attributes_flat(
 
                 xml_tag, xml_element, tk_parent
             )
@@ -488,20 +488,10 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             # attribute inits
 
-            _attributes = self._init_attributes(
+            _attributes = self._init_attributes_flat(
 
                 xml_tag, xml_element, tk_parent
             )
-
-            # $ 2014-03-10 RS $
-            # since v1.4: deferred tasks
-            # flush widget section
-
-            self._queue.flush("widget")
-
-            # ensure neutrality
-
-            _attributes = _attributes.flatten()
 
             # set inclusion widget
 
@@ -584,20 +574,10 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             # attribute inits
 
-            _attributes = self._init_attributes(
+            _attributes = self._init_attributes_flat(
 
                 xml_tag, xml_element, tk_parent
             )
-
-            # $ 2014-03-10 RS $
-            # since v1.4: deferred tasks
-            # flush widget section
-
-            self._queue.flush("widget")
-
-            # ensure neutrality
-
-            _attributes = _attributes.flatten()
 
             # try to retrieve concerned widget
 
@@ -655,14 +635,6 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             _widget = eval("TK.Listbox({args})".format(args = _args))
 
-            # keep a copy aboard
-
-            self._register_object_by_id(_widget, _attributes.get("id"))
-
-            # set widget as class member
-
-            self._set_class_member(_attributes.get("name"), _widget)
-
             # $ 2014-03-10 RS $
             # since v1.4: deferred tasks
             # flush widget section
@@ -672,6 +644,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
             # ensure neutrality
 
             _attributes = _attributes.flatten()
+
+            # keep a copy aboard
+
+            self._register_object_by_id(_widget, _attributes.get("id"))
+
+            # set widget as class member
+
+            self._set_class_member(_attributes.get("name"), _widget)
 
             # prepare list of choices
 
@@ -820,7 +800,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             # attribute inits
 
-            _attributes = self._init_attributes(
+            _attributes = self._init_attributes_flat(
 
                 xml_tag, xml_element, tk_parent
             )
@@ -886,7 +866,6 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
                 _attributes.get("listvariable"),
 
                 # $ 2014-01-11 RS $
-
                 # for retro-compatibility reasons:
 
                 _attributes.get("variable"),
@@ -909,14 +888,6 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             _widget = TK.OptionMenu(tk_parent, _cvar, *_choices)
 
-            # keep a copy aboard
-
-            self._register_object_by_id(_widget, _attributes.get("id"))
-
-            # set widget as class member
-
-            self._set_class_member(_attributes.get("name"), _widget)
-
             # $ 2014-03-10 RS $
             # since v1.4: deferred tasks
             # flush widget section
@@ -926,6 +897,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
             # ensure neutrality
 
             _attributes = _attributes.flatten()
+
+            # keep a copy aboard
+
+            self._register_object_by_id(_widget, _attributes.get("id"))
+
+            # set widget as class member
+
+            self._set_class_member(_attributes.get("name"), _widget)
 
             # startup inits
 
@@ -1134,20 +1113,10 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             # attribute inits
 
-            _attributes = self._init_attributes(
+            _attributes = self._init_attributes_flat(
 
                 xml_tag, xml_element, tk_parent
             )
-
-            # $ 2014-03-10 RS $
-            # since v1.4: deferred tasks
-            # flush widget section
-
-            self._queue.flush("widget")
-
-            # ensure neutrality
-
-            _attributes = _attributes.flatten()
 
             # remove XML attr id from dictionary
 
@@ -1203,20 +1172,10 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             # attribute inits
 
-            _attributes = self._init_attributes(
+            _attributes = self._init_attributes_flat(
 
                 xml_tag, xml_element, tk_parent
             )
-
-            # $ 2014-03-10 RS $
-            # since v1.4: deferred tasks
-            # flush widget section
-
-            self._queue.flush("widget")
-
-            # ensure neutrality
-
-            _attributes = _attributes.flatten()
 
             # retrieve tkinter widget
 
@@ -1301,16 +1260,6 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
                 xml_tag, xml_element, tk_parent
             )
 
-            # $ 2014-03-10 RS $
-            # since v1.4: deferred tasks
-            # flush widget section
-
-            self._queue.flush("widget")
-
-            # ensure neutrality
-
-            _attributes = _attributes.flatten()
-
             # reset element tag
 
             xml_element.tag = "tkmenu"
@@ -1318,6 +1267,16 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
             # widget inits
 
             _widget = XM.RADXMLMenu(tk_owner = tk_parent)
+
+            # $ 2014-03-10 RS $
+            # since v1.4: deferred tasks
+            # flush widget section
+
+            self._queue.flush("widget", widget = _widget)
+
+            # ensure neutrality
+
+            _attributes = _attributes.flatten()
 
             # register widget
 
@@ -1654,20 +1613,10 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             # attribute inits
 
-            _attributes = self._init_attributes(
+            _attributes = self._init_attributes_flat(
 
                 xml_tag, xml_element, tk_parent
             )
-
-            # $ 2014-03-10 RS $
-            # since v1.4: deferred tasks
-            # flush widget section
-
-            self._queue.flush("widget")
-
-            # ensure neutrality
-
-            _attributes = _attributes.flatten()
 
             # remove some XML attrs from dictionary
 
@@ -1792,15 +1741,15 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
                                 _style.configure(_element[0], **_attrs)
 
-                            # end if
+                            # end if - mapping
 
-                        # end for
+                        # end for - elements
 
-                    # end if
+                    # end if - attrs
 
-                # end for
+                # end for - cdata
 
-            # end if
+            # end if - CSS-like syntax
 
             # succeeded
 
@@ -1842,20 +1791,10 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             # attribute inits
 
-            _attributes = self._init_attributes(
+            _attributes = self._init_attributes_flat(
 
                 xml_tag, xml_element, tk_parent
             )
-
-            # $ 2014-03-10 RS $
-            # since v1.4: deferred tasks
-            # flush widget section
-
-            self._queue.flush("widget")
-
-            # ensure neutrality
-
-            _attributes = _attributes.flatten()
 
             # use new theme, if any.
 
@@ -1936,6 +1875,16 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             _widget = eval("_class({args})".format(args = _args))
 
+            # $ 2014-03-10 RS $
+            # since v1.4: deferred tasks
+            # flush widget section
+
+            self._queue.flush("widget", widget = _widget)
+
+            # ensure neutrality
+
+            _attributes = _attributes.flatten()
+
             # keep a copy aboard
 
             self._register_object_by_id(_widget, _attributes.get("id"))
@@ -1947,16 +1896,6 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
             # set widget as class member
 
             self._set_class_member(_attributes.get("name"), _widget)
-
-            # $ 2014-03-10 RS $
-            # since v1.4: deferred tasks
-            # flush widget section
-
-            self._queue.flush("widget", widget = _widget)
-
-            # ensure neutrality
-
-            _attributes = _attributes.flatten()
 
             # configure widget
 
@@ -2179,6 +2118,36 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
         # return parsed XML attributes
 
         return self._parse_xml_attributes(xml_element, tk_parent, **kw)
+
+    # end def
+
+
+
+    def _init_attributes_flat (self, xml_tag, xml_element, tk_parent, **kw):
+        r"""
+            parses @xml_element param XML attributes along @xml_tag
+
+            param constraints and possible @kw["addon_attrs"];
+
+            returns parsed XML attributes in a dict() object;
+        """
+
+        # inits
+
+        _attributes = self._init_attributes(
+
+            xml_tag, xml_element, tk_parent, **kw
+        )
+
+        # $ 2014-03-10 RS $
+        # since v1.4: deferred tasks
+        # flush widget section
+
+        self._queue.flush("widget", **kw)
+
+        # ensure neutrality
+
+        return _attributes.flatten()
 
     # end def
 
