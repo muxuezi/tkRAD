@@ -897,31 +897,18 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
             _widget = kw.get("widget")
 
-            # action trigger template
-
-            def _trigger (*args, callback=None, widget=_widget, **kw):
-
-                return (
-
-                    lambda *args, _a=args, _cb=callback,
-                                                    _w=widget, _kw=kw:
-
-                        _cb(*(args + _a), widget=_w, **_kw)
-                )
-
-            # end def
-
             # events maechanism support
 
             if _cmd.startswith("@"):
 
-                # e.g. "@MyNewEvent" --> raise_event("MyNewEvent")
+                # e.g. "@EventName" --> raise_event("EventName")
 
-                _cmd = _trigger(
+                _cmd = (
 
-                    _cmd[1:],
+                    lambda *args, _e=_cmd[1:],
+                                            _s=self.events, _w=_widget:
 
-                    callback = self.events.raise_event,
+                    _s.raise_event(_e, *args, widget=_w)
                 )
 
             # self.app methods support
@@ -936,9 +923,13 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
                     # e.g. "^quit" --> self.app.quit
 
-                    _cmd = _trigger(
+                    _cmd = (
 
-                        callback = getattr(self.app, _cmd),
+                        lambda  *args,
+                                _cb=getattr(self.app, _cmd),
+                                _w=_widget:
+
+                            _cb(*args, widget=_w)
                     )
 
                 else:
@@ -971,9 +962,13 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
                     # e.g. ".quit" --> self.tk_owner.quit
 
-                    _cmd = _trigger(
+                    _cmd = (
 
-                        callback = getattr(self.tk_owner, _cmd),
+                        lambda  *args,
+                                _cb=getattr(self.tk_owner, _cmd),
+                                _w=_widget:
+
+                            _cb(*args, widget=_w)
                     )
 
                 else:
@@ -1006,9 +1001,11 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
                 # pray for value being a global method!
 
-                _cmd = _trigger(
+                _cmd = (
 
-                    callback = eval(_cmd),
+                    lambda *args, _cb=eval(_cmd), _w=_widget:
+
+                        _cb(*args, widget=_w)
                 )
 
             # end if

@@ -580,8 +580,6 @@ class RADXMLMenu (XW.RADXMLWidgetBase):
 
         _cmd = _coptions.get("command")
 
-        print("acc:", _acc, "cmd:", _cmd)
-
         # event binding
 
         if tools.is_pstr(_acc) and callable(_cmd):
