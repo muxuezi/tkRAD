@@ -130,7 +130,7 @@ class RADXMLBase (RW.RADWidgetBase):
 
         # protected member inits
 
-        self._defer_queue = defer.DeferQueue()     # private queue
+        self._queue = defer.DeferQueue()     # private queue
 
         # XML member inits
 
@@ -1602,7 +1602,7 @@ class RADXMLBase (RW.RADWidgetBase):
 
                 # flush all deferred actions in queue
 
-                self._defer_queue.flush_all()
+                self._queue.flush_all()
 
                 # return building results
 

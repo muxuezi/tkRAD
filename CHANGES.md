@@ -17,11 +17,15 @@
 ### $ 2014-03-10 RS $
 
 * `DeferredTriggerQueue` is **inappropriate name**: now renamed
-anywhere to `DeferQueue` as for deferred actions queue;
+anywhere to `DeferQueue` as for deferred actions queue buffer;
 
 * `triggers` have been replaced by `actions` in comments;
 
-* not so simple to find the good naming convention;
+* in `RADXMLBase`:
+
+    * renamed `self._dt_queue` to simply `self._queue`;
+
+* not so simple to find the good naming convention(!);
 
 
 ### $ 2014-03-09 RS $
