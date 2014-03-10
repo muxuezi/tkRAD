@@ -81,6 +81,9 @@ class DeferQueue:
 
         self.__queue = dict()
 
+        print("__init__() called")
+
+
     # end def
 
 
@@ -94,6 +97,10 @@ class DeferQueue:
 
             no return value (void);
         """
+
+        print("clear() called", section)
+
+        print("queue *BEFORE*:", self.__queue)
 
         # param controls
 
@@ -111,6 +118,8 @@ class DeferQueue:
 
         # end if
 
+        print("queue *AFTER*:", self.__queue)
+
     # end def
 
 
@@ -124,6 +133,8 @@ class DeferQueue:
         """
 
         # get section buffer
+
+        print("defer() called", section, callback, args, kw)
 
         _buffer = self.__queue.setdefault(section, list())
 
@@ -146,6 +157,9 @@ class DeferQueue:
 
             no return value (void);
         """
+
+        print("flush() called", section, args, kw)
+
 
         # get section buffer
 
@@ -177,6 +191,9 @@ class DeferQueue:
             no return value (void);
         """
 
+        print("flush_all() called", args, kw)
+
+
         # browse queue sections (shallow copy of keys)
 
         for _section in list(self.__queue.keys()):
@@ -199,6 +216,9 @@ class DeferQueue:
         r"""
             returns current deferred actions queue (shallow copy);
         """
+
+        print("get_queue() called")
+
 
         # shallow copy of current queue
 
@@ -232,6 +252,8 @@ class QueueItem:
 
         self.keywords = kw
 
+        #~ print("QueueItem.__init__:", self.callback, self.arguments, self.keywords)
+
     # end def
 
 
@@ -250,9 +272,9 @@ class QueueItem:
 
             # update extra arguments
 
-            _args = self.arguments.copy()
+            _args = list(self.arguments).copy()
 
-            _args.extend(args)
+            _args.extend(list(args))
 
             # update extra keywords
 
