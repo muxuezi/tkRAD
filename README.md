@@ -103,7 +103,7 @@ At this time, `tkRAD` library has been reported to work as follows:
 
   * `tkRAD.easy.builder2` has been **TESTED OK** for **Python v2.7+**;
 
-Code has very few platform-dependencies and should remain STABLE in 
+Code has very few platform-dependencies and should remain STABLE in
 time between each release;
 
 Any platform users feedback is welcome.
