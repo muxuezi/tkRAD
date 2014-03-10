@@ -25,7 +25,7 @@ anywhere to `DeferQueue` as for deferred actions queue buffer;
 
     * renamed `self._dt_queue` to simply `self._queue`;
 
-* not so simple to find the good naming convention(!);
+* **not so simple** to find the good naming convention(!);
 
 
 ### $ 2014-03-09 RS $
