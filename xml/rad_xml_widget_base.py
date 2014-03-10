@@ -950,22 +950,22 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
                 # end if
 
-            # self.tk_owner methods support
+            # self.slot_owner methods support
 
-            elif _cmd.startswith(".") and hasattr(self, "tk_owner"):
+            elif _cmd.startswith(".") and hasattr(self, "slot_owner"):
 
                 # reset value
 
                 _cmd = _cmd.lstrip(".^@")
 
-                if hasattr(self.tk_owner, _cmd):
+                if hasattr(self.slot_owner, _cmd):
 
-                    # e.g. ".quit" --> self.tk_owner.quit
+                    # e.g. ".quit" --> self.slot_owner.quit
 
                     _cmd = (
 
                         lambda  *args,
-                                _cb=getattr(self.tk_owner, _cmd),
+                                _cb=getattr(self.slot_owner, _cmd),
                                 _w=_widget:
 
                             _cb(*args, widget=_w)
@@ -976,13 +976,13 @@ class RADXMLWidgetBase (RX.RADXMLBase):
                     raise AttributeError(
                         _(
                             "Cannot link command '{cmd}' to "
-                            "'{tkowner}' (self.tk_owner) "
+                            "'{owner}' (self.slot_owner) "
                             "- bad XML attribute "
-                            "or incorrect self.tk_owner"
+                            "or incorrect self.slot_owner"
 
                         ).format(
 
-                            cmd=_cmd, tkowner=repr(self.tk_owner)
+                            cmd=_cmd, owner=repr(self.slot_owner)
                         )
                     )
 

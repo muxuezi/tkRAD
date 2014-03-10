@@ -28,6 +28,8 @@
 
 from tkinter import ttk
 
+from ..core import tools
+
 from . import rad_xml_widget as XW
 
 
@@ -53,7 +55,7 @@ class RADXMLFrame (XW.RADXMLWidget, ttk.Frame):
 
 
 
-    def __init__ (self, master = None, **kw):
+    def __init__ (self, master=None, slot_owner=None, **kw):
 
         # default values
 
@@ -71,7 +73,13 @@ class RADXMLFrame (XW.RADXMLWidget, ttk.Frame):
 
         XW.RADXMLWidget.__init__(
 
-            self, tk_owner=self, slot_owner=master, **self.CONFIG
+            self,
+
+            tk_owner=self,
+
+            slot_owner=tools.choose(slot_owner, master),
+
+            **self.CONFIG
         )
 
     # end def
