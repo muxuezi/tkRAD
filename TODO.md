@@ -2,10 +2,6 @@
 
 # TODO list
 
-## CONTRIBUTORS
-
-    RS    Raphaël SEBAN
-
 ## TODO
 
 * up-to-date.
