@@ -493,6 +493,16 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
                 xml_tag, xml_element, tk_parent
             )
 
+            # $ 2014-03-10 RS $
+            # since v1.4: deferred tasks
+            # flush widget section
+
+            self._queue.flush("widget")
+
+            # ensure neutrality
+
+            _attributes = _attributes.flatten()
+
             # set inclusion widget
 
             _widget = RADXMLWidget(tk_owner = tk_parent, **_attributes)
