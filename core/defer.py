@@ -68,7 +68,7 @@ class DeferQueue:
 
         you can pick it up *as is* and use it in your own project;
 
-        Generic sync queue for deferred triggers;
+        Generic sync queue for deferred actions;
 
     """
 
@@ -87,7 +87,7 @@ class DeferQueue:
 
     def clear (self, section = None):
         r"""
-            clears all buffered triggers without calling them as in
+            clears all buffered actions without calling them as in
             flush() or flush_all();
 
             if @section is set, clears only mentioned section;
@@ -197,7 +197,7 @@ class DeferQueue:
 
     def get_queue (self):
         r"""
-            returns current deferred triggers queue (shallow copy);
+            returns current deferred actions queue (shallow copy);
         """
 
         # shallow copy of current queue
