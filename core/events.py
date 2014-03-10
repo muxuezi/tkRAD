@@ -371,8 +371,6 @@ class EventManager:
             returns True if signal exists, False otherwise;
         """
 
-        print("signal:", signal, args, kw)
-
         # get signal current set of slots
 
         _slots = self.connections.get(signal)
