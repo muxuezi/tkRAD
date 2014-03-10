@@ -31,6 +31,14 @@ anywhere to `DeferQueue` as for deferred actions queue buffer;
 
     * started implementing **deferred tasks** new concept;
 
+* in `RADXMLBase`: updated code OK.
+
+* in `RADXMLWidgetBase`:
+
+    * in `_tkRAD_command_support` and
+    `_tkRAD_deferred_command_support`: updated code OK.
+
+
 
 ### $ 2014-03-09 RS $
 

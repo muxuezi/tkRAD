@@ -1862,7 +1862,11 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
             # since v1.4: deferred tasks
             # flush widget section
 
-            self._queue.flush("widget", widget=_widget)
+            self._queue.flush("widget", "toto", widget=_widget)
+
+            # ensure neutrality
+
+            _attributes = _attributes.flatten()
 
             # configure widget
 

@@ -609,11 +609,15 @@ class RADXMLBase (RW.RADWidgetBase):
                         r"""
                             $ 2013-12-16 RS $
                             new support: using RADXMLAttribute by now;
+
+                            $ 2014-03-10 RS $
+                            since v1.4: deferred tasks
+                            do *NOT* flag on 'parsed' value(!)
                         """
 
                         # update parsing counter
 
-                        _attr_object.parsed = True
+                        #~ _attr_object.parsed = True
 
                     # end if
 

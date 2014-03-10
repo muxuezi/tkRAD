@@ -868,7 +868,7 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
 
 
-    def _tkRAD_deferred_command_support (self, attribute, **kw):
+    def _tkRAD_deferred_command_support (self, attribute, *args, **kw):
         r"""
             parses command string for many supports;
 
@@ -891,17 +891,37 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
             _cmd = re.sub(r"\(.*\)", r"", attribute.value)
 
+            # $ 2014-03-10 RS $
+            # since v1.4: deferred task
+            # now widget is passed in callback **kw
+
+            _widget = kw.get("widget")
+
+            # action trigger template
+
+            def _trigger (*args, callback=None, widget=_widget, **kw):
+
+                return (
+
+                    lambda *args, _a=args, _cb=callback,
+                                                    _w=widget, _kw=kw:
+
+                        _cb(*(args + _a), widget=_w, **_kw)
+                )
+
+            # end def
+
             # events maechanism support
 
             if _cmd.startswith("@"):
 
                 # e.g. "@MyNewEvent" --> raise_event("MyNewEvent")
 
-                _cmd = (
+                _cmd = _trigger(
 
-                    lambda *args, s=self.events, e=_cmd[1:], **kw:
+                    _cmd[1:],
 
-                        s.raise_event(e, *args, **kw)
+                    callback = self.events.raise_event,
                 )
 
             # self.app methods support
@@ -916,7 +936,10 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
                     # e.g. "^quit" --> self.app.quit
 
-                    _cmd = getattr(self.app, _cmd)
+                    _cmd = _trigger(
+
+                        callback = getattr(self.app, _cmd),
+                    )
 
                 else:
 
