@@ -946,11 +946,8 @@ class RADXMLWidgetBase (RX.RADXMLBase):
                     raise AttributeError(
                         _(
                             "Cannot link command '{cmd}' to "
-
                             "'{app}' (self.app) "
-
                             "- bad XML attribute "
-
                             "or incorrect self.app"
 
                         ).format(cmd = _cmd, app = repr(self.app))
@@ -974,7 +971,10 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
                     # e.g. ".quit" --> self.tk_owner.quit
 
-                    _cmd = getattr(self.tk_owner, _cmd)
+                    _cmd = _trigger(
+
+                        callback = getattr(self.tk_owner, _cmd),
+                    )
 
                 else:
 
@@ -1006,7 +1006,10 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
                 # pray for value being a global method!
 
-                _cmd = eval(_cmd)
+                _cmd = _trigger(
+
+                    callback = eval(_cmd),
+                )
 
             # end if
 

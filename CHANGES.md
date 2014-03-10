@@ -36,7 +36,9 @@ anywhere to `DeferQueue` as for deferred actions queue buffer;
 * in `RADXMLWidgetBase`:
 
     * in `_tkRAD_command_support` and
-    `_tkRAD_deferred_command_support`: updated code OK.
+    `_tkRAD_deferred_command_support`:
+
+        * updated code OK.
 
 
 
