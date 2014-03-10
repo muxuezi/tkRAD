@@ -68,7 +68,7 @@ class DeferQueue:
 
         you can pick it up *as is* and use it in your own project;
 
-        Generic sync queue for deferred actions;
+        Generic queue for deferred actions;
 
     """
 

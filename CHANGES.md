@@ -16,8 +16,10 @@
 
 ### $ 2014-03-10 RS $
 
-* `DeferredTriggerQueue` is inappropriate name: now renamed anywhere
-to `DeferQueue` as for deferred actions queue;
+* `DeferredTriggerQueue` is **inappropriate name**: now renamed
+anywhere to `DeferQueue` as for deferred actions queue;
+
+* `triggers` have been replaced by `actions` in comments;
 
 * not so simple to find the good naming convention;
 

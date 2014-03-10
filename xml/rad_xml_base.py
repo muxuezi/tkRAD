@@ -130,7 +130,7 @@ class RADXMLBase (RW.RADWidgetBase):
 
         # protected member inits
 
-        self._dt_queue = defer.DeferredTriggerQueue() # private queue
+        self._defer_queue = defer.DeferQueue()     # private queue
 
         # XML member inits
 
@@ -1600,9 +1600,9 @@ class RADXMLBase (RW.RADWidgetBase):
 
                 _build_ok = self._build_element(_root, self.tk_owner)
 
-                # flush all deferred triggers in queue
+                # flush all deferred actions in queue
 
-                self._dt_queue.flush_all()
+                self._defer_queue.flush_all()
 
                 # return building results
 
