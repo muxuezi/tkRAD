@@ -801,6 +801,76 @@ class RADXMLWidgetBase (RX.RADXMLBase):
     def _tkRAD_command_support (self, attribute, **kw):
         r"""
             parses command string for many supports;
+            supports event names (starting with '@');
+            supports method names (starting with '^' or '.');
+            supports global function names;
+            no return value (void);
+        """
+
+        # $ 2014-03-10 RS $
+        # since v1.4: deferred tasks
+        # any *command XML attrs are deferred to after widget's
+        # creation;
+        # now supports widget in **kw;
+
+        self._queue.defer(
+
+            "widget",
+
+            self._tkRAD_deferred_command_support,
+
+            attribute,
+
+            **kw
+        )
+
+    # end def
+
+
+
+    def _tkRAD_cursor_support (self, attribute, **kw):
+        r"""
+            protected method def;
+
+            generic support for color attrs;
+
+            no return value (void);
+        """
+
+        # FIXME: should implement something here?
+
+        self._tkRAD_any_value_support(attribute, **kw)
+
+    # end def
+
+
+
+    def _tkRAD_cvar_support (self, attribute, **kw):
+        r"""
+            sets a tkinter StringVar() control variable;
+
+            no return value (void);
+        """
+
+        # param controls
+
+        if self._is_new(attribute):
+
+            # parsed attribute inits
+
+            attribute.value = self.set_stringvar(attribute.value)
+
+            self._tk_config(attribute, **kw)
+
+        # end if
+
+    # end def
+
+
+
+    def _tkRAD_deferred_command_support (self, attribute, **kw):
+        r"""
+            parses command string for many supports;
 
             supports event names (starting with '@');
 
@@ -920,46 +990,6 @@ class RADXMLWidgetBase (RX.RADXMLBase):
             # parsed attribute inits
 
             attribute.value = _cmd
-
-            self._tk_config(attribute, **kw)
-
-        # end if
-
-    # end def
-
-
-
-    def _tkRAD_cursor_support (self, attribute, **kw):
-        r"""
-            protected method def;
-
-            generic support for color attrs;
-
-            no return value (void);
-        """
-
-        # FIXME: should implement something here?
-
-        self._tkRAD_any_value_support(attribute, **kw)
-
-    # end def
-
-
-
-    def _tkRAD_cvar_support (self, attribute, **kw):
-        r"""
-            sets a tkinter StringVar() control variable;
-
-            no return value (void);
-        """
-
-        # param controls
-
-        if self._is_new(attribute):
-
-            # parsed attribute inits
-
-            attribute.value = self.set_stringvar(attribute.value)
 
             self._tk_config(attribute, **kw)
 

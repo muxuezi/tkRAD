@@ -27,6 +27,10 @@ anywhere to `DeferQueue` as for deferred actions queue buffer;
 
 * **not so simple** to find the good naming convention(!);
 
+* in `RADXMLBase`, `RADXMLWidgetBase`, `RADXMLWidget`, `RADXMLMenu`:
+
+    * started implementing **deferred tasks** new concept;
+
 
 ### $ 2014-03-09 RS $
 

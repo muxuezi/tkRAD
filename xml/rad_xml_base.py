@@ -645,11 +645,15 @@ class RADXMLBase (RW.RADWidgetBase):
                 flatten() provides a 'flat' dict() object containing
                 simple (key, value) pairs;
                 all RADXMLAttribute extra data are lost at this point;
+
+                $ 2014-03-10 RS $
+                since v1.4: deferred tasks
+                do *NOT* flatten() dict any more(!)
             """
 
             # return parsed attributes
 
-            return _attrs.flatten()
+            return _attrs
 
         # end if
 

@@ -4,4 +4,8 @@
 
 ## TODO
 
-* up-to-date.
+* implement tkRAD.**deferred**.command.support in:
+
+    * `RADXMLWidgetBase`;
+    * `RADXMLWidget`;
+    * `RADXMLMenu`;
