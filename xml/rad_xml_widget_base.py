@@ -987,7 +987,7 @@ class RADXMLWidgetBase (RX.RADXMLBase):
                             "cannot link command '{cmd}' to "
                             "'{owner}' (self.slot_owner) "
                             "- bad XML attribute "
-                            "or incorrect owner."
+                            "or incorrect owner"
 
                         ).format(
 

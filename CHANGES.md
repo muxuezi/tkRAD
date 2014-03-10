@@ -62,6 +62,8 @@ anywhere to `DeferQueue` as for deferred actions queue buffer;
     * by now, it is possible to separate `self.tk_owner` from
     `self.slot_owner`: useful for e.g. `RADXMLFrame`;
 
+    * **compatibility**: by default `self.slot_owner = self.tk_owner`;
+
 * updated `RADXMLWidgetBase`, `RADXMLWidget`, `RADXMLFrame`:
 
     * now support `self.slot_owner` natively;
