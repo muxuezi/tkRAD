@@ -941,7 +941,7 @@ class RADXMLWidgetBase (RX.RADXMLBase):
                             "- bad XML attribute "
                             "or incorrect self.app"
 
-                        ).format(cmd = _cmd, app = repr(self.app))
+                        ).format(cmd=_cmd, app=repr(self.app))
                     )
 
                     # cancel command
@@ -976,16 +976,13 @@ class RADXMLWidgetBase (RX.RADXMLBase):
                     raise AttributeError(
                         _(
                             "Cannot link command '{cmd}' to "
-
                             "'{tkowner}' (self.tk_owner) "
-
                             "- bad XML attribute "
-
                             "or incorrect self.tk_owner"
 
                         ).format(
 
-                            cmd = _cmd, tkowner = repr(self.tk_owner)
+                            cmd=_cmd, tkowner=repr(self.tk_owner)
                         )
                     )
 
