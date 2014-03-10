@@ -55,7 +55,7 @@ class RADCanvas (RW.RADWidgetBase, TK.Canvas):
 
 
 
-    def __init__ (self, master = None, **kw):
+    def __init__ (self, master=None, **kw):
 
         # default values
 
