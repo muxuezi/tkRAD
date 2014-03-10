@@ -22,7 +22,7 @@
     If not, see: http://www.gnu.org/licenses/
 """
 
-# set i18n by default
+# set i18n support by default
 
 from .core import i18n
 
