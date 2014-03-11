@@ -56,12 +56,24 @@ __translations_table = dict()
 
 
 
+# i18n support switcher
+
+__switch_off = False
+
+
+
 def _ (text):
     r"""
         tries to retrieve a locale translation along setup;
 
         returns translated text on success, original text otherwise;
     """
+
+    if __switch_off:
+
+        return text
+
+    # end if
 
     return tools.choose_str(__translations_table.get(text), text)
 
@@ -244,3 +256,28 @@ def set_translations_table (arg):
 
 # end def
 
+
+
+def switch_off ():
+    r"""
+        switches i18n support OFF;
+    """
+
+    global __switch_off
+
+    __switch_off = True
+
+# end def
+
+
+
+def switch_on ():
+    r"""
+        switches i18n support ON;
+    """
+
+    global __switch_off
+
+    __switch_off = False
+
+# end def

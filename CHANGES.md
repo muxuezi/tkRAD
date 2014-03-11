@@ -14,6 +14,26 @@
 ## CHANGELOG
 
 
+### $ 2014-03-11 RS $
+
+* in `core/i18n.py`:
+
+    * added new `switch_on()`, new `switch_off()`:
+
+        * now fully implemented;
+
+        * ease up debugging sessions in switching i18n support
+        ON/OFF and on-the-fly;
+
+Example:
+
+```python
+import tkRAD
+
+tkRAD.i18n.switch_off()
+```
+
+
 ### $ 2014-03-10 RS $
 
 * `DeferredTriggerQueue` is **inappropriate name**: now renamed
