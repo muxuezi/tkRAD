@@ -14,6 +14,24 @@
 ## CHANGELOG
 
 
+### $ 2014-03-12 RS $
+
+* in `RADXMLWidget`:
+
+    * fixed v1.4 deferred `_init_attributes()` inconsistency:
+
+        * now works **as in tkRAD < v1.4**:
+
+            * `self._init_attributes()` is again for **immediate
+            attrs** parsing;
+
+            * `self._init_deferred_attributes()` is now for
+            **deferred attrs** parsing;
+
+            * `self._init_attributes_flat()` is kept for
+            compatibility reasons with tkRAD v1.4;
+
+
 ### $ 2014-03-11 RS $
 
 * in `core/i18n.py`:
