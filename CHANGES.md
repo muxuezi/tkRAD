@@ -88,6 +88,8 @@ anywhere to `DeferQueue` as for deferred actions queue buffer;
 
     * now support `self.slot_owner` natively;
 
+* tagged and released **tkRAD v1.4 - Tasmania Sunset**.
+
 
 ### $ 2014-03-09 RS $
 
@@ -130,7 +132,7 @@ XML attrs parsing;
 
 ### $ 2014-03-03 RS $
 
-* tagging **tkRAD v1.3 - The Full Monty**.
+* tagged and released **tkRAD v1.3 - The Full Monty**.
 
 * in `RADXMLWidget`:
 
@@ -675,7 +677,7 @@ apply with XML attr `style="tkstyle_id"`?
 
 ### $ 2014-02-16 RS $
 
-* generating tag for `tkRAD v1.1`;
+* tagged and released `tkRAD v1.1 - Blinking Radiobutton`;
 
 * in `TODO.md`:
 
