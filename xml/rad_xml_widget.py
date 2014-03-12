@@ -2087,6 +2087,15 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
             returns parsed XML attributes in a dict() object;
         """
 
+        # $ 2014-03-10 RS $
+        # modified in v1.4
+        # support: deferred tasks
+
+        # $ 2014-03-12 RS $
+        # modified again:
+        # support: rollback to *immediate*
+        # XML attrs parsing as in tkRAD <= v1.4
+
         # inits
 
         _attributes = self._init_deferred_attributes(
@@ -2094,10 +2103,8 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
             xml_tag, xml_element, tk_parent, **kw
         )
 
-        # $ 2014-03-10 RS $
-        # since v1.4: deferred tasks
         # flush widget section
-        # for immediate attrs parsing
+        # for *immediate* attrs parsing
 
         self._queue.flush("widget", **kw)
 
@@ -2118,8 +2125,14 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
             returns parsed XML attributes in a dict() object;
         """
 
+        # $ 2014-03-10 RS $
+        # new: created in v1.4
+        # support: *immediate* XML attrs parsing
+
         # $ 2014-03-12 RS $
-        # kept for compatibility with tkRAD v1.4
+        # modified:
+        # kept for compatibility reasons
+        # with tkRAD v1.4
 
         return self._init_attributes(xml_tag, xml_element, tk_parent, **kw)
 
@@ -2137,7 +2150,9 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
         """
 
         # $ 2014-03-12 RS $
-        # since v1.4: new support
+        # new: created in v1.4.1
+        # support: deferred tasks
+
         # deferred XML attrs parsing
 
         # inits
