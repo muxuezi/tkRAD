@@ -383,7 +383,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             # attribute inits
 
-            _attributes = self._init_attributes_flat(
+            _attributes = self._init_attributes(
 
                 xml_tag, xml_element, tk_parent
             )
@@ -438,7 +438,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             # attribute inits
 
-            _attributes = self._init_attributes_flat(
+            _attributes = self._init_attributes(
 
                 xml_tag, xml_element, tk_parent
             )
@@ -488,7 +488,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             # attribute inits
 
-            _attributes = self._init_attributes_flat(
+            _attributes = self._init_attributes(
 
                 xml_tag, xml_element, tk_parent
             )
@@ -581,7 +581,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             # attribute inits
 
-            _attributes = self._init_attributes_flat(
+            _attributes = self._init_attributes(
 
                 xml_tag, xml_element, tk_parent
             )
@@ -623,7 +623,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             # widget attribute inits
 
-            _attributes = self._init_attributes(
+            _attributes = self._init_deferred_attributes(
 
                 xml_tag, xml_element, tk_parent
             )
@@ -807,7 +807,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             # attribute inits
 
-            _attributes = self._init_attributes_flat(
+            _attributes = self._init_attributes(
 
                 xml_tag, xml_element, tk_parent
             )
@@ -861,7 +861,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             # widget attribute inits
 
-            _attributes = self._init_attributes(
+            _attributes = self._init_deferred_attributes(
 
                 xml_tag, xml_element, tk_parent
             )
@@ -1120,7 +1120,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             # attribute inits
 
-            _attributes = self._init_attributes_flat(
+            _attributes = self._init_attributes(
 
                 xml_tag, xml_element, tk_parent
             )
@@ -1179,7 +1179,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             # attribute inits
 
-            _attributes = self._init_attributes_flat(
+            _attributes = self._init_attributes(
 
                 xml_tag, xml_element, tk_parent
             )
@@ -1262,7 +1262,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             # attribute inits
 
-            _attributes = self._init_attributes(
+            _attributes = self._init_deferred_attributes(
 
                 xml_tag, xml_element, tk_parent
             )
@@ -1625,7 +1625,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             # attribute inits
 
-            _attributes = self._init_attributes_flat(
+            _attributes = self._init_attributes(
 
                 xml_tag, xml_element, tk_parent
             )
@@ -1803,7 +1803,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             # attribute inits
 
-            _attributes = self._init_attributes_flat(
+            _attributes = self._init_attributes(
 
                 xml_tag, xml_element, tk_parent
             )
@@ -1863,7 +1863,7 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
             kw.update(addon_attrs = self.ATTRS.get("widget"))
 
-            _attributes = self._init_attributes(
+            _attributes = self._init_deferred_attributes(
 
                 xml_tag, xml_element, tk_parent, **kw
             )
@@ -2089,6 +2089,59 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         # inits
 
+        _attributes = self._init_deferred_attributes(
+
+            xml_tag, xml_element, tk_parent, **kw
+        )
+
+        # $ 2014-03-10 RS $
+        # since v1.4: deferred tasks
+        # flush widget section
+        # for immediate attrs parsing
+
+        self._queue.flush("widget", **kw)
+
+        # ensure neutrality
+
+        return _attributes.flatten()
+
+    # end def
+
+
+
+    def _init_attributes_flat (self, xml_tag, xml_element, tk_parent, **kw):
+        r"""
+            parses @xml_element param XML attributes along @xml_tag
+
+            param constraints and possible @kw["addon_attrs"];
+
+            returns parsed XML attributes in a dict() object;
+        """
+
+        # $ 2014-03-12 RS $
+        # kept for compatibility with tkRAD v1.4
+
+        return self._init_attributes(xml_tag, xml_element, tk_parent, **kw)
+
+    # end def
+
+
+
+    def _init_deferred_attributes (self, xml_tag, xml_element, tk_parent, **kw):
+        r"""
+            parses @xml_element param XML attributes along @xml_tag
+
+            param constraints and possible @kw["addon_attrs"];
+
+            returns parsed XML attributes in a dict() object;
+        """
+
+        # $ 2014-03-12 RS $
+        # since v1.4: new support
+        # deferred XML attrs parsing
+
+        # inits
+
         _dicts = (
 
             # XML element's mandatory default attrs
@@ -2130,36 +2183,6 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
         # return parsed XML attributes
 
         return self._parse_xml_attributes(xml_element, tk_parent, **kw)
-
-    # end def
-
-
-
-    def _init_attributes_flat (self, xml_tag, xml_element, tk_parent, **kw):
-        r"""
-            parses @xml_element param XML attributes along @xml_tag
-
-            param constraints and possible @kw["addon_attrs"];
-
-            returns parsed XML attributes in a dict() object;
-        """
-
-        # inits
-
-        _attributes = self._init_attributes(
-
-            xml_tag, xml_element, tk_parent, **kw
-        )
-
-        # $ 2014-03-10 RS $
-        # since v1.4: deferred tasks
-        # flush widget section
-
-        self._queue.flush("widget", **kw)
-
-        # ensure neutrality
-
-        return _attributes.flatten()
 
     # end def
 
