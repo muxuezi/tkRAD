@@ -16,6 +16,8 @@
 
 ### $ 2014-03-12 RS $
 
+* tagged and released **tkRAD v1.4.1 - Refer And Defer**;
+
 * in `RADXMLWidget`:
 
     * fixed v1.4 deferred `_init_attributes()` inconsistency:
