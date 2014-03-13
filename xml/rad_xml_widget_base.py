@@ -891,12 +891,6 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
             _cmd = re.sub(r"\(.*\)", r"", attribute.value)
 
-            # $ 2014-03-10 RS $
-            # since v1.4: deferred task
-            # now widget is passed in callback **kw
-
-            _widget = kw.get("widget")
-
             # events maechanism support
 
             if _cmd.startswith("@"):
@@ -905,10 +899,9 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
                 _cmd = (
 
-                    lambda *args, _e=_cmd[1:],
-                                            _s=self.events, _w=_widget:
+                    lambda *args, _e=_cmd[1:], _s=self.events, kw=kw:
 
-                        _s.raise_event(_e, *args, widget=_w)
+                        _s.raise_event(_e, *args, **kw)
                 )
 
             # self.app methods support
@@ -927,9 +920,9 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
                         lambda  *args,
                                 _cb=getattr(self.app, _cmd),
-                                _w=_widget:
+                                kw=kw:
 
-                            _cb(*args, widget=_w)
+                            _cb(*args, **kw)
                     )
 
                 else:
@@ -974,9 +967,9 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
                         lambda  *args,
                                 _cb=getattr(self.slot_owner, _cmd),
-                                _w=_widget:
+                                kw=kw:
 
-                            _cb(*args, widget=_w)
+                            _cb(*args, **kw)
                     )
 
                 else:
@@ -1013,9 +1006,9 @@ class RADXMLWidgetBase (RX.RADXMLBase):
 
                 _cmd = (
 
-                    lambda *args, _cb=eval(_cmd), _w=_widget:
+                    lambda *args, _cb=eval(_cmd), kw=kw:
 
-                        _cb(*args, widget=_w)
+                        _cb(*args, **kw)
                 )
 
             # end if

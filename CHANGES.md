@@ -14,6 +14,19 @@
 ## CHANGELOG
 
 
+### $ 2014-03-13 RS $
+
+* in `RADXMLWidgetBase`:
+
+    * in `_tkRAD_deferred_command_support()`:
+
+        * enabled **more powerful** external keywords support;
+
+        * now you may pass *ANY* additional keywords `**kw` you like
+        in `self._queue.flush("widget", **kw)`, *NOT ONLY*
+        `widget=created_widget`;
+
+
 ### $ 2014-03-12 RS $
 
 * tagged and released **tkRAD v1.4.1 - Refer And Defer**;
