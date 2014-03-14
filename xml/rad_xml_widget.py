@@ -2159,13 +2159,13 @@ class RADXMLWidget (RB.RADXMLWidgetBase):
 
         _dicts = (
 
-            # XML element's mandatory default attrs
-
-            self.ATTRS.get(xml_tag),
-
             # 'common' XML attrs
 
             self.ATTRS.get("common"),
+
+            # XML element's mandatory default attrs
+
+            self.ATTRS.get(xml_tag),
 
             # additional external XML attrs
 

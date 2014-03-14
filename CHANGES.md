@@ -16,6 +16,14 @@
 
 ### $ 2014-03-14 RS $
 
+* in `RADXMLWidget`:
+
+    * in `_init_deferred_attributes()`:
+
+        * now 'common' XML attrs start inits at first;
+
+        * it's really better this way;
+
 * in `RADXMLBase`:
 
     * added new `is_xml()`:
