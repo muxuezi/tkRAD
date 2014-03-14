@@ -284,6 +284,10 @@ class RADStatusBar (RF.RADFrame):
                 self.info
             )
 
+            # must update idle tasks
+
+            self.update_idletasks()
+
         # end if
 
     # end def

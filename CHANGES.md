@@ -14,6 +14,15 @@
 ## CHANGELOG
 
 
+### $ 2014-03-14 RS $
+
+* in `RADStatusBar`:
+
+    * in `notify()`:
+
+        * added `update_idletasks()` for better sync time text display;
+
+
 ### $ 2014-03-13 RS $
 
 * in `RADXMLWidgetBase`:

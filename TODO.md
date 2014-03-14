@@ -4,8 +4,10 @@
 
 ## TODO
 
-* implement tkRAD.**deferred**.command.support in:
+* update `RADStatusBar`:
 
-    * `RADXMLWidgetBase`;
-    * `RADXMLWidget`;
-    * `RADXMLMenu`;
+    * add `show()`, `hide()` ?
+
+* update `RADXMLBase`:
+
+    * add `is_xml()` ?
