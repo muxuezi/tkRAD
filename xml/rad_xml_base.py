@@ -1373,6 +1373,19 @@ class RADXMLBase (RW.RADWidgetBase):
 
 
 
+    def is_xml (self, content):
+        r"""
+            tries to determine if content contains XML <markups>;
+
+            returns True on success, False otherwise;
+        """
+
+        return tools.is_pstr(content) and re.search(r"<.+?>", content)
+
+    # end def
+
+
+
     def normalize_tag (self, xml_element):
         r"""
             returns a lowercased char string of @xml_element.tag;
@@ -1663,19 +1676,17 @@ class RADXMLBase (RW.RADWidgetBase):
             loads and parses XML data;
 
             @arg param can either be a filename radix to be
-
-            automagically rebuilt, a complete file path (path) or
-
-            an XML source string of chars;
+            automagically rebuilt, a complete file path (path) or an
+            XML source string of chars;
 
             no return value (void);
         """
 
         try:
 
-            # XML tag detected?
+            # XML markup detected?
 
-            if tools.is_pstr(arg) and re.search(r"<[^>]*>", arg):
+            if self.is_xml(arg):
 
                 # parse XML char string source
 
@@ -1712,7 +1723,6 @@ class RADXMLBase (RW.RADWidgetBase):
             writes internal XML tree data structure into a file;
 
             @filename param can either be a filename radix to be
-
             automagically rebuilt or a complete file path (path);
 
             no return value (void);

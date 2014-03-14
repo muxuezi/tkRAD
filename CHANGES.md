@@ -16,6 +16,12 @@
 
 ### $ 2014-03-14 RS $
 
+* in `RADXMLBase`:
+
+    * added new `is_xml()`:
+
+        * now fully implemented;
+
 * in `RADStatusBar`:
 
     * added new `self._previous_value` for real diff checkups in
