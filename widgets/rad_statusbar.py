@@ -446,10 +446,14 @@ class RADStatusBar (RF.RADFrame):
 
         # config options inits
 
-        self.__toggle_var.set(
+        _value = self._get_bit(
 
             self.options["gui"].get("show_statusbar", "1")
         )
+
+        self._previous_value = 1 - _value
+
+        self.__toggle_var.set(_value)
 
     # end def
 
