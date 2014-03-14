@@ -65,7 +65,6 @@ class RADXMLBase (RW.RADWidgetBase):
         supports tkinter control variables management;
 
         supports created objects direct access along XML attribute id
-
         i.e. self.get_object_by_id('obj_id');
 
         and some other generic functions;
@@ -206,20 +205,16 @@ class RADXMLBase (RW.RADWidgetBase):
 
     def _build_element (self, xml_element, tk_parent):
         r"""
-            delegates the widget building of an XML element to
-
-            a specific element builder, as each XML element has
-
-            its own behaviour and constraints;
+            delegates the widget building of an XML element to  a
+            specific element builder, as each XML element has  its
+            own behaviour and constraints;
 
             this method should not be modified for element build
-
-            methods naming as it suffices to reset self.ELEMENT_BUILDER
-
-            in subclass to the desired naming rule;
+            methods naming as it suffices to reset
+            self.ELEMENT_BUILDER  in subclass to the desired naming
+            rule;
 
             raises TypeError if @xml_element has no supported
-
             building method in any case;
 
             returns True on element building success, False otherwise;
@@ -422,12 +417,10 @@ class RADXMLBase (RW.RADWidgetBase):
     def _loop_on_children (self, xml_element, tk_parent, accept = None):
         r"""
             loops on @xml_element param XML subelements with
-
             @tk_parent param as tkinter parent widget;
 
-            @accept param sets up a list of admitted XML tags
-
-            as subelements of @xml_element param;
+            @accept param sets up a list of admitted XML tags  as
+            subelements of @xml_element param;
 
             tries to build all accepted subelements;
 
@@ -671,9 +664,8 @@ class RADXMLBase (RW.RADWidgetBase):
 
     def _register_object_by_id (self, built_object, attr_id):
         r"""
-            registers newly created or existing object with the
-
-            XML attribute 'id' which defined it in XML data source;
+            registers newly created or existing object with the  XML
+            attribute 'id' which defined it in XML data source;
 
             this is the counterpart of get_object_by_id() method;
 
@@ -765,7 +757,6 @@ class RADXMLBase (RW.RADWidgetBase):
     def cast_element (self, xml_element):
         r"""
             casts @xml_element param to see if it is a real
-
             xml.etree.ElementTree.Element object;
 
             raises TypeError on failure;
@@ -805,7 +796,6 @@ class RADXMLBase (RW.RADWidgetBase):
     def cast_tree (self, tree_object):
         r"""
             casts @tree_object param to see if it is a real
-
             xml.etree.ElementTree object;
 
             raises TypeError on failure;
@@ -928,9 +918,8 @@ class RADXMLBase (RW.RADWidgetBase):
 
     def get_correct_id(self, value):
         r"""
-            always provide a correct id name
-
-            whatever @value param is at the beginning;
+            always provide a correct id name  whatever @value param
+            is at the beginning;
 
             returns normalized (filtered) value if exists,
 
@@ -964,7 +953,6 @@ class RADXMLBase (RW.RADWidgetBase):
             tries to retrieve a tkinter control variable @varname;
 
             @vartype param must be one of 'StringVar', 'IntVar' or
-
             'DoubleVar' (param is case-insensitive);
 
             raises TypeError otherwise;
@@ -1042,15 +1030,12 @@ class RADXMLBase (RW.RADWidgetBase):
 
     def get_element_by_id (self, attr_id, xml_tree = None):
         r"""
-            returns an xml.etree.ElementTree.Element from
+            returns an xml.etree.ElementTree.Element from  an
+            xml.etree.ElementTree @xml_tree param along an  XML id
+            attribute @attr_id param or None in case of failure;
 
-            an xml.etree.ElementTree @xml_tree param along an
-
-            XML id attribute @attr_id param or None in case of failure;
-
-            if @xml_tree param is not given, uses the internal
-
-            XML tree data structure instead;
+            if @xml_tree param is not given, uses the internal  XML
+            tree data structure instead;
         """
 
         # param inits
@@ -1149,7 +1134,6 @@ class RADXMLBase (RW.RADWidgetBase):
             returns all the (id: object) pairs in a dict() object;
 
             does not affect internal dict of objects as it returns
-
             only a shallow copy of the original objects dict;
         """
 
@@ -1223,7 +1207,6 @@ class RADXMLBase (RW.RADWidgetBase):
             tries to retrieve a valid path from several cases;
 
             @filename param can either be a filename radix to be
-
             automagically rebuilt or a complete file path (path);
 
             raises OSError if unable to build a correct path;
@@ -1346,7 +1329,6 @@ class RADXMLBase (RW.RADWidgetBase):
     def is_element (self, xml_element):
         r"""
             determines if @xml_element param is a real
-
             xml.etree.ElementTree.Element object;
 
             returns True on success, False otherwise;
@@ -1361,7 +1343,6 @@ class RADXMLBase (RW.RADWidgetBase):
     def is_tree (self, tree_object):
         r"""
             determines if @tree_object param is a real
-
             xml.etree.ElementTree object;
 
             returns True on success, False otherwise;
@@ -1399,12 +1380,11 @@ class RADXMLBase (RW.RADWidgetBase):
 
     def set_cvar (self, vartype, varname):
         r"""
-            creates (if not already exists) a tkinter control variable
-
-            'DoubleVar', 'IntVar' or 'StringVar' for a given @varname;
+            creates (if not already exists) a tkinter control
+            variable  'DoubleVar', 'IntVar' or 'StringVar' for a
+            given @varname;
 
             returns the already existing or the newly created object
-
             for that given @varname param;
 
             raises TypeError and returns None if type mismatch;
@@ -1569,7 +1549,6 @@ class RADXMLBase (RW.RADWidgetBase):
             sets internal XML tree along @kw param keywords;
 
             keywords should be either 'element' or 'file' as in
-
             xml.etree.ElementTree() constructor signature;
 
             no return value (void);
@@ -1588,9 +1567,7 @@ class RADXMLBase (RW.RADWidgetBase):
             public entry point of XML widget building;
 
             @filename param can either be a filename radix to be
-
             automagically rebuilt, a complete file path (path) or
-
             an XML source string of chars;
 
             returns True on overall success, False, otherwise;

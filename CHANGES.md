@@ -24,6 +24,8 @@
 
 * in `RADStatusBar`:
 
+    * in `toggle_var` (setter): resync'ed along `self._previous_value`;
+
     * added new `self._previous_value` for real diff checkups in
     `toggle()`;
 

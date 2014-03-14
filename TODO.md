@@ -4,6 +4,4 @@
 
 ## TODO
 
-* update `RADXMLBase`:
-
-    * add `is_xml()` ?
+* up-to-date;
