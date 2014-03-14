@@ -61,13 +61,25 @@ class RADStatusBar (RF.RADFrame):
 
 
 
+    def _get_bit (self, value):
+        r"""
+            protected method def;
+
+            returns binary digit 0/1 along @value;
+        """
+
+        return int(tools.ensure_int(value) != 0)
+
+    # end def
+
+
+
     def _stop_notification (self):
         r"""
             protected method def;
 
-            stops any pending notification and
-
-            resets process id pointer;
+            stops any pending notification and resets process id
+            pointer;
 
             no return value (void);
         """
@@ -151,14 +163,23 @@ class RADStatusBar (RF.RADFrame):
 
 
 
+    def hide (self, *args, **kw):
+        r"""
+            hides the statusbar;
+        """
+
+        self.toggle_var_set(0)
+
+    # end def
+
+
+
     def info (self, text = None):
         r"""
             sets the highest priority-level message for this status
-
             bar object;
 
             any pending notifications will be stopped to ensure the
-
             current message won't be masked at any time;
 
             no return value (void);
@@ -185,6 +206,10 @@ class RADStatusBar (RF.RADFrame):
 
         self.message.set(self.__static_text)
 
+        # refresh display
+
+        self.update_idletasks()
+
     # end def
 
 
@@ -203,6 +228,8 @@ class RADStatusBar (RF.RADFrame):
         self.__notify_pid = 0
 
         self.__static_text = None
+
+        self._previous_value = 0
 
         self.toggle_var = TK.StringVar()
 
@@ -247,11 +274,9 @@ class RADStatusBar (RF.RADFrame):
     def notify (self, text, delay = None):
         r"""
             sets a low priority-level message for a delayed bit of
-
             time (in seconds);
 
             any pending notifications will be stopped to ensure the
-
             current message won't be masked at any time;
 
             no return value (void);
@@ -269,6 +294,10 @@ class RADStatusBar (RF.RADFrame):
 
             self.message.set(text)
 
+            # refresh display
+
+            self.update_idletasks()
+
             # look for a correct value
 
             delay = self.get_correct_delay(delay)
@@ -284,11 +313,18 @@ class RADStatusBar (RF.RADFrame):
                 self.info
             )
 
-            # must update idle tasks
-
-            self.update_idletasks()
-
         # end if
+
+    # end def
+
+
+
+    def show (self, *args, **kw):
+        r"""
+            displays the statusbar;
+        """
+
+        self.toggle_var_set(1)
 
     # end def
 
@@ -297,23 +333,17 @@ class RADStatusBar (RF.RADFrame):
     def toggle (self, *args, **kw):
         r"""
             switches ON / OFF display of status bar along toggle_var
-
             internal integer value (0 = OFF, other = ON);
 
             raises "StatusbarShow" and "StatusbarHide" named events
-
             just before toggling display of status bar;
 
             these events are of tkRAD.core.events type, *NOT* of
-
             tkinter ones;
 
             /!\ notice: for technical reasons, toggling is only done
-
-            with self.grid() and self.grid_remove() methods
-
-            as self.pack() and self.pack_forget() do *NOT* keep
-
+            with self.grid() and self.grid_remove() methods as
+            self.pack() and self.pack_forget() do *NOT* keep
             correctly the reserved space for status bar in window;
 
             no return value (void);
@@ -323,9 +353,21 @@ class RADStatusBar (RF.RADFrame):
 
         if self.toggle_var:
 
-            # tk control var inits
+            # member inits
 
-            _value = self.toggle_var.get()
+            _value = self._get_bit(self.toggle_var.get())
+
+            _previous = self._get_bit(self._previous_value)
+
+            # value has *NOT* been updated?
+
+            if _value == _previous:
+
+                # resync value
+
+                return self.toggle_var_set(1 - _value)
+
+            # end if
 
             # update config options
 
@@ -333,7 +375,7 @@ class RADStatusBar (RF.RADFrame):
 
             # show status bar
 
-            if tools.ensure_int(_value):
+            if _value:
 
                 self.grid()
 
@@ -348,6 +390,10 @@ class RADStatusBar (RF.RADFrame):
                 self.events.raise_event("StatusbarHide", widget = self)
 
             # end if
+
+            # update previous value
+
+            self._previous_value = _value
 
         else:
 

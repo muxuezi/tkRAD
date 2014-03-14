@@ -18,9 +18,16 @@
 
 * in `RADStatusBar`:
 
-    * in `notify()`:
+    * added new `self._previous_value` for real diff checkups in
+    `toggle()`;
 
-        * added `update_idletasks()` for better sync time text display;
+    * added new `_get_bit()`, new `show()`, new `hide()`:
+
+        * now fully implemented;
+
+    * in `notify()`, `info()`:
+
+        * added `update_idletasks()` for better sync'ed text display;
 
 
 ### $ 2014-03-13 RS $
