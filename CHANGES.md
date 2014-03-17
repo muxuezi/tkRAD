@@ -14,6 +14,13 @@
 ## CHANGELOG
 
 
+### $ 2014-03-17 RS $
+
+* added new `tkRAD.widgets.RADDialog` class:
+
+    * now fully implemented;
+
+
 ### $ 2014-03-14 RS $
 
 * in `RADXMLWidget`:
