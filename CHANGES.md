@@ -18,7 +18,7 @@
 
 * added new `tkRAD.widgets.RADDialog` class:
 
-    * now fully implemented;
+    * now (almost) fully implemented;
 
 
 ### $ 2014-03-14 RS $

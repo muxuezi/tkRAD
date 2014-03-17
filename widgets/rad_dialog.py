@@ -64,7 +64,12 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
 
             # mandatory inits
 
-            self.tk_owner = master
+            self.tk_owner = tools.choose(
+
+                kw.get("tk_owner"),
+
+                master,
+            )
 
             self.slot_owner = tools.choose(
 
@@ -98,6 +103,23 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
 
 
 
+    def _hook_center_dialog (self, tk_event=None, *args, **kw):
+        r"""
+            protected method def;
+
+            this could be overridden in subclass;
+
+            no return value (void);
+        """
+
+        # put your own code in subclass
+
+        self.center_dialog(tk_event, *args, **kw)
+
+    # end def
+
+
+
     def _init__main (self, **kw):
         r"""
             protected method def;
@@ -115,15 +137,30 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
 
         self._init_options(**kw)
 
-        self._init_geometry(**kw)
-
         self._init_title(**kw)
+
+        self._init_geometry(**kw)
 
         self._init_contents(**kw)
 
-        self._init_layout(**kw)
-
         self._init_events(**kw)
+
+    # end def
+
+
+
+    def _init_contents (self, **kw):
+        r"""
+            protected method def;
+
+            this could be overridden in subclass;
+
+            no return value (void);
+        """
+
+        # set widget inits (hook method from RADWidgetBase)
+
+        self.init_widget(**kw)
 
     # end def
 
@@ -209,7 +246,7 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
 
                 kw.get("minsize"),
 
-                dict(width=100, height=100),
+                dict(width=20, height=20),
             )
         )
 
@@ -223,7 +260,7 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
 
                 self.options["geometry"].get(self.classname()),
 
-                "100x100",
+                "100x20",
             )
         )
 
@@ -235,7 +272,7 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
 
                 kw.get("window_state"),
 
-                self.options["geometry"].get("mainwindow_state"),
+                self.options["geometry"].get("dialog_state"),
 
                 "normal",
             )
@@ -297,7 +334,7 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
                 {
                     self.classname(): "100x20",
 
-                    dialog_state = "normal",
+                    "dialog_state": "normal",
                 },
             )
         )
@@ -321,27 +358,7 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
 
         # dialog window title inits
 
-        _app_title = None
-
-        if hasattr(self.app, "APP") and tools.is_pdict(self.app.APP):
-
-            _app_title = self.app.APP.get("title")
-
-        # end if
-
-        self.title(
-
-            tools.choose_str(
-
-                kw.get("title"),
-
-                _app_title,
-
-                _("Main Window"),
-
-                "Main Window",
-            )
-        )
+        self.title(tools.choose_str(kw.get("title")))
 
     # end def
 
@@ -383,9 +400,9 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
 
             raise ValueError(
 
-                _("dialog window's state should be one of {slist}.")
+                _("dialog's window state should be one of {slist}.")
 
-                .format(slist = str(tuple(self.STATE.keys())))
+                .format(slist=str(tuple(self.STATE.keys())))
             )
 
             # reset value
@@ -406,6 +423,33 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
 
 
 
+    def _slot_cancel_dialog (self, tk_event=None, *args, **kw):
+        r"""
+            protected method def;
+
+            this could be overridden in subclass;
+
+            no return value (void);
+        """
+
+        # cancel pending tasks (hook method)
+
+        if self.cancel_dialog(tk_event, *args, **kw):
+
+            # switch off flag
+
+            self._slot_pending_task_off()
+
+            # quit dialog
+
+            self._slot_quit_dialog()
+
+        # end if
+
+    # end def
+
+
+
     def _slot_dialog_changed (self, tk_event=None, *args, **kw):
         r"""
             slot method for tkinter event "<Configure>";
@@ -420,7 +464,11 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
         if hasattr(tk_event, "widget") and \
                         isinstance(tk_event.widget, self.__class__):
 
+            # ensure window state is normal
+
             self._set_state("normal")
+
+            # update RC options
 
             self.options["geometry"]\
                             [self.classname()] = str(self.geometry())
@@ -431,7 +479,7 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
 
 
 
-    def _slot_pending_task_off (self, *args, **kw):
+    def _slot_pending_task_off (self, tk_event=None, *args, **kw):
         r"""
             slot method for event signal "DialogPendingTaskOff";
 
@@ -444,7 +492,7 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
 
 
 
-    def _slot_pending_task_on (self, *args, **kw):
+    def _slot_pending_task_on (self, tk_event=None, *args, **kw):
         r"""
             slot method for event signal "DialogPendingTaskOn";
 
@@ -457,7 +505,7 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
 
 
 
-    def _slot_quit_dialog (self, *args, **kw):
+    def _slot_quit_dialog (self, tk_event=None, *args, **kw):
         r"""
             makes some controls before quitting this dialog window;
         """
@@ -465,6 +513,24 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
         # got some pending operations?
 
         if self.get_pending_task():
+
+            _response = MB.askquestion(
+
+                _("Please confirm"),
+
+                _(
+                    "Some important tasks are still running.\n"
+                    "Should I try to cancel them?"
+                ),
+
+                parent=self,
+            )
+
+            if _response == TK.YES:
+
+                self._slot_cancel_dialog()
+
+            # end if
 
         # dialog in modal mode?
 
@@ -488,6 +554,118 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
 
 
 
+    def _slot_validate_dialog (self, tk_event=None, *args, **kw):
+        r"""
+            protected method def;
+
+            this could be overridden in subclass;
+
+            no return value (void);
+        """
+
+        # validate dialog (hook method)
+
+        if self.validate_dialog(tk_event, *args, **kw):
+
+            # switch off flag
+
+            self._slot_pending_task_off()
+
+            # quit dialog
+
+            self._slot_quit_dialog()
+
+        # end if
+
+    # end def
+
+
+
+    def cancel_dialog (self, tk_event=None, *args, **kw):
+        r"""
+            user dialog cancellation method;
+
+            this is a hook called by '_slot_cancel_dialog()';
+
+            this *MUST* be overridden in subclass;
+
+            returns True on success, False otherwise;
+        """
+
+        # put here your own code in subclass
+
+        # succeeded
+
+        return True
+
+    # end def
+
+
+
+    def center_dialog (self, tk_event=None, *args, **kw):
+        r"""
+            tries to center dialog either along screen dims if no
+            parent defined or along parent window if transient;
+
+            no return value (void);
+        """
+
+        # dialog size inits
+
+        _dlg_width = self.winfo_reqwidth()
+
+        _dlg_height = self.winfo_reqheight()
+
+        # got parent (transient)?
+
+        if self.is_tk_parent(self.tk_owner):
+
+            _root_width = self.tk_owner.winfo_reqwidth()
+
+            _root_height = self.tk_owner.winfo_reqheight()
+
+            _root_x = self.tk_owner.winfo_rootx()
+
+            _root_y = self.tk_owner.winfo_rooty()
+
+        # no parent - use screen size
+
+        else:
+
+            _root_width = self.winfo_screenwidth()
+
+            _root_height = self.winfo_screenheight()
+
+            _root_x = 0
+
+            _root_y = 0
+
+        # end if
+
+        # make calculations
+
+        _left = tools.ensure_int(
+
+            _root_x + (_root_width - _dlg_width)//2
+        )
+
+        _top = tools.ensure_int(
+
+            _root_y + (_root_height - _dlg_height)//2
+        )
+
+        # update geometry
+
+        self.geometry("+{x}+{y}".format(x=_left, y=_top))
+
+        # update idle tasks?
+
+        #~ self.update_idletasks()
+
+    # end def
+
+
+
     def get_pending_task (self):
         r"""
             returns current "pending task" flag value;
@@ -502,8 +680,7 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
     def get_window_state (self):
         r"""
             returns this dialog window state i.e. one of 'minimized',
-
-            'maximized', 'normal' or 'hidden' string of chars;
+            'normal' or 'hidden' string of chars;
         """
 
         return self.__window_state
@@ -512,7 +689,7 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
 
 
 
-    def hide (self, *args, **kw):
+    def hide (self, tk_event=None, *args, **kw):
         r"""
             hides this dialog window;
 
@@ -539,7 +716,7 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
 
 
 
-    def minimize (self, *args, **kw):
+    def minimize (self, tk_event=None, *args, **kw):
         r"""
             minimizes (iconifies) this dialog window;
 
@@ -554,7 +731,7 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
 
 
 
-    def set_modal (self, **kw):
+    def set_modal (self, value=None, **kw):
         r"""
             sets this dialog window in modal mode or not;
 
@@ -564,6 +741,8 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
         self.__modal = bool(
 
             tools.choose(
+
+                value,
 
                 kw.get("modal"),
 
@@ -614,7 +793,7 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
 
 
 
-    def show (self, *args, **kw):
+    def show (self, tk_event=None, *args, **kw):
         r"""
             shows (deiconifies) this dialog window;
 
@@ -629,6 +808,10 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
 
         if self.is_modal() and hasattr(self.tk_owner, "wait_window"):
 
+            # modal dialogs should be centered (hook method)
+
+            self._hook_center_dialog(tk_event, *args, **kw)
+
             # show modal
 
             self.grab_set()
@@ -636,6 +819,27 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
             self.tk_owner.wait_window(self)
 
         # end if
+
+    # end def
+
+
+
+    def validate_dialog (self, tk_event=None, *args, **kw):
+        r"""
+            user dialog validation method;
+
+            this is a hook called by '_slot_validate_dialog()';
+
+            this *MUST* be overridden in subclass;
+
+            returns True on success, False otherwise;
+        """
+
+        # put here your own code in subclass
+
+        # succeeded
+
+        return True
 
     # end def
 
