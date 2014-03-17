@@ -26,6 +26,8 @@
 
 # lib imports
 
+import re
+
 import traceback
 
 import tkinter as TK
@@ -49,7 +51,7 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
 
 
 
-    def __init__ (self, master=None, **kw):
+    def __init__ (self, master, **kw):
         r"""
             class constructor;
         """
@@ -70,6 +72,8 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
 
                 master,
             )
+
+            self.cast_parent(self.tk_owner)
 
             self.slot_owner = tools.choose(
 
@@ -98,6 +102,29 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
             exit(1)
 
         # end try
+
+    # end def
+
+
+
+    def _get_geometry_position (self, str_geometry):
+        r"""
+            protected method def;
+
+            this shan't be overridden in subclass;
+
+            no return value (void);
+        """
+
+        _pos = re.search(r"([\+\-]\d+[\+\-]\d+)", str(str_geometry))
+
+        if _pos:
+
+            _pos = _pos.group(0)
+
+        # end if
+
+        return _pos
 
     # end def
 
@@ -175,28 +202,18 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
             no return value (void);
         """
 
-        # bind events
-
-        self.bind("<Configure>", self._slot_dialog_changed)
+        # connecting people
 
         self.events.connect_dict(
             {
-                "cancel": self._slot_cancel_dialog,
-                "Cancel": self._slot_cancel_dialog,
                 "DialogCancel": self._slot_cancel_dialog,
 
-                "ok": self._slot_validate_dialog,
-                "OK": self._slot_validate_dialog,
                 "DialogOk": self._slot_validate_dialog,
                 "DialogOK": self._slot_validate_dialog,
-                "validate": self._slot_validate_dialog,
-                "Validate": self._slot_validate_dialog,
                 "DialogValidate": self._slot_validate_dialog,
 
-                "quit": self._slot_quit_dialog,
-                "Quit": self._slot_quit_dialog,
-
                 "DialogPendingTaskOn": self._slot_pending_task_on,
+
                 "DialogPendingTaskOff": self._slot_pending_task_off,
             }
         )
@@ -224,6 +241,8 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
 
                 kw.get("parent"),
 
+                # default parent widget
+
                 self.tk_owner,
             )
         )
@@ -236,6 +255,8 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
 
                 kw.get("resizable"),
 
+                # default is *NOT* resizable (dialog box)
+
                 dict(width=False, height=False),
             )
         )
@@ -246,37 +267,15 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
 
                 kw.get("minsize"),
 
+                # default minimum size
+
                 dict(width=20, height=20),
             )
         )
 
-        # dialog window geometry
+        # avoid accidental showing up
 
-        self.geometry(
-
-            tools.choose_str(
-
-                kw.get("geometry"),
-
-                self.options["geometry"].get(self.classname()),
-
-                "100x20",
-            )
-        )
-
-        # maximize dialog window?
-
-        self.set_window_state(
-
-            tools.choose_str(
-
-                kw.get("window_state"),
-
-                self.options["geometry"].get("dialog_state"),
-
-                "normal",
-            )
-        )
+        self.hide()
 
     # end def
 
@@ -332,8 +331,6 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
                 kw.get("rc_defaults"),
 
                 {
-                    self.classname(): "100x20",
-
                     "dialog_state": "normal",
                 },
             )
@@ -358,7 +355,7 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
 
         # dialog window title inits
 
-        self.title(tools.choose_str(kw.get("title")))
+        self.title(kw.get("title"))
 
     # end def
 
@@ -452,28 +449,15 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
 
     def _slot_dialog_changed (self, tk_event=None, *args, **kw):
         r"""
-            slot method for tkinter event "<Configure>";
+            protected method def;
 
-            updates rc config options on-the-fly;
+            this could be overridden in subclass;
 
             no return value (void);
         """
 
-        # /!\ avoid useless calls from child widgets /!\
-
-        if hasattr(tk_event, "widget") and \
-                        isinstance(tk_event.widget, self.__class__):
-
-            # ensure window state is normal
-
-            self._set_state("normal")
-
-            # update RC options
-
-            self.options["geometry"]\
-                            [self.classname()] = str(self.geometry())
-
-        # end if
+        self.options["geometry"]\
+                            [self.classname()] = self.winfo_geometry()
 
     # end def
 
@@ -520,6 +504,7 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
 
                 _(
                     "Some important tasks are still running.\n"
+
                     "Should I try to cancel them?"
                 ),
 
@@ -610,6 +595,10 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
             no return value (void);
         """
 
+        # ensure dims are correct
+
+        self.update_idletasks()
+
         # dialog size inits
 
         _dlg_width = self.winfo_reqwidth()
@@ -620,9 +609,9 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
 
         if self.is_tk_parent(self.tk_owner):
 
-            _root_width = self.tk_owner.winfo_reqwidth()
+            _root_width = self.tk_owner.winfo_width()
 
-            _root_height = self.tk_owner.winfo_reqheight()
+            _root_height = self.tk_owner.winfo_height()
 
             _root_x = self.tk_owner.winfo_rootx()
 
@@ -658,10 +647,6 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
 
         self.geometry("+{x}+{y}".format(x=_left, y=_top))
 
-        # update idle tasks?
-
-        #~ self.update_idletasks()
-
     # end def
 
 
@@ -695,6 +680,8 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
 
             no return value (void);
         """
+
+        self.unbind("<Configure>")
 
         self.withdraw()
 
@@ -731,6 +718,35 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
 
 
 
+    def set_contents (self, widget, pad_x=7, pad_y=7):
+        r"""
+            sets dialog widget contents;
+
+            no return value (void);
+        """
+
+        # param controls
+
+        if self.cast_widget(widget):
+
+            for _w in self.winfo_children():
+
+                _w.pack_forget()
+                _w.grid_forget()
+                _w.place_forget()
+
+            # end for
+
+            self.container = widget
+
+            widget.pack(in_=self, padx=pad_x, pady=pad_y)
+
+        # end if
+
+    # end def
+
+
+
     def set_modal (self, value=None, **kw):
         r"""
             sets this dialog window in modal mode or not;
@@ -738,18 +754,9 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
             no return value (void);
         """
 
-        self.__modal = bool(
+        self.__modal = tools.choose_type(
 
-            tools.choose(
-
-                value,
-
-                kw.get("modal"),
-
-                kw.get("dialog"),
-
-                True,
-            )
+            bool, value, kw.get("modal"), True
         )
 
     # end def
@@ -800,7 +807,7 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
             no return value (void);
         """
 
-        self.deiconify()
+        # update window state
 
         self._set_state("normal")
 
@@ -812,11 +819,41 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
 
             self._hook_center_dialog(tk_event, *args, **kw)
 
+            # pop-up dialog
+
+            self.deiconify()
+
             # show modal
 
             self.grab_set()
 
+            # wait until dialog window is destroyed
+
             self.tk_owner.wait_window(self)
+
+        # toolbox mode (transient, non-modal)
+
+        else:
+
+            # get RC stored geometry
+
+            self.geometry(
+
+                self._get_geometry_position(
+
+                    self.options["geometry"].get(self.classname())
+                )
+            )
+
+            # pop-up dialog
+
+            self.deiconify()
+
+            # size bindings
+
+            self.update_idletasks()
+
+            self.bind("<Configure>", self._slot_dialog_changed)
 
         # end if
 

@@ -16,9 +16,19 @@
 
 ### $ 2014-03-17 RS $
 
+* in `tkRAD.core.tools`:
+
+    * added new `choose_type()`, new `choose_if()`:
+
+        * now fully implemented;
+
 * added new `tkRAD.widgets.RADDialog` class:
 
-    * now (almost) fully implemented;
+    * now fully implemented;
+
+    * TESTED OK in dialogbox mode (transient, modal);
+
+    * TESTED OK in toolbox mode (transient, non-modal);
 
 
 ### $ 2014-03-14 RS $

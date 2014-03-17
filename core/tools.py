@@ -59,6 +59,37 @@ def choose (*args):
 
 
 
+def choose_if (callback, *args):
+    r"""
+        filters argument list along @callback param truth value;
+
+        will raise error if @callback is not a callable;
+
+        returns None if not found;
+    """
+
+    # ordered loop on args
+
+    for _arg in args:
+
+        # choose only along callback's truth value
+
+        if callback(_arg):
+
+            return _arg
+
+        # end if
+
+    # end for
+
+    # not found
+
+    return None
+
+# end def
+
+
+
 def choose_num (callback, *args):
     r"""
         tries to find a number (int or float) in argument list along
@@ -126,6 +157,35 @@ def choose_str (*args):
     # not found - return empty string
 
     return ""
+
+# end def
+
+
+
+def choose_type (object_type, *args):
+    r"""
+        tries to find object of type @object_type in argument list;
+
+        returns None if not found;
+    """
+
+    # ordered loop on args
+
+    for _arg in args:
+
+        # choose only matching object type
+
+        if isinstance(_arg, object_type):
+
+            return _arg
+
+        # end if
+
+    # end for
+
+    # not found
+
+    return None
 
 # end def
 
