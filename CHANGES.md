@@ -14,6 +14,90 @@
 ## CHANGELOG
 
 
+### $ 2014-03-18 RS $
+
+* in `tkRAD/widgets/rad_dialog.py`:
+
+    * added new class `RADButtonsDialog`:
+
+        * now fully implemented;
+
+example:
+
+```python
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+import tkRAD
+
+import tkRAD.widgets.rad_dialog as DLG
+
+def show_dialog (tk_event=None, *args, **kw):
+
+    parent = kw["tk_parent"].tk_parent
+
+    _contents = """
+        <tkwidget>
+            <ttklabel
+                text="Please, enter some cool text:"
+                anchor="center"
+                layout="pack"
+                resizable="yes"
+            />
+            <ttkentry
+                id="entry1"
+                layout="pack"
+                resizable="width"
+            />
+            <ttkscrollbar
+                connect="entry1"
+                orient="horizontal"
+                layout="pack"
+                resizable="width"
+            />
+        </tkwidget>
+    """
+
+    _dlg = DLG.RADButtonsDialog(parent, xml=_contents)
+
+    _dlg.show()
+
+# end def
+
+
+mainwindow = tkRAD.RADXMLMainWindow()
+
+mainwindow.show_dialog = show_dialog
+
+xml = """
+    <tkwidget>
+        <label
+            text="hello good people!"
+            bg="yellow"
+            fg="blue"
+            font="sans 16 bold italic"
+            layout="pack"
+            resizable="yes"
+        />
+        <button
+            text="Show dialog"
+            command=".show_dialog"
+            layout="pack"
+        />
+        <button
+            text="Quit"
+            command="@quit"
+            layout="pack"
+        />
+    </tkwidget>
+"""
+
+mainwindow.xml_build(xml)
+
+mainwindow.run()
+```
+
+
 ### $ 2014-03-17 RS $
 
 * in `tkRAD.core.tools`:
