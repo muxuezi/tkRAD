@@ -42,6 +42,10 @@ from ..core import tools
 
 
 
+# ===========================   CLASS DEF   ============================
+
+
+
 class RADDialog (RW.RADWidgetBase, TK.Toplevel):
     r"""
         Generic Dialog window class;
@@ -208,6 +212,8 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
 
         self.events.connect_dict(
             {
+                "DialogCancel": self._slot_button_cancel,
+
                 "DialogPendingTaskOn": self._slot_pending_task_on,
 
                 "DialogPendingTaskOff": self._slot_pending_task_off,
@@ -351,11 +357,13 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
 
         # dialog window title inits
 
-        if tools.is_pstr(kw.get("title")):
+        _title = kw.get("title")
+
+        if tools.is_pstr(_title):
 
             # set i18n translations support
 
-            self.title(_(kw.get("title")))
+            self.title(_(_title))
 
         # end if
 
@@ -417,6 +425,33 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
         # update rc options
 
         self.options["geometry"]["dialog_state"] = str(state)
+
+    # end def
+
+
+
+    def _slot_button_cancel (self, tk_event=None, *args, **kw):
+        r"""
+            protected method def;
+
+            this could be overridden in subclass;
+
+            no return value (void);
+        """
+
+        # cancel pending tasks (hook method)
+
+        if self.cancel_dialog(tk_event, *args, **kw):
+
+            # switch off flag
+
+            self._slot_pending_task_off()
+
+            # quit dialog
+
+            self._slot_quit_dialog()
+
+        # end if
 
     # end def
 
@@ -639,6 +674,52 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
 
 
 
+    def init_widget (self, **kw):
+        r"""
+            widget main inits;
+        """
+
+        # put your own code in subclass;
+
+        _xml = """
+            <tkwidget>
+                <ttklabel
+                    text="{text}"
+                    foreground="red"
+                    layout="pack"
+                    layout_options="pady=10"
+                    resizable="yes"
+                    wraplength="10cm"
+                />
+                <ttkbutton
+                    text="_OK"
+                    command="._slot_button_cancel"
+                    layout="pack"
+                />
+            </tkwidget>
+
+        """.format(
+
+            text =  "_Please, use "
+                    "RADDialog(master, xml=xml_code) "
+                    "or RADDialog(master, "
+                    "filename=xml_filepath_or_filename) "
+                    "to build your own dialog GUI."
+        )
+
+        _contents = tools.choose_str(
+
+            kw.get("xml"), kw.get("filename"), _xml,
+        )
+
+        # set contents
+
+        self.set_contents(_contents, **kw)
+
+    # end def
+
+
+
     def is_modal (self):
         r"""
             returns True if this dialog window is MODAL, False
@@ -658,6 +739,8 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
             no return value (void);
         """
 
+        self.unbind("<Configure>")
+
         self.iconify()
 
         self._set_state("minimized")
@@ -666,7 +749,7 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
 
 
 
-    def set_contents (self, widget, pad_x=7, pad_y=7):
+    def set_contents (self, contents, pad_x=7, pad_y=7, **kw):
         r"""
             sets dialog widget contents;
 
@@ -675,7 +758,19 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
 
         # param controls
 
-        if self.cast_widget(widget):
+        if tools.is_pstr(contents):
+
+            _frame = XF.RADXMLFrame(self)
+
+            _frame.xml_build(contents)
+
+            contents = _frame
+
+        # end if
+
+        # contents is already a widget?
+
+        if self.cast_widget(contents):
 
             for _w in self.winfo_children():
 
@@ -685,9 +780,9 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
 
             # end for
 
-            self.container = widget
+            self.container = contents
 
-            widget.grid(
+            self.container.grid(
 
                 in_=self,
 
@@ -839,6 +934,10 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
 
 
 # end class RADDialog
+
+
+
+# ===========================   CLASS DEF   ============================
 
 
 
@@ -1006,33 +1105,6 @@ class RADButtonsDialog (RADDialog):
         # put your own code in subclass
 
         pass
-
-    # end def
-
-
-
-    def _slot_button_cancel (self, tk_event=None, *args, **kw):
-        r"""
-            protected method def;
-
-            this could be overridden in subclass;
-
-            no return value (void);
-        """
-
-        # cancel pending tasks (hook method)
-
-        if self.cancel_dialog(tk_event, *args, **kw):
-
-            # switch off flag
-
-            self._slot_pending_task_off()
-
-            # quit dialog
-
-            self._slot_quit_dialog()
-
-        # end if
 
     # end def
 
@@ -1356,11 +1428,15 @@ class RADButtonsDialog (RADDialog):
 
         self.set_contents(_contents, **kw)
 
+        # set buttonbar
+
+        self.set_buttons(*kw.get("buttons", list()), **kw)
+
     # end def
 
 
 
-    def set_buttons (self, *args, pad_x=7, pad_y=7):
+    def set_buttons (self, *args, pad_x=7, pad_y=7, **kw):
         r"""
             sets up buttonbar;
         """
@@ -1404,39 +1480,6 @@ class RADButtonsDialog (RADDialog):
 
     # end def
 
-
-
-    def set_contents (self, contents, pad_x=7, pad_y=7, **kw):
-        r"""
-            sets dialog widget contents;
-
-            no return value (void);
-        """
-
-        if tools.is_pstr(contents):
-
-            _frame = XF.RADXMLFrame(self)
-
-            _frame.xml_build(contents)
-
-            contents = _frame
-
-        # end if
-
-        # super inits
-
-        super().set_contents(contents, pad_x, pad_y)
-
-        # set buttonbar
-
-        self.set_buttons(
-
-            pad_x=pad_x,
-
-            pad_y=pad_y,
-
-            *kw.get("buttons", list())
-        )
 
 # end class RADButtonsDialog
 

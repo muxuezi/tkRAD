@@ -16,6 +16,8 @@
 
 ### $ 2014-03-18 RS $
 
+* thought of **tkRAD v1.5** new release name: maybe **Sugar Extra**?
+
 * in `tkRAD/widgets/rad_dialog.py`:
 
     * added new class `RADButtonsDialog`:
@@ -63,7 +65,6 @@ def show_dialog (tk_event=None, *args, **kw):
     _dlg.show()
 
 # end def
-
 
 mainwindow = tkRAD.RADXMLMainWindow()
 
