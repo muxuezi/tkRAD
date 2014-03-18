@@ -16,6 +16,12 @@
 
 ### $ 2014-03-18 RS $
 
+* in `tkRAD.core.path`:
+
+    * added new `shorten_path()`:
+
+        * now fully implemented;
+
 * thought of **tkRAD v1.5** new release name: maybe **Sugar Extra**?
 
 * in `tkRAD/widgets/rad_dialog.py`:

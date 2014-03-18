@@ -110,3 +110,32 @@ def set_app_root_dir (path):
     __app_root_dir = OP.dirname(normalize(path))
 
 # end def
+
+
+
+def shorten_path (path, limit=32):
+    r"""
+        shortens a path string to @limit chars;
+    """
+
+    _ellipsis = "..."
+
+    _len_ellipsis = len(_ellipsis)
+
+    _limit = max(1 + _len_ellipsis, abs(int(limit)))
+
+    if path and isinstance(path, str) and len(path) > _limit:
+
+        _limit -= _len_ellipsis
+
+        _basename = OP.basename(path)[-_limit:]
+
+        _dirname = OP.dirname(path)[:_limit - len(_basename)]
+
+        path = _dirname + _ellipsis + _basename
+
+    # end if
+
+    return path
+
+# end def
