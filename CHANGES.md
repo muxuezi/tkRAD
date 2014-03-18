@@ -24,6 +24,10 @@
 
         * now fully implemented;
 
+    * in `RADDialog._slot_quit_dialog()`:
+
+        * fixed bug: _response is `MB.YES` *NOT* `TK.YES`;
+
 example:
 
 ```python

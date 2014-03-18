@@ -521,7 +521,7 @@ class RADDialog (RW.RADWidgetBase, TK.Toplevel):
                 parent=self,
             )
 
-            if _response == TK.YES:
+            if _response == MB.YES:
 
                 self._slot_button_cancel()
 
