@@ -44,7 +44,7 @@ from tkinter import messagebox as MB
 
 # simple widget building function
 
-def build (xml, master = None):
+def build (xml, master = None, **kw):
     r"""
         easy widget building function;
 
@@ -101,7 +101,7 @@ def build (xml, master = None):
             root.mainloop()
     """
 
-    return Builder(master).build(xml)
+    return Builder(master).build(xml, **kw)
 
 # end def
 
@@ -375,7 +375,7 @@ class Builder (TK.Frame):
 
             # layout inits
 
-            _widget.pack(**self.PACK_OPTIONS)
+            _widget.pack(**self.layout_options)
 
         # end if
 
@@ -624,7 +624,7 @@ class Builder (TK.Frame):
 
 
 
-    def build (self, arg):
+    def build (self, arg, **kw):
         r"""
             tries to build tkinter widgets from a char string or
 
@@ -645,13 +645,20 @@ class Builder (TK.Frame):
 
             self._init_xml_tree(arg)
 
+            # layout options init
+
+            self.layout_options = kw.get(
+
+                "layout_options", self.PACK_OPTIONS
+            )
+
             # build XML element as tkinter widget
 
             self._build_element(self.xml_tree.getroot(), self)
 
             # layout inits
 
-            self.pack(**self.PACK_OPTIONS)
+            self.pack(**self.layout_options)
 
             # need an autorun testing session?
 

@@ -14,6 +14,14 @@
 ## CHANGELOG
 
 
+### $ 2014-03-31 RS $
+
+* in `builder.py`:
+
+    * now it is possible to use `build(xml,
+    layout_options=dict(side="left", padx=10, pady=5,...))`;
+
+
 ### $ 2014-03-18 RS $
 
 * in `tkRAD.core.path`:
