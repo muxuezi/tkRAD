@@ -16,6 +16,8 @@
 
 ### $ 2014-03-31 RS $
 
+* tagged and released **tkRAD v1.5 - Sugar Extra**;
+
 * in `builder.py`:
 
     * now it is possible to use `build(xml,
